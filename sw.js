@@ -18,7 +18,7 @@ firebase.initializeApp({
 // abre o MeuCT direto na pagina de Avisos.
 firebase.messaging();
 
-const CACHE_NAME = "ct-integrado-cache-v2";
+const CACHE_NAME = "ct-integrado-cache-v3";
 const APP_SHELL = [
   "./index.html",
   "./manifest.json",
