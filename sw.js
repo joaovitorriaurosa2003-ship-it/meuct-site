@@ -1,9 +1,24 @@
-// Service worker minimo do CT Integrado.
-// Objetivo: permitir "Adicionar a tela inicial" de forma confiavel (inclusive no iPhone/Safari)
-// e manter um cache basico do proprio HTML para abrir mais rapido.
+// Service worker do MeuCT (CT Integrado).
+// 1) Permite "Adicionar a tela inicial" (inclusive no iPhone/Safari) e guarda um cache basico do app.
+// 2) Recebe as notificacoes dos avisos da equipe (Firebase Cloud Messaging), mesmo com o app fechado.
 // Nao faz cache agressivo de dados: o app sempre busca os dados reais no Firebase pela rede.
 
-const CACHE_NAME = "ct-integrado-cache-v1";
+importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js");
+
+firebase.initializeApp({
+  apiKey: "AIzaSyARvBxwWERljcaAaJsqLZdMstSVIi-6j2g",
+  authDomain: "meurh-23fad.firebaseapp.com",
+  projectId: "meurh-23fad",
+  storageBucket: "meurh-23fad.firebasestorage.app",
+  messagingSenderId: "241699999089",
+  appId: "1:241699999089:web:cc50293405d6c17db73ad0",
+});
+// O SDK mostra sozinho a notificacao (titulo, texto, icone) e, ao tocar nela,
+// abre o MeuCT direto na pagina de Avisos.
+firebase.messaging();
+
+const CACHE_NAME = "ct-integrado-cache-v2";
 const APP_SHELL = [
   "./index.html",
   "./manifest.json",
