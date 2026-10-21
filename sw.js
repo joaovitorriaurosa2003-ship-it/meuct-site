@@ -18,7 +18,7 @@ firebase.initializeApp({
 // abre o MeuCT direto na pagina de Avisos.
 firebase.messaging();
 
-const CACHE_NAME = "ct-integrado-cache-v3";
+const CACHE_NAME = "ct-integrado-cache-v4";
 const APP_SHELL = [
   "./index.html",
   "./manifest.json",
@@ -28,7 +28,7 @@ const APP_SHELL = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL.map((u) => new Request(u, { cache: "reload" }))))
   );
   self.skipWaiting();
 });
@@ -44,27 +44,27 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// Rede primeiro: sempre busca a versao mais nova publicada; o cache so e usado sem internet.
+// Assim ninguem precisa limpar o cache para receber atualizacoes.
 self.addEventListener("fetch", (event) => {
-  // So intercepta navegacao/arquivos do proprio app shell.
-  // Chamadas ao Firebase (Firestore/Auth) e a Cloud Function do chat passam direto pela rede.
-  const url = new URL(event.request.url);
-  const isSameOrigin = url.origin === self.location.origin;
-  const isAppShellFile = APP_SHELL.some((path) => url.pathname.endsWith(path.replace("./", "")));
-
-  if (!isSameOrigin || !isAppShellFile) {
-    return;
-  }
+  const req = event.request;
+  if (req.method !== "GET") return;
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+  const navegacao = req.mode === "navigate";
+  const doShell = APP_SHELL.some((path) => url.pathname.endsWith(path.replace("./", "")));
+  if (!navegacao && !doShell) return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const networkFetch = fetch(event.request)
-        .then((response) => {
+    fetch(req, { cache: "no-cache" })
+      .then((response) => {
+        if (response && response.ok && !url.search) {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          return response;
-        })
-        .catch(() => cached);
-      return cached || networkFetch;
-    })
+          const chave = navegacao ? "./index.html" : req;
+          caches.open(CACHE_NAME).then((cache) => cache.put(chave, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(navegacao ? "./index.html" : req).then((c) => c || caches.match(req)))
   );
 });
