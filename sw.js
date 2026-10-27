@@ -18,12 +18,16 @@ firebase.initializeApp({
 // abre o MeuCT direto na pagina de Avisos.
 firebase.messaging();
 
-const CACHE_NAME = "ct-integrado-cache-v4";
+const CACHE_NAME = "ct-integrado-cache-v5";
 const APP_SHELL = [
   "./index.html",
   "./manifest.json",
   "./icon-192.png",
-  "./icon-512.png"
+  "./icon-512.png",
+  "./icon-192-maskable.png",
+  "./icon-512-maskable.png",
+  "./apple-touch-icon.png",
+  "./favicon.ico"
 ];
 
 self.addEventListener("install", (event) => {
