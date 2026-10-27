@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.meianoitesaf.meuct",
+        "sha256_cert_fingerprints": ["8A:65:E6:2A:3E:FE:9B:DC:95:3C:E3:3D:06:33:9C:DD:88:15:CE:9B:21:F8:51:3D:71:8A:6C:C3:88:73:24:18"]
+      }
+    }]
