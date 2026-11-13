@@ -1,0 +1,5 @@
+{
+  "functions": [
+    { "source": "functions", "codebase": "meuct", "runtime": "nodejs22" }
+  ]
+}
