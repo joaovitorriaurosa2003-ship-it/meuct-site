@@ -1,0 +1,11 @@
+{
+  "name": "meuct-funcoes",
+  "private": true,
+  "description": "MeuCT: notificação no celular na hora em que um aviso da equipe é criado.",
+  "main": "index.js",
+  "engines": { "node": "22" },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.1.0"
+  }
+}
