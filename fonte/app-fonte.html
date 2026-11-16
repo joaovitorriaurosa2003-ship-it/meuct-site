@@ -8,6 +8,12 @@
 <!-- Proteção contra clickjacking: o MeuCT não abre dentro de página de terceiros. -->
 <style id="anti-clickjack">body{display:none!important}</style>
 <script>if (window.self === window.top) { var ac = document.getElementById("anti-clickjack"); ac.parentNode.removeChild(ac); } else { try { window.top.location = window.self.location; } catch (e) {} }</script>
+<script>
+/* Guarda o pedido de instalação do navegador (Chrome/Edge/Android) para o botão "Instalar o app" usar depois. */
+window.__promptInstalacao = null;
+window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); window.__promptInstalacao = e; window.dispatchEvent(new Event("meuct-instalacao")); });
+window.addEventListener("appinstalled", function () { window.__promptInstalacao = null; window.__appInstalado = true; window.dispatchEvent(new Event("meuct-instalacao")); });
+</script>
 <title>MeuCT · EC Meia Noite SAF</title>
 <link rel="manifest" href="./manifest.json?v=3">
 <meta name="meuct-versao" content="__VERSAO_BUILD__">
@@ -1828,6 +1834,19 @@ body.caixa-aberta{overflow:hidden;}
 .aviso-push-texto b{font-size:14.5px; color:var(--ink);}
 .aviso-push-texto span{font-size:13px; color:var(--muted); line-height:1.45;}
 .aviso-push-msg.ok{color:#1E7446 !important; font-weight:700;}
+/* Instalar o app */
+.auth-instalar{display:flex; align-items:center; justify-content:center; gap:8px; width:100%; margin-top:14px; padding:11px; border-radius:12px; border:1px solid var(--mn-line-2, rgba(255,255,255,.18)); background:rgba(255,255,255,.04); color:#fff; font:inherit; font-size:13.5px; font-weight:700; cursor:pointer;}
+.auth-instalar:hover{background:rgba(255,255,255,.08);}
+.auth-instalar .ico{width:18px; height:18px;}
+.auth-instalar-msg{margin-top:8px; font-size:12.5px; color:#9BE3B8; text-align:center;}
+.sidebar-instalar{margin-top:8px;}
+.sidebar-instalar-celular{display:none !important;}
+.instalar-passos{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:var(--ink);}
+.instalar-passos b{color:var(--ink);}
+.instalar-titulo{font-size:15px; font-weight:800; color:var(--ink); margin-bottom:10px;}
+.instalar-nota{font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:10px;}
+.instalar-share{display:inline-block; width:18px; height:18px; vertical-align:-3px; color:#0A84FF;}
+.instalar-acoes{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
 .aviso-push-msg.erro{color:#B42318 !important; font-weight:700;}
 .aviso-lista{display:flex; flex-direction:column; gap:12px; margin-bottom:24px;}
 .aviso-cartao{background:#fff; border:1px solid var(--line); border-left:4px solid #1E7446; border-radius:12px; padding:14px 16px;}
@@ -2299,6 +2318,7 @@ tr.linha-clicavel td:first-child{text-decoration:underline; text-decoration-colo
   .sidebar-sheet-user .quem{flex:1; min-width:0; font-size:12px; color:var(--mn-text-2);}
   .sidebar-sheet-user .quem b{display:block; color:#fff; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .sidebar-sheet-user .sidebar-sair{width:auto; margin:0; padding:8px 12px;}
+  .sidebar-instalar-celular{display:flex !important; margin:8px 0 4px;}
   .sidebar-tab{padding:13px 14px; font-size:15px;}
   .sidebar-tab.active::before{display:none;}
   .menu-backdrop-mobile{display:block; position:fixed; inset:0; background:rgba(5,10,20,0.72); z-index:90;}
@@ -4837,6 +4857,7 @@ function Icone({ nome, className }) {
 }
 
 ICONES.agenda_campo = ICONES.agenda_dm = ICONES.agenda_social = ICONES.agenda_saude = ICONES.qts = ICONES.meu_qts = ICONES.minha_agenda = ICONES.agenda;
+ICONES.instalar = [["rect", { x: 7, y: 2.5, width: 10, height: 19, rx: 2.2 }], ["path", { d: "M12 7v7M9.2 11.4 12 14.2l2.8-2.8M10.5 18.5h3" }]];
 ICONES.diretoria = [["rect", { x: 3.5, y: 7.5, width: 17, height: 12.5, rx: 2.2 }], ["path", { d: "M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9M3.5 12.5h17M10.5 12.5v1.6h3v-1.6" }]];
 ICONES.cadastro_atletas = ICONES.elenco;
 const ROTULO_PAGINA = {
@@ -5002,6 +5023,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
             <div className="quem"><b>{usuario.nome || usuario.email}</b>{ehAdmin ? "Administrador" : "Colaborador"}</div>
             <button type="button" className="sidebar-sair" onClick={onSair}><Icone nome="sair" />Sair</button>
           </div>
+          <BotaoInstalarApp className="sidebar-sair sidebar-instalar-celular" classeMsg="sidebar-instalar-celular auth-instalar-msg" />
 
           <div className="sidebar-secao">Principal</div>
           {renderAba({ id: "admin", label: "Painel geral" })}
@@ -5082,6 +5104,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
             <div className="avatar">{iniciais}</div>
             <span className="label"><b>{usuario.nome || usuario.email}</b>{ehAdmin ? "Administrador" : "Colaborador"}</span>
           </div>
+          <BotaoInstalarApp className="sidebar-sair sidebar-instalar" />
           <button type="button" className="sidebar-sair" onClick={onSair}><Icone nome="sair" />Sair</button>
         </div>
       </aside>
@@ -13665,6 +13688,7 @@ function AuthScreen() {
           </button>
         </form>
         {modo === "entrar" && <button type="button" className="auth-link" onClick={esqueciSenha}>Esqueci minha senha</button>}
+        <BotaoInstalarApp className="auth-instalar" rotulo="Instalar o app no celular ou computador" />
         <div className="auth-rodape">Acesso restrito à comissão técnica e aos profissionais do CT.</div>
       </div>
       </div>
@@ -30942,6 +30966,130 @@ function esquecerAparelhoAoSair() {
   ]);
 }
 
+/* ---------- Instalar o app: um botão que escolhe o caminho pelo sistema do aparelho ---------- */
+const ARQUIVO_APK = "./MeuCT.apk";
+function sistemaDoAparelho() {
+  const ua = navigator.userAgent || "";
+  if (ehIOS()) return /CriOS|FxiOS|EdgiOS|OPiOS|GSA\//.test(ua) ? "ios-outro" : "ios-safari";
+  if (/Android/i.test(ua)) return "android";
+  return "computador";
+}
+function appJaInstalado() { return appInstalado() || window.__appInstalado === true || /^android-app:/.test(document.referrer || ""); }
+function IconeCompartilharIos() {
+  return (
+    <svg className="instalar-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-label="ícone Compartilhar">
+      <path d="M12 3v12M8 7l4-4 4 4" /><path d="M7 10H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1" />
+    </svg>
+  );
+}
+function GuiaInstalarApp({ sistema, onFechar }) {
+  const [copiado, setCopiado] = useState(false);
+  const link = location.origin + location.pathname.replace(/[^/]*$/, "");
+  async function copiar() {
+    try { await navigator.clipboard.writeText(link); setCopiado(true); } catch (e) { window.prompt("Copie o endereço:", link); }
+  }
+  const passosIos = (
+    <ol className="instalar-passos">
+      <li>Toque no botão <b>Compartilhar</b> <IconeCompartilharIos /> (embaixo da tela no iPhone, em cima no iPad).</li>
+      <li>Role a lista e toque em <b>Adicionar à Tela de Início</b>.</li>
+      <li>Toque em <b>Adicionar</b>. O ícone do MeuCT aparece na tela do celular.</li>
+      <li>Abra o MeuCT <b>pelo ícone</b>, entre com seu e-mail e aceite as notificações.</li>
+    </ol>
+  );
+  let titulo, corpo;
+  if (sistema === "ios-safari") {
+    titulo = "Instalar no iPhone";
+    corpo = (
+      <React.Fragment>
+        {passosIos}
+        <div className="instalar-nota">O iPhone não deixa site nenhum se instalar sozinho; são só esses 3 toques. Para receber notificações com o app fechado, o iPhone precisa estar no iOS 16.4 ou mais novo.</div>
+      </React.Fragment>
+    );
+  } else if (sistema === "ios-outro") {
+    titulo = "No iPhone, instale pelo Safari";
+    corpo = (
+      <React.Fragment>
+        <div className="instalar-nota" style={{ marginTop: 0, marginBottom: 12 }}>Você está em outro navegador. Copie o endereço, abra no <b>Safari</b> e siga os passos:</div>
+        <div className="instalar-acoes" style={{ marginTop: 0, marginBottom: 14 }}>
+          <button type="button" className="pill-btn primary" onClick={copiar}>{copiado ? "Endereço copiado" : "Copiar o endereço"}</button>
+        </div>
+        {passosIos}
+      </React.Fragment>
+    );
+  } else if (sistema === "android") {
+    titulo = "Instalar no Android";
+    corpo = (
+      <React.Fragment>
+        <ol className="instalar-passos">
+          <li>Toque em <b>Baixar o MeuCT.apk</b> abaixo e depois abra o arquivo baixado.</li>
+          <li>Se o Android pedir, autorize <b>Instalar apps desconhecidos</b> para o navegador.</li>
+          <li>Se aparecer o aviso do Play Protect, toque em <b>Mais detalhes</b> e <b>Instalar assim mesmo</b> (ele avisa porque o app não veio da Play Store).</li>
+          <li>Abra o MeuCT, entre com seu e-mail e aceite as notificações.</li>
+        </ol>
+        <div className="instalar-acoes">
+          <a className="pill-btn primary" href={ARQUIVO_APK} download="MeuCT.apk">Baixar o MeuCT.apk</a>
+        </div>
+        <div className="instalar-nota">Outra forma, sem baixar arquivo: no Chrome, toque no menu ⋮ e em <b>Instalar app</b> (ou <b>Adicionar à tela inicial</b>).</div>
+      </React.Fragment>
+    );
+  } else {
+    titulo = "Instalar no computador";
+    corpo = (
+      <React.Fragment>
+        <ol className="instalar-passos">
+          <li><b>Chrome ou Edge:</b> clique no ícone de instalar no fim da barra de endereço (um monitor com uma seta) e em <b>Instalar</b>.</li>
+          <li>Se o ícone não aparecer: menu ⋮ &gt; <b>Transmitir, salvar e compartilhar</b> &gt; <b>Instalar página como app</b> (no Edge: menu ··· &gt; <b>Apps</b> &gt; <b>Instalar este site como um aplicativo</b>).</li>
+          <li><b>Safari no Mac:</b> menu <b>Arquivo</b> &gt; <b>Adicionar ao Dock</b>.</li>
+        </ol>
+        <div className="instalar-nota">O MeuCT abre numa janela própria, com ícone na barra de tarefas. No celular, abra este mesmo endereço e toque em Instalar o app.</div>
+      </React.Fragment>
+    );
+  }
+  return (
+    <div className="lanc-fundo" onClick={onFechar}>
+      <div className="lanc-folha" role="dialog" aria-modal="true" aria-label={titulo} onClick={(e) => e.stopPropagation()}>
+        <div className="lanc-topo"><div className="lanc-quem"><b>{titulo}</b><span>MeuCT como app no aparelho</span></div><button type="button" className="lanc-fechar" onClick={onFechar} aria-label="Fechar"><Icone nome="fechar" /></button></div>
+        <div className="lanc-corpo"><div className="lanc-cartao">{corpo}</div></div>
+      </div>
+    </div>
+  );
+}
+/** Botão "Instalar o app": no Android e no computador abre a instalação do próprio navegador quando ele permite;
+ *  senão (e sempre no iPhone, que não permite) mostra o passo a passo certo para o sistema. Some quando o app já está instalado. */
+function BotaoInstalarApp({ className, classeMsg, rotulo }) {
+  const [, forcar] = useState(0);
+  const [guia, setGuia] = useState(false);
+  const [msg, setMsg] = useState(null);
+  useEffect(() => {
+    const f = () => forcar((n) => n + 1);
+    window.addEventListener("meuct-instalacao", f);
+    return () => window.removeEventListener("meuct-instalacao", f);
+  }, []);
+  if (appJaInstalado() && !msg) return null;
+  const sistema = sistemaDoAparelho();
+  async function instalar() {
+    setMsg(null);
+    const pedido = window.__promptInstalacao;
+    if (pedido && sistema !== "ios-safari" && sistema !== "ios-outro") {
+      try {
+        pedido.prompt();
+        const r = await pedido.userChoice;
+        window.__promptInstalacao = null;
+        if (r && r.outcome === "accepted") { setMsg("Pronto. O MeuCT está sendo instalado; depois abra pelo ícone novo."); return; }
+        return;
+      } catch (e) { /* cai no passo a passo */ }
+    }
+    setGuia(true);
+  }
+  return (
+    <React.Fragment>
+      {!msg && <button type="button" className={className || "pill-btn"} onClick={instalar}><Icone nome="instalar" />{rotulo || "Instalar o app"}</button>}
+      {msg && <div className={classeMsg || "auth-instalar-msg"}>{msg}</div>}
+      {guia && ReactDOM.createPortal(<GuiaInstalarApp sistema={sistema} onFechar={() => setGuia(false)} />, document.body)}
+    </React.Fragment>
+  );
+}
+
 function CartaoNotificacoes({ usuario }) {
   const { useState } = React;
   const [estado, setEstado] = useState(estadoPush);
@@ -30974,6 +31122,7 @@ function CartaoNotificacoes({ usuario }) {
         <span>{texto}</span>
         {msg && <span className={"aviso-push-msg " + msg.tipo}>{msg.texto}</span>}
       </div>
+      {estado === "ios-instalar" && <BotaoInstalarApp className="pill-btn primary" rotulo="Como instalar" classeMsg="aviso-push-msg ok" />}
       {estado === "inativo" && <button className="pill-btn primary" disabled={ocupado} onClick={ativar}>{ocupado ? "Ativando..." : "Ativar neste aparelho"}</button>}
       {estado === "ativo" && <button className="pill-btn" disabled={ocupado} onClick={desligar}>Desligar</button>}
     </div>
