@@ -1847,6 +1847,16 @@ body.caixa-aberta{overflow:hidden;}
 .instalar-nota{font-size:12.5px; color:var(--muted); line-height:1.5; margin-top:10px;}
 .instalar-share{display:inline-block; width:18px; height:18px; vertical-align:-3px; color:#0A84FF;}
 .instalar-acoes{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+/* Jogos: filtro no topo, faixa de atenção e títulos das seções */
+.jogos-filtro-topo{margin-bottom:14px;}
+.jogos-atencao{display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:10px 16px 14px; border-top:1px solid var(--line-soft);}
+.jogos-atencao-txt{flex:1 1 260px; font-size:13.5px; color:#8A5A00;}
+.jogos-atencao-txt b{color:#6B4500;}
+.jogos-atencao-txt.ok{color:#1E7446; font-weight:600;}
+.jogos-secao-titulo{display:flex; align-items:baseline; gap:8px; margin:18px 2px 10px;}
+.jogos-secao-titulo h2{font-size:17px; font-weight:800; margin:0; color:var(--ink);}
+.jogo-linha-fim{display:inline-flex; align-items:center; gap:10px; flex-shrink:0;}
+
 .aviso-push-msg.erro{color:#B42318 !important; font-weight:700;}
 .aviso-lista{display:flex; flex-direction:column; gap:12px; margin-bottom:24px;}
 .aviso-cartao{background:#fff; border:1px solid var(--line); border-left:4px solid #1E7446; border-radius:12px; padding:14px 16px;}
@@ -2815,7 +2825,14 @@ td.num.zero{color:var(--muted-2);}
 .jogo-linha.selecionavel{display:flex; align-items:center; gap:14px; cursor:default;}
 .jogo-linha.selecionavel.marcado{box-shadow:inset 3px 0 0 var(--pitch-800);}
 .jogo-linha-corpo{flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; background:none; border:none; padding:0; text-align:left; font:inherit; color:inherit; cursor:pointer;}
-@media (max-width:600px){ .jogo-linha.selecionavel{flex-wrap:wrap; padding:12px; gap:10px;} .jogo-linha-corpo{flex:1 1 170px;} }
+@media (max-width:600px){
+  .jogo-linha.selecionavel{display:grid; padding:12px; grid-template-columns:20px 38px minmax(0,1fr); column-gap:10px; row-gap:8px; align-items:center;}
+  .jogo-linha.selecionavel .jogo-linha-fim{grid-column:3;}
+  .jogo-linha.selecionavel .jogo-linha-placar{gap:8px;}
+  .jogo-linha.selecionavel .jogo-linha-placar .gols{font-size:17px; padding:2px 8px;}
+  .jogo-linha.selecionavel .jogo-linha-placar .nome.com-escudo .time-escudo{display:none;}
+  .jogo-linha.selecionavel .jogo-linha-placar .nome{font-size:13px;}
+}
 .jogo-linha-placar .nome.com-escudo{display:inline-flex; align-items:center; gap:8px;}
 .jogo-linha-placar .nome.com-escudo .time-escudo{width:26px; height:26px; padding:1px; box-shadow:none; font-size:10px;}
 .comissao-escolha .chip-escolha small{font-weight:500; opacity:.8;}
@@ -12506,15 +12523,29 @@ function CronoVariosDias({ modo, usuario, atletas, onAbrirDia, onPlano }) {
     const ctx = { doc, W, H, x0: 10, x1: W - 10, y: 0 };
     const rel = { departamento: "Fisioterapia", clube: "EC Meia Noite SAF", titulo: "CRONOGRAMA DA FISIOTERAPIA", subtitulo: formatarData(datas[0]) + " a " + formatarData(datas[datas.length - 1]), rodape: "Cronograma da Fisioterapia · EC Meia Noite SAF" };
     r2Cabecalho(ctx, rel);
+    // Cada linha leva o dia (o primeiro em negrito, os outros em cinza), para não perder o dia quando a tabela vira de página.
+    // Dias alternam o fundo para separar bem um dia do outro.
     const body = [];
+    let nDia = 0;
     datas.forEach((d) => {
       const l = slotsOrdenados(cronos[d]);
       if (!l.length) return;
-      l.forEach((s, i) => body.push([i === 0 ? diaSemanaCurto(d) + " " + formatarData(d).slice(0, 5) : "", s.hora || "", textoPdf(nomes(s)), (TIPOS_ATEND_FISIO.find((t) => t.id === s.tipo) || {}).label || "", textoPdf([s.fisio_nome || nomeColunaCrono(cronos[d], s.coluna), s.local].filter(Boolean).join(" · ")), (s.duracao ? s.duracao + " min" : ""), textoPdf(s.obs || "")]));
+      const fundo = nDia % 2 ? [244, 248, 245] : [255, 255, 255];
+      nDia++;
+      l.forEach((s, i) => {
+        const cel = (content, extra) => ({ content, styles: { fillColor: fundo, ...(extra || {}) } });
+        body.push([
+          cel(diaSemanaCurto(d) + " " + formatarData(d).slice(0, 5), i === 0 ? { fontStyle: "bold" } : { fontStyle: "normal", textColor: [150, 158, 168], fontSize: 7.5 }),
+          cel(s.hora || ""), cel(textoPdf(nomes(s))), cel((TIPOS_ATEND_FISIO.find((t) => t.id === s.tipo) || {}).label || ""),
+          cel(textoPdf([s.fisio_nome || nomeColunaCrono(cronos[d], s.coluna), s.local].filter(Boolean).join(" · "))),
+          cel(s.duracao ? s.duracao + " min" : ""), cel(textoPdf(s.obs || "")),
+        ]);
+      });
     });
-    doc.autoTable({ startY: ctx.y + 2, margin: { left: 10, right: 10 }, theme: "grid", head: [["Dia", "Horário", "Atletas", "Tipo", "Fisio · local", "Duração", "Observação"]],
+    doc.autoTable({ startY: ctx.y + 2, margin: { top: 20, bottom: 16, left: 10, right: 10 }, theme: "grid", head: [["Dia", "Horário", "Atletas", "Tipo", "Fisio · local", "Duração", "Observação"]],
       body: body.length ? body : [["", "", "Nenhum atendimento no período", "", "", "", ""]],
-      styles: { font: "helvetica", fontSize: 8.5, cellPadding: 1.8, valign: "top", lineColor: [220, 226, 232] }, headStyles: { fillColor: R2.verde, textColor: 255, fontStyle: "bold" }, columnStyles: { 0: { cellWidth: 22, fontStyle: "bold" }, 1: { cellWidth: 16 }, 3: { cellWidth: 26 }, 5: { cellWidth: 18 } } });
+      rowPageBreak: "avoid", showHead: "everyPage",
+      styles: { font: "helvetica", fontSize: 8.5, cellPadding: 1.8, valign: "top", lineColor: [220, 226, 232] }, headStyles: { fillColor: R2.verde, textColor: 255, fontStyle: "bold" }, columnStyles: { 0: { cellWidth: 22 }, 1: { cellWidth: 16 }, 3: { cellWidth: 28 }, 4: { cellWidth: 52 }, 5: { cellWidth: 18 } } });
     const pf = doc.getNumberOfPages();
     for (let pg = 1; pg <= pf; pg++) { doc.setPage(pg); if (pg > 1) r2CabecalhoContinuacao(ctx, rel); r2Rodape(ctx, rel, pg, pf); }
     doc.save(`Cronograma_Fisio_${dataArquivo(datas[0])}_a_${dataArquivo(datas[datas.length - 1])}.pdf`);
@@ -12792,8 +12823,9 @@ function CronogramaFisio({ usuario, atletas, registros }) {
     r2Cabecalho(ctx, rel);
     const usadas = linhas.filter((h) => c.colunas.some((col) => slotEm(h, col.id)));
     const txt = (s) => s ? [(s.atletas || []).map((id) => nomeExibicao(porId.get(id) || { nome: "?" })).join(", "), [(TIPOS_ATEND_FISIO.find((t) => t.id === s.tipo) || {}).label, s.duracao ? s.duracao + " min" : "", s.local].filter(Boolean).join(" · "), s.obs || ""].filter(Boolean).join("\n") : "";
-    doc.autoTable({ startY: ctx.y + 2, margin: { left: 10, right: 10 }, theme: "grid", head: [["Horário", ...c.colunas.map((col) => textoPdf(col.nome))]],
+    doc.autoTable({ startY: ctx.y + 2, margin: { top: 20, bottom: 16, left: 10, right: 10 }, theme: "grid", head: [["Horário", ...c.colunas.map((col) => textoPdf(col.nome))]],
       body: (usadas.length ? usadas : linhas.slice(0, 1)).map((h) => [h, ...c.colunas.map((col) => textoPdf(txt(slotEm(h, col.id))))]),
+      rowPageBreak: "avoid", showHead: "everyPage",
       styles: { font: "helvetica", fontSize: 8, cellPadding: 1.6, valign: "top", lineColor: [220, 226, 232] }, headStyles: { fillColor: R2.verde, textColor: 255, fontStyle: "bold" }, columnStyles: { 0: { cellWidth: 18, fontStyle: "bold" } } });
     const pf = doc.getNumberOfPages();
     for (let pg = 1; pg <= pf; pg++) { doc.setPage(pg); if (pg > 1) r2CabecalhoContinuacao(ctx, rel); r2Rodape(ctx, rel, pg, pf); }
@@ -23730,7 +23762,7 @@ async function baixarRelatorioTreinadoresPdf(jogosEscolhidos, atletasTodos, usua
   doc.save(`Relatorio_treinadores_${dataArquivo(hojeISO())}.pdf`);
 }
 
-function ListaJogosRealizados({ jogos, atletas, usuario, onAbrir }) {
+function ListaJogosRealizados({ jogos, atletas, usuario, onAbrir, filtrosExternos, rotuloFiltro, nomeCamp }) {
   const { useState } = React;
   useBibliotecas("pdf");
   const [cat, setCat] = useState("");
@@ -23748,13 +23780,13 @@ function ListaJogosRealizados({ jogos, atletas, usuario, onAbrir }) {
   const todosMarcados = filtrados.length > 0 && escolhidos.length === filtrados.length;
   async function gerar() {
     setGerando(true);
-    const partes = [cat ? labelCategoriaEvento(cat) : "", comp].filter(Boolean).join(" · ");
+    const partes = [cat ? labelCategoriaEvento(cat) : "", comp, rotuloFiltro || ""].filter(Boolean).join(" · ");
     try { await baixarRelatorioJogosPdf(escolhidos, porId, usuario, partes ? "Minutagem e números · " + partes : ""); } finally { setGerando(false); }
   }
   async function gerarTreinadores() {
     setGerando(true);
     const base = escolhidos.length ? escolhidos : filtrados;
-    const partes = [cat ? labelCategoriaEvento(cat) : "", comp, de || ate ? (de ? formatarData(de) : "início") + " a " + (ate ? formatarData(ate) : "hoje") : ""].filter(Boolean).join(" · ");
+    const partes = [cat ? labelCategoriaEvento(cat) : "", comp, rotuloFiltro || "", de || ate ? (de ? formatarData(de) : "início") + " a " + (ate ? formatarData(ate) : "hoje") : ""].filter(Boolean).join(" · ");
     try { await baixarRelatorioTreinadoresPdf(base, atletas, usuario, partes ? "Não relacionados e números · " + partes : ""); }
     catch (e) { alert("Não consegui gerar o relatório: " + e.message); }
     finally { setGerando(false); }
@@ -23763,8 +23795,8 @@ function ListaJogosRealizados({ jogos, atletas, usuario, onAbrir }) {
     <React.Fragment>
       <div className="panel">
         <div className="jogos-filtros">
-          <div className="field"><label htmlFor="jf-cat">Categoria</label><select id="jf-cat" value={cat} onChange={(e) => setCat(e.target.value)}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
-          <div className="field"><label htmlFor="jf-comp">Competição</label><select id="jf-comp" value={comp} onChange={(e) => setComp(e.target.value)}><option value="">Todas</option>{competicoes.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>
+          {!filtrosExternos && <div className="field"><label htmlFor="jf-cat">Categoria</label><select id="jf-cat" value={cat} onChange={(e) => setCat(e.target.value)}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>}
+          {!filtrosExternos && <div className="field"><label htmlFor="jf-comp">Competição</label><select id="jf-comp" value={comp} onChange={(e) => setComp(e.target.value)}><option value="">Todas</option>{competicoes.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>}
           <div className="field"><label htmlFor="jf-de">De</label><input id="jf-de" type="date" value={de} onChange={(e) => setDe(e.target.value)} /></div>
           <div className="field"><label htmlFor="jf-ate">Até</label><input id="jf-ate" type="date" value={ate} onChange={(e) => setAte(e.target.value)} /></div>
         </div>
@@ -23792,10 +23824,12 @@ function ListaJogosRealizados({ jogos, atletas, usuario, onAbrir }) {
                     <span className="gols">{pl ? (casa ? `${pl.nos} x ${pl.eles}` : `${pl.eles} x ${pl.nos}`) : "x"}</span>
                     <span className="nome com-escudo"><EscudoTime nome={casa ? e.adversario : "Meia Noite"} />{casa ? e.adversario || "Adversário" : "Meia Noite"}</span>
                   </span>
-                  <span className="jogo-linha-meta">{[labelCategoriaEvento(e.categoria), e.competicao, conv ? conv + " convocados" : "sem convocação"].filter(Boolean).join(" · ")}</span>
+                  <span className="jogo-linha-meta">{[labelCategoriaEvento(e.categoria), (e.campeonato_id && nomeCamp && nomeCamp(e.campeonato_id)) || e.competicao, conv ? conv + " convocados" : "sem convocação"].filter(Boolean).join(" · ")}</span>
                 </span>
-                <span className={"badge " + (e.pos_jogo ? "verde" : "amarelo")}>{e.pos_jogo ? "Pós-jogo ok" : "Pós-jogo pendente"}</span>
-                {pl && <ResultadoDoJogo placar={{ mandante: "Meia Noite", visitante: e.adversario, golsMandante: pl.nos, golsVisitante: pl.eles }} />}
+                <span className="jogo-linha-fim">
+                  <span className={"badge " + (e.pos_jogo ? "verde" : "amarelo")}>{e.pos_jogo ? "Pós-jogo ok" : "Pós-jogo pendente"}</span>
+                  {pl && <ResultadoDoJogo placar={{ mandante: "Meia Noite", visitante: e.adversario, golsMandante: pl.nos, golsVisitante: pl.eles }} />}
+                </span>
               </div>
             );
           })}
@@ -23853,7 +23887,7 @@ function PainelJogosAtleta({ atleta, dados }) {
 }
 
 /** Minutagem do elenco na tela de Desempenho, com filtros e PDF. */
-function PainelMinutagem({ atletas, usuario, categoria, ranking }) {
+function PainelMinutagem({ atletas, usuario, categoria, ranking, campeonatoId, rotuloExtra, filtroDeFora }) {
   const { useState, useEffect } = React;
   useBibliotecas("pdf");
   const [eventos, setEventos] = useState(null);
@@ -23866,7 +23900,7 @@ function PainelMinutagem({ atletas, usuario, categoria, ranking }) {
   const porId = {};
   atletas.forEach((a) => { porId[a.id] = a; });
   const hoje = hojeISO();
-  const jogos = eventos.filter((e) => e.tipo === "jogo" && e.data <= hoje && e.convocacao && (!cat || e.categoria === cat || e.categoria === "ambas") && (!de || e.data >= de) && (!ate || e.data <= ate));
+  const jogos = eventos.filter((e) => e.tipo === "jogo" && e.data <= hoje && e.convocacao && (!cat || e.categoria === cat || e.categoria === "ambas") && (!campeonatoId || (campeonatoId === "sem" ? !e.campeonato_id : e.campeonato_id === campeonatoId)) && (!de || e.data >= de) && (!ate || e.data <= ate));
   const resumos = jogos.map((e) => resumoJogo(e, porId));
   const somas = somarJogosPorAtleta(resumos).filter((s) => !cat || atletaNaCategoria(s.atleta, cat));
   if (ranking) somas.sort((a, b) => b.minutos - a.minutos || b.jogou - a.jogou || nomeExibicao(a.atleta).localeCompare(nomeExibicao(b.atleta), "pt-BR"));
@@ -23875,10 +23909,10 @@ function PainelMinutagem({ atletas, usuario, categoria, ranking }) {
     <div className="panel">
       <div className="panel-head">
         <h3>{ranking ? "Ranking de minutos jogados" : "Minutagem nos jogos"}</h3>
-        <button type="button" className="pill-btn" disabled={!jogos.length} onClick={() => baixarRelatorioJogosPdf(jogos, porId, usuario, "Minutagem" + (cat ? " · " + labelCategoriaEvento(cat) : ""))}><Icone nome="pdf" />Baixar PDF</button>
+        <button type="button" className="pill-btn" disabled={!jogos.length} onClick={() => baixarRelatorioJogosPdf(jogos, porId, usuario, "Minutagem" + (cat ? " · " + labelCategoriaEvento(cat) : "") + (rotuloExtra ? " · " + rotuloExtra : ""))}><Icone nome="pdf" />Baixar PDF</button>
       </div>
       <div className="jogos-filtros">
-        <div className="field"><label htmlFor="min-cat">Categoria</label><select id="min-cat" value={cat} onChange={(e) => setCat(e.target.value)}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
+        {!filtroDeFora && <div className="field"><label htmlFor="min-cat">Categoria</label><select id="min-cat" value={cat} onChange={(e) => setCat(e.target.value)}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>}
         <div className="field"><label htmlFor="min-de">De</label><input id="min-de" type="date" value={de} onChange={(e) => setDe(e.target.value)} /></div>
         <div className="field"><label htmlFor="min-ate">Até</label><input id="min-ate" type="date" value={ate} onChange={(e) => setAte(e.target.value)} /></div>
       </div>
@@ -25141,7 +25175,11 @@ function ViewJogos({ usuario, onNavigate }) {
   const [eventos, setEventos] = useState(null);
   const [dados, setDados] = useState(null);
   const [erro, setErro] = useState(null);
-  const [aba, setAba] = useState("proximos");
+  const [aba, setAba] = useState("jogos"); // jogos | campeonatos | estatisticas | cadastros
+  const [cadastro, setCadastro] = useState("times");
+  const [fCat, setFCat] = useState("");
+  const [fCamp, setFCamp] = useState(""); // "" todos | "sem" sem campeonato | id do campeonato
+  const [soPend, setSoPend] = useState(false);
   const [convocandoId, setConvocandoId] = useState(() => { const p = convocacaoPendente; convocacaoPendente = null; return p; });
   const [jogoAberto, setJogoAberto] = useState(null);
   useVoltar(jogoAberto, () => setJogoAberto(null));
@@ -25205,78 +25243,88 @@ function ViewJogos({ usuario, onNavigate }) {
     }
   }
 
-  const temporada = realizados.map(placarEvento).filter(Boolean);
+  // Filtros da aba Jogos (categoria, campeonato e só o que tem pendência)
+  const passaFiltro = (e) => (!fCat || e.categoria === fCat || e.categoria === "ambas")
+    && (!fCamp || (fCamp === "sem" ? !e.campeonato_id : e.campeonato_id === fCamp));
+  const pendProx = {};
+  proximos.forEach((e) => { pendProx[e.id] = pendenciasJogo(e, campeonatos, eventos, dados.atletas); });
+  const proxFiltro = proximos.filter(passaFiltro);
+  const realFiltro = realizados.filter(passaFiltro);
+  const nPendProx = proxFiltro.filter((e) => pendProx[e.id].length).length;
+  const nPendReal = realFiltro.filter((e) => !e.pos_jogo).length;
+  const proxVer = soPend ? proxFiltro.filter((e) => pendProx[e.id].length) : proxFiltro;
+  const realVer = soPend ? realFiltro.filter((e) => !e.pos_jogo) : realFiltro;
+  const nomeCamp = (id) => { const c = (campeonatos || []).find((x) => x.id === id); return c ? c.nome : ""; };
+  const semCamp = jogosAgenda.filter((e) => !e.campeonato_id).length;
+
+  const temporada = realFiltro.map(placarEvento).filter(Boolean);
   const vit = temporada.filter((r) => r.nos > r.eles).length;
   const emp = temporada.filter((r) => r.nos === r.eles).length;
   const der = temporada.filter((r) => r.nos < r.eles).length;
   const golsPro = temporada.reduce((s, r) => s + r.nos, 0);
   const golsContra = temporada.reduce((s, r) => s + r.eles, 0);
 
+  const ABAS_JOGOS = [["jogos", "Jogos"], ["campeonatos", "Campeonatos"], ["estatisticas", "Estatísticas"]];
+  const filtrosBarra = (
+    <div className="panel jogos-filtro-topo">
+      <div className="jogos-filtros">
+        <div className="field"><label htmlFor="jg-cat">Categoria</label><select id="jg-cat" value={fCat} onChange={(e) => setFCat(e.target.value)}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
+        <div className="field"><label htmlFor="jg-camp">Campeonato</label><select id="jg-camp" value={fCamp} onChange={(e) => setFCamp(e.target.value)}>
+          <option value="">Todos</option>
+          {(campeonatos || []).map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
+          <option value="sem">Sem campeonato ({semCamp})</option>
+        </select></div>
+      </div>
+      {aba === "jogos" && (
+        <div className="jogos-atencao">
+          {nPendProx + nPendReal > 0 ? (
+            <React.Fragment>
+              <span className="jogos-atencao-txt"><b>Precisa de atenção:</b> {[nPendProx ? nPendProx + (nPendProx === 1 ? " próximo jogo com pendência" : " próximos jogos com pendência") : "", nPendReal ? nPendReal + (nPendReal === 1 ? " jogo realizado sem pós-jogo" : " jogos realizados sem pós-jogo") : ""].filter(Boolean).join(" · ")}</span>
+              <button type="button" className={"pill-btn" + (soPend ? " primary" : "")} aria-pressed={soPend} onClick={() => setSoPend((v) => !v)}>{soPend ? "Mostrar todos" : "Ver só pendências"}</button>
+            </React.Fragment>
+          ) : <span className="jogos-atencao-txt ok">Nenhuma pendência nos jogos deste filtro.</span>}
+          {semCamp > 0 && (campeonatos || []).length > 0 && fCamp !== "sem" && (
+            <button type="button" className="pill-btn" onClick={() => setAba("campeonatos")} title="Em Campeonatos, abra o campeonato e use Ligar jogos">{semCamp} {semCamp === 1 ? "jogo sem campeonato" : "jogos sem campeonato"} · ligar</button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="page">
       <div className="page-head">
         <div>
           <h1>Jogos</h1>
-          <div className="crumb">MeuCT · EC Meia Noite SAF · convocação dos próximos jogos e números dos jogos disputados</div>
+          <div className="crumb">MeuCT · EC Meia Noite SAF · próximos jogos, realizados, campeonatos e números da temporada</div>
         </div>
         <div className="page-head-acoes">
           <div className="tab-select">
-            <button type="button" className={"tab-select-item" + (aba === "proximos" ? " active" : "")} onClick={() => setAba("proximos")}>Próximos jogos</button>
-            <button type="button" className={"tab-select-item" + (aba === "disputados" ? " active" : "")} onClick={() => setAba("disputados")}>Realizados</button>
-            <button type="button" className={"tab-select-item" + (aba === "campeonatos" ? " active" : "")} onClick={() => setAba("campeonatos")}>Campeonatos</button>
-            <button type="button" className={"tab-select-item" + (aba === "minutos" ? " active" : "")} onClick={() => setAba("minutos")}>Minutos</button>
-            <button type="button" className={"tab-select-item" + (aba === "times" ? " active" : "")} onClick={() => setAba("times")}>Times</button>
-            <button type="button" className={"tab-select-item" + (aba === "comissao" ? " active" : "")} onClick={() => setAba("comissao")}>Comissão</button>
+            {ABAS_JOGOS.map(([id, label]) => <button key={id} type="button" className={"tab-select-item" + (aba === id ? " active" : "")} onClick={() => setAba(id)}>{label}</button>)}
           </div>
+          <button type="button" className={"pill-btn" + (aba === "cadastros" ? " primary" : "")} onClick={() => setAba(aba === "cadastros" ? "jogos" : "cadastros")} aria-pressed={aba === "cadastros"}><Icone nome="opcoes" />Cadastros</button>
           {podeVerJogos(usuario) && <button type="button" className="pill-btn primary" onClick={() => setNovoJogo(true)}>+ Novo jogo</button>}
         </div>
       </div>
 
       {novoJogo && (
-        <FormEvento inicial={{ tipo: "jogo", categoria: "sub15", data: hoje }} usuario={usuario} onCancelar={() => setNovoJogo(false)} onSalvo={() => { setNovoJogo(false); setAba("proximos"); recarregar(); }} />
+        <FormEvento inicial={{ tipo: "jogo", categoria: fCat || "sub15", data: hoje, ...(fCamp && fCamp !== "sem" ? { campeonato_id: fCamp, competicao: nomeCamp(fCamp) } : {}) }} usuario={usuario} onCancelar={() => setNovoJogo(false)} onSalvo={() => { setNovoJogo(false); setAba("jogos"); recarregar(); }} />
       )}
 
-      {aba === "campeonatos" ? <PainelCampeonatos usuario={usuario} eventos={eventos} atletas={dados.atletas} abrirId={voltarCamp} onFechou={() => setVoltarCamp(null)} onMudouJogos={recarregar}
-        onAbrirJogo={ir((e, campId) => { setVoltarCamp(campId); setSecaoAbrir(e.data < hoje ? "pos" : "pre"); setConvocandoId(e.id); })} /> : aba === "minutos" ? <PainelMinutagem atletas={dados ? dados.atletas : []} usuario={usuario} categoria="" ranking /> : aba === "times" ? <PainelTimes times={times} onMudou={recarregarTimes} /> : aba === "comissao" ? <PainelComissao membros={membrosCom} onMudou={recarregarCom} /> : aba === "proximos" ? (
-        proximos.length === 0 ? (
-          <div className="panel"><div className="empty-state">Nenhum jogo marcado. Cadastre em "+ Novo jogo" ou na Agenda.</div></div>
-        ) : (
-          <div className="jogos-grid">
-            {proximos.map((e) => {
-              const titulares = ((e.convocacao && e.convocacao.titulares) || []).length;
-              const reservas = ((e.convocacao && e.convocacao.reservas) || []).length;
-              const casa = e.mando !== "fora";
-              const nos = "Meia Noite", eles = e.adversario || "Adversário";
-              const fora = mostrarDisp ? atletas.filter((a) => categoriasDoAtleta(a).some((c) => eventoDaCategoria(e, c)) && a.disp && a.disp.status === "fora").length : null;
-              return (
-                <div className="jogo-card clicavel" key={e.id} role="button" tabIndex={0} onClick={ir(() => { setSecaoAbrir("pre"); setConvocandoId(e.id); })} onKeyDown={(k) => { if (k.key === "Enter") { setSecaoAbrir("pre"); setConvocandoId(e.id); } }}>
-                  <div className="jogo-card-topo">
-                    <span className="jogo-quando">{dataPorExtenso(e.data)}{e.hora ? " · " + e.hora : ""}</span>
-                    <span className="jogo-cat">{labelCategoriaEvento(e.categoria)}</span>
-                  </div>
-                  <div className={"jogo-falta" + (diasEntreIso(hoje, e.data) <= 1 ? " perto" : "")}>{textoFaltaJogo(e.data)}</div>
-                  <div className="jogo-confronto">
-                    <div className="jogo-time"><EscudoTime nome={casa ? nos : eles} /><b>{casa ? nos : eles}</b></div>
-                    <div className="jogo-vs">x</div>
-                    <div className="jogo-time"><EscudoTime nome={casa ? eles : nos} /><b>{casa ? eles : nos}</b></div>
-                  </div>
-                  <div className="jogo-info">{[e.competicao, casa ? "Em casa" : "Fora de casa", e.local].filter(Boolean).join(" · ")}</div>
-                  {(() => { const pend = pendenciasJogo(e, campeonatos, eventos, dados.atletas); return pend.length ? (
-                    <ul className="jogo-pendencias" aria-label="Pendências do jogo">{pend.map((x) => <li key={x.tipo} className={x.tipo === "suspenso" ? "grave" : ""}>{x.texto}</li>)}</ul>
-                  ) : <div className="jogo-pendencias ok">Tudo certo para o jogo</div>; })()}
-                  <div className="jogo-card-rodape">
-                    {titulares + reservas > 0 && <span className="badge verde">{titulares} titulares · {reservas} reservas</span>}
-                    {fora !== null && fora > 0 && <span className="badge vermelho">{fora} fora</span>}
-                    <span className="pill-btn primary">{titulares + reservas ? "Abrir jogo" : "Convocar"}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )
-      ) : (
+      {aba === "cadastros" ? (
         <React.Fragment>
-          {temporada.length > 0 && (
+          <div style={{ margin: "4px 0 14px" }}>
+            <TabSelect opcoes={["Times adversários", "Comissão"]} valor={cadastro === "times" ? "Times adversários" : "Comissão"} onChange={(v) => setCadastro(v === "Comissão" ? "comissao" : "times")} abas />
+          </div>
+          {cadastro === "times" ? <PainelTimes times={times} onMudou={recarregarTimes} /> : <PainelComissao membros={membrosCom} onMudou={recarregarCom} />}
+        </React.Fragment>
+      ) : aba === "campeonatos" ? (
+        <PainelCampeonatos usuario={usuario} eventos={eventos} atletas={dados.atletas} abrirId={voltarCamp} onFechou={() => setVoltarCamp(null)} onMudouJogos={recarregar}
+          onAbrirJogo={ir((e, campId) => { setVoltarCamp(campId); setSecaoAbrir(e.data < hoje ? "pos" : "pre"); setConvocandoId(e.id); })} />
+      ) : aba === "estatisticas" ? (
+        <React.Fragment>
+          {filtrosBarra}
+          {temporada.length > 0 ? (
             <div className="temporada-faixa">
               <div><b>{temporada.length}</b><span>jogos</span></div>
               <div className="vitoria"><b>{vit}</b><span>vitória{vit === 1 ? "" : "s"}</span></div>
@@ -25285,8 +25333,8 @@ function ViewJogos({ usuario, onNavigate }) {
               <div><b>{golsPro}</b><span>gols marcados</span></div>
               <div><b>{golsContra}</b><span>gols sofridos</span></div>
             </div>
-          )}
-          <ListaJogosRealizados jogos={realizados} atletas={atletas} usuario={usuario} onAbrir={ir((id) => { setSecaoAbrir("pos"); setConvocandoId(id); })} />
+          ) : <div className="panel"><div className="empty-state">Nenhum jogo com placar neste filtro.</div></div>}
+          <PainelMinutagem key={"min-" + fCat} atletas={dados ? dados.atletas : []} usuario={usuario} categoria={fCat} campeonatoId={fCamp} rotuloExtra={fCamp === "sem" ? "Sem campeonato" : fCamp ? nomeCamp(fCamp) : ""} filtroDeFora ranking />
           {disputados.length > 0 && (
             <div className="panel">
               <div className="panel-head"><h3>Análises importadas (CSV)</h3><span className="muted" style={{ fontSize: 12 }}>{disputados.length}</span></div>
@@ -25311,6 +25359,51 @@ function ViewJogos({ usuario, onNavigate }) {
               </div>
             </div>
           )}
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          {filtrosBarra}
+          <div className="jogos-secao-titulo"><h2>Próximos</h2><span className="muted">{proxVer.length}</span></div>
+          {proxVer.length === 0 ? (
+            <div className="panel"><div className="empty-state">{proximos.length === 0 ? "Nenhum jogo marcado. Cadastre em \"+ Novo jogo\" ou na Agenda." : soPend ? "Nenhum próximo jogo com pendência neste filtro." : "Nenhum próximo jogo neste filtro."}</div></div>
+          ) : (
+            <div className="jogos-grid">
+              {proxVer.map((e) => {
+                const titulares = ((e.convocacao && e.convocacao.titulares) || []).length;
+                const reservas = ((e.convocacao && e.convocacao.reservas) || []).length;
+                const casa = e.mando !== "fora";
+                const nos = "Meia Noite", eles = e.adversario || "Adversário";
+                const fora = mostrarDisp ? atletas.filter((a) => categoriasDoAtleta(a).some((c) => eventoDaCategoria(e, c)) && a.disp && a.disp.status === "fora").length : null;
+                const pend = pendProx[e.id];
+                const abrir = ir(() => { setSecaoAbrir("pre"); setConvocandoId(e.id); });
+                return (
+                  <div className="jogo-card clicavel" key={e.id} role="button" tabIndex={0} onClick={abrir} onKeyDown={(k) => { if (k.key === "Enter") abrir(); }}>
+                    <div className="jogo-card-topo">
+                      <span className="jogo-quando">{dataPorExtenso(e.data)}{e.hora ? " · " + e.hora : ""}</span>
+                      <span className="jogo-cat">{labelCategoriaEvento(e.categoria)}</span>
+                    </div>
+                    <div className={"jogo-falta" + (diasEntreIso(hoje, e.data) <= 1 ? " perto" : "")}>{textoFaltaJogo(e.data)}</div>
+                    <div className="jogo-confronto">
+                      <div className="jogo-time"><EscudoTime nome={casa ? nos : eles} /><b>{casa ? nos : eles}</b></div>
+                      <div className="jogo-vs">x</div>
+                      <div className="jogo-time"><EscudoTime nome={casa ? eles : nos} /><b>{casa ? eles : nos}</b></div>
+                    </div>
+                    <div className="jogo-info">{[e.campeonato_id ? nomeCamp(e.campeonato_id) || e.competicao : e.competicao, casa ? "Em casa" : "Fora de casa", e.local].filter(Boolean).join(" · ")}</div>
+                    {pend.length ? (
+                      <ul className="jogo-pendencias" aria-label="Pendências do jogo">{pend.map((x) => <li key={x.tipo} className={x.tipo === "suspenso" ? "grave" : ""}>{x.texto}</li>)}</ul>
+                    ) : <div className="jogo-pendencias ok">Tudo certo para o jogo</div>}
+                    <div className="jogo-card-rodape">
+                      {titulares + reservas > 0 && <span className="badge verde">{titulares} titulares · {reservas} reservas</span>}
+                      {fora !== null && fora > 0 && <span className="badge vermelho">{fora} fora</span>}
+                      <span className="pill-btn primary">{titulares + reservas ? "Abrir jogo" : "Convocar"}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div className="jogos-secao-titulo"><h2>Realizados</h2><span className="muted">{realVer.length}</span></div>
+          <ListaJogosRealizados jogos={realVer} atletas={atletas} usuario={usuario} filtrosExternos rotuloFiltro={[fCat ? labelCategoriaEvento(fCat) : "", fCamp === "sem" ? "Sem campeonato" : fCamp ? nomeCamp(fCamp) : ""].filter(Boolean).join(" · ")} nomeCamp={nomeCamp} onAbrir={ir((id) => { setSecaoAbrir("pos"); setConvocandoId(id); })} />
         </React.Fragment>
       )}
     </div>
