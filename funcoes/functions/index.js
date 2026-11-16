@@ -14,7 +14,9 @@ const db = admin.firestore();
 
 const APP_URL = "https://meuct.meianoitesaf.com/";
 const RESERVA_MIN = 15;
-const INVALIDOS = new Set(["messaging/registration-token-not-registered", "messaging/invalid-registration-token", "messaging/invalid-argument"]);
+// Só estes dois códigos dizem que o aparelho não existe mais. "invalid-argument" também aparece quando a
+// mensagem tem problema, e aí apagaria o cadastro de todos os aparelhos de uma vez.
+const INVALIDOS = new Set(["messaging/registration-token-not-registered", "messaging/invalid-registration-token"]);
 
 function corta(t, n) { t = String(t || ""); return t.length > n ? t.slice(0, n - 1) + "…" : t; }
 
@@ -178,43 +180,55 @@ async function rodadaLembretes(agora) {
       plano.push(...L.planejarJogos({ hoje, hhmm, eventos: todos, campeonatos, atletasPorId: Object.fromEntries(atletas.map((a) => [a.id, a])), comissao: usuarios.filter(L.ehComissao).map((u) => u.id) }));
     }
   }
-  let n = 0;
+  let n = 0, falhas = 0;
+  // Cada lembrete é independente: se um falhar, registra o erro e segue para os outros
+  // (antes, um erro parava a rodada inteira e o mesmo lembrete travava as rodadas seguintes).
   for (const p of plano) {
-    const ja = await Promise.all(p.horasCobertas.map((c) => db.collection("ct_lembretes_enviados").doc(c).get()));
-    if (ja.some((s) => s.exists)) continue;
-    const ref = db.collection("ct_lembretes_enviados").doc(p.chave);
-    try { await ref.create({ enviado_em: FieldValue.serverTimestamp(), uids: p.uids.length, via: "funcao" }); }
-    catch (e) { if (e.code === 6 || /already exists/i.test(e.message)) continue; throw e; }
     try {
-      const r = await enviarPara(p.uids, p);
-      functions.logger.info("Lembrete enviado", { chave: p.chave, aparelhos: r.ok || 0 });
-      n++;
-    } catch (e) { await ref.delete().catch(() => null); throw e; }
+      const ja = await Promise.all(p.horasCobertas.map((c) => db.collection("ct_lembretes_enviados").doc(c).get()));
+      if (ja.some((s) => s.exists)) continue;
+      const ref = db.collection("ct_lembretes_enviados").doc(p.chave);
+      try { await ref.create({ enviado_em: FieldValue.serverTimestamp(), uids: p.uids.length, via: "funcao" }); }
+      catch (e) { if (e.code === 6 || /already exists/i.test(e.message)) continue; throw e; }
+      try {
+        const r = await enviarPara(p.uids, p);
+        functions.logger.info("Lembrete enviado", { chave: p.chave, aparelhos: r.ok || 0 });
+        n++;
+      } catch (e) { await ref.delete().catch(() => null); throw e; }
+    } catch (e) {
+      falhas++;
+      functions.logger.error("Lembrete falhou", { chave: p.chave, erro: String((e && e.message) || e) });
+    }
   }
   // Reserva dos avisos: se a função do aviso falhou, manda agora (sem repetir)
   const desde = admin.firestore.Timestamp.fromMillis(Date.now() - 6 * 3600000);
   const avisos = await db.collection("ct_avisos").where("criado_em", ">=", desde).get();
   for (const d of avisos.docs) {
-    const a = d.data();
-    if (!pendente(a, Date.now())) continue;
-    const reservou = await db.runTransaction(async (tx) => {
-      const atual = await tx.get(d.ref);
-      if (!atual.exists || !pendente(atual.data(), Date.now())) return false;
-      tx.update(d.ref, { push_reservado_em: FieldValue.serverTimestamp() });
-      return true;
-    });
-    if (!reservou) continue;
-    const m = mensagem(a, d.id);
-    const r = await enviarPara(m.uids, { ...m, abrir: "avisos" });
-    await d.ref.update({ push_enviado_em: FieldValue.serverTimestamp(), push_aparelhos: r.ok || 0, push_via: "reserva" });
-    functions.logger.info("Aviso enviado pela reserva", { id: d.id, aparelhos: r.ok || 0 });
+    try {
+      const a = d.data();
+      if (!pendente(a, Date.now())) continue;
+      const reservou = await db.runTransaction(async (tx) => {
+        const atual = await tx.get(d.ref);
+        if (!atual.exists || !pendente(atual.data(), Date.now())) return false;
+        tx.update(d.ref, { push_reservado_em: FieldValue.serverTimestamp() });
+        return true;
+      });
+      if (!reservou) continue;
+      const m = mensagem(a, d.id);
+      const r = await enviarPara(m.uids, { ...m, abrir: "avisos" });
+      await d.ref.update({ push_enviado_em: FieldValue.serverTimestamp(), push_aparelhos: r.ok || 0, push_via: "reserva" });
+      functions.logger.info("Aviso enviado pela reserva", { id: d.id, aparelhos: r.ok || 0 });
+    } catch (e) {
+      falhas++;
+      functions.logger.error("Aviso pela reserva falhou", { id: d.id, erro: String((e && e.message) || e) });
+    }
   }
   // Faxina do controle (mais de 30 dias)
   const velho = admin.firestore.Timestamp.fromMillis(Date.now() - 30 * 86400000);
   const s = await db.collection("ct_lembretes_enviados").where("enviado_em", "<", velho).limit(300).get();
   if (!s.empty) { const b = db.batch(); s.docs.forEach((x) => b.delete(x.ref)); await b.commit(); }
-  functions.logger.info("Rodada de lembretes", { hoje, hhmm, vencendo: plano.length, enviados: n });
-  return { hoje, hhmm, vencendo: plano.length, enviados: n };
+  functions.logger.info("Rodada de lembretes", { hoje, hhmm, vencendo: plano.length, enviados: n, falhas });
+  return { hoje, hhmm, vencendo: plano.length, enviados: n, falhas };
 }
 if (process.env.MEUCT_TESTE) exports._rodadaLembretes = rodadaLembretes; // só no teste
 
