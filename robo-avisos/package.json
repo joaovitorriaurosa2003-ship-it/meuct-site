@@ -1,0 +1,15 @@
+{
+  "name": "meuct-robo-avisos",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Envia os avisos e os lembretes diários do MeuCT como notificação no celular, mesmo com o app fechado.",
+  "main": "enviar.js",
+  "scripts": {
+    "start": "node enviar.js",
+    "test": "node teste.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "firebase-admin": "^12.7.0"
+  }
+}
