@@ -54,6 +54,14 @@ service cloud.firestore {
         || resource.data.get('autor_uid', '') == request.auth.uid
         || resource.data.get('remetente_uid', '') == request.auth.uid);
     }
+    // Quem edita não pode virar "autor" de um item de outra pessoa (o autor pode apagar o que é seu).
+    // Na criação não há documento anterior; na edição, criado_por, autor_uid e remetente_uid ficam iguais ou somem.
+    function ctAutoriaMantida() {
+      return resource == null || (
+        (request.resource.data.get('criado_por', null) == resource.data.get('criado_por', null) || request.resource.data.get('criado_por', null) == null)
+        && (request.resource.data.get('autor_uid', null) == resource.data.get('autor_uid', null) || request.resource.data.get('autor_uid', null) == null)
+        && (request.resource.data.get('remetente_uid', null) == resource.data.get('remetente_uid', null) || request.resource.data.get('remetente_uid', null) == null));
+    }
     function ctPodeJogos() {
       return ctTemAcesso('treinador') || ctTemAcesso('desempenho');
     }
@@ -80,7 +88,8 @@ service cloud.firestore {
     // qualquer usuário logado, escrita/exclusão só pra admin.
     match /ct_atualizacoes/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if ctEhAdmin();
+      allow create, update: if (ctEhAdmin())
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
@@ -96,38 +105,45 @@ service cloud.firestore {
     }
     match /ct_atletas/{atletaId} {
       allow read: if ctEhEquipe();
-      allow create, update: if ctPodeGerenciarAtletas();
+      allow create, update: if (ctPodeGerenciarAtletas())
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
     match /ct_atletas/{atletaId}/ct_psi_avaliacoes/{docId} {
       allow read: if ctTemAcesso('psicologia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('psicologia');
+      allow create, update: if (ctTemAcesso('psicologia'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /ct_atletas/{atletaId}/ct_fisio_registros/{docId} {
       allow read: if ctTemAcesso('fisioterapia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('fisioterapia');
+      allow create, update: if (ctTemAcesso('fisioterapia'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /ct_atletas/{atletaId}/ct_fisiologia_dados/{docId} {
       allow read: if ctTemAcesso('fisiologia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('fisiologia');
+      allow create, update: if (ctTemAcesso('fisiologia'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /ct_atletas/{atletaId}/ct_social_acompanhamento/{docId} {
       allow read: if ctTemAcesso('social') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('social');
+      allow create, update: if (ctTemAcesso('social'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /ct_atletas/{atletaId}/ct_performance_jogos/{docId} {
       allow read: if ctTemAcesso('desempenho') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('desempenho');
+      allow create, update: if (ctTemAcesso('desempenho'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /ct_atletas/{atletaId}/ct_medicina_registros/{docId} {
       allow read: if ctTemAcesso('medicina') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('medicina');
+      allow create, update: if (ctTemAcesso('medicina'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
@@ -135,32 +151,38 @@ service cloud.firestore {
     // (o front-end usa collectionGroup pra montar o semáforo e os gráficos).
     match /{path=**}/ct_psi_avaliacoes/{docId} {
       allow read: if ctTemAcesso('psicologia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('psicologia');
+      allow create, update: if (ctTemAcesso('psicologia'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /{path=**}/ct_fisio_registros/{docId} {
       allow read: if ctTemAcesso('fisioterapia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('fisioterapia');
+      allow create, update: if (ctTemAcesso('fisioterapia'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /{path=**}/ct_fisiologia_dados/{docId} {
       allow read: if ctTemAcesso('fisiologia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('fisiologia');
+      allow create, update: if (ctTemAcesso('fisiologia'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /{path=**}/ct_social_acompanhamento/{docId} {
       allow read: if ctTemAcesso('social') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('social');
+      allow create, update: if (ctTemAcesso('social'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /{path=**}/ct_performance_jogos/{docId} {
       allow read: if ctTemAcesso('desempenho') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('desempenho');
+      allow create, update: if (ctTemAcesso('desempenho'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /{path=**}/ct_medicina_registros/{docId} {
       allow read: if ctTemAcesso('medicina') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('medicina');
+      allow create, update: if (ctTemAcesso('medicina'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     // ---------- Agenda, jogos e carga de treino ----------
@@ -175,25 +197,28 @@ service cloud.firestore {
     // ---------- Comissao tecnica (cadastro escolhido em cada jogo) ----------
     match /ct_comissao/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if (ctEhAdmin() || ctTemAcesso('treinador') || ctTemAcesso('desempenho'))
-        && request.resource.data.nome is string && request.resource.data.nome.size() > 0 && request.resource.data.nome.size() < 61;
+      allow create, update: if ((ctEhAdmin() || ctTemAcesso('treinador') || ctTemAcesso('desempenho'))
+        && request.resource.data.nome is string && request.resource.data.nome.size() > 0 && request.resource.data.nome.size() < 61)
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
     // ---------- Times adversarios (nome, cidade, estadio, competicoes e escudo) ----------
     match /ct_times/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if (ctEhAdmin() || ctTemAcesso('treinador') || ctTemAcesso('desempenho'))
+      allow create, update: if ((ctEhAdmin() || ctTemAcesso('treinador') || ctTemAcesso('desempenho'))
         && request.resource.data.nome is string && request.resource.data.nome.size() > 0 && request.resource.data.nome.size() <= 60
-        && (!('escudo' in request.resource.data) || request.resource.data.escudo == null || (request.resource.data.escudo is string && request.resource.data.escudo.size() < 250000));
+        && (!('escudo' in request.resource.data) || request.resource.data.escudo == null || (request.resource.data.escudo is string && request.resource.data.escudo.size() < 250000)))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
     match /ct_eventos/{id} {
       allow read: if ctEhEquipe();
       allow create: if ctEhEquipe() && (request.resource.data.get('tipo', '') != 'jogo' || ctPodeJogos());
-      allow update: if ctEhEquipe() && ((resource.data.get('tipo', '') != 'jogo' && request.resource.data.get('tipo', '') != 'jogo') || ctPodeJogos()
-        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['cargas', 'atualizado_em']));
+      allow update: if (ctEhEquipe() && ((resource.data.get('tipo', '') != 'jogo' && request.resource.data.get('tipo', '') != 'jogo') || ctPodeJogos()
+        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['cargas', 'atualizado_em'])))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
@@ -312,7 +337,8 @@ match /ct_captacao_privado/{id} {
     // ---------- Scout de goleiros (aba Goleiros dos Treinadores) ----------
     match /ct_goleiros/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if ctTemAcesso('treinador');
+      allow create, update: if (ctTemAcesso('treinador'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
@@ -326,12 +352,14 @@ match /ct_captacao_privado/{id} {
     // Nutrição (DM): a Nutrição lança; o DM e a comissão técnica veem
     match /ct_atletas/{atletaId}/ct_nutricao_registros/{docId} {
       allow read: if ctTemAcesso('nutricao') || ctTemAcesso('fisioterapia') || ctTemAcesso('medicina') || ctTemAcesso('psicologia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('nutricao');
+      allow create, update: if (ctTemAcesso('nutricao'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     match /{path=**}/ct_nutricao_registros/{docId} {
       allow read: if ctTemAcesso('nutricao') || ctTemAcesso('fisioterapia') || ctTemAcesso('medicina') || ctTemAcesso('psicologia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if ctTemAcesso('nutricao');
+      allow create, update: if (ctTemAcesso('nutricao'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
     // Cardápio semanal do refeitório (Nutrição edita; equipe vê)
@@ -343,18 +371,23 @@ match /ct_captacao_privado/{id} {
 
     // ---------- Texto clínico (só a própria área, a Diretoria e o admin leem) ----------
     match /ct_texto_clinico_psi/{id} {
-      allow read, create, update: if ctSoPsicologia();
+      allow read: if ctSoPsicologia();
+      allow create, update: if (ctSoPsicologia())
+        && ctAutoriaMantida();
       allow delete: if ctSoPsicologia() || ctPodeApagar() || ctEhAutor();
     }
     match /ct_texto_clinico_medicina/{id} {
-      allow read, create, update: if ctTemAcesso('medicina');
+      allow read: if ctTemAcesso('medicina');
+      allow create, update: if (ctTemAcesso('medicina'))
+        && ctAutoriaMantida();
       allow delete: if ctTemAcesso('medicina') || ctPodeApagar() || ctEhAutor();
     }
 
     // ---------- Meu QTS (grade semanal de cada usuário) e conflitos de horário ----------
     match /ct_qts_pessoal/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if ctEhEquipe() && (request.resource.data.uid == request.auth.uid || ctEhAdmin());
+      allow create: if ctEhEquipe() && (request.resource.data.uid == request.auth.uid || ctEhAdmin());
+      allow update: if ctEhEquipe() && ((resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid) || ctEhAdmin());
       allow delete: if ctEstaLogado() && (resource.data.uid == request.auth.uid || ctEhAdmin());
     }
     match /ct_qts_conflitos/{id} {
@@ -374,7 +407,8 @@ match /ct_captacao_privado/{id} {
     match /ct_restricoes/{id} {
       allow read: if ctEhEquipe();
       allow create: if ctEhEquipe() && request.resource.data.criado_por == request.auth.uid;
-      allow update: if ctPodeApagar() || ctEhAutor();
+      allow update: if (ctPodeApagar() || ctEhAutor())
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
@@ -399,13 +433,15 @@ match /ct_captacao_privado/{id} {
 
     match /ct_viagens/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if ctTemAcesso('social') || ctTemAcesso('treinador');
+      allow create, update: if (ctTemAcesso('social') || ctTemAcesso('treinador'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
     match /ct_testes_fisicos/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if ctTemAcesso('preparacao');
+      allow create, update: if (ctTemAcesso('preparacao'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
@@ -420,22 +456,26 @@ match /ct_captacao_privado/{id} {
     match /ct_atas/{id} {
       allow read: if ctTemAcesso(resource.data.setor);
       allow create: if ctTemAcesso(request.resource.data.setor) && request.resource.data.criado_por == request.auth.uid;
-      allow update: if ctTemAcesso(resource.data.setor) && ctTemAcesso(request.resource.data.setor);
+      allow update: if (ctTemAcesso(resource.data.setor) && ctTemAcesso(request.resource.data.setor))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
 
     // Treinos de goleiros (ficha com nota de execução)
     match /ct_treinos_goleiro/{id} {
-      allow read, create, update: if ctTemAcesso('treinador');
+      allow read: if ctTemAcesso('treinador');
+      allow create, update: if (ctTemAcesso('treinador'))
+        && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || (ctTemAcesso('treinador') && ctEhAutor());
     }
 
     // Avaliação por constructos dos atletas em avaliação: cada setor grava o seu (sem a Diretoria).
     match /ct_avaliacao_entrada/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if ctEhEquipe()
+      allow create, update: if (ctEhEquipe()
         && request.resource.data.autor_uid == request.auth.uid
-        && (ctEhAdmin() || request.resource.data.modulo in ctMeuCadastro().modulos);
+        && (ctEhAdmin() || request.resource.data.modulo in ctMeuCadastro().modulos))
+        && ctAutoriaMantida();
       allow delete: if ctEhAdmin() || (ctEhEquipe() && resource.data.autor_uid == request.auth.uid);
     }
 
@@ -467,11 +507,12 @@ match /ct_captacao_privado/{id} {
     // ---------- Campeonatos (inscritos, tabela, cartões, classificação) ----------
     match /ct_campeonatos/{id} {
       allow read: if ctEhEquipe();
-      allow create, update: if (ctEhAdmin() || ctPodeJogos() || ctTemAcesso('diretoria'))
+      allow create, update: if ((ctEhAdmin() || ctPodeJogos() || ctTemAcesso('diretoria'))
         && request.resource.data.nome is string
         && request.resource.data.nome.size() > 0
         && request.resource.data.nome.size() <= 120
-        && (!('inscritos' in request.resource.data) || (request.resource.data.inscritos is list && request.resource.data.inscritos.size() <= 99));
+        && (!('inscritos' in request.resource.data) || (request.resource.data.inscritos is list && request.resource.data.inscritos.size() <= 99)))
+        && ctAutoriaMantida();
       allow delete: if ctEhAdmin() || ctTemAcesso('diretoria') || ctEhAutor();
     }
 
