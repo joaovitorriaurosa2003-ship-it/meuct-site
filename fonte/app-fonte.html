@@ -2718,10 +2718,60 @@ th.num, td.num{text-align:right;}
 .enc-filtro-setor{margin-left:auto; padding:7px 10px; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff;}
 .enc-setor .panel-head{gap:10px; flex-wrap:wrap;}
 .gaveta-botoes{display:flex; gap:8px; flex-wrap:wrap;} .gaveta-botoes .pill-btn{flex:1;}
-.med-lesoes{display:grid; grid-template-columns:minmax(260px,420px) 1fr; gap:16px; padding:6px 16px 16px; align-items:start;}
-.med-lesoes-lista{display:flex; flex-direction:column; gap:8px;}
-.med-lesao{border:1px solid var(--line-soft); border-left:4px solid #D9463B; border-radius:12px; padding:10px 12px; background:#fff; font-size:13.5px;}
-@media (max-width:760px){ .med-lesoes{grid-template-columns:1fr;} }
+.med-lesoes{display:grid; grid-template-columns:minmax(300px,520px) 1fr; gap:18px; padding:6px 16px 16px; align-items:start;}
+.med-mapa{position:sticky; top:76px; padding:12px 8px 10px; border:1px solid var(--line-soft); border-radius:16px; background:linear-gradient(180deg,#F8FBFF,#FFFFFF);}
+.med-mapa .mapa-corpo{background:transparent;}
+.med-lesoes-lista{display:flex; flex-direction:column; gap:10px;}
+.lesao-topo{display:flex; gap:14px; align-items:flex-end; flex-wrap:wrap; padding:12px 16px 6px;}
+.lesao-cat{margin:0; min-width:150px;}
+.lesao-kpis{display:flex; gap:8px; flex-wrap:wrap; flex:1;}
+.lesao-kpi{display:flex; flex-direction:column; align-items:flex-start; gap:1px; min-width:104px; padding:8px 12px; border:1px solid var(--line-soft); border-radius:12px; background:#fff; font:inherit; cursor:pointer; text-align:left; transition:transform .12s, box-shadow .12s, border-color .12s;}
+.lesao-kpi b{font-size:22px; line-height:1.1; font-weight:800; color:var(--ink);}
+.lesao-kpi span{font-size:11.5px; font-weight:700; color:var(--muted);}
+.lesao-kpi:hover{transform:translateY(-1px); box-shadow:0 4px 14px rgba(15,23,42,.08);}
+.lesao-kpi.verm b{color:#D9463B;} .lesao-kpi.amar b{color:#C98A06;} .lesao-kpi.rein b{color:#7C3AED;}
+.lesao-kpi.on{border-color:var(--pitch-800,#1E7446); box-shadow:0 0 0 2px rgba(30,116,70,.18);}
+.lesao-kpi.verm.on{border-color:#D9463B; box-shadow:0 0 0 2px rgba(217,70,59,.18); background:#FEF4F3;}
+.lesao-kpi.amar.on{border-color:#F2B53A; box-shadow:0 0 0 2px rgba(242,181,58,.22); background:#FFFAEB;}
+.lesao-kpi.rein.on{border-color:#7C3AED; box-shadow:0 0 0 2px rgba(124,58,237,.16); background:#F7F3FF;}
+.lesao-kpi.neutro{cursor:default; background:#F8FAFC;} .lesao-kpi.neutro:hover{transform:none; box-shadow:none;}
+.lesao-regioes{display:flex; flex-wrap:wrap; gap:6px;}
+.lesao-reg{display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border:1px solid var(--line-soft); border-radius:999px; background:#fff; font:inherit; font-size:12.5px; font-weight:700; color:var(--ink-2); cursor:pointer;}
+.lesao-reg i{width:9px; height:9px; border-radius:50%; display:inline-block;}
+.lesao-reg small{font-size:11px; font-weight:800; color:var(--muted); background:#F1F5F9; border-radius:999px; padding:0 6px;}
+.lesao-reg:hover{border-color:#94A3B8;}
+.lesao-reg.on{background:#0F172A; border-color:#0F172A; color:#fff;} .lesao-reg.on small{background:rgba(255,255,255,.18); color:#fff;}
+.lesao-filtro-ativo{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 12px; border-radius:10px; background:#F1F5F9; font-size:13px; color:var(--ink-2);}
+.med-lesao{border:1px solid var(--line-soft); border-left:4px solid #D9463B; border-radius:14px; padding:12px 14px; background:#fff; font-size:13.5px; transition:box-shadow .15s, transform .15s;}
+.med-lesao.amarelo{border-left-color:#F2B53A;}
+.med-lesao:hover{box-shadow:0 6px 18px rgba(15,23,42,.08); transform:translateY(-1px);}
+.med-lesao-topo{display:flex; align-items:center; gap:12px;}
+.med-lesao-foto{flex:0 0 auto; width:42px; height:42px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#1C2C4B; color:var(--gold-300,#F2D27A); font-size:13px; font-weight:800; box-shadow:0 0 0 3px #fff, 0 0 0 5px #D9463B;}
+.med-lesao-foto.amarelo{box-shadow:0 0 0 3px #fff, 0 0 0 5px #F2B53A;}
+.med-lesao-foto img{width:100%; height:100%; object-fit:cover;}
+.med-lesao-quem{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;}
+.med-lesao-cat{font-size:11.5px; font-weight:700; color:var(--muted); margin-left:4px;}
+.med-lesao-rein{margin-left:6px; font-size:10.5px; font-weight:800; color:#7C3AED; background:#F3EEFF; border-radius:999px; padding:1px 7px;}
+.med-lesao-local{align-self:flex-start; display:inline-flex; align-items:center; gap:6px; padding:2px 9px; border:1px solid var(--line-soft); border-radius:999px; background:#F8FAFC; font:inherit; font-size:12.5px; font-weight:600; color:var(--ink-2); cursor:pointer;}
+.med-lesao-local i{width:8px; height:8px; border-radius:50%; display:inline-block;}
+.med-lesao-local:hover{border-color:#94A3B8; background:#fff;}
+.med-lesao-dias{flex:0 0 auto; display:flex; flex-direction:column; align-items:center; min-width:52px; padding:4px 8px; border-radius:10px; background:#F1F5F9;}
+.med-lesao-dias b{font-size:18px; line-height:1.1; color:var(--ink);} .med-lesao-dias span{font-size:10.5px; font-weight:700; color:var(--muted);}
+.med-lesao-dias.longo{background:#FEF4F3;} .med-lesao-dias.longo b{color:#D9463B;}
+.med-lesao-fases{display:grid; grid-template-columns:repeat(4,1fr); gap:4px; margin:10px 0 8px;}
+.med-lesao-fases span{display:flex; flex-direction:column; gap:3px; font-size:10.5px; font-weight:700; color:#94A3B8;}
+.med-lesao-fases i{display:block; height:6px; border-radius:6px; background:#E2E8F0;}
+.med-lesao-fases .feita i{background:#4CAF7A;} .med-lesao-fases .feita{color:#3F8F63;}
+.med-lesao-fases .atual i{background:#D9463B;} .med-lesao-fases .atual.amarelo i{background:#F2B53A;} .med-lesao-fases .atual{color:var(--ink);}
+.mapa-corpo .mapa-marcada{animation:mapaPulso 2.4s ease-in-out infinite;}
+.mapa-corpo .mapa-sel, .mapa-corpo .mapa-luz{animation:none;}
+@keyframes mapaPulso{0%,100%{fill-opacity:1;} 50%{fill-opacity:.72;}}
+@media (prefers-reduced-motion: reduce){ .mapa-corpo .mapa-marcada{animation:none;} }
+.mapa-corpo .mapa-chamada{cursor:pointer;}
+.mapa-corpo .mapa-chamada:hover .mapa-corpo-rotulo{text-decoration:underline;}
+.mapa-corpo-qtd{font-size:9.5px; font-weight:800; fill:#fff;}
+.mapa-corpo-chips span.clicavel{cursor:pointer;} .mapa-corpo-chips span.on{background:#0F172A; color:#fff; border-color:#0F172A;}
+@media (max-width:760px){ .med-lesoes{grid-template-columns:1fr;} .med-mapa{position:static;} .lesao-topo{flex-direction:column; align-items:stretch;} .med-mapa .mapa-corpo-chips{display:none;} .lesao-kpi{min-width:0; flex:1 1 30%; padding:7px 10px;} .lesao-kpi b{font-size:19px;} .med-lesao-fases span{font-size:9.5px;} }
 .senha-forca{margin-top:6px; display:flex; align-items:center; gap:8px;}
 .senha-forca span{display:block; height:6px; border-radius:6px; background:#D9463B; max-width:160px; flex:0 0 auto; transition:width .2s;}
 .senha-forca.f3 span{background:#FAB219;} .senha-forca.f4 span, .senha-forca.f5 span{background:#1E7446;}
@@ -4659,8 +4709,16 @@ function useTelaEstreita(limite = 640) {
   return estreita;
 }
 
-function MapaCorpo({ marcas, onEscolher }) {
+/** Mesma região do corpo, aceitando o rótulo ou um apelido (ex.: "posterior" e "Posterior de coxa"). */
+function mesmaRegiaoCorpo(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const ra = regiaoPorLabel(a), rb = regiaoPorLabel(b);
+  return !!ra && !!rb && ra.id === rb.id;
+}
+function MapaCorpo({ marcas, onEscolher, selecionado, destaque }) {
   const [sobre, setSobre] = useState(null);
+  const casa = (sel, regiaoLabel, lado) => !!sel && mesmaRegiaoCorpo(sel.regiao, regiaoLabel) && (!sel.lado || !lado || sel.lado === lado);
   const compacto = useTelaEstreita();
   const G = GEOMETRIA_CORPO, Lt = MAPA_LAYOUT.larguraTotal, At = MAPA_LAYOUT.alturaTotal;
   const ordenadas = (marcas || []).slice().sort((a, b) => (GRAVIDADE_COR_MAPA[b.cor] || 0) - (GRAVIDADE_COR_MAPA[a.cor] || 0));
@@ -4691,10 +4749,14 @@ function MapaCorpo({ marcas, onEscolher }) {
               const def = REGIOES_CORPO.find((r) => r.id === g.id);
               const lado = def.central ? null : ladoAtletaDaFigura(g.vista, g.ladoFig);
               const emFoco = onEscolher && sobre === chave(g);
+              const sel = casa(selecionado, def.label, lado), luz = casa(destaque, def.label, lado);
+              const apagada = !!selecionado && !sel && !!cor;
               return (
                 <polygon key={g.id + i} points={_ptsSvg(g.pts)}
+                  className={(cor ? "mapa-marcada" : "") + (sel ? " mapa-sel" : "") + (luz ? " mapa-luz" : "")}
+                  opacity={apagada ? 0.35 : 1}
                   fill={cor || (emFoco ? COR_MAPA.hover : COR_MAPA[g.tipo])}
-                  stroke={g.tipo === "cabeca" && !cor ? "none" : COR_MAPA.musculoBorda} strokeWidth="1" strokeLinejoin="round"
+                  stroke={sel || luz ? "#0F172A" : g.tipo === "cabeca" && !cor ? "none" : COR_MAPA.musculoBorda} strokeWidth={sel ? 2.4 : luz ? 1.8 : 1} strokeLinejoin="round"
                   onMouseEnter={onEscolher ? () => setSobre(chave(g)) : undefined}
                   onMouseLeave={onEscolher ? () => setSobre(null) : undefined}
                   onClick={onEscolher ? () => escolher(g) : undefined}>
@@ -4714,10 +4776,16 @@ function MapaCorpo({ marcas, onEscolher }) {
         const esq = c.lado === "esq";
         const xe = esq ? m - 6 : Lt - m + 6;
         const cor = COR_MAPA[c.marca.cor] || COR_MAPA.azul;
+        const sel = casa(selecionado, c.marca.regiao, c.marca.lado), apagada = !!selecionado && !sel;
+        const clicavel = !!onEscolher;
         return (
-          <g key={"ch" + i} pointerEvents="none">
-            <polyline points={`${c.ax},${c.ay} ${esq ? xe + 10 : xe - 10},${c.ly} ${xe},${c.ly}`} fill="none" stroke={cor} strokeWidth="1.1" />
-            <rect x={c.ax - 2.6} y={c.ay - 2.6} width="5.2" height="5.2" fill="#FFFFFF" stroke={cor} strokeWidth="1.4" />
+          <g key={"ch" + i} pointerEvents={clicavel ? "all" : "none"} opacity={apagada ? 0.4 : 1} className={clicavel ? "mapa-chamada" : undefined}
+            onClick={clicavel ? () => onEscolher(c.marca.regiao, c.marca.lado || null) : undefined}>
+            {clicavel && <rect x={esq ? 2 : xe} y={c.ly - 8} width={esq ? xe - 2 : Lt - xe - 2} height={c.marca.detalhe ? 28 : 16} rx="5" fill={sel ? "#F1F5F9" : "transparent"} />}
+            <polyline points={`${c.ax},${c.ay} ${esq ? xe + 10 : xe - 10},${c.ly} ${xe},${c.ly}`} fill="none" stroke={cor} strokeWidth={sel ? 1.8 : 1.1} />
+            {c.marca.qtd ? (
+              <g><circle cx={c.ax} cy={c.ay} r="7.5" fill={cor} stroke="#FFFFFF" strokeWidth="1.6" /><text x={c.ax} y={c.ay + 3.2} textAnchor="middle" className="mapa-corpo-qtd">{c.marca.qtd}</text></g>
+            ) : <rect x={c.ax - 2.6} y={c.ay - 2.6} width="5.2" height="5.2" fill="#FFFFFF" stroke={cor} strokeWidth="1.4" />}
             <text x={esq ? xe - 4 : xe + 4} y={c.ly + 3.6} textAnchor={esq ? "end" : "start"} className="mapa-corpo-rotulo">{c.marca.rotulo}</text>
             {c.marca.detalhe && <text x={esq ? xe - 4 : xe + 4} y={c.ly + 15.5} textAnchor={esq ? "end" : "start"} className="mapa-corpo-detalhe">{c.marca.detalhe}</text>}
           </g>
@@ -4733,7 +4801,8 @@ function MapaCorpo({ marcas, onEscolher }) {
       {comMapa.length > 0 && (
         <div className="mapa-corpo-chips">
           {comMapa.map((m, i) => (
-            <span key={i}><i style={{background: COR_MAPA[m.cor] || COR_MAPA.vermelho}}></i><b>{m.rotulo}</b>{m.detalhe ? " · " + m.detalhe : ""}</span>
+            <span key={i} className={(onEscolher ? "clicavel" : "") + (casa(selecionado, m.regiao, m.lado) ? " on" : "")} role={onEscolher ? "button" : undefined} tabIndex={onEscolher ? 0 : undefined}
+              onClick={onEscolher ? () => onEscolher(m.regiao, m.lado || null) : undefined}><i style={{background: COR_MAPA[m.cor] || COR_MAPA.vermelho}}></i><b>{m.rotulo}</b>{m.detalhe ? " · " + m.detalhe : ""}</span>
           ))}
         </div>
       )}
@@ -4769,7 +4838,7 @@ function marcasAgrupadasMapa(episodios) {
     const def = regiaoPorLabel(ep.regiao);
     return {
       regiao: ep.regiao, lado: ep.lado, cor,
-      rotulo: def.curto + (ep.lado ? " " + siglaLado(ep.lado) : ""),
+      rotulo: def.curto + (ep.lado ? " " + siglaLado(ep.lado) : ""), qtd: ativos || 0,
       detalhe: `${n} episódio${n === 1 ? "" : "s"}${ativos ? ` · ${ativos} ativo${ativos === 1 ? "" : "s"}` : ""}`,
     };
   });
@@ -20605,42 +20674,97 @@ function ViewEncaminhamentos({ usuario }) {
 }
 
 /* ---------- Medicina: boneco com as lesões do elenco ---------- */
+const FASES_RTP_ATIVAS = ["repouso", "mobilidade", "carga_progressiva", "transicao"];
 function PainelLesoesMedicina({ atletas, usuario }) {
   const { useState, useEffect } = React;
   const [fisio, setFisio] = useState(null);
   const [cat, setCat] = useState("");
   const [local, setLocal] = useState(null);
+  const [estado, setEstado] = useState(""); // "" | "vermelho" | "amarelo" | "reincidente"
+  const [sobre, setSobre] = useState(null);
   const vm = useVerMais(8);
   useEffect(() => { carregarTodosRegistros("fisio").then(setFisio).catch(() => setFisio({})); }, []);
   if (!fisio || !atletas) return null;
-  const linhas = [];
-  atletas.filter((a) => !cat || atletaNaCategoria(a, cat)).forEach((a) => calcularEpisodiosLesao(fisio[a.id] || []).filter((ep) => ep.ativo).forEach((ep) => linhas.push({ a, ep })));
+  const todas = [];
+  atletas.filter((a) => !cat || atletaNaCategoria(a, cat)).forEach((a) => calcularEpisodiosLesao(fisio[a.id] || []).filter((ep) => ep.ativo).forEach((ep) => todas.push({ a, ep, cor: corEpisodioMapa(ep) })));
+  const passaEstado = (l) => !estado || (estado === "reincidente" ? l.ep.reincidente : l.cor === estado);
+  const linhas = todas.filter(passaEstado);
   const marcas = marcasAgrupadasMapa(linhas.map((l) => l.ep));
-  const visiveis = linhas.filter((l) => !local || (l.ep.regiao === local.regiao && (!local.lado || l.ep.lado === local.lado))).sort((x, y) => (x.ep.dataInicio || "").localeCompare(y.ep.dataInicio || ""));
+  const noLocal = (l) => !local || (mesmaRegiaoCorpo(l.ep.regiao, local.regiao) && (!local.lado || l.ep.lado === local.lado));
+  const visiveis = linhas.filter(noLocal).sort((x, y) => (GRAVIDADE_COR_MAPA[y.cor] - GRAVIDADE_COR_MAPA[x.cor]) || (x.ep.dataInicio || "").localeCompare(y.ep.dataInicio || ""));
+  const escolher = (r, l) => setLocal((atual) => (atual && mesmaRegiaoCorpo(atual.regiao, r) && (atual.lado || null) === (l || null) ? null : { regiao: r, lado: l || null }));
+  const nVerm = todas.filter((l) => l.cor === "vermelho").length, nAmar = todas.filter((l) => l.cor === "amarelo").length, nRein = todas.filter((l) => l.ep.reincidente).length;
+  const dias = todas.map((l) => calcularDiasEntre(l.ep.dataInicio) || 0);
+  const media = dias.length ? Math.round(dias.reduce((x, y) => x + y, 0) / dias.length) : 0;
+  const filtroEstado = (id, rotulo, n, cls) => (
+    <button type="button" className={"lesao-kpi " + cls + (estado === id ? " on" : "")} aria-pressed={estado === id} onClick={() => { setEstado(estado === id ? "" : id); setLocal(null); }}>
+      <b>{n}</b><span>{rotulo}</span>
+    </button>
+  );
+  // regiões com mais lesões, para escolher sem precisar do boneco
+  const porRegiao = {};
+  linhas.forEach((l) => { const k = l.ep.regiao + "|" + (l.ep.lado || ""); (porRegiao[k] = porRegiao[k] || { regiao: l.ep.regiao, lado: l.ep.lado || null, n: 0, cor: l.cor }).n++; if (GRAVIDADE_COR_MAPA[l.cor] > GRAVIDADE_COR_MAPA[porRegiao[k].cor]) porRegiao[k].cor = l.cor; });
+  const regioes = Object.values(porRegiao).sort((x, y) => y.n - x.n);
   return (
     <div className="panel">
-      <div className="panel-head"><h3>Lesões do elenco</h3><div className="enc-acoes" style={{ margin: 0 }}><span style={{ fontSize: 12.5, color: "#fff" }}>{linhas.length} lesão(ões) ativa(s)</span><button type="button" className="pill-btn" onClick={() => pdfLesoesElenco(atletas, usuario, cat, isoMaisDias(hojeISO(), -90), hojeISO()).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF</button></div></div>
-      <div className="jogos-filtros">
-        <div className="field"><label>Categoria</label><select value={cat} onChange={(e) => { setCat(e.target.value); setLocal(null); }}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
-        {local && <button type="button" className="link-btn" onClick={() => setLocal(null)}>Mostrar todas as regiões</button>}
+      <div className="panel-head"><h3>Lesões do elenco</h3><div className="enc-acoes" style={{ margin: 0 }}><span style={{ fontSize: 12.5, color: "#fff" }}>{todas.length} lesão(ões) ativa(s)</span><button type="button" className="pill-btn" onClick={() => pdfLesoesElenco(atletas, usuario, cat, isoMaisDias(hojeISO(), -90), hojeISO()).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF</button></div></div>
+      <div className="lesao-topo">
+        <div className="field lesao-cat"><label>Categoria</label><select value={cat} onChange={(e) => { setCat(e.target.value); setLocal(null); }}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
+        <div className="lesao-kpis">
+          {filtroEstado("", "Ativas", todas.length, "todas")}
+          {filtroEstado("vermelho", "Repouso ou grave", nVerm, "verm")}
+          {filtroEstado("amarelo", "Em recuperação", nAmar, "amar")}
+          {filtroEstado("reincidente", "Reincidentes", nRein, "rein")}
+          <div className="lesao-kpi neutro"><b>{media}</b><span>dias em média</span></div>
+        </div>
       </div>
       <div className="med-lesoes">
-        <div className="mapa-corpo-caixa">
-          <MapaCorpo marcas={marcas} onEscolher={(r, l) => setLocal({ regiao: r, lado: l })} />
+        <div className="mapa-corpo-caixa med-mapa">
+          <MapaCorpo marcas={marcas} onEscolher={escolher} selecionado={local} destaque={sobre} />
           <LegendaMapaCorpo comLiberado={false} />
-          <div className="mapa-corpo-dica">Toque numa região para ver só os atletas com lesão ali.</div>
+          <div className="mapa-corpo-dica">Toque numa região do boneco ou num nome para filtrar. Toque de novo para ver todos.</div>
         </div>
         <div className="med-lesoes-lista">
-          {visiveis.length === 0 ? <div className="inicio-vazio">{local ? "Nenhuma lesão ativa em " + rotuloLocalLesao(local.regiao, local.lado) + "." : "Nenhuma lesão ativa no elenco."}</div> : visiveis.map(({ a, ep }, i) => (
-            <div key={a.id + ep.local} className={"med-lesao " + vm.classe(i, visiveis.length)}>
-              <div><b>{nomeExibicao(a)}</b> <span className="muted">{a.categoria}</span></div>
-              <div className="muted">{ep.local} · {labelFaseRtp(ep.faseAtual)} · {calcularDiasEntre(ep.dataInicio) || 0} dias{ep.reincidente ? " · reincidente" : ""}</div>
-              <div className="enc-acoes">
-                <button type="button" className="pill-btn" onClick={() => abrirGavetaAtleta(a.id)}>Ver atleta</button>
-                <button type="button" className="pill-btn primary" onClick={() => abrirEncaminhar({ atleta_id: a.id, de_setor: "medicina", para_setor: "fisioterapia", regiao: ep.regiao, lado: ep.lado || "" })}>Encaminhar à Fisio</button>
-              </div>
+          {regioes.length > 0 && (
+            <div className="lesao-regioes" role="group" aria-label="Filtrar por região">
+              <button type="button" className={"lesao-reg" + (!local ? " on" : "")} onClick={() => setLocal(null)}>Todas <small>{linhas.length}</small></button>
+              {regioes.map((r) => {
+                const on = local && mesmaRegiaoCorpo(local.regiao, r.regiao) && (local.lado || null) === r.lado;
+                const def = regiaoPorLabel(r.regiao);
+                return (
+                  <button key={r.regiao + r.lado} type="button" className={"lesao-reg" + (on ? " on" : "")} onClick={() => escolher(r.regiao, r.lado)}
+                    onMouseEnter={() => setSobre({ regiao: r.regiao, lado: r.lado })} onMouseLeave={() => setSobre(null)}>
+                    <i style={{ background: COR_MAPA[r.cor] }}></i>{rotuloLocalLesao(def ? def.curto : r.regiao) + (r.lado ? " " + siglaLado(r.lado) : "")} <small>{r.n}</small>
+                  </button>
+                );
+              })}
             </div>
-          ))}
+          )}
+          {local && <div className="lesao-filtro-ativo"><span>Mostrando <b>{rotuloLocalLesao(local.regiao, local.lado)}</b> · {visiveis.length} atleta{visiveis.length === 1 ? "" : "s"}</span><button type="button" className="link-btn" onClick={() => setLocal(null)}>Limpar filtro</button></div>}
+          {visiveis.length === 0 ? <div className="inicio-vazio">{local ? "Nenhuma lesão ativa em " + rotuloLocalLesao(local.regiao, local.lado) + "." : estado ? "Nenhuma lesão ativa com esse filtro." : "Nenhuma lesão ativa no elenco."}</div> : visiveis.map(({ a, ep, cor }, i) => {
+            const fase = FASES_RTP_ATIVAS.indexOf(ep.faseAtual);
+            const d = calcularDiasEntre(ep.dataInicio) || 0;
+            return (
+              <div key={a.id + ep.local + i} className={"med-lesao " + cor + " " + vm.classe(i, visiveis.length)}
+                onMouseEnter={() => setSobre({ regiao: ep.regiao, lado: ep.lado || null })} onMouseLeave={() => setSobre(null)}>
+                <div className="med-lesao-topo">
+                  <span className={"med-lesao-foto " + cor}>{a.foto ? <img loading="lazy" decoding="async" src={a.foto} alt="" /> : iniciaisAtleta(a)}</span>
+                  <div className="med-lesao-quem">
+                    <div><b>{nomeExibicao(a)}</b> <span className="med-lesao-cat">{labelCategoria(a.categoria) || a.categoria}</span>{ep.reincidente && <span className="med-lesao-rein">Reincidente</span>}</div>
+                    <button type="button" className="med-lesao-local" onClick={() => escolher(ep.regiao, ep.lado || null)} title="Filtrar por esta região"><i style={{ background: COR_MAPA[cor] }}></i>{rotuloLocalLesao(ep.regiao, ep.lado)}</button>
+                  </div>
+                  <div className={"med-lesao-dias" + (d > 60 ? " longo" : "")}><b>{d}</b><span>dias</span></div>
+                </div>
+                <div className="med-lesao-fases" aria-label={"Fase: " + labelFaseRtp(ep.faseAtual)}>
+                  {FASES_RTP_ATIVAS.map((f, k) => <span key={f} className={k < fase ? "feita" : k === fase ? "atual " + cor : ""}><i></i>{(() => { const t = labelFaseRtp(f).replace("Fase ", ""); return t.charAt(0).toUpperCase() + t.slice(1); })()}</span>)}
+                </div>
+                <div className="enc-acoes">
+                  <button type="button" className="pill-btn" onClick={() => abrirGavetaAtleta(a.id)}>Ver atleta</button>
+                  <button type="button" className="pill-btn primary" onClick={() => abrirEncaminhar({ atleta_id: a.id, de_setor: "medicina", para_setor: "fisioterapia", regiao: ep.regiao, lado: ep.lado || "" })}>Encaminhar à Fisio</button>
+                </div>
+              </div>
+            );
+          })}
           {vm.botao(visiveis.length, "atletas")}
         </div>
       </div>
