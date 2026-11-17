@@ -468,8 +468,8 @@ fieldset.so-leitura:disabled .pill-btn.primary, fieldset.so-leitura:disabled .pi
 /* ---------- Campeonatos ---------- */
 .camp-acoes{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
 .camp-acoes .muted{font-size:12.5px;}
-.camp-card-nome{font-size:17px; font-weight:800; color:var(--ink); margin:10px 0 4px; line-height:1.25;}
-.camp-card-prox{font-size:12.5px; color:var(--pitch-800); font-weight:600; margin-top:6px;}
+.camp-card-nome{font-size:17px; font-weight:800; color:#fff; margin:10px 0 4px; line-height:1.25;}
+.camp-card-prox{font-size:12.5px; color:#8FE3B5; font-weight:600; margin-top:6px;}
 .camp-topo{padding:16px 20px;}
 .camp-topo-linha{display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;}
 .camp-topo-acoes{display:flex; gap:8px; flex-wrap:wrap;}
@@ -2489,6 +2489,61 @@ th.num, td.num{text-align:right;}
 .pitch-modo button{border:none; background:transparent; color:var(--mn-text-2); font:inherit; font-size:12px; font-weight:800; padding:7px 13px; border-radius:999px; cursor:pointer; transition:all .15s ease;}
 .pitch-modo button:hover{color:#fff;}
 .pitch-modo button.active{background:#fff; color:var(--ink); box-shadow:0 4px 12px rgba(0,0,0,0.25);}
+/* Card do atleta no campo (campograma) */
+.jogador-foto.anel-verde{border-color:var(--st-good);} .jogador-foto.anel-amarelo{border-color:var(--st-warn);} .jogador-foto.anel-vermelho{border-color:var(--st-crit);}
+.jogador-foto[class*="anel-"]{border-width:4px;}
+.jf-ico{position:absolute; z-index:2; width:20px; height:20px; border-radius:50%; background:#fff; color:#0E1A31; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.35); font-family:var(--font); font-size:12px; font-weight:900; line-height:1;}
+.jf-ico svg{width:12px; height:12px;}
+.jf-casa{top:-6px; right:-6px; color:#1E5AA8;}
+.jf-pe{bottom:-6px; left:-8px; width:auto; min-width:20px; padding:0 4px 0 2px; border-radius:999px; gap:1px; color:#0E1A31;}
+.jf-pe.esq svg{transform:scaleX(-1);}
+.jf-pe b{font-size:9px; font-weight:900;}
+.jf-proj{top:50%; right:-12px; transform:translateY(-50%); font-size:13px;}
+.jf-proj.sobe{background:#1E9E5A; color:#fff;} .jf-proj.desce{background:#D64545; color:#fff;} .jf-proj.mantem{background:#E2E8F0; color:#475569;}
+.chip-espaco{border:1px solid rgba(15,40,30,0.18) !important; background:#F1F5F9 !important; color:#334155 !important; border-radius:999px !important; font-size:10.5px !important; font-weight:800 !important; padding:1px 7px !important; margin:0 2px 0 6px !important; width:auto !important; height:auto !important; cursor:pointer;}
+.chip-espaco.on{background:#1E7446 !important; color:#fff !important; border-color:#1E7446 !important;}
+.avulsos-lista{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
+.avulso-chip{display:inline-flex; align-items:center; gap:6px; padding:4px 6px 4px 4px; border-radius:999px; background:var(--panel-2, #F1F5F9); border:1px solid var(--line-soft, #E2E8F0); font-size:12.5px; font-weight:700;}
+.avulso-chip small{font-weight:600; color:var(--muted); font-size:11px;}
+.avulso-chip button{border:none; background:none; font-size:16px; line-height:1; cursor:pointer; color:var(--muted); padding:0 4px;}
+.avulso-chip .mini, .avulso-opcao .mini{width:26px; height:26px; border-radius:50%; overflow:hidden; display:inline-flex; align-items:center; justify-content:center; background:#1C2C4B; color:#F6D47A; font-size:10px; font-weight:800; flex-shrink:0; border:2px solid #fff;}
+.avulso-chip .mini img, .avulso-opcao .mini img{width:100%; height:100%; object-fit:cover;}
+.avulso-opcao .mini.anel-verde{border-color:var(--st-good);} .avulso-opcao .mini.anel-amarelo{border-color:var(--st-warn);} .avulso-opcao .mini.anel-vermelho{border-color:var(--st-crit);}
+.avulsos-opcoes{display:flex; flex-direction:column; gap:4px; margin-top:6px; max-height:280px; overflow:auto;}
+.avulso-opcao{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; border:1px solid var(--line-soft, #E2E8F0); background:#fff; text-align:left; cursor:pointer; font:inherit;}
+.avulso-opcao:hover{border-color:var(--pitch-800, #1E7446);}
+.avulso-opcao b{display:block; font-size:13px;} .avulso-opcao small{font-size:11.5px; color:var(--muted);}
+.jogador-nasc{font-size:10px; font-weight:600; color:rgba(255,255,255,0.78); margin-top:-3px;}
+.jogador.ficha, .pitch-setores .jogador.ficha, .pitch-setores.compacto .jogador.ficha, .pitch-setores.muito .jogador.ficha{width:128px;}
+.jf-tabela{display:flex; flex-direction:column; width:100%; background:rgba(255,255,255,0.94); border-radius:8px; overflow:hidden; color:#0E1A31; font-size:9.5px; line-height:1.25; box-shadow:0 6px 14px rgba(0,0,0,0.25);}
+.jf-linha{display:flex; justify-content:space-between; gap:6px; padding:2px 7px;}
+.jf-linha + .jf-linha{border-top:1px solid #E2E8F0;}
+.jf-linha i{font-style:normal; color:#64748B;} .jf-linha b{font-weight:800; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.proj-seta{display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; font-style:normal; font-weight:900; font-size:12px; margin-right:4px;}
+.proj-seta.sobe{background:#1E9E5A; color:#fff;} .proj-seta.desce{background:#D64545; color:#fff;} .proj-seta.mantem{background:#E2E8F0; color:#475569;}
+.pitch-sub-filtro{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:0 22px 12px;}
+.pitch-anos{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
+.pitch-anos-rot{font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-right:4px;}
+.pitch-anos .pitch-chip{padding:6px 12px; font-size:12px;}
+.campograma-painel{display:flex; flex-wrap:wrap; gap:8px; padding:0 22px 14px;}
+.cg-item{display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); font-size:12px; color:rgba(255,255,255,0.85);}
+.cg-item > b{font-family:var(--font-display); font-size:22px; color:#fff; line-height:1;}
+.cg-item > span small{display:block; font-size:10.5px; color:rgba(255,255,255,0.6);}
+.cg-rot{font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,0.55);}
+.cg-anos{flex:1 1 260px;}
+.cg-barras{display:flex; flex-direction:column; gap:3px; flex:1;}
+.cg-barra{position:relative; display:flex; align-items:center; gap:6px; height:16px; font-size:10.5px;}
+.cg-barra i{position:absolute; left:34px; top:3px; height:10px; border-radius:6px; background:linear-gradient(90deg,#2BD17E,#1E9E5A); max-width:calc(100% - 74px);}
+.cg-barra em{font-style:normal; width:30px; color:rgba(255,255,255,0.7);}
+.cg-barra b{margin-left:auto; font-weight:800; color:#fff;}
+.cg-status{display:inline-flex; align-items:center; gap:4px; font-weight:800; color:#fff;}
+.cg-status i{width:10px; height:10px; border-radius:50%; margin-left:6px;} .cg-status i.v{background:var(--st-good);} .cg-status i.a{background:var(--st-warn);} .cg-status i.r{background:var(--st-crit);}
+@media (max-width:600px){
+  .jogador.ficha, .pitch-setores .jogador.ficha, .pitch-setores.compacto .jogador.ficha, .pitch-setores.muito .jogador.ficha{width:104px;}
+  .jf-tabela{font-size:8.5px;} .jf-linha{padding:2px 5px;}
+  .pitch-sub-filtro, .campograma-painel{padding-left:14px; padding-right:14px;}
+  .cg-item{flex:1 1 calc(50% - 8px);}
+}
 .jogador.fora .jogador-foto > img{filter:grayscale(0.9) brightness(.85); opacity:.62;}
 .jogador.fora .jogador-foto{background:#34435C; color:rgba(255,255,255,0.55);}
 .jogador.fora .jogador-nome{opacity:.72;}
@@ -6158,6 +6213,16 @@ function rotuloCategoriasAtleta(a) {
   if (!ids.length) return a.categoria || "";
   return nomes.map((n, i) => n || (i === 0 ? a.categoria : (a.categorias_extras || [])[i - 1])).filter(Boolean).join(" / ");
 }
+/** Categoria pela idade no ano: até 14 Sub-14, 15 Sub-15, 16 e 17 Sub-17, 18 a 20 Sub-20. */
+function categoriaPorNascimento(iso) {
+  const ano = Number(String(iso || "").slice(0, 4));
+  if (!ano || ano < 1990) return "";
+  const idade = Number(hojeISO().slice(0, 4)) - ano;
+  if (idade < 10 || idade > 21) return "";
+  return idade <= 14 ? "Sub-14" : idade === 15 ? "Sub-15" : idade <= 17 ? "Sub-17" : "Sub-20";
+}
+/** Projeção do atleta, marcada pela comissão no cadastro. */
+const PROJECOES = [{ id: "sobe", label: "Sobe", seta: "↑" }, { id: "mantem", label: "Mantém", seta: "–" }, { id: "desce", label: "Desce", seta: "↓" }];
 function labelCategoria(id) { const c = CATEGORIAS_TIME.find((x) => x.id === id); return c ? c.label : ""; }
 /** Páginas do Campo que são abertas por categoria (o menu mostra cada uma dentro de Sub-14, Sub-15, Sub-17, Sub-20).
  *  Agenda, QTS, Preparação Física, Monitoramento e Desempenho são do setor (todas as categorias, com filtro). */
@@ -6252,6 +6317,66 @@ function atletaPassaFiltrosElenco(a, f) {
   if (f.comAlgo && !((a.disp && a.disp.status !== "disponivel") || a.nRestr > 0)) return false;
   return true;
 }
+/* ---------- Card do atleta no campo (campograma) ----------
+   Anel da foto = status do DM (disponibilidade; sem ela, o semáforo). Casa = alojado. Pé = perna dominante.
+   Seta = projeção (sobe, mantém, desce). A versão "ficha" leva a tabela com nascimento, chegada, vínculo e término. */
+function anelAtleta(a, sinal) {
+  const s = sinal || (a.disp ? DISPONIBILIDADE[a.disp.status].sinal : a.risco);
+  return s === "verde" || s === "amarelo" || s === "vermelho" ? " anel-" + s : "";
+}
+function IconesAtletaCampo({ a }) {
+  const proj = PROJECOES.find((p) => p.id === a.projecao);
+  const pe = a.perna_dominante === "Canhoto" ? "E" : a.perna_dominante === "Destro" ? "D" : a.perna_dominante === "Ambidestro" ? "A" : "";
+  return (
+    <React.Fragment>
+      {a.alojamento && <span className="jf-ico jf-casa" title={a.alojamento}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /><path d="M6 10.5V20h12v-9.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" /></svg></span>}
+      {pe && <span className={"jf-ico jf-pe" + (pe === "E" ? " esq" : "")} title={"Perna " + a.perna_dominante.toLowerCase()}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 3.5c2.4 0 3.6 2.3 3.4 5.3-.1 2 .6 3.2 2.2 4.4 1.9 1.4 3.6 2.6 3.4 4.6-.2 2.1-2.3 3-4.6 2.6-2.6-.5-4.2-2.2-5.4-4.2-1.3-2.2-2.4-4.6-2.3-7.3.1-3 1.3-5.4 3.3-5.4z" fill="currentColor" /></svg><b>{pe}</b></span>}
+      {proj && <span className={"jf-ico jf-proj " + proj.id} title={"Projeção: " + proj.label}>{proj.seta}</span>}
+    </React.Fragment>
+  );
+}
+/** Números do grupo que está no campo: total, alojados, idades, perna e status do DM. */
+function PainelCampograma({ atletas, verDisp }) {
+  const n = atletas.length;
+  if (!n) return null;
+  const pct = (x) => Math.round((x / n) * 100) + "%";
+  const anos = {};
+  atletas.forEach((a) => { const y = String(a.data_nascimento || "").slice(0, 4); const k = /^\d{4}$/.test(y) ? y : "Sem data"; anos[k] = (anos[k] || 0) + 1; });
+  const aloj = atletas.filter((a) => a.alojamento).length;
+  const casa = atletas.filter((a) => a.alojamento === "Alojamento casa").length;
+  const apto = atletas.filter((a) => a.alojamento === "Alojamento apartamento").length;
+  const destro = atletas.filter((a) => a.perna_dominante === "Destro").length, canhoto = atletas.filter((a) => a.perna_dominante === "Canhoto").length;
+  const st = { verde: 0, amarelo: 0, vermelho: 0 };
+  atletas.forEach((a) => { const s = verDisp && a.disp ? DISPONIBILIDADE[a.disp.status].sinal : a.disp ? DISPONIBILIDADE[a.disp.status].sinal : a.risco; if (st[s] !== undefined) st[s]++; });
+  const aval = atletas.filter((a) => a.em_avaliacao).length;
+  const proj = { sobe: 0, mantem: 0, desce: 0 }; atletas.forEach((a) => { if (proj[a.projecao] !== undefined) proj[a.projecao]++; });
+  return (
+    <div className="campograma-painel" aria-label="Números do grupo">
+      <div className="cg-item"><b>{n}</b><span>atletas</span></div>
+      <div className="cg-item"><b>{aloj}</b><span>alojados ({pct(aloj)})<small>{casa} casa · {apto} apto.</small></span></div>
+      <div className="cg-item cg-anos"><span className="cg-rot">Idades (nascimento)</span><span className="cg-barras">{Object.keys(anos).sort().map((y) => <span key={y} className="cg-barra" title={y + ": " + anos[y]}><i style={{ width: pct(anos[y]) }}></i><em>{y}</em><b>{pct(anos[y])}</b></span>)}</span></div>
+      <div className="cg-item"><span className="cg-rot">Status DM</span><span className="cg-status"><i className="v"></i>{st.verde}<i className="a"></i>{st.amarelo}<i className="r"></i>{st.vermelho}</span></div>
+      <div className="cg-item"><span className="cg-rot">Perna</span><span>{destro} destros · {canhoto} canhotos</span></div>
+      <div className="cg-item"><span className="cg-rot">Projeção</span><span><em className="proj-seta sobe">↑</em>{proj.sobe} <em className="proj-seta mantem">–</em>{proj.mantem} <em className="proj-seta desce">↓</em>{proj.desce}</span></div>
+      {aval > 0 && <div className="cg-item"><b>{aval}</b><span>em avaliação</span></div>}
+    </div>
+  );
+}
+function TabelaFichaAtleta({ a }) {
+  const curta = (iso) => { const f = formatarData(iso); return f.length === 10 ? f.slice(0, 6) + f.slice(8) : f; }; // 13/04/11
+  const linhas = [
+    ["Nascimento", a.data_nascimento ? curta(a.data_nascimento) : ""],
+    ["Chegada", a.data_chegada ? curta(a.data_chegada) : ""],
+    ["Contrato", tipoVinculo(a.vinculo)],
+    ["Término", a.vinculo_fim ? curta(a.vinculo_fim) : ""],
+  ];
+  return (
+    <span className="jf-tabela">
+      {linhas.map(([r, v]) => <span key={r} className="jf-linha"><i>{r}</i><b>{v || "—"}</b></span>)}
+    </span>
+  );
+}
+
 function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoInicial }) {
   const { useState } = React;
   const times = [
@@ -6268,8 +6393,16 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
   const temDisp = todosComSinal.some((a) => a.disp);
   const [modo, setModo] = useState(modoInicial === "disponibilidade" ? "disponibilidade" : "semaforo");
   const verDisp = modo === "disponibilidade" && temDisp;
+  // Campograma: "ficha" (card com a tabela) ou "bolinha" (só a foto, mais compacto)
+  const [vista, setVistaEstado] = useState(() => { try { return localStorage.getItem("meuct:vistaCampo") || "ficha"; } catch (e) { return "ficha"; } });
+  const setVista = (v) => { setVistaEstado(v); try { localStorage.setItem("meuct:vistaCampo", v); } catch (e) { /* sem armazenamento */ } };
+  // Filtro por ano de nascimento dentro da categoria (Todos, 2010, 2011...)
+  const [anoCampo, setAnoCampo] = useState("");
+  React.useEffect(() => { setAnoCampo(""); }, [timeAtivo]);
 
-  const doTime = atletasComSinal.filter((a) => atletaNaCategoria(a, timeAtivo));
+  const doTimeTodos = atletasComSinal.filter((a) => atletaNaCategoria(a, timeAtivo));
+  const anosDoTime = [...new Set(doTimeTodos.map((a) => String(a.data_nascimento || "").slice(0, 4)).filter((y) => /^\d{4}$/.test(y)))].sort();
+  const doTime = anoCampo ? doTimeTodos.filter((a) => String(a.data_nascimento || "").slice(0, 4) === anoCampo) : doTimeTodos;
   const semTime = atletasComSinal.filter((a) => !categoriasDoAtleta(a).some((c) => IDS_CATEGORIAS.includes(c)));
   const { linhas, semPosicao } = montarLinhasCampo(doTime);
   const banco = [...semPosicao, ...semTime];
@@ -6284,12 +6417,13 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
     const situacao = verDisp && d.disp ? DISPONIBILIDADE[d.disp.status].label + (d.disp.motivos.length ? ": " + d.disp.motivos.join("; ") : "") : rotuloSinal(d.risco);
     const dica = `${d.nome}${d.posicao ? " · " + d.posicao : ""}${outras ? " (também joga: " + outras + ")" : ""} · ${situacao}`;
     return (
-      <button key={d.id} type="button" className={"jogador" + (verDisp && d.disp && d.disp.status === "fora" ? " fora" : "")} onClick={() => onOpenAtleta(d.id)} title={dica} aria-label={dica}>
-        <span className="jogador-foto">
+      <button key={d.id} type="button" className={"jogador" + (vista === "ficha" ? " ficha" : "") + (verDisp && d.disp && d.disp.status === "fora" ? " fora" : "")} onClick={() => onOpenAtleta(d.id)} title={dica} aria-label={dica}>
+        <span className={"jogador-foto" + anelAtleta(d, sinalDe(d))}>
           {d.foto ? <img loading="lazy" decoding="async" src={d.foto} alt="" /> : iniciaisAtleta(d)}
-          <span className={"jogador-sinal " + sinalDe(d)}></span>
+          <IconesAtletaCampo a={d} />
         </span>
         <span className="jogador-nome">{nomeCurtoAtleta(d)}</span>
+        {vista === "ficha" ? <TabelaFichaAtleta a={d} /> : d.data_nascimento ? <span className="jogador-nasc">{formatarData(d.data_nascimento)}</span> : null}
         <span className="jogador-pos">{SIGLA_POSICAO[d.posicao] || ""}{outras ? " +" : ""}{d.em_avaliacao ? <SeloAvaliacao atleta={d} curto /> : null}{d.alerta ? <SeloAlerta alerta={d.alerta} curto /> : null}{d.nRestr ? <span className="selo-restr" title={d.nRestr + " restrição(ões) hoje"}>R</span> : null}</span>
         {verDisp && <PillDisponibilidade disp={d.disp} />}
       </button>
@@ -6323,6 +6457,22 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
           })}
         </div>
       </div>
+      <div className="pitch-sub-filtro">
+        {anosDoTime.length > 1 && (
+          <div className="pitch-anos" role="group" aria-label="Ano de nascimento">
+            <span className="pitch-anos-rot">Nascidos em</span>
+            {["", ...anosDoTime].map((y) => {
+              const qtd = y ? doTimeTodos.filter((a) => String(a.data_nascimento || "").slice(0, 4) === y).length : doTimeTodos.length;
+              return <button key={y || "todos"} type="button" className={"pitch-chip" + (anoCampo === y ? " active" : "")} aria-pressed={anoCampo === y} onClick={() => setAnoCampo(y)}>{y || "Todos"}<span className="qtd">{qtd}</span></button>;
+            })}
+          </div>
+        )}
+        <div className="pitch-modo" role="group" aria-label="Como mostrar os atletas">
+          <button type="button" className={vista === "ficha" ? "active" : ""} aria-pressed={vista === "ficha"} onClick={() => setVista("ficha")}>Ficha</button>
+          <button type="button" className={vista === "bolinha" ? "active" : ""} aria-pressed={vista === "bolinha"} onClick={() => setVista("bolinha")}>Bolinha</button>
+        </div>
+      </div>
+      <PainelCampograma atletas={doTime} verDisp={verDisp} />
 
       {verFiltros && (
         <div className="pitch-filtros" role="region" aria-label="Filtros do elenco">
@@ -7740,7 +7890,17 @@ const POSICOES = POSICOES_DETALHE.map((p) => p.nome);
    Restritos (Serviço Social, Diretoria e admin): CPF, e-mail, telefone, data do BID, vigência, status do vínculo e representante. */
 const COL_ATLETAS_PRIVADO = "ct_atletas_privado";
 const CAMPOS_PRIVADOS_ATLETA = ["cpf", "email", "telefone", "data_bid", "vigencia_final", "status_vinculo", "representante", "unimed_numero", "unimed_validade"];
-const STATUS_VINCULO = ["Vínculo não profissional", "Contrato profissional", "Sem vínculo", "Empréstimo", "Outro"];
+const STATUS_VINCULO = ["Amador", "Profissional", "Empréstimo", "Sem vínculo"];
+/** Tipo de vínculo com os nomes atuais (os cadastros antigos usavam "Vínculo não profissional" e "Contrato profissional"). */
+function tipoVinculo(v) {
+  const t = String(v || "").trim();
+  if (!t) return "";
+  if (/n[aã]o\s*profission|amador|forma[cç][aã]o/i.test(t)) return "Amador";
+  if (/empr[eé]st/i.test(t)) return "Empréstimo";
+  if (/sem\s*v[ií]nculo/i.test(t)) return "Sem vínculo";
+  if (/profission/i.test(t)) return "Profissional";
+  return t;
+}
 function podeVerDadosPessoais(usuario) { return temPermissao(usuario || usuarioLogadoGlobal, "social"); }
 async function carregarPrivadoAtleta(atletaId) {
   if (!atletaId || !podeVerDadosPessoais()) return {};
@@ -7760,6 +7920,9 @@ async function salvarAtletaComPrivado(atletaId, campos, extrasNovo) {
     const limpo = {};
     CAMPOS_PRIVADOS_ATLETA.forEach((k) => { if (_privado[k] !== undefined) limpo[k] = _privado[k]; });
     await db.collection(COL_ATLETAS_PRIVADO).doc(id).set({ ...limpo, atualizado_por: uidAtual(), atualizado_em: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+    // O card do atleta (campograma) mostra o tipo de vínculo e o término para a comissão; CPF, contato e o resto continuam restritos.
+    if (_privado.status_vinculo !== undefined || _privado.vigencia_final !== undefined)
+      await db.collection(COL_ATLETAS).doc(id).update({ vinculo: tipoVinculo(_privado.status_vinculo), vinculo_fim: _privado.vigencia_final || "" });
   }
   return id;
 }
@@ -7830,7 +7993,7 @@ async function lerRelacaoDocx(arquivo) {
         altura: alt ? (alt > 3 ? alt / 100 : alt) : null, peso: peso || null, perna_dominante: pe,
         camisa: (r.camisa || "").trim(), registro_cbf: (r.cbf || "").trim(), registro_fpf: (r.fpf || "").trim() },
       priv: { cpf: (r.cpf || "").trim(), email: (r.email || "").trim().toLowerCase(), telefone: (r.telefone || "").trim(), data_bid: dataBrParaIso(r.bid) || "",
-        vigencia_final: dataBrParaIso(r.vigencia) || "", status_vinculo: /profissional/i.test(r.status || "") ? (/n[aã]o/i.test(r.status) ? "Vínculo não profissional" : "Contrato profissional") : (r.status || "").trim(),
+        vigencia_final: dataBrParaIso(r.vigencia) || "", status_vinculo: tipoVinculo(r.status || "").trim(),
         representante: /^n[aã]o( tem)?$/i.test((r.representante || "").trim()) ? "" : (r.representante || "").trim() },
       categoria: categoriaPorAno(nasc),
     };
@@ -7952,7 +8115,7 @@ async function baixarRelacaoAtletasPdf(atletas, usuario, categoria) {
     const linhasFicha = [
       [["Posição", [a.posicao, a.posicao_secundaria].filter(Boolean).join(" / ")], ["Nascimento", a.data_nascimento ? formatarData(a.data_nascimento) : ""], ["Altura", fmtAltura(a.altura)], ["Peso", fmtPeso(a.peso)], ["Destro ou canhoto", a.perna_dominante]],
       [["Camisa", a.camisa], ["CBF", a.registro_cbf], ["FPF", a.registro_fpf], ...(comPriv ? [["CPF", p.cpf], ["Telefone", p.telefone]] : [["Categoria", rotuloCategoriasAtleta(a)], ["", ""]])],
-      ...(comPriv ? [[["E-mail", p.email], ["Data BID", p.data_bid ? formatarData(p.data_bid) : ""], ["Vigência final", p.vigencia_final ? formatarData(p.vigencia_final) : ""], ["Status", p.status_vinculo], ["Representante", p.representante]]] : []),
+      ...(comPriv ? [[["E-mail", p.email], ["Data BID", p.data_bid ? formatarData(p.data_bid) : ""], ["Vigência final", p.vigencia_final ? formatarData(p.vigencia_final) : ""], ["Tipo de vínculo", tipoVinculo(p.status_vinculo)], ["Representante", p.representante]]] : []),
     ];
     const hCard = 7 + linhasFicha.length * 9.5 + 3;
     if (cat !== catAtual) { r2Secao(ctx, cat, { reservar: hCard }); catAtual = cat; }
@@ -7990,6 +8153,8 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
   const [alojamento, setAlojamento] = useState(atleta ? atleta.alojamento || "" : "");
   const [dataChegada, setDataChegada] = useState(atleta ? atleta.data_chegada || "" : "");
   const [pernaDominante, setPernaDominante] = useState(atleta ? atleta.perna_dominante || "" : "");
+  const [projecao, setProjecao] = useState(atleta ? atleta.projecao || "" : "");
+  const catAuto = React.useRef(false);
   const [acertoDireita, setAcertoDireita] = useState(atleta && atleta.percentual_acerto_perna_direita != null ? String(atleta.percentual_acerto_perna_direita) : "");
   const [acertoEsquerda, setAcertoEsquerda] = useState(atleta && atleta.percentual_acerto_perna_esquerda != null ? String(atleta.percentual_acerto_perna_esquerda) : "");
   const [clubes, setClubes] = useState(atleta && atleta.historico_clubes ? atleta.historico_clubes : []);
@@ -8013,7 +8178,7 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
   React.useEffect(() => { if (atleta && atleta.id && verPessoais) carregarPrivadoAtleta(atleta.id).then((d) => setPriv(d || {})); }, [atleta && atleta.id]);
   const setP = (k) => (e) => { const v = e.target.value; setPriv((x) => ({ ...x, [k]: v })); };
   const [salvando, setSalvando] = useState(false);
-  const rasc = useRascunhoCampos("atleta:" + (atleta ? atleta.id : "novo"), { nome: [nome, setNome], apelido: [apelido, setApelido], categoria: [categoria, setCategoria], catExtras: [catExtras, setCatExtras], posicao: [posicao, setPosicao], posicaoSecundaria: [posicaoSecundaria, setPosicaoSecundaria], posicaoTerciaria: [posicaoTerciaria, setPosicaoTerciaria], dataNascimento: [dataNascimento, setDataNascimento], registroFpf: [registroFpf, setRegistroFpf], localidade: [localidade, setLocalidade], alojamento: [alojamento, setAlojamento], dataChegada: [dataChegada, setDataChegada], pernaDominante: [pernaDominante, setPernaDominante], acertoDireita: [acertoDireita, setAcertoDireita], acertoEsquerda: [acertoEsquerda, setAcertoEsquerda], clubes: [clubes, setClubes], tipoSanguineo: [tipoSanguineo, setTipoSanguineo], alergias: [alergias, setAlergias], condicoesCronicas: [condicoesCronicas, setCondicoesCronicas], medicacoesContinuas: [medicacoesContinuas, setMedicacoesContinuas], contatoEmergenciaNome: [contatoEmergenciaNome, setContatoEmergenciaNome], contatoEmergenciaTelefone: [contatoEmergenciaTelefone, setContatoEmergenciaTelefone], altura: [altura, setAltura], peso: [peso, setPeso], camisa: [camisa, setCamisa], registroCbf: [registroCbf, setRegistroCbf], emAval: [emAval, setEmAval], avIni: [avIni, setAvIni], avFim: [avFim, setAvFim], avOrigem: [avOrigem, setAvOrigem], avObs: [avObs, setAvObs] });
+  const rasc = useRascunhoCampos("atleta:" + (atleta ? atleta.id : "novo"), { nome: [nome, setNome], apelido: [apelido, setApelido], categoria: [categoria, setCategoria], catExtras: [catExtras, setCatExtras], posicao: [posicao, setPosicao], posicaoSecundaria: [posicaoSecundaria, setPosicaoSecundaria], posicaoTerciaria: [posicaoTerciaria, setPosicaoTerciaria], dataNascimento: [dataNascimento, setDataNascimento], registroFpf: [registroFpf, setRegistroFpf], localidade: [localidade, setLocalidade], alojamento: [alojamento, setAlojamento], dataChegada: [dataChegada, setDataChegada], pernaDominante: [pernaDominante, setPernaDominante], projecao: [projecao, setProjecao], acertoDireita: [acertoDireita, setAcertoDireita], acertoEsquerda: [acertoEsquerda, setAcertoEsquerda], clubes: [clubes, setClubes], tipoSanguineo: [tipoSanguineo, setTipoSanguineo], alergias: [alergias, setAlergias], condicoesCronicas: [condicoesCronicas, setCondicoesCronicas], medicacoesContinuas: [medicacoesContinuas, setMedicacoesContinuas], contatoEmergenciaNome: [contatoEmergenciaNome, setContatoEmergenciaNome], contatoEmergenciaTelefone: [contatoEmergenciaTelefone, setContatoEmergenciaTelefone], altura: [altura, setAltura], peso: [peso, setPeso], camisa: [camisa, setCamisa], registroCbf: [registroCbf, setRegistroCbf], emAval: [emAval, setEmAval], avIni: [avIni, setAvIni], avFim: [avFim, setAvFim], avOrigem: [avOrigem, setAvOrigem], avObs: [avObs, setAvObs] });
 
   function atualizarClube(i, novo) {
     setClubes((prev) => prev.map((c, idx) => (idx === i ? novo : c)));
@@ -8044,6 +8209,7 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
         quarto: atleta && atleta.quarto && ALOJAMENTOS.includes(alojamento) && (quartoPorId(atleta.quarto) || {}).grupo && quartoPorId(atleta.quarto).grupo.aloj === alojamento ? atleta.quarto : "",
         data_chegada: dataChegada || null,
         perna_dominante: pernaDominante,
+        projecao: PROJECOES.some((x) => x.id === projecao) ? projecao : "",
         percentual_acerto_perna_direita: acertoDireita === "" ? null : Number(acertoDireita),
         percentual_acerto_perna_esquerda: acertoEsquerda === "" ? null : Number(acertoEsquerda),
         historico_clubes: clubes.filter((c) => c.clube.trim() !== ""),
@@ -8062,7 +8228,7 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
         avaliacao_fim: emAval ? avFim || null : (atleta && atleta.avaliacao_fim) || null,
         avaliacao_origem: avOrigem.trim(),
         avaliacao_obs: avObs.trim(),
-        ...(verPessoais ? { _privado: Object.fromEntries(CAMPOS_PRIVADOS_ATLETA.map((k) => [k, String(priv[k] || "").trim()])) } : {}),
+        ...(verPessoais ? { _privado: Object.fromEntries(CAMPOS_PRIVADOS_ATLETA.map((k) => [k, k === "status_vinculo" ? tipoVinculo(priv[k]) : String(priv[k] || "").trim()])) } : {}),
       }));
     } finally {
       setSalvando(false);
@@ -8074,6 +8240,12 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
       {rasc.faixa}
       <div className="form-grid">
         <div className="field"><label>Nome completo</label><input type="text" value={nome} onChange={(e) => setNome(e.target.value)} /></div>
+        <div className="field"><label>Data de nascimento</label><input type="date" value={dataNascimento} onChange={(e) => {
+          const v = e.target.value; setDataNascimento(v);
+          // Preenche a categoria pela idade, enquanto ninguém escolheu outra à mão
+          const cat = categoriaPorNascimento(v);
+          if (cat && (!categoria || catAuto.current)) { setCategoria(cat); catAuto.current = true; }
+        }} />{catAuto.current && categoria ? <small className="muted">Categoria {categoria} pela data de nascimento</small> : null}</div>
         <div className="field"><label>Apelido (opcional)</label><input type="text" placeholder="Como o atleta é chamado no dia a dia" value={apelido} onChange={(e) => setApelido(e.target.value)} /></div>
       </div>
       <div className={"aval-caixa" + (emAval ? " on" : "")}>
@@ -8089,7 +8261,7 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
       </div>
       <div className="form-grid">
         <div className="field"><label>Categoria</label>
-          <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
+          <select value={categoria} onChange={(e) => { catAuto.current = false; setCategoria(e.target.value); }}>
             <option value="">—</option>
             {CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.label}>{c.label}</option>)}
             {categoria && !CATEGORIAS_TIME.some((c) => c.label === categoria) && <option value={categoria}>{categoria}</option>}
@@ -8132,7 +8304,6 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
         </div>
       </div>
       <div className="form-grid">
-        <div className="field"><label>Data de nascimento</label><input type="date" value={dataNascimento} onChange={(e) => setDataNascimento(e.target.value)} /></div>
         <div className="field"><label>Altura (m)</label><input type="text" inputMode="decimal" placeholder="Ex.: 1,78" value={altura} onChange={(e) => setAltura(e.target.value)} /></div>
         <div className="field"><label>Peso (kg)</label><input type="text" inputMode="decimal" placeholder="Ex.: 68,5" value={peso} onChange={(e) => setPeso(e.target.value)} /></div>
       </div>
@@ -8142,6 +8313,11 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
         <div className="field"><label>Registro FPF (nº)</label><input type="text" inputMode="numeric" maxLength={12} placeholder="Ex.: 501278" value={registroFpf} onChange={(e) => setRegistroFpf(e.target.value)} /></div>
         <div className="field"><label>Localidade</label><input type="text" placeholder="Cidade / bairro" value={localidade} onChange={(e) => setLocalidade(e.target.value)} /></div>
         <div className="field"><label>Chegou ao clube em</label><input type="date" value={dataChegada} max={hojeISO()} onChange={(e) => setDataChegada(e.target.value)} /></div>
+        <div className="field"><label>Projeção</label>
+          <div className="sinal-opcoes aloj-opcoes">
+            {[{ id: "", label: "Sem avaliar" }, ...PROJECOES].map((o) => <div key={o.id || "nada"} className={"sinal-opt" + (projecao === o.id ? " on" : "")} role="button" tabIndex={0} onClick={() => setProjecao(o.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setProjecao(o.id); } }}>{o.id ? <span className={"proj-seta " + o.id} aria-hidden="true">{o.seta}</span> : null}{o.label}</div>)}
+          </div>
+        </div>
         <div className="field"><label>Alojamento</label>
           <div className="sinal-opcoes aloj-opcoes">
             {[["", "Não alojado"], ...ALOJAMENTOS.map((x) => [x, x])].map(([v, rot]) => <div key={v || "nao"} className={"sinal-opt" + (alojamento === v ? " on" : "")} role="button" tabIndex={0} onClick={() => setAlojamento(v)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setAlojamento(v); }}>{rot}</div>)}
@@ -8159,11 +8335,11 @@ function FormAtleta({ atleta, onSalvar, onCancelar, emAvaliacaoPadrao }) {
           <div className="form-grid">
             <div className="field"><label>Data do BID</label><input type="date" value={priv.data_bid || ""} onChange={setP("data_bid")} /></div>
             <div className="field"><label>Vigência final</label><input type="date" value={priv.vigencia_final || ""} onChange={setP("vigencia_final")} /></div>
-            <div className="field"><label>Status</label>
-              <select value={priv.status_vinculo || ""} onChange={setP("status_vinculo")}>
+            <div className="field"><label>Tipo de vínculo</label>
+              <select value={STATUS_VINCULO.includes(tipoVinculo(priv.status_vinculo)) ? tipoVinculo(priv.status_vinculo) : (priv.status_vinculo || "")} onChange={setP("status_vinculo")}>
                 <option value="">—</option>
                 {STATUS_VINCULO.map((x) => <option key={x} value={x}>{x}</option>)}
-                {priv.status_vinculo && !STATUS_VINCULO.includes(priv.status_vinculo) && <option value={priv.status_vinculo}>{priv.status_vinculo}</option>}
+                {priv.status_vinculo && !STATUS_VINCULO.includes(priv.status_vinculo) && !STATUS_VINCULO.includes(tipoVinculo(priv.status_vinculo)) && <option value={priv.status_vinculo}>{priv.status_vinculo}</option>}
               </select>
             </div>
             <div className="field"><label>Representante</label><input type="text" placeholder="Empresário ou agência (deixe em branco se não tem)" value={priv.representante || ""} onChange={setP("representante")} /></div>
@@ -8841,7 +9017,7 @@ function FichaAtleta({ atleta, onEditar }) {
             <div className="ficha-item"><div className="ficha-label">Telefone</div><div className="ficha-valor">{priv.telefone || "—"}</div></div>
             <div className="ficha-item"><div className="ficha-label">Data do BID</div><div className="ficha-valor">{priv.data_bid ? formatarData(priv.data_bid) : "—"}</div></div>
             <div className="ficha-item"><div className="ficha-label">Vigência final</div><div className="ficha-valor">{priv.vigencia_final ? formatarData(priv.vigencia_final) : "—"}</div></div>
-            <div className="ficha-item"><div className="ficha-label">Status</div><div className="ficha-valor">{priv.status_vinculo || "—"}</div></div>
+            <div className="ficha-item"><div className="ficha-label">Tipo de vínculo</div><div className="ficha-valor">{tipoVinculo(priv.status_vinculo) || "—"}</div></div>
             <div className="ficha-item"><div className="ficha-label">Representante</div><div className="ficha-valor">{priv.representante || "Não tem"}</div></div>
           </div>
           <CartaoUnimed priv={priv} />
@@ -18212,12 +18388,13 @@ function CampoConvocacao({ atletas, selecao, onToggle, onOpen, extras, titulo, s
     return (
       <button key={d.id} type="button" className={classe} title={dica} aria-label={dica} aria-pressed={modoSelecao ? !!estado : undefined}
         onClick={() => (modoSelecao ? onToggle(d.id) : onOpen && onOpen(d.id))}>
-        <span className="jogador-foto">
+        <span className={"jogador-foto" + anelAtleta(d, sinal)}>
           {d.foto ? <img loading="lazy" decoding="async" src={d.foto} alt="" /> : iniciaisAtleta(d)}
-          {sinal && <span className={"jogador-sinal " + sinal}></span>}
+          <IconesAtletaCampo a={d} />
           {estado && <span className={"jogador-selo " + estado}>{estado === "titular" ? "T" : "R"}</span>}
         </span>
         <span className="jogador-nome">{nomeCurtoAtleta(d)}</span>
+        {d.data_nascimento && <span className="jogador-nasc">{formatarData(d.data_nascimento)}</span>}
         <span className="jogador-pos">{SIGLA_POSICAO[d.posicao] || ""}{d.em_avaliacao ? <SeloAvaliacao atleta={d} curto /> : null}</span>
         <PillDisponibilidade disp={disp} />
         {extras && extras[d.id] && <span className="jogador-extra">{extras[d.id]}</span>}
@@ -19750,7 +19927,7 @@ function calcularVencimentos(atletas, privados, medicinaData, comPrivado, comPPE
       const d = diasEntreIso(hoje, p.vigencia_final);
       if (d <= 60) lista.push({ id: "vig-" + a.id, atletaId: a.id, nome, cat, tipo: "Contrato", texto: d < 0 ? "Vigência venceu em " + formatarData(p.vigencia_final) : "Vigência termina em " + formatarData(p.vigencia_final), dias: d, nivel: d < 0 ? "vermelho" : d <= 30 ? "amarelo" : "neutro" });
     }
-    if (comPrivado && !a.em_avaliacao && !p.data_bid && /profissional|empr/i.test(p.status_vinculo || "")) lista.push({ id: "bid-" + a.id, atletaId: a.id, nome, cat, tipo: "BID", texto: "Sem data de BID registrada (" + p.status_vinculo + ")", dias: 0, nivel: "amarelo" });
+    if (comPrivado && !a.em_avaliacao && !p.data_bid && /profissional|empr|amador/i.test(tipoVinculo(p.status_vinculo))) lista.push({ id: "bid-" + a.id, atletaId: a.id, nome, cat, tipo: "BID", texto: "Sem data de BID registrada (" + p.status_vinculo + ")", dias: 0, nivel: "amarelo" });
     if (comPPE) {
       const ppe = calcularStatusPPE((medicinaData || {})[a.id]);
       if (ppe.status === "vencido" || ppe.status === "vencendo") lista.push({ id: "ppe-" + a.id, atletaId: a.id, nome, cat, tipo: "PPE", texto: ppe.status === "vencido" ? "PPE vencido há " + Math.abs(ppe.dias) + " dia(s)" : "PPE vence em " + ppe.dias + " dia(s)", dias: ppe.dias, nivel: ppe.status === "vencido" ? "vermelho" : "amarelo" });
@@ -24426,7 +24603,7 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
         selecao={selecao}
         onToggle={alternar}
         titulo={categoriasDoJogo.length > 1 ? "Elenco" : labelCategoriaEvento(timeAtivo)}
-        subtitulo="Toque para convocar. A cor do ponto é a disponibilidade de hoje."
+        subtitulo="Toque para convocar. A cor do anel é a disponibilidade de hoje."
         controles={categoriasDoJogo.length > 1 ? categoriasDoJogo.map((c) => (
           <button key={c} type="button" className={"pitch-chip" + (timeAtivo === c ? " active" : "")} onClick={() => setTimeAtivo(c)}>{labelCategoriaEvento(c)}</button>
         )) : null}
@@ -26374,10 +26551,47 @@ function CategoriasExtrasTreino({ ev, setEv }) {
     </div>
   );
 }
-function atletasDoTreino(atletas, categoria, extras) {
+/** Atletas do treino: os da categoria (e das categorias que treinam junto), mais os chamados um a um de outra categoria.
+ *  Atletas em avaliação da categoria entram também (aparecem com o selo AV). */
+function atletasDoTreino(atletas, categoria, extras, avulsos) {
   const cats = [categoria, ...(extras || [])].filter(Boolean);
-  return (atletas || []).filter((a) => !a.inativo && (!categoria || categoria === "ambas" || cats.some((c) => atletaNaCategoria(a, c))))
+  const ids = new Set(avulsos || []);
+  return (atletas || []).filter((a) => !a.inativo && (!categoria || categoria === "ambas" || ids.has(a.id) || cats.some((c) => atletaNaCategoria(a, c))))
     .sort((x, y) => nomeExibicao(x).localeCompare(nomeExibicao(y), "pt-BR"));
+}
+/** Chamar atletas de outra categoria para este treino, um a um. */
+function AtletasAvulsosTreino({ ev, setEv, atletas }) {
+  const [busca, setBusca] = useState("");
+  if (!ev.categoria || ev.categoria === "ambas") return null;
+  const cats = [ev.categoria, ...(ev.categorias_extras || [])];
+  const ids = ev.atletas_extras || [];
+  const porId = (id) => (atletas || []).find((a) => a.id === id);
+  const q = normalizarBusca(busca.trim());
+  const opcoes = q.length < 2 ? [] : (atletas || []).filter((a) => !a.inativo && !ids.includes(a.id) && !cats.some((c) => atletaNaCategoria(a, c))
+    && normalizarBusca([a.nome, a.apelido].filter(Boolean).join(" ")).includes(q)).slice(0, 8);
+  const mudar = (lista) => setEv((x) => ({ ...x, atletas_extras: lista }));
+  return (
+    <div className="field avulsos-treino"><label>Atletas de outra categoria (opcional)</label>
+      {ids.length > 0 && (
+        <div className="avulsos-lista">{ids.map((id) => { const a = porId(id); if (!a) return null; return (
+          <span key={id} className="avulso-chip">
+            <span className="mini">{a.foto ? <img loading="lazy" decoding="async" src={a.foto} alt="" /> : iniciaisAtleta(a)}</span>
+            {nomeExibicao(a)}<small>{rotuloCategoriasAtleta(a)}</small>
+            <button type="button" aria-label={"Tirar " + nomeExibicao(a) + " do treino"} onClick={() => mudar(ids.filter((x) => x !== id))}>×</button>
+          </span>
+        ); })}</div>
+      )}
+      <input type="search" value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Digite o nome para chamar alguém de outra categoria" />
+      {opcoes.length > 0 && (
+        <div className="avulsos-opcoes">{opcoes.map((a) => (
+          <button key={a.id} type="button" className="avulso-opcao" onClick={() => { mudar([...ids, a.id]); setBusca(""); }}>
+            <span className={"mini" + anelAtleta(a)}>{a.foto ? <img loading="lazy" decoding="async" src={a.foto} alt="" /> : iniciaisAtleta(a)}</span>
+            <span><b>{nomeExibicao(a)}</b><small>{[rotuloCategoriasAtleta(a), SIGLA_POSICAO[a.posicao] || a.posicao, a.data_nascimento ? formatarData(a.data_nascimento) : ""].filter(Boolean).join(" · ")}</small></span>
+          </button>
+        ))}</div>
+      )}
+    </div>
+  );
 }
 
 /* ---------- Campo (medidas oficiais, em metros) ---------- */
@@ -27334,7 +27548,7 @@ function EditorTreino({ evento, atletas, usuario, onFechar, area, categoriaPadra
   const fisico = ev.area === "fisico";
   const addBloco = () => setPlano((p) => ({ ...p, blocos: [...p.blocos, fisico ? blocoFisicoVazio(p.blocos.length === 0 ? "Aquecimento" : "Parte principal") : blocoTreinoVazio(p.blocos.length === 0 ? "Aquecimento" : "Técnico")] }));
 
-  const elenco = atletasDoTreino(atletas, ev.categoria, ev.categorias_extras);
+  const elenco = atletasDoTreino(atletas, ev.categoria, ev.categorias_extras, ev.atletas_extras);
   const rel = plano.relatorio;
   function ligarRelatorio(ligado) {
     setPlano((p) => ({ ...p, relatorio: ligado ? (p.relatorio || { duracao_realizada: duracaoPlano(p), avaliacao: "bom", observacoes: "", presenca: {} }) : null }));
@@ -27393,6 +27607,7 @@ function EditorTreino({ evento, atletas, usuario, onFechar, area, categoriaPadra
               </select>
             </div>
             <CategoriasExtrasTreino ev={ev} setEv={setEv} />
+            <AtletasAvulsosTreino ev={ev} setEv={setEv} atletas={atletas} />
           </div>
           <div className="form-grid treino-grid-3">
             <div className="field"><label>Data</label><input type="date" value={ev.data || ""} onChange={setCampo("data")} /></div>
@@ -27479,7 +27694,7 @@ function EditorTreino({ evento, atletas, usuario, onFechar, area, categoriaPadra
               <div className="treino-presenca">
                 {elenco.map((a) => (
                   <div key={a.id} className={"treino-presenca-linha p-" + presencaDe(a.id)} data-linha-teclado>
-                    <span className="nome">{nomeExibicao(a)}<small>{SIGLA_POSICAO[a.posicao] || a.posicao || ""}</small></span>
+                    <span className="nome">{nomeExibicao(a)}{a.em_avaliacao ? <SeloAvaliacao atleta={a} curto /> : null}<small>{[SIGLA_POSICAO[a.posicao] || a.posicao || "", ev.atletas_extras && ev.atletas_extras.includes(a.id) ? "outra categoria" : ""].filter(Boolean).join(" · ")}</small></span>
                     <span className="opcoes">
                       {PRESENCA_TREINO.map((p) => <button key={p.id} type="button" data-tecla={TECLA_PRESENCA[p.id]} title={p.label + " (" + TECLA_PRESENCA[p.id] + ")"} className={presencaDe(a.id) === p.id ? "on " + p.id : ""} onClick={() => setRel({ presenca: { ...(rel.presenca || {}), [a.id]: p.id } })}>{p.label}</button>)}
                     </span>
@@ -27690,7 +27905,13 @@ function SeletorAtletas({ titulo, elenco, valor, onChange, bloqueados, compacto,
 }
 
 /** Escolha de vários conteúdos de uma lista: chips escolhidos + caixa de seleção padrão (com definição do glossário). */
-function SeletorConteudos({ rotulo, opcoes, valor, onChange, max, compacto }) {
+/** Espaço de fase de um item: um toque passa por Perto, Médio, Longe e volta para o da atividade. */
+function proximoEspacoFase(atual) {
+  const l = LISTAS_PLANO.espacosFase;
+  const i = l.indexOf(atual);
+  return i === -1 ? l[0] : i === l.length - 1 ? "" : l[i + 1];
+}
+function SeletorConteudos({ rotulo, opcoes, valor, onChange, max, compacto, espacos, onEspaco, espacoPadrao }) {
   const { useState } = React;
   const [aberto, setAberto] = useState(false);
   const lista = valor || [];
@@ -27700,7 +27921,12 @@ function SeletorConteudos({ rotulo, opcoes, valor, onChange, max, compacto }) {
       <div className="seletor-chips seletor-clicavel" role="button" tabIndex={0} onClick={() => setAberto(true)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAberto(true); } }}>
         {lista.map((o) => (
           <span key={o} className="seletor-chip" title={definicaoTermo(o) || o}>
-            {o}<button type="button" onClick={(e) => { e.stopPropagation(); onChange(lista.filter((x) => x !== o)); }} aria-label={"Tirar " + o}>×</button>
+            {o}
+            {onEspaco && (() => { const ef = (espacos || {})[o] || ""; const mostra = ef || espacoPadrao || ""; return (
+              <button type="button" className={"chip-espaco" + (ef ? " on" : "")} title={"Espaço de fase deste item: " + (mostra || "não definido") + ". Toque para trocar."}
+                onClick={(e) => { e.stopPropagation(); onEspaco(o, proximoEspacoFase(ef)); }}>{mostra ? mostra.split(" - ")[0] : "Espaço"}</button>
+            ); })()}
+            <button type="button" onClick={(e) => { e.stopPropagation(); onChange(lista.filter((x) => x !== o)); }} aria-label={"Tirar " + o}>×</button>
           </span>
         ))}
         <span className="seletor-abrir">{lista.length ? "+ adicionar" : "Escolher..."}</span>
@@ -27794,7 +28020,7 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
     return () => window.removeEventListener("keydown", tecla);
   });
 
-  const elenco = atletasDoTreino(atletas, ev.categoria, ev.categorias_extras);
+  const elenco = atletasDoTreino(atletas, ev.categoria, ev.categorias_extras, ev.atletas_extras);
   const rel = plano.relatorio;
   function ligarRelatorio(ligado) {
     setPlano((p) => ({ ...p, relatorio: ligado ? (p.relatorio || { duracao_realizada: duracaoPlanoEcmn(p), presenca: {}, notas: {}, destaques: [], pontos_atencao: [], comentarios: "", observacoes: "" }) : null }));
@@ -27842,6 +28068,11 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
     try { await carregarBiblioteca("pdf"); await baixarFichaTreinoPdf(montar(), atletas, usuario); }
     catch (e) { setErro("Não consegui gerar o PDF: " + e.message); }
   }
+  // Versão detalhada (uma atividade por bloco, com a avaliação da sessão quando houver)
+  async function baixarPdfDetalhado() {
+    try { await carregarBiblioteca("pdf"); await baixarPlanoEcmnPdf(montar(), atletas, usuario); }
+    catch (e) { setErro("Não consegui gerar o PDF: " + e.message); }
+  }
   const L = LISTAS_PLANO;
   const sel = (rotulo, campo, opcoes, max) => <SeletorConteudos rotulo={rotulo} opcoes={opcoes} valor={plano[campo]} onChange={(v) => setP(campo, v)} max={max} />;
 
@@ -27864,6 +28095,7 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
                 <select value={ev.categoria || "sub15"} onChange={(e) => { const v = e.target.value; setEv((x) => ({ ...x, categoria: v, categorias_extras: v === "ambas" ? [] : (x.categorias_extras || []).filter((y) => y !== v) })); }}>{CATEGORIAS_EVENTO.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select>
               </div>
               <CategoriasExtrasTreino ev={ev} setEv={setEv} />
+              <AtletasAvulsosTreino ev={ev} setEv={setEv} atletas={atletas} />
               <div className="field"><label>Sessão nº</label><input type="text" inputMode="numeric" value={plano.sessao_numero} onChange={(e) => setP("sessao_numero", e.target.value)} placeholder="Ex.: 12" /></div>
             </div>
           </div>
@@ -27981,15 +28213,15 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
 
                 <div className="plano-subtitulo">Conteúdos</div>
                 <div className="form-grid">
-                  <SeletorConteudos rotulo="Tática coletiva" opcoes={L.taticaColetiva} valor={b.tatica_coletiva} onChange={(v) => setBloco(b.id, { tatica_coletiva: v })} />
-                  <SeletorConteudos rotulo="Tática de grupo" opcoes={L.taticaGrupo} valor={b.tatica_grupo} onChange={(v) => setBloco(b.id, { tatica_grupo: v })} />
+                  <SeletorConteudos rotulo="Tática coletiva" opcoes={L.taticaColetiva} valor={b.tatica_coletiva} onChange={(v) => setBloco(b.id, { tatica_coletiva: v })} espacos={b.espacos} espacoPadrao={b.espaco_fase} onEspaco={(item, v) => setBloco(b.id, { espacos: { ...(b.espacos || {}), [item]: v } })} />
+                  <SeletorConteudos rotulo="Tática de grupo" opcoes={L.taticaGrupo} valor={b.tatica_grupo} onChange={(v) => setBloco(b.id, { tatica_grupo: v })} espacos={b.espacos} espacoPadrao={b.espaco_fase} onEspaco={(item, v) => setBloco(b.id, { espacos: { ...(b.espacos || {}), [item]: v } })} />
                 </div>
                 <div className="form-grid">
-                  <SeletorConteudos rotulo="Técnico-tático individual" opcoes={L.tecnicoIndividual} valor={b.tecnico_individual} onChange={(v) => setBloco(b.id, { tecnico_individual: v })} />
+                  <SeletorConteudos rotulo="Técnico-tático individual" opcoes={L.tecnicoIndividual} valor={b.tecnico_individual} onChange={(v) => setBloco(b.id, { tecnico_individual: v })} espacos={b.espacos} espacoPadrao={b.espaco_fase} onEspaco={(item, v) => setBloco(b.id, { espacos: { ...(b.espacos || {}), [item]: v } })} />
                   <SeletorConteudos rotulo="Comportamental" opcoes={L.comportamentais} valor={b.comportamental} onChange={(v) => setBloco(b.id, { comportamental: v })} />
                 </div>
                 <div className="form-grid">
-                  <div className="field"><label>Espaço de fase</label>
+                  <div className="field"><label>Espaço de fase da atividade <small className="muted">(cada item pode ter o seu: toque no rótulo do item)</small></label>
                     <div className="chips-linha">{L.espacosFase.map((f) => <button key={f} type="button" title={definicaoTermo(f)} className={"chip-filtro" + (b.espaco_fase === f ? " on" : "")} onClick={() => setBloco(b.id, { espaco_fase: b.espaco_fase === f ? "" : f })}>{f}</button>)}</div>
                   </div>
                   <div className="field"><label>Demanda física</label>
@@ -28093,7 +28325,7 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
               <div className="treino-presenca">
                 {elenco.map((a) => (
                   <div key={a.id} className={"treino-presenca-linha p-" + presencaDe(a.id)} data-linha-teclado>
-                    <span className="nome">{nomeExibicao(a)}<small>{SIGLA_POSICAO[a.posicao] || a.posicao || ""}</small></span>
+                    <span className="nome">{nomeExibicao(a)}{a.em_avaliacao ? <SeloAvaliacao atleta={a} curto /> : null}<small>{[SIGLA_POSICAO[a.posicao] || a.posicao || "", ev.atletas_extras && ev.atletas_extras.includes(a.id) ? "outra categoria" : ""].filter(Boolean).join(" · ")}</small></span>
                     <span className="opcoes">{PRESENCA_TREINO.map((p) => <button key={p.id} type="button" data-tecla={TECLA_PRESENCA[p.id]} title={p.label + " (" + TECLA_PRESENCA[p.id] + ")"} className={presencaDe(a.id) === p.id ? "on " + p.id : ""} onClick={() => setRel({ presenca: { ...(rel.presenca || {}), [a.id]: p.id } })}>{p.label}</button>)}</span>
                   </div>
                 ))}
@@ -28109,7 +28341,8 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
       {ok && <div className="access-note"><span>{ok}</span></div>}
       <div className="form-actions treino-acoes-fim">
         <BotaoExcluirEvento evento={ev} rotulo="treino" onExcluido={() => onFechar(true)} />
-        <button className="pill-btn" onClick={baixarPdf}>Baixar PDF do plano</button>
+        <button className="pill-btn" onClick={baixarPdf} title="No modelo da ficha impressa da comissão">Baixar ficha do plano</button>
+        <button className="pill-btn" onClick={baixarPdfDetalhado} title="Uma atividade por bloco, com a avaliação da sessão">PDF detalhado</button>
         <button className="pill-btn" onClick={() => salvar(false)} disabled={salvando}>{salvando ? "Salvando..." : "Salvar"}</button>
         <button className="pill-btn primary" onClick={() => salvar(true)} disabled={salvando}>Salvar e fechar</button>
       </div>
@@ -29734,8 +29967,222 @@ function pdfQuadroTatico(doc, quadro, x, y, w, h) {
   doc.setTextColor(30, 41, 59);
 }
 
+/**
+ * Plano de treino no modelo da ficha impressa da comissão (A4 em pé):
+ * cabeçalho (data, horário, local, dia, categoria), objetivos semanais e da sessão,
+ * e as atividades duas a duas, lado a lado, cada uma com método, volume, espaço, conteúdos com o
+ * espaço de fase de cada item, área relativa, demanda física, distribuição de funções, feedbacks,
+ * o desenho do campo (números = posição), a distribuição de grupos e as anotações.
+ * O que não foi preenchido sai em branco, para completar à mão.
+ */
+async function baixarPlanoFichaPdf(evento, atletas, usuario) {
+  const p = { ...planoEcmnVazio(), ...(evento.plano_treino || {}) };
+  const doc = novoDocPdf();
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  const M = 6, larg = W - 2 * M;
+  const CINZA = [217, 217, 217], CINZA2 = [191, 191, 191], ESCURO = [64, 64, 64], TXT = [30, 30, 30], LINHA = [90, 90, 90];
+  const nomeDe = (id) => { const a = (atletas || []).find((x) => x.id === id); return a ? nomeExibicao(a) : ""; };
+  const T = (t) => textoPdf(String(t === undefined || t === null ? "" : t));
+  doc.setProperties({ title: T("Plano de treino · " + tituloEvento(evento)), creator: "MeuCT · EC Meia Noite SAF" });
+
+  function caixa(x, y, w, h, o) {
+    o = o || {};
+    if (o.fundo) { doc.setFillColor(...o.fundo); doc.rect(x, y, w, h, "F"); }
+    doc.setDrawColor(...LINHA); doc.setLineWidth(o.grossa ? 0.45 : 0.2);
+    if (o.tracejada && doc.setLineDashPattern) doc.setLineDashPattern([0.6, 0.6], 0);
+    doc.rect(x, y, w, h, "S");
+    if (o.tracejada && doc.setLineDashPattern) doc.setLineDashPattern([], 0);
+  }
+  /* texto dentro da caixa: quebra, diminui a fonte se preciso e centraliza */
+  function texto(x, y, w, h, t, o) {
+    o = o || {};
+    t = T(t); if (!t) return;
+    let tam = o.tam || 7;
+    doc.setFont("helvetica", o.negrito ? "bold" : "normal"); doc.setTextColor(...(o.cor || TXT));
+    let linhas;
+    for (;;) { doc.setFontSize(tam); linhas = doc.splitTextToSize(t, w - 1.6); if (linhas.length * tam * 0.36 <= h - 0.6 || tam <= 4.6) break; tam -= 0.4; }
+    const lh = tam * 0.36;
+    const maxL = Math.max(1, Math.floor((h - 0.4) / lh));
+    linhas = linhas.slice(0, maxL);
+    let yy = (o.topo ? y + 0.8 + tam * 0.3 : y + h / 2 - ((linhas.length - 1) * lh) / 2 + tam * 0.12);
+    linhas.forEach((l) => { doc.text(l, o.esq ? x + 0.9 : x + w / 2, yy, o.esq ? undefined : { align: "center" }); yy += lh; });
+  }
+  const cel = (x, y, w, h, t, o) => { caixa(x, y, w, h, o); texto(x, y, w, h, t, o); };
+  const titulo = (x, y, w, h, t, o) => cel(x, y, w, h, t, { fundo: CINZA, negrito: true, tam: 7.4, ...(o || {}) });
+
+  /* ---------- cabeçalho ---------- */
+  function cabecalho(completo) {
+    let y = 5;
+    doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(...TXT);
+    doc.text("PLANO DE TREINO", W / 2, y + 4, { align: "center" });
+    y += 6;
+    const d = String(evento.data || "").split("-");
+    const h = String(evento.hora || "").split(":");
+    const hC = 11;
+    // DATA | HORÁRIO | escudo | LOCAL | DIA | CATEGORIA
+    const wData = 42, wHora = 34, wEsc = 14, wDia = 28, wCat = 26, wLocal = larg - wData - wHora - wEsc - wDia - wCat;
+    let x = M;
+    titulo(x, y, wData, 5, "DATA"); [d[2] || "", d[1] || "", d[0] || ""].forEach((v, i) => cel(x + i * wData / 3, y + 5, wData / 3, hC - 5, v, { tam: 8 })); x += wData;
+    titulo(x, y, wHora, 5, "HORÁRIO"); [h[0] || "", h[1] || ""].forEach((v, i) => cel(x + i * wHora / 2, y + 5, wHora / 2, hC - 5, v, { tam: 8 })); x += wHora;
+    try { doc.addImage(ESCUDO_MEIA_NOITE, "PNG", x + 1.5, y + 0.2, wEsc - 3, wEsc - 3, "escudo-meia-noite", "FAST"); } catch (e) { /* sem escudo */ }
+    x += wEsc;
+    titulo(x, y, wLocal, 5, "LOCAL"); cel(x, y + 5, wLocal, hC - 5, evento.local || "", { tam: 8 }); x += wLocal;
+    titulo(x, y, wDia, 5, "DIA DA SEMANA"); cel(x, y + 5, wDia, hC - 5, evento.data ? diaSemanaExtenso(evento.data).replace("-feira", "") : "", { tam: 8 }); x += wDia;
+    titulo(x, y, wCat, 5, "CATEGORIA"); cel(x, y + 5, wCat, hC - 5, labelCategoriaEvento(evento.categoria).toUpperCase(), { tam: 8 });
+    y += hC + 1.5;
+    if (!completo) return y;
+
+    // OBJETIVOS (SEMANAL) à esquerda, OBJETIVOS (SESSÃO) à direita
+    const wE = larg * 0.44, gap = 2, wD = larg - wE - gap, xD = M + wE + gap;
+    const hObj = 48;
+    titulo(M, y, wE, 5, "OBJETIVOS (SEMANAL)");
+    titulo(M, y + 5, wE, 4.5, "DESCRIÇÃO DOS OBJETIVOS SEMANAIS", { fundo: [236, 236, 236], tam: 6.6 });
+    cel(M, y + 9.5, wE, hObj - 9.5 - 10, p.objetivos_semana || "", { tam: 7.6 });
+    const yAv = y + hObj - 10, wAv = wE * 0.45;
+    titulo(M, yAv, wAv, 4.5, "AVALIAÇÃO SESSÃO ANTERIOR", { tam: 6.4 }); titulo(M + wAv, yAv, wE - wAv, 4.5, "DESTAQUES", { tam: 6.4 });
+    cel(M, yAv + 4.5, wAv, 5.5, p.aval_anterior || "", { fundo: CINZA2, tam: 7 });
+    cel(M + wAv, yAv + 4.5, wE - wAv, 5.5, (p.destaques_anteriores || []).join(" · "), { tam: 6.8 });
+
+    titulo(xD, y, wD, 5, "OBJETIVOS (SESSÃO)");
+    const wCtx = wD * 0.52, wTT = wD - wCtx - 1.5, xTT = xD + wCtx + 1.5;
+    const nL = 5, hL = (hObj - 5 - 4.5 - 10) / nL;
+    titulo(xD, y + 5, wCtx * 0.4, 4.5, "CONTEXTOS", { tam: 6.6 }); titulo(xD + wCtx * 0.4, y + 5, wCtx * 0.6, 4.5, "OBJ COLETIVOS", { tam: 6.6 });
+    const ctxs = p.contextos || [], objc = p.obj_coletivos || [];
+    for (let i = 0; i < nL; i++) {
+      const yy = y + 9.5 + i * hL;
+      cel(xD, yy, wCtx * 0.4, hL, ctxs[i] || "", { tam: 6.4 });
+      cel(xD + wCtx * 0.4, yy, wCtx * 0.3, hL, objc[i * 2] || "", { tam: 5.6, tracejada: true });
+      cel(xD + wCtx * 0.7, yy, wCtx * 0.3, hL, objc[i * 2 + 1] || "", { tam: 5.6, tracejada: true });
+    }
+    titulo(xTT, y + 5, wTT, 4.5, "OBJETIVOS TÉCNICO-TÁTICOS", { tam: 6.6 });
+    const wRot = 9, wCol = (wTT - 2 * wRot) / 2;
+    const grp = p.obj_grupo || [], ind = p.obj_individual || [];
+    caixa(xTT, y + 9.5, wRot, nL * hL); doc.setFont("helvetica", "bold"); doc.setFontSize(5.4); doc.setTextColor(...TXT); doc.text("GRUPO", xTT + wRot / 2, y + 9.5 + nL * hL / 2 + 0.8, { align: "center" });
+    caixa(xTT + wRot + wCol, y + 9.5, wRot, nL * hL); doc.text("INDIV.", xTT + wRot + wCol + wRot / 2, y + 9.5 + nL * hL / 2 + 0.8, { align: "center" });
+    for (let i = 0; i < nL; i++) {
+      const yy = y + 9.5 + i * hL;
+      cel(xTT + wRot, yy, wCol, hL, grp[i] || "", { tam: 5.6, tracejada: true });
+      cel(xTT + 2 * wRot + wCol, yy, wCol, hL, ind[i] || "", { tam: 5.6, tracejada: true });
+    }
+    const yB = y + hObj - 10;
+    titulo(xD, yB, wCtx, 4.5, "DEMANDA FÍSICA ESPERADA", { tam: 6.6 }); cel(xD, yB + 4.5, wCtx, 5.5, p.demanda_esperada || "", { fundo: [236, 236, 236], negrito: true, tam: 7.6 });
+    titulo(xTT, yB, wTT, 4.5, "OBJETIVOS COMPORTAMENTAIS", { tam: 6.6 }); cel(xTT, yB + 4.5, wTT, 5.5, (p.obj_comportamentais || []).join(" / "), { negrito: true, tam: 7.2 });
+    return y + hObj + 1.5;
+  }
+
+  /* ---------- uma atividade numa coluna ---------- */
+  function atividade(b, n, x, y, w, yFim) {
+    const lab = (t) => ({ fundo: CINZA, negrito: true, tam: 6.4 });
+    // 1ª linha: Nª ATIVIDADE | MÉTODO | valor
+    const w1 = w * 0.26;
+    titulo(x, y, w1, 5.5, n + "ª ATIVIDADE", { tam: 7.4 }); titulo(x + w1, y, w * 0.3, 5.5, "MÉTODO", { tam: 7.4 });
+    cel(x + w1 + w * 0.3, y, w - w1 - w * 0.3, 5.5, b.metodo || "", { tam: 6.4 });
+    y += 5.5;
+    const linha6 = (rot, pares) => {
+      cel(x, y, w1, 5, rot, lab());
+      const wR = (w - w1) / pares.length;
+      pares.forEach((pp, i) => { cel(x + w1 + i * wR, y, wR * 0.62, 5, pp[0], { tam: 5.4 }); cel(x + w1 + i * wR + wR * 0.62, y, wR * 0.38, 5, pp[1], { tam: 6.6, negrito: true }); });
+      y += 5;
+    };
+    linha6("VOLUME", [["SÉRIES", b.series], ["DURAÇÃO (min)", b.duracao_serie], ["PAUSA (min)", b.pausa]]);
+    linha6("ESPAÇO", [["COMPR. (m)", b.comprimento], ["LARG. (m)", b.largura], ["Nº ATLETAS", b.n_atletas]]);
+    // conteúdos
+    const wC = w / 4;
+    ["TÁTICA COLETIVA", "TÁTICA DE GRUPO", "TÉCNICO TÁTICO IND", "COMPORTAMENTAL"].forEach((t, i) => titulo(x + i * wC, y, wC, 5, t, { tam: 5.8 }));
+    y += 5;
+    const listas = [b.tatica_coletiva || [], b.tatica_grupo || [], b.tecnico_individual || []];
+    const nItens = Math.max(4, ...listas.map((l) => l.length));
+    const hItem = Math.min(9, 36 / nItens);
+    const espacoDe = (item) => ((b.espacos || {})[item] || b.espaco_fase || "");
+    for (let i = 0; i < nItens; i++) {
+      listas.forEach((l, c) => {
+        const it = l[i];
+        caixa(x + c * wC, y + i * hItem, wC, hItem, { tracejada: true });
+        if (it) {
+          texto(x + c * wC, y + i * hItem, wC, hItem * 0.52, it, { tam: 5.4 });
+          texto(x + c * wC, y + i * hItem + hItem * 0.5, wC, hItem * 0.5, espacoDe(it), { tam: 6 });
+        }
+      });
+    }
+    // coluna comportamental: itens, área relativa, demanda física
+    const hBl = nItens * hItem, xc = x + 3 * wC;
+    const area = areaRelativa(b);
+    const hCp = hBl - 15;
+    cel(xc, y, wC, Math.max(5, hCp), (b.comportamental || []).join(" / "), { tam: 6.2 });
+    titulo(xc, y + hCp, wC, 3.8, "ÁREA RELATIVA", { tam: 5.6 }); cel(xc, y + hCp + 3.8, wC, 3.7, area ? fmtNum(area) : "", { fundo: CINZA2, tam: 6.6, negrito: true });
+    titulo(xc, y + hCp + 7.5, wC, 3.8, "DEMANDA FÍSICA", { tam: 5.6 }); cel(xc, y + hCp + 11.3, wC, 3.7, b.demanda_fisica || "", { fundo: [236, 236, 236], tam: 6.4 });
+    y += hBl;
+    // distribuição de funções
+    titulo(x, y, w, 4.5, "DISTRIBUIÇÃO DE FUNÇÕES", { tam: 6.8 }); y += 4.5;
+    const funcoes = (b.funcoes || []).filter((f) => f.membro || f.funcao);
+    const linhasF = funcoes.length ? funcoes.map((f) => [f.membro, [f.funcao, f.detalhe].filter(Boolean).join(" · ")]) : LISTAS_PLANO.comissao.slice(0, 6).map((m) => [m, ""]);
+    const hF = 3.4;
+    linhasF.slice(0, 8).forEach((l) => { cel(x, y, w * 0.42, hF, l[0] || "", { tam: 6.2 }); cel(x + w * 0.42, y, w * 0.58, hF, l[1] || "", { tam: 6.2 }); y += hF; });
+    // feedbacks individuais
+    titulo(x, y, w * 0.42, 4.2, "FEEDBACKS INDIVIDUAIS", { tam: 6 }); titulo(x + w * 0.42, y, w * 0.32, 4.2, "ATLETAS", { tam: 6 }); titulo(x + w * 0.74, y, w * 0.26, 4.2, "RESPONSÁVEIS", { tam: 6 });
+    y += 4.2;
+    const fbs = (b.feedbacks || []).filter((f) => f.conteudo || (f.atletas || []).length);
+    const nFb = Math.max(2, fbs.length);
+    for (let i = 0; i < Math.min(nFb, 4); i++) {
+      const f = fbs[i] || {};
+      cel(x, y, w * 0.42, 4.2, f.conteudo || "", { tam: 5.8 }); cel(x + w * 0.42, y, w * 0.32, 4.2, (f.atletas || []).map(nomeDe).join(", "), { tam: 5.6 }); cel(x + w * 0.74, y, w * 0.26, 4.2, f.responsavel || "", { tam: 5.8 });
+      y += 4.2;
+    }
+    // campo
+    y += 1;
+    const hDesc = 16, hGrupos = 4 + 10 * 3.1;
+    const hCampo = Math.max(28, Math.min(52, yFim - y - hGrupos - hDesc - 6));
+    caixa(x, y, w, hCampo + 2);
+    try { pdfQuadroTatico(doc, b.quadro, x + 1, y + 1, w - 2, hCampo); } catch (e) { /* sem desenho */ }
+    y += hCampo + 3;
+    // distribuição de grupos (4 colunas)
+    const grupos = (b.grupos || []).slice(0, 4);
+    const wG = w / 4;
+    doc.setFont("helvetica", "bold"); doc.setFontSize(6.4); doc.setTextColor(...TXT);
+    doc.text("DISTRIBUIÇÃO DE GRUPOS", x + w / 2, y + 2.2, { align: "center" });
+    for (let i = 0; i < 4; i++) {
+      const g = grupos[i];
+      const xg = x + i * wG;
+      doc.setFont("helvetica", "bold"); doc.setFontSize(6.2); doc.setTextColor(...TXT);
+      doc.text(T(g && g.nome ? g.nome : "Grupo " + (i + 1)), xg + wG / 2, y + 5, { align: "center", maxWidth: wG - 1 });
+      doc.setDrawColor(...LINHA); doc.setLineWidth(0.15); if (doc.setLineDashPattern) doc.setLineDashPattern([0.6, 0.6], 0);
+      doc.line(xg + 1, y + 5.8, xg + wG - 1, y + 5.8); if (doc.setLineDashPattern) doc.setLineDashPattern([], 0);
+      const nomes = g ? (g.atletas || []).map(nomeDe).filter(Boolean) : [];
+      doc.setFont("helvetica", "normal"); doc.setFontSize(6.2);
+      nomes.slice(0, 10).forEach((nm, k) => doc.text(T(nm), xg + wG / 2, y + 8.4 + k * 2.9, { align: "center", maxWidth: wG - 1 }));
+    }
+    y += hGrupos;
+    // anotações
+    titulo(x, y, w, 4.5, "DESCRIÇÕES / OBSERVAÇÕES / ANOTAÇÕES", { fundo: [255, 255, 255], tam: 7 });
+    cel(x, y + 4.5, w, hDesc - 4.5, linhasTexto(b.descricao).join(" ") || "", { tam: 6.8 });
+    return y + hDesc;
+  }
+
+  /* ---------- páginas: 2 atividades por página ---------- */
+  const blocos = (p.blocos || []).length ? p.blocos : [atividadeEcmnVazia(1), atividadeEcmnVazia(2)];
+  for (let i = 0; i < blocos.length; i += 2) {
+    if (i > 0) doc.addPage();
+    let y = cabecalho(i === 0);
+    titulo(M, y, larg, 4.6, "ATIVIDADES", { fundo: [236, 236, 236], tam: 7.6 }); y += 4.6;
+    const wT = 7, wA = (larg - wT) / 2;
+    const yFim = H - 9;
+    atividade(blocos[i], i + 1, M, y, wA, yFim);
+    // transição entre as duas
+    caixa(M + wA, y, wT, 16);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(4.6); doc.setTextColor(...TXT); doc.text("TRANS.", M + wA + wT / 2, y + 3, { align: "center" }); doc.setFont("helvetica", "normal"); doc.text("(min)", M + wA + wT / 2, y + 14.6, { align: "center" }); doc.setFont("helvetica", "bold");
+    doc.setFontSize(8); doc.text(T(blocos[i].transicao || ""), M + wA + wT / 2, y + 10, { align: "center" });
+    if (blocos[i + 1]) atividade(blocos[i + 1], i + 2, M + wA + wT, y, wA, yFim);
+    else atividade(atividadeEcmnVazia(i + 2), i + 2, M + wA + wT, y, wA, yFim);
+    // rodapé
+    doc.setFont("helvetica", "normal"); doc.setFontSize(6.4); doc.setTextColor(120, 120, 120);
+    doc.text(T("EC Meia Noite SAF · Comissão Técnica · " + tituloEvento(evento)), M, H - 4);
+    doc.text(T("Página " + (i / 2 + 1) + " de " + Math.ceil(blocos.length / 2)), W - M, H - 4, { align: "right" });
+  }
+  doc.save(`Plano_de_treino_${fatiaArquivo(labelCategoriaEvento(evento.categoria))}_${dataArquivo(evento.data || hojeISO())}.pdf`);
+}
+
 function baixarFichaTreinoPdf(evento, atletas, usuario) {
-  if (evento.area !== "fisico") return baixarPlanoEcmnPdf(evento, atletas, usuario);
+  if (evento.area !== "fisico") return baixarPlanoFichaPdf(evento, atletas, usuario);
   const doc = novoDocPdf();
   const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
   const ctx = { doc, W, H, x0: PDF_LAYOUT.margemX, x1: W - PDF_LAYOUT.margemX, y: 0 };
@@ -29821,7 +30268,7 @@ function baixarFichaTreinoPdf(evento, atletas, usuario) {
   }
   if (p.relatorio) {
     const r = p.relatorio;
-    const elenco = atletasDoTreino(atletas, evento.categoria, evento.categorias_extras).filter((a) => r.presenca && r.presenca[a.id]);
+    const elenco = atletasDoTreino(atletas, evento.categoria, evento.categorias_extras, evento.atletas_extras).filter((a) => r.presenca && r.presenca[a.id]);
     const cont = {}; elenco.forEach((a) => { const s = r.presenca[a.id]; cont[s] = (cont[s] || 0) + 1; });
     r2Secao(ctx, "Como foi o treino", { reservar: 30 });
     r2Kpis(ctx, { kpis: [
