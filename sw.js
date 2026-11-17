@@ -18,7 +18,7 @@ firebase.initializeApp({
 // abre o MeuCT direto na pagina de Avisos.
 firebase.messaging();
 
-const CACHE_NAME = "ct-integrado-cache-v5";
+const CACHE_NAME = "ct-integrado-cache-v6";
 const APP_SHELL = [
   "./index.html",
   "./manifest.json",
@@ -48,8 +48,10 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Rede primeiro: sempre busca a versao mais nova publicada; o cache so e usado sem internet.
-// Assim ninguem precisa limpar o cache para receber atualizacoes.
+// Abertura rapida: o app abre pela copia guardada no aparelho e, por tras, busca a versao
+// publicada e guarda para a proxima vez. O app confere o versao.json ao abrir; se houver versao
+// nova, recarrega com ?v=..., e ai o service worker busca na internet primeiro.
+// Sem internet, continua abrindo pela copia guardada.
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
@@ -58,17 +60,29 @@ self.addEventListener("fetch", (event) => {
   const navegacao = req.mode === "navigate";
   const doShell = APP_SHELL.some((path) => url.pathname.endsWith(path.replace("./", "")));
   if (!navegacao && !doShell) return;
+  const chave = navegacao ? "./index.html" : url.pathname;
 
+  const daRede = () => fetch(req, { cache: "no-cache" }).then((response) => {
+    if (response && response.ok && (navegacao || !url.search)) {
+      const copia = response.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(chave, copia));
+    }
+    return response;
+  });
+
+  // Pedido de versao nova (?v=) ou primeira vez: rede primeiro, copia guardada se estiver sem internet.
+  if (navegacao && url.searchParams.has("v")) {
+    event.respondWith(daRede().catch(() => caches.match(chave)));
+    return;
+  }
   event.respondWith(
-    fetch(req, { cache: "no-cache" })
-      .then((response) => {
-        if (response && response.ok && !url.search) {
-          const clone = response.clone();
-          const chave = navegacao ? "./index.html" : req;
-          caches.open(CACHE_NAME).then((cache) => cache.put(chave, clone));
-        }
-        return response;
-      })
-      .catch(() => caches.match(navegacao ? "./index.html" : req).then((c) => c || caches.match(req)))
+    caches.match(chave).then((guardada) => {
+      const atualizar = daRede();
+      if (guardada) {
+        event.waitUntil(atualizar.catch(() => null));
+        return guardada;
+      }
+      return atualizar.catch(() => caches.match(req));
+    })
   );
 });
