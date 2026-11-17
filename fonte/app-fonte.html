@@ -3429,6 +3429,23 @@ tr.linha-qr td{background:var(--surface-2);}
 @media (max-width:600px){ .rel2-graficos{grid-template-columns:1fr;} }
 @media (max-width: 600px){ .relatorio-preview-wrap{padding:10px; border-radius:10px;} }
 
+.edq .panel-head .link-btn, .imq .panel-head .link-btn{color:#fff; font-weight:700;}
+.edq-grupo{margin-bottom:16px;}
+.edq-grupo-cab{display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;}
+.edq-titulo{font:inherit; font-weight:800; font-size:15px; padding:6px 10px; border:1px solid var(--line); border-radius:8px; max-width:260px;}
+.edq-lista{display:flex; flex-direction:column; gap:6px; margin-bottom:6px;}
+.edq-linha{display:grid; grid-template-columns:minmax(0,1.4fr) auto auto 90px auto; gap:10px; align-items:center; padding:8px 10px; border:1px solid var(--line); border-radius:12px; background:#fff;}
+.edq-linha.apertado{border-color:#F2B8B5; background:#FFF7F6;}
+.edq-nome{font:inherit; padding:7px 10px; border:1px solid var(--line); border-radius:8px; min-width:0;}
+.edq-camas{display:flex; align-items:center; gap:4px;}
+.edq-camas input{width:52px; text-align:center; font:inherit; font-weight:700; padding:6px 4px; border:1px solid var(--line); border-radius:8px;}
+.edq-camas button, .edq-acoes button{width:30px; height:30px; border-radius:8px; border:1px solid var(--line); background:#fff; font-weight:800; cursor:pointer; line-height:1;}
+.edq-camas button:disabled, .edq-acoes button:disabled{opacity:.35; cursor:default;}
+.edq-com{display:flex; gap:6px; align-items:center; font-size:12.5px; cursor:pointer;}
+.edq-oc{font-size:12.5px;}
+.edq-acoes{display:flex; gap:4px;}
+.edq-x{color:#B91C1C;}
+@media (max-width:720px){ .edq-linha{grid-template-columns:1fr auto; } .edq-com, .edq-oc{grid-column:auto;} }
 .imq-lista{display:flex; flex-direction:column; gap:6px; margin-top:12px;}
 .imq-linha{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) minmax(0,1fr) 140px; gap:10px; align-items:center; padding:9px 12px; border:1px solid var(--line); border-radius:12px; background:#fff;}
 .imq-linha.pend{border-color:#F2B8B5; background:#FFF7F6;}
@@ -4255,6 +4272,7 @@ function copiarDado(v) {
 /** Atletas já carregados, por id: deixa qualquer lista de atletas abrir com foto e posição. */
 const ATLETAS_INDICE = new Map();
 async function carregarAtletas() {
+  await carregarQuartosAloj();
   const lista = await lerComCache("atletas", async () => {
     const snap = await db.collection(COL_ATLETAS).orderBy("nome").get();
     return snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((a) => !a.inativo);
@@ -21555,8 +21573,8 @@ function PainelDocumentosAtletas({ atletas, usuario }) {
    e o campo alojamento acompanha (casa ou apartamento). */
 const QUARTOS_ALOJ = [
   { id: "casa", aloj: "Alojamento casa", titulo: "Casa", quartos: [
-    { id: "casa-q1", nome: "Quarto 1", camas: 4 }, { id: "casa-q2", nome: "Quarto 2", camas: 3 },
-    { id: "casa-q3", nome: "Quarto 3", camas: 5 }, { id: "casa-q4", nome: "Quarto 4", camas: 5 },
+    { id: "casa-q1", nome: "Quarto 1", camas: 4 }, { id: "casa-q2", nome: "Quarto 2", camas: 4 },
+    { id: "casa-q3", nome: "Quarto 3", camas: 4 }, { id: "casa-q4", nome: "Quarto 4", camas: 8 },
   ] },
   { id: "apto", aloj: "Alojamento apartamento", titulo: "Apartamento", quartos: [
     { id: "apto-trein", nome: "Quarto do treinador", camas: 1, comissao: true },
@@ -21568,6 +21586,32 @@ const QUARTOS_ALOJ = [
     { id: "apto-q12", nome: "Quarto 12", camas: 2 },
   ] },
 ];
+/* Os quartos podem ser editados pelo Serviço Social: ficam em ct_alojamento/quartos e substituem o mapa acima. */
+const COL_ALOJ_CONFIG = "ct_alojamento";
+let quartosAlojPromessa = null;
+function sanearQuartosAloj(grupos) {
+  if (!Array.isArray(grupos)) return null;
+  const vistos = new Set();
+  const out = grupos.filter((g) => g && ALOJAMENTOS.includes(g.aloj)).slice(0, 6).map((g, i) => ({
+    id: String(g.id || "g" + i).slice(0, 30), aloj: g.aloj, titulo: String(g.titulo || g.aloj.replace("Alojamento ", "")).slice(0, 40),
+    quartos: (Array.isArray(g.quartos) ? g.quartos : []).slice(0, 40).filter((q) => q && q.id && !vistos.has(q.id) && vistos.add(q.id)).map((q) => ({
+      id: String(q.id).slice(0, 40), nome: String(q.nome || "Quarto").slice(0, 40), camas: Math.max(1, Math.min(30, Math.round(Number(q.camas) || 1))), ...(q.comissao ? { comissao: true } : {}),
+    })),
+  }));
+  return out.length ? out : null;
+}
+function aplicarQuartosAloj(grupos) {
+  const ok = sanearQuartosAloj(grupos);
+  if (ok) QUARTOS_ALOJ.splice(0, QUARTOS_ALOJ.length, ...ok);
+  return !!ok;
+}
+function carregarQuartosAloj(forcar) {
+  if (quartosAlojPromessa && !forcar) return quartosAlojPromessa;
+  quartosAlojPromessa = db.collection(COL_ALOJ_CONFIG).doc("quartos").get()
+    .then((d) => { if (d.exists) aplicarQuartosAloj((d.data() || {}).grupos); return QUARTOS_ALOJ; })
+    .catch(() => { quartosAlojPromessa = null; return QUARTOS_ALOJ; });
+  return quartosAlojPromessa;
+}
 function quartoPorId(id) {
   for (const g of QUARTOS_ALOJ) { const q = g.quartos.find((x) => x.id === id); if (q) return { ...q, grupo: g }; }
   return null;
@@ -21780,6 +21824,91 @@ function ImportarQuartos({ atletas, onFechar, onMudou }) {
   );
 }
 
+function EditorQuartos({ atletas, usuario, onFechar, onSalvou }) {
+  const { useState } = React;
+  const [grupos, setGrupos] = useState(() => JSON.parse(JSON.stringify(QUARTOS_ALOJ)));
+  const [salvando, setSalvando] = useState(false);
+  const ocupacao = {};
+  (atletas || []).filter((a) => !a.inativo).forEach((a) => { const q = quartoValidoAtleta(a); if (q) ocupacao[q.id] = (ocupacao[q.id] || 0) + 1; });
+  const mudarQ = (gi, qi, campos) => setGrupos((gs) => gs.map((g, i) => (i !== gi ? g : { ...g, quartos: g.quartos.map((q, j) => (j === qi ? { ...q, ...campos } : q)) })));
+  const tirarQ = (gi, qi) => setGrupos((gs) => gs.map((g, i) => (i !== gi ? g : { ...g, quartos: g.quartos.filter((_, j) => j !== qi) })));
+  const moverQ = (gi, qi, d) => setGrupos((gs) => gs.map((g, i) => { if (i !== gi) return g; const l = g.quartos.slice(); const k = qi + d; if (k < 0 || k >= l.length) return g; [l[qi], l[k]] = [l[k], l[qi]]; return { ...g, quartos: l }; }));
+  const novoQ = (gi) => setGrupos((gs) => gs.map((g, i) => {
+    if (i !== gi) return g;
+    const nums = g.quartos.map((q) => Number((String(q.nome).match(/(\d+)\s*$/) || [])[1]) || 0);
+    const n = (nums.length ? Math.max(...nums) : 0) + 1;
+    return { ...g, quartos: [...g.quartos, { id: g.id + "-" + Date.now().toString(36), nome: "Quarto " + n, camas: 2 }] };
+  }));
+  const camasDe = (g) => g.quartos.filter((q) => !q.comissao).reduce((t, q) => t + (Number(q.camas) || 0), 0);
+  const problemas = [];
+  grupos.forEach((g) => g.quartos.forEach((q) => {
+    if (!String(q.nome || "").trim()) problemas.push("Tem quarto sem nome em " + g.titulo + ".");
+    if (!(Number(q.camas) >= 1)) problemas.push(g.titulo + " · " + (q.nome || "quarto") + ": coloque pelo menos 1 cama.");
+  }));
+  const apertados = [];
+  grupos.forEach((g) => g.quartos.forEach((q) => { if (!q.comissao && (ocupacao[q.id] || 0) > (Number(q.camas) || 0)) apertados.push(g.titulo + " · " + q.nome + " tem " + ocupacao[q.id] + " atletas"); }));
+
+  async function salvar() {
+    const limpo = sanearQuartosAloj(grupos.map((g) => ({ ...g, quartos: g.quartos.map((q) => ({ ...q, nome: String(q.nome).trim() })) })));
+    if (!limpo) { alert("Cadastre pelo menos um quarto."); return; }
+    setSalvando(true);
+    try {
+      await db.collection(COL_ALOJ_CONFIG).doc("quartos").set({ grupos: limpo, atualizado_em: firebase.firestore.FieldValue.serverTimestamp(), atualizado_por: usuario.id });
+      aplicarQuartosAloj(limpo);
+      quartosAlojPromessa = Promise.resolve(QUARTOS_ALOJ);
+      if (onSalvou) onSalvou();
+    } catch (e) { alert("Não consegui salvar os quartos: " + e.message); }
+    setSalvando(false);
+  }
+
+  return (
+    <div className="panel edq">
+      <div className="panel-head"><h3>Cadastrar quartos e camas</h3><button type="button" className="link-btn" onClick={onFechar}>Fechar</button></div>
+      <div className="panel-body">
+        <p className="muted" style={{ marginTop: 0, fontSize: 13 }}>Mude o nome e o número de camas, inclua ou tire quartos. Para tirar um quarto, primeiro tire os atletas dele. Os atletas continuam nos quartos onde estão.</p>
+        {grupos.map((g, gi) => (
+          <div key={g.id} className="edq-grupo">
+            <div className="edq-grupo-cab">
+              <input className="edq-titulo" value={g.titulo} maxLength={40} onChange={(e) => setGrupos((gs) => gs.map((x, i) => (i === gi ? { ...x, titulo: e.target.value } : x)))} aria-label="Nome do alojamento" />
+              <small className="muted">{camasDe(g)} camas para atletas</small>
+            </div>
+            <div className="edq-lista">
+              {g.quartos.map((q, qi) => {
+                const oc = ocupacao[q.id] || 0;
+                return (
+                  <div key={q.id} className={"edq-linha" + (!q.comissao && oc > q.camas ? " apertado" : "")}>
+                    <input className="edq-nome" value={q.nome} maxLength={40} onChange={(e) => mudarQ(gi, qi, { nome: e.target.value })} aria-label="Nome do quarto" />
+                    <div className="edq-camas">
+                      <button type="button" onClick={() => mudarQ(gi, qi, { camas: Math.max(1, (Number(q.camas) || 1) - 1) })} aria-label="Menos uma cama">−</button>
+                      <input type="number" min={1} max={30} inputMode="numeric" value={q.camas} onChange={(e) => mudarQ(gi, qi, { camas: e.target.value === "" ? "" : Math.max(1, Math.min(30, Math.round(Number(e.target.value)) || 1)) })} aria-label={"Camas do " + q.nome} />
+                      <button type="button" onClick={() => mudarQ(gi, qi, { camas: Math.min(30, (Number(q.camas) || 0) + 1) })} aria-label="Mais uma cama">+</button>
+                      <span className="muted">camas</span>
+                    </div>
+                    <label className="edq-com"><input type="checkbox" checked={!!q.comissao} disabled={oc > 0} onChange={(e) => mudarQ(gi, qi, { comissao: e.target.checked })} /> Comissão</label>
+                    <span className="edq-oc muted">{q.comissao ? "Reservado" : oc + " " + (oc === 1 ? "atleta" : "atletas")}</span>
+                    <span className="edq-acoes">
+                      <button type="button" onClick={() => moverQ(gi, qi, -1)} disabled={qi === 0} aria-label="Subir">↑</button>
+                      <button type="button" onClick={() => moverQ(gi, qi, 1)} disabled={qi === g.quartos.length - 1} aria-label="Descer">↓</button>
+                      <button type="button" className="edq-x" disabled={oc > 0} title={oc > 0 ? "Tire os atletas antes de apagar o quarto" : "Tirar o quarto"} onClick={() => tirarQ(gi, qi)} aria-label={"Tirar " + q.nome}>×</button>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <button type="button" className="link-btn" onClick={() => novoQ(gi)}>+ Novo quarto em {g.titulo}</button>
+          </div>
+        ))}
+        {apertados.length > 0 && <div className="access-note"><span>Mais atletas do que camas: {apertados.join("; ")}.</span></div>}
+        {problemas.length > 0 && <div className="access-note"><span>{problemas[0]}</span></div>}
+        <div className="imq-acoes">
+          <button type="button" className="pill-btn primary" disabled={salvando || problemas.length > 0} onClick={salvar}>{salvando ? "Salvando..." : "Salvar quartos"}</button>
+          <button type="button" className="link-btn" onClick={onFechar}>Cancelar</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PainelQuartos({ atletas, usuario, onMudou }) {
   const { useState } = React;
   const [mud, setMud] = useState({});
@@ -21788,6 +21917,8 @@ function PainelQuartos({ atletas, usuario, onMudou }) {
   const [busca, setBusca] = useState("");
   const [toast, setToast] = useState(null);
   const [importando, setImportando] = useState(false);
+  const [editando, setEditando] = useState(false);
+  const [, setVersaoQuartos] = useState(0);
   const vmSem = useVerMais(10);
   const pode = podeEditarQuartos(usuario);
   const ativos = (atletas || []).filter((a) => !a.inativo).map((a) => (mud[a.id] ? { ...a, ...mud[a.id] } : a))
@@ -21873,8 +22004,10 @@ function PainelQuartos({ atletas, usuario, onMudou }) {
         {ALOJAMENTOS.map((al) => <div key={al} className="conv-contador"><b>{ocupadas(al)}/{totalCamas(al)}</b><span>camas ocupadas · {al.replace("Alojamento ", "")}</span></div>)}
         <div className={"conv-contador" + (semQuarto.length ? " pendente" : " ok")}><b>{semQuarto.length}</b><span>alojados sem quarto</span></div>
         <button type="button" className="pill-btn" style={{ alignSelf: "center" }} onClick={() => pdfQuartos(ativos, usuario).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF dos quartos</button>
-        {pode && !importando && <button type="button" className="pill-btn primary" style={{ alignSelf: "center" }} onClick={() => setImportando(true)}>Importar planilha</button>}
+        {pode && !editando && <button type="button" className="pill-btn" style={{ alignSelf: "center" }} onClick={() => { setEditando(true); setImportando(false); }}>Cadastrar quartos e camas</button>}
+        {pode && !importando && <button type="button" className="pill-btn primary" style={{ alignSelf: "center" }} onClick={() => { setImportando(true); setEditando(false); }}>Importar planilha</button>}
       </div>
+      {pode && editando && <EditorQuartos atletas={ativos} usuario={usuario} onFechar={() => setEditando(false)} onSalvou={() => { setEditando(false); setVersaoQuartos((v) => v + 1); avisar("Quartos salvos"); }} />}
       {pode && importando && <ImportarQuartos atletas={atletas} onFechar={() => setImportando(false)} onMudou={() => { setMud({}); if (onMudou) onMudou(); }} />}
       {!pode && <div className="access-note"><span>Só o Serviço Social e o admin mudam atletas de quarto.</span></div>}
       {QUARTOS_ALOJ.map((g) => (
