@@ -2770,6 +2770,81 @@ th.num, td.num{text-align:right;}
 .mapa-corpo .mapa-chamada{cursor:pointer;}
 .mapa-corpo .mapa-chamada:hover .mapa-corpo-rotulo{text-decoration:underline;}
 .mapa-corpo-qtd{font-size:9.5px; font-weight:800; fill:#fff;}
+/* Painel geral: painéis de saúde, elenco, alojamento e contratos */
+.pg-corpo{padding:12px 16px 16px; display:flex; flex-direction:column; gap:12px;}
+.pg-head-info{font-size:12px; color:rgba(255,255,255,.85); font-weight:600;}
+.pg-chips{display:flex; flex-wrap:wrap; gap:6px;}
+.pg-chip{display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border:1px solid var(--line-soft); border-radius:999px; background:#fff; font:inherit; font-size:12.5px; font-weight:700; color:var(--ink-2); cursor:pointer;}
+.pg-chip small{font-size:11px; font-weight:800; color:var(--muted); background:#F1F5F9; border-radius:999px; padding:0 6px;}
+.pg-chip:hover{border-color:#94A3B8;}
+.pg-chip.on{background:#0F172A; border-color:#0F172A; color:#fff;} .pg-chip.on small{background:rgba(255,255,255,.18); color:#fff;}
+.pg-resumo{display:flex; flex-wrap:wrap; gap:8px;}
+.pg-resumo > span, .pg-resumo > button{display:flex; flex-direction:column; gap:1px; min-width:92px; padding:8px 12px; border:1px solid var(--line-soft); border-radius:12px; background:#F8FAFC; font:inherit; font-size:11.5px; font-weight:700; color:var(--muted); text-align:left;}
+.pg-resumo b{font-size:20px; line-height:1.1; color:var(--ink);}
+.pg-resumo.clicavel > button{cursor:pointer; background:#fff;} .pg-resumo.clicavel > button:hover{border-color:#94A3B8;}
+.pg-resumo.clicavel > button.on{border-color:#1E7446; box-shadow:0 0 0 2px rgba(30,116,70,.18); background:#F0FAF4;}
+.pg-lista-titulo{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:800; color:var(--ink);}
+.pg-lista-titulo small{font-size:11px; color:var(--muted); background:#F1F5F9; border-radius:999px; padding:1px 7px;}
+.pg-lista-titulo .link-btn{margin-left:auto;}
+.pg-dica{font-size:12px; color:var(--muted);}
+.pg-extra{margin-left:auto; flex:0 0 auto; font-size:11.5px; font-weight:800; color:var(--ink-2); background:#F1F5F9; border-radius:999px; padding:2px 9px;}
+.pg-disp{display:flex; flex-direction:column; gap:8px;}
+.pg-disp-linha{display:grid; grid-template-columns:78px 1fr; align-items:center; gap:10px;}
+.pg-disp-cat{font-size:13px; font-weight:800; color:var(--ink); display:flex; align-items:baseline; gap:6px;} .pg-disp-cat small{font-size:11px; color:var(--muted);}
+.pg-disp-barra{display:flex; gap:2px; height:30px; border-radius:9px; overflow:hidden; background:#F1F5F9;}
+.pg-disp-vazio{font-size:12px; color:var(--muted); align-self:center; padding-left:10px;}
+.pg-seg{border:0; min-width:28px; font:inherit; font-size:12.5px; font-weight:800; color:#fff; cursor:pointer; transition:opacity .15s, filter .15s;}
+.pg-seg.verde{background:#2F9E62;} .pg-seg.amarelo{background:#F2B53A; color:#3D2A00;} .pg-seg.vermelho{background:#D9463B;}
+.pg-seg:hover{filter:brightness(1.08);} .pg-seg.on{box-shadow:inset 0 0 0 3px #0F172A;} .pg-seg.apagado{opacity:.35;}
+.pg-legenda{display:flex; flex-wrap:wrap; gap:6px; padding-left:88px;}
+.pg-leg{display:inline-flex; align-items:center; gap:6px; border:1px solid transparent; background:none; border-radius:999px; padding:3px 8px; font:inherit; font-size:12px; font-weight:700; color:var(--ink-2); cursor:pointer;}
+.pg-leg.on{border-color:#0F172A; background:#F1F5F9;}
+.pg-bola{width:9px; height:9px; border-radius:50%; display:inline-block;} .pg-bola.verde{background:#2F9E62;} .pg-bola.amarelo{background:#F2B53A;} .pg-bola.vermelho{background:#D9463B;}
+.pg-colunas{display:grid; grid-template-columns:repeat(12,1fr); gap:4px; align-items:end; height:150px;}
+.pg-col{display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; border:0; background:none; padding:0; font:inherit; cursor:pointer; border-radius:8px;}
+.pg-col-num{font-size:11px; font-weight:800; color:var(--ink); min-height:14px;}
+.pg-col-barra{flex:1; width:100%; max-width:30px; display:flex; align-items:flex-end; background:#F1F5F9; border-radius:6px 6px 3px 3px;}
+.pg-col-barra i{display:block; width:100%; background:#3E6DA8; border-radius:6px 6px 3px 3px; min-height:0; transition:background .15s;}
+.pg-col-rot{font-size:10.5px; font-weight:700; color:var(--muted);}
+.pg-col:hover .pg-col-barra i{background:#2B5288;} .pg-col.on .pg-col-barra i{background:#0F172A;} .pg-col.on .pg-col-rot{color:var(--ink);} .pg-col.apagado{opacity:.45;}
+.pg-volta-lista{display:flex; flex-direction:column; gap:8px;}
+.pg-volta{display:flex; flex-direction:column; gap:8px; padding:10px 12px; border:1px solid var(--line-soft); border-radius:12px; background:#fff; font:inherit; text-align:left; cursor:pointer;}
+.pg-volta:hover{box-shadow:0 4px 14px rgba(15,23,42,.08);}
+.pg-volta-topo{display:flex; align-items:center; gap:10px;} .pg-volta-topo .badge{margin-left:auto; flex:0 0 auto;}
+.pg-volta .med-lesao-fases{margin:0;}
+.pg-ranking{display:flex; flex-direction:column; gap:4px;}
+.pg-rank-cab, .pg-rank{display:grid; grid-template-columns:minmax(110px,1.1fr) 2fr 82px; gap:10px; align-items:center;}
+.pg-rank-cab{font-size:11px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.04em;} .pg-rank-cab span:last-child{text-align:right;}
+.pg-rank{border:1px solid transparent; background:none; border-radius:10px; padding:6px 8px; font:inherit; text-align:left; cursor:pointer;}
+.pg-rank:hover{background:#F8FAFC;} .pg-rank.on{background:#F1F5F9; border-color:#CBD5E1;} .pg-rank.apagado{opacity:.45;}
+.pg-rank-nome{font-size:13px; font-weight:700; color:var(--ink); display:flex; flex-direction:column;} .pg-rank-nome small{font-size:11px; font-weight:600; color:var(--muted);}
+.pg-rank-barra{display:flex; align-items:center; gap:8px; min-width:0;}
+.pg-rank-barra i{display:block; height:12px; border-radius:6px; background:#3E6DA8; min-width:6px;}
+.pg-rank-barra b{font-size:13px; color:var(--ink);} .pg-rank-barra em{font-style:normal; font-size:11px; font-weight:700; color:#D9463B;}
+.pg-rank-dias{font-size:12.5px; font-weight:700; color:var(--ink-2); text-align:right;}
+.pg-aloj{display:flex; gap:16px; align-items:center; flex-wrap:wrap;}
+.pg-rosca{position:relative; width:118px; height:118px; flex:0 0 auto;} .pg-rosca svg{width:100%; height:100%;}
+.pg-rosca span{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--muted);} .pg-rosca b{font-size:24px; color:var(--ink); line-height:1;}
+.pg-aloj-locais{flex:1; min-width:200px; display:flex; flex-direction:column; gap:8px;}
+.pg-aloj-local{display:flex; flex-direction:column; gap:5px; padding:10px 12px; border:1px solid var(--line-soft); border-radius:12px; background:#fff; font:inherit; text-align:left; cursor:pointer;}
+.pg-aloj-local:hover{border-color:#94A3B8;} .pg-aloj-local.on{border-color:#1E7446; box-shadow:0 0 0 2px rgba(30,116,70,.18);}
+.pg-aloj-topo{display:flex; justify-content:space-between; font-size:13px; color:var(--ink-2);} .pg-aloj-topo span{font-weight:700;}
+.pg-aloj-barra{height:10px; border-radius:6px; background:#E2E8F0; overflow:hidden;} .pg-aloj-barra i{display:block; height:100%; background:#1E7446; border-radius:6px;} .pg-aloj-barra i.cheio{background:#F2B53A;} .pg-aloj-barra i.critico{background:#D9463B;}
+.pg-aloj-local small{font-size:11.5px; color:var(--muted); font-weight:600;}
+.pg-elenco-grade{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+.pg-sub{font-size:11.5px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;}
+.pg-mini-barras{display:flex; gap:4px; align-items:flex-end; height:110px;}
+.pg-mini{flex:1; min-width:18px; max-width:44px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%;}
+.pg-mini-num{font-size:11px; font-weight:800; color:var(--ink);}
+.pg-mini-barra{flex:1; width:100%; display:flex; align-items:flex-end; background:#F1F5F9; border-radius:5px 5px 2px 2px;} .pg-mini-barra i{display:block; width:100%; background:#3E6DA8; border-radius:5px 5px 2px 2px;}
+.pg-mini-rot{font-size:10.5px; font-weight:700; color:var(--muted); white-space:nowrap;}
+.pg-tags{display:flex; flex-wrap:wrap; gap:6px;}
+.pg-tag{display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border-radius:999px; background:#F1F5F9; font-size:12.5px; font-weight:600; color:var(--ink-2);} .pg-tag b{color:var(--ink);}
+.pg-tag.proj-sobe{background:#E8F6EE; color:#1E7446;} .pg-tag.proj-desce{background:#FEF0EF; color:#B3372E;}
+.pg-status{margin-left:auto; flex:0 0 auto; font-size:11px; font-weight:800; border-radius:999px; padding:2px 8px;}
+.pg-status.ok{background:#E8F6EE; color:#1E7446;} .pg-status.pend{background:#FFF4DA; color:#8A5A00;}
+@media (max-width:760px){ .pg-elenco-grade{grid-template-columns:1fr;} .pg-legenda{padding-left:0;} .pg-rank-cab, .pg-rank{grid-template-columns:minmax(90px,1fr) 1.4fr 64px; gap:6px;} .pg-colunas{height:120px;} .pg-col-rot{font-size:9.5px;} }
+
 .mapa-corpo-chips span.clicavel{cursor:pointer;} .mapa-corpo-chips span.on{background:#0F172A; color:#fff; border-color:#0F172A;}
 @media (max-width:760px){ .med-lesoes{grid-template-columns:1fr;} .med-mapa{position:static;} .lesao-topo{flex-direction:column; align-items:stretch;} .med-mapa .mapa-corpo-chips{display:none;} .lesao-kpi{min-width:0; flex:1 1 30%; padding:7px 10px;} .lesao-kpi b{font-size:19px;} .med-lesao-fases span{font-size:9.5px;} }
 .senha-forca{margin-top:6px; display:flex; align-items:center; gap:8px;}
@@ -3353,6 +3428,26 @@ tr.linha-qr td{background:var(--surface-2);}
 .rel2-rodape{display:flex; justify-content:space-between; border-top:1px solid #DDE3EA; margin-top:26px; padding-top:7px; font-size:9.5px; color:#64748B;}
 @media (max-width:600px){ .rel2-graficos{grid-template-columns:1fr;} }
 @media (max-width: 600px){ .relatorio-preview-wrap{padding:10px; border-radius:10px;} }
+
+.imq-lista{display:flex; flex-direction:column; gap:6px; margin-top:12px;}
+.imq-linha{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) minmax(0,1fr) 140px; gap:10px; align-items:center; padding:9px 12px; border:1px solid var(--line); border-radius:12px; background:#fff;}
+.imq-linha.pend{border-color:#F2B8B5; background:#FFF7F6;}
+.imq-linha.ign{opacity:.6;}
+.imq-nome, .imq-atleta{display:flex; flex-direction:column; gap:2px; min-width:0;}
+.imq-nome b{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.imq-atleta select, .imq-semq select{width:100%; padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:#fff; font:inherit; font-size:13px;}
+.imq-semq{display:flex; align-items:center; gap:6px; font-size:13px;} .imq-semq select{width:auto;}
+.imq-duvida{color:#B45309; font-weight:700;}
+.imq-status{text-align:right;}
+.imq-tag{display:inline-block; padding:3px 9px; border-radius:999px; font-size:11.5px; font-weight:800; white-space:nowrap;}
+.imq-tag.verde{background:#DCFCE7; color:#166534;} .imq-tag.cinza{background:#EEF2F6; color:#475569;} .imq-tag.vermelho{background:#FEE2E2; color:#B91C1C; white-space:normal;}
+.imq-fora{margin-top:14px; padding:12px; border:1px dashed var(--line); border-radius:12px;}
+.imq-check{display:flex; gap:8px; align-items:flex-start; font-size:13px; font-weight:600; cursor:pointer;}
+.imq-fora-lista{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+.imq-chip{padding:4px 10px; border-radius:999px; background:#F1F5F9; font-size:12.5px;}
+.imq-acoes{display:flex; gap:12px; align-items:center; margin-top:14px; flex-wrap:wrap;}
+.imq-ok{margin-top:10px; padding:10px 12px; border-radius:10px; background:#DCFCE7; color:#166534; font-weight:700;}
+@media (max-width:720px){ .imq-linha{grid-template-columns:1fr; gap:6px;} }
 </style>
 </head>
 <body>
@@ -7368,6 +7463,370 @@ function ViewElenco({ usuario, cadastro }) {
   );
 }
 
+/* ---------- Painéis novos do Painel geral (saúde, elenco, alojamento e contratos) ----------
+   Todos usam dados que o app já tem. Tocar numa barra ou número filtra a lista do próprio painel. */
+const MODULOS_SAUDE_PAINEL = ["admin", "diretoria", "treinador", "preparacao", "fisioterapia", "medicina"];
+function podeVerSaudePainel(usuario) { return MODULOS_SAUDE_PAINEL.some((m) => temPermissao(usuario, m)); }
+const NOMES_MES_CURTO = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+function rotuloMes(ym) { return NOMES_MES_CURTO[Number(ym.slice(5, 7)) - 1] + "/" + ym.slice(2, 4); }
+function mesesAte(ymFim, n) { const out = []; let [y, m] = ymFim.split("-").map(Number); for (let i = 0; i < n; i++) { out.unshift(y + "-" + String(m).padStart(2, "0")); m--; if (m === 0) { m = 12; y--; } } return out; }
+
+/** Todos os episódios de lesão do elenco, com as datas de cada lesão nova e quanto tempo ficou parado. */
+function episodiosDoElenco(dados) {
+  const hoje = hojeISO();
+  const out = [];
+  (dados.atletas || []).filter((a) => !a.inativo).forEach((a) => {
+    calcularEpisodiosLesao((dados.fisioData || {})[a.id] || []).forEach((ep) => {
+      const novas = ep.registros.filter((r) => r.evento === "nova" && r.data).map((r) => r.data);
+      const fim = ep.ativo ? hoje : (ep.registros[0] && ep.registros[0].data) || hoje;
+      out.push({ a, ep, novas: novas.length ? novas : [ep.dataInicio].filter(Boolean), dias: Math.max(0, diasEntreIso(ep.dataInicio || hoje, fim) || 0) });
+    });
+  });
+  return out;
+}
+
+/** Linha de atleta usada nas listas dos painéis. */
+function LinhaAtletaPainel({ a, detalhe, sinal, extra, onOpen, classe }) {
+  return (
+    <button type="button" className={"inicio-atleta" + (classe || "")} onClick={() => onOpen && onOpen(a.id)}>
+      <span className={"inicio-avatar" + (sinal ? " anel-" + sinal : "")}>{a.foto ? <img loading="lazy" decoding="async" src={a.foto} alt="" /> : iniciaisAtleta(a)}</span>
+      <span className="inicio-evento-texto"><b>{nomeExibicao(a)}</b><small>{detalhe}</small></span>
+      {extra && <span className="pg-extra">{extra}</span>}
+    </button>
+  );
+}
+function ChipsCategoriaPainel({ valor, onChange, contagem }) {
+  return (
+    <div className="pg-chips" role="group" aria-label="Categoria">
+      {[{ id: "", label: "Todas" }, ...CATEGORIAS_TIME].map((c) => (
+        <button key={c.id} type="button" className={"pg-chip" + (valor === c.id ? " on" : "")} aria-pressed={valor === c.id} onClick={() => onChange(c.id)}>
+          {c.label}{contagem ? <small>{contagem(c.id)}</small> : null}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* 1. Disponibilidade por categoria */
+function PainelDisponibilidadeCategorias({ dados, onOpenAtleta }) {
+  const { useState, useMemo } = React;
+  const [sel, setSel] = useState({ cat: "", status: "fora" });
+  const vm = useVerMais(6);
+  const ativos = useMemo(() => (dados.atletas || []).filter((a) => !a.inativo).map((a) => ({ a, d: calcularDisponibilidade(a.id, dados) })), [dados]);
+  const ordem = ["disponivel", "restricao", "fora"];
+  const linhas = CATEGORIAS_TIME.map((c) => {
+    const l = ativos.filter((x) => atletaNaCategoria(x.a, c.id));
+    const n = {}; ordem.forEach((s) => { n[s] = l.filter((x) => x.d.status === s).length; });
+    return { c, total: l.length, n };
+  });
+  const lista = ativos.filter((x) => (!sel.cat || atletaNaCategoria(x.a, sel.cat)) && (!sel.status || x.d.status === sel.status)).sort((x, y) => ordemNomeAtleta(x.a, y.a));
+  const totais = {}; ordem.forEach((s) => { totais[s] = ativos.filter((x) => x.d.status === s).length; });
+  const escolher = (cat, status) => setSel((s) => (s.cat === cat && s.status === status ? { cat: "", status: "" } : { cat, status }));
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Disponibilidade por categoria</h3><span className="pg-head-info">{totais.disponivel} liberados · {totais.restricao} atenção · {totais.fora} fora</span></div>
+      <div className="pg-corpo">
+        <div className="pg-disp">
+          {linhas.map(({ c, total, n }) => (
+            <div key={c.id} className="pg-disp-linha">
+              <span className="pg-disp-cat">{c.label}<small>{total}</small></span>
+              <div className="pg-disp-barra">
+                {total === 0 ? <span className="pg-disp-vazio">Sem atletas</span> : ordem.map((s) => n[s] > 0 && (
+                  <button key={s} type="button" className={"pg-seg " + DISPONIBILIDADE[s].sinal + (sel.cat === c.id && sel.status === s ? " on" : "") + (sel.cat && !(sel.cat === c.id && sel.status === s) ? " apagado" : "")}
+                    style={{ flexGrow: n[s] }} title={c.label + ": " + n[s] + " " + DISPONIBILIDADE[s].label.toLowerCase()} onClick={() => escolher(c.id, s)}>{n[s]}</button>
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="pg-legenda">{ordem.map((s) => (
+            <button key={s} type="button" className={"pg-leg" + (!sel.cat && sel.status === s ? " on" : "")} onClick={() => escolher("", s)}><i className={"pg-bola " + DISPONIBILIDADE[s].sinal}></i>{DISPONIBILIDADE[s].label} ({totais[s]})</button>
+          ))}</div>
+        </div>
+        <div className="pg-lista-titulo">{sel.status ? DISPONIBILIDADE[sel.status].label + (sel.cat ? " · " + labelCategoria(sel.cat) : " · todas as categorias") : "Todos os atletas"} <small>{lista.length}</small></div>
+        {lista.length === 0 ? <div className="inicio-vazio">Ninguém aqui.</div> : (
+          <div className="inicio-lista">
+            {lista.map((x, i) => <LinhaAtletaPainel key={x.a.id + i} a={x.a} sinal={DISPONIBILIDADE[x.d.status].sinal} classe={vm.classe(i, lista.length)} onOpen={onOpenAtleta}
+              detalhe={[rotuloCategoriasAtleta(x.a), x.d.motivos.slice(0, 2).map(semTravessao).join(" | ")].filter(Boolean).join(" · ")} />)}
+            {vm.botao(lista.length, "atletas")}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* 2. Lesões ao longo do tempo */
+function PainelLesoesTempo({ dados, onOpenAtleta }) {
+  const { useState, useMemo } = React;
+  const [cat, setCat] = useState("");
+  const [mes, setMes] = useState(null);
+  const vm = useVerMais(5);
+  const eps = useMemo(() => episodiosDoElenco(dados), [dados]);
+  const meses = mesesAte(hojeISO().slice(0, 7), 12);
+  const ocorr = [];
+  eps.filter((x) => !cat || atletaNaCategoria(x.a, cat)).forEach((x) => x.novas.forEach((d) => { const ym = d.slice(0, 7); if (meses.includes(ym)) ocorr.push({ ...x, data: d, ym }); }));
+  const porMes = meses.map((ym) => ocorr.filter((o) => o.ym === ym).length);
+  const max = Math.max(1, ...porMes);
+  const total = porMes.reduce((s, v) => s + v, 0);
+  const pico = porMes.indexOf(Math.max(...porMes));
+  const mesSel = mes && meses.includes(mes) ? mes : null;
+  const lista = (mesSel ? ocorr.filter((o) => o.ym === mesSel) : ocorr.filter((o) => o.ym === meses[11] || o.ym === meses[10])).sort((x, y) => y.data.localeCompare(x.data));
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Lesões ao longo do tempo</h3><span className="pg-head-info">{total} lesões novas em 12 meses</span></div>
+      <div className="pg-corpo">
+        <ChipsCategoriaPainel valor={cat} onChange={(c) => { setCat(c); setMes(null); }} />
+        <div className="pg-resumo">
+          <span><b>{total}</b>no ano</span>
+          <span><b>{(total / 12).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}</b>por mês</span>
+          <span><b>{total ? rotuloMes(meses[pico]) : "–"}</b>mês com mais</span>
+        </div>
+        <div className="pg-colunas" role="group" aria-label="Lesões novas por mês">
+          {meses.map((ym, i) => (
+            <button key={ym} type="button" className={"pg-col" + (mesSel === ym ? " on" : "") + (mesSel && mesSel !== ym ? " apagado" : "")} title={rotuloMes(ym) + ": " + porMes[i] + " lesões novas"}
+              onClick={() => setMes(mesSel === ym ? null : ym)} aria-pressed={mesSel === ym}>
+              <span className="pg-col-num">{porMes[i] || ""}</span>
+              <span className="pg-col-barra"><i style={{ height: (porMes[i] / max) * 100 + "%" }}></i></span>
+              <span className="pg-col-rot">{NOMES_MES_CURTO[Number(ym.slice(5)) - 1]}</span>
+            </button>
+          ))}
+        </div>
+        <div className="pg-lista-titulo">{mesSel ? "Lesões de " + rotuloMes(mesSel) : "Últimos 2 meses"} <small>{lista.length}</small>{mesSel && <button type="button" className="link-btn" onClick={() => setMes(null)}>Limpar</button>}</div>
+        {lista.length === 0 ? <div className="inicio-vazio">Nenhuma lesão nova aqui.</div> : (
+          <div className="inicio-lista">
+            {lista.map((o, i) => <LinhaAtletaPainel key={o.a.id + o.ep.local + o.data} a={o.a} sinal={o.ep.ativo ? corEpisodioMapa(o.ep) : "verde"} classe={vm.classe(i, lista.length)} onOpen={onOpenAtleta}
+              detalhe={[rotuloCategoriasAtleta(o.a), o.ep.local, formatarData(o.data)].filter(Boolean).join(" · ")} extra={o.ep.ativo ? labelFaseRtp(o.ep.faseAtual) : "Liberado"} />)}
+            {vm.botao(lista.length, "lesões")}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* 3. Quem volta em breve */
+function PainelQuemVolta({ dados, onOpenAtleta }) {
+  const { useState, useEffect, useMemo } = React;
+  const [filtro, setFiltro] = useState("");
+  const [assin, setAssin] = useState({});
+  const vm = useVerMais(6);
+  const lista = useMemo(() => episodiosDoElenco(dados).filter((x) => x.ep.ativo && ["mobilidade", "carga_progressiva", "transicao"].includes(x.ep.faseAtual))
+    .sort((x, y) => FASES_RTP_ATIVAS.indexOf(y.ep.faseAtual) - FASES_RTP_ATIVAS.indexOf(x.ep.faseAtual) || y.dias - x.dias), [dados]);
+  useEffect(() => {
+    let vivo = true;
+    Promise.all(lista.filter((x) => x.ep.faseAtual !== "mobilidade").slice(0, 20).map((x) => {
+      const k = chaveEpisodioRetorno(x.a.id, x.ep);
+      return db.collection(COL_RETORNO).doc(k).get().then((s) => [k, s.exists ? ASSINATURAS_RETORNO.filter((st) => ((s.data().assinaturas || {})[st])).length : 0]).catch(() => [k, null]);
+    })).then((r) => { if (vivo) setAssin(Object.fromEntries(r)); });
+    return () => { vivo = false; };
+  }, [lista]);
+  const grupos = [["transicao", "Transição"], ["carga_progressiva", "Fase final"], ["mobilidade", "Fase intermediária"]];
+  const vis = lista.filter((x) => !filtro || x.ep.faseAtual === filtro);
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Quem volta em breve</h3><span className="pg-head-info">{lista.filter((x) => x.ep.faseAtual === "transicao").length} em transição</span></div>
+      <div className="pg-corpo">
+        <div className="pg-resumo clicavel">
+          {grupos.map(([id, rot]) => (
+            <button key={id} type="button" className={filtro === id ? "on" : ""} aria-pressed={filtro === id} onClick={() => setFiltro(filtro === id ? "" : id)}>
+              <b>{lista.filter((x) => x.ep.faseAtual === id).length}</b>{rot}
+            </button>
+          ))}
+        </div>
+        {vis.length === 0 ? <div className="inicio-vazio">Ninguém nessa fase agora.</div> : (
+          <div className="pg-volta-lista">
+            {vis.map((x, i) => {
+              const k = chaveEpisodioRetorno(x.a.id, x.ep), n = assin[k];
+              const fase = FASES_RTP_ATIVAS.indexOf(x.ep.faseAtual);
+              return (
+                <button key={k} type="button" className={"pg-volta" + vm.classe(i, vis.length)} onClick={() => onOpenAtleta(x.a.id)}>
+                  <span className="pg-volta-topo">
+                    <span className={"inicio-avatar anel-" + (x.ep.faseAtual === "transicao" ? "verde" : "amarelo")}>{x.a.foto ? <img loading="lazy" decoding="async" src={x.a.foto} alt="" /> : iniciaisAtleta(x.a)}</span>
+                    <span className="inicio-evento-texto"><b>{nomeExibicao(x.a)}</b><small>{[rotuloCategoriasAtleta(x.a), x.ep.local, x.dias + " dias"].join(" · ")}</small></span>
+                    {typeof n === "number" && <span className={"badge " + (n === 3 ? "verde" : "amarelo")}>{n}/3 assinaturas</span>}
+                  </span>
+                  <span className="med-lesao-fases">{FASES_RTP_ATIVAS.map((f, j) => <span key={f} className={j < fase ? "feita" : j === fase ? "atual amarelo" : ""}><i></i></span>)}</span>
+                </button>
+              );
+            })}
+            {vm.botao(vis.length, "atletas")}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* 4. Regiões e posições */
+function PainelRegioesPosicoes({ dados, onOpenAtleta }) {
+  const { useState, useMemo } = React;
+  const [aba, setAba] = useState("regioes");
+  const [sel, setSel] = useState(null);
+  const vm = useVerMais(5);
+  const limite = isoMaisDias(hojeISO(), -365);
+  const eps = useMemo(() => episodiosDoElenco(dados).filter((x) => x.novas.some((d) => d >= limite) || x.ep.ativo), [dados]);
+  const chaveDe = (x) => (aba === "regioes" ? (regiaoPorLabel(x.ep.regiao) || {}).curto || x.ep.regiao : SIGLA_POSICAO[x.a.posicao] || x.a.posicao || "Sem posição");
+  const grupos = {};
+  eps.forEach((x) => { const k = chaveDe(x); (grupos[k] = grupos[k] || []).push(x); });
+  const itens = Object.entries(grupos).map(([k, l]) => ({ k, l, n: l.length, media: Math.round(l.reduce((s, x) => s + x.dias, 0) / l.length), ativos: l.filter((x) => x.ep.ativo).length }))
+    .sort((x, y) => y.n - x.n || y.media - x.media);
+  const max = Math.max(1, ...itens.map((i) => i.n));
+  const doElenco = (sigla) => (dados.atletas || []).filter((a) => !a.inativo && (SIGLA_POSICAO[a.posicao] || a.posicao || "Sem posição") === sigla).length;
+  const escolhido = sel && grupos[sel] ? sel : null;
+  const lista = escolhido ? grupos[escolhido].slice().sort((x, y) => Number(y.ep.ativo) - Number(x.ep.ativo) || y.dias - x.dias) : [];
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Regiões e posições</h3><span className="pg-head-info">últimos 12 meses</span></div>
+      <div className="pg-corpo">
+        <div className="pg-chips">
+          {[["regioes", "Regiões do corpo"], ["posicoes", "Posições"]].map(([id, rot]) => <button key={id} type="button" className={"pg-chip" + (aba === id ? " on" : "")} onClick={() => { setAba(id); setSel(null); }}>{rot}</button>)}
+        </div>
+        {itens.length === 0 ? <div className="inicio-vazio">Nenhuma lesão nos últimos 12 meses.</div> : (
+          <div className="pg-ranking">
+            <div className="pg-rank-cab"><span></span><span>Lesões</span><span>Média parado</span></div>
+            {itens.slice(0, 10).map((it) => (
+              <button key={it.k} type="button" className={"pg-rank" + (escolhido === it.k ? " on" : "") + (escolhido && escolhido !== it.k ? " apagado" : "")} onClick={() => setSel(escolhido === it.k ? null : it.k)}>
+                <span className="pg-rank-nome">{rotuloLocalLesao(it.k)}{aba === "posicoes" && <small>{it.l.length} de {doElenco(it.k)} no elenco</small>}</span>
+                <span className="pg-rank-barra"><i style={{ width: (it.n / max) * 100 + "%" }}></i><b>{it.n}</b>{it.ativos > 0 && <em>{it.ativos} ativa{it.ativos === 1 ? "" : "s"}</em>}</span>
+                <span className="pg-rank-dias">{it.media} dias</span>
+              </button>
+            ))}
+          </div>
+        )}
+        {escolhido ? (
+          <React.Fragment>
+            <div className="pg-lista-titulo">{rotuloLocalLesao(escolhido)} <small>{lista.length}</small><button type="button" className="link-btn" onClick={() => setSel(null)}>Limpar</button></div>
+            <div className="inicio-lista">
+              {lista.map((x, i) => <LinhaAtletaPainel key={x.a.id + x.ep.local} a={x.a} sinal={x.ep.ativo ? corEpisodioMapa(x.ep) : "verde"} classe={vm.classe(i, lista.length)} onOpen={onOpenAtleta}
+                detalhe={[rotuloCategoriasAtleta(x.a), aba === "regioes" ? SIGLA_POSICAO[x.a.posicao] || x.a.posicao : x.ep.local, x.dias + " dias parado"].filter(Boolean).join(" · ")} extra={x.ep.ativo ? labelFaseRtp(x.ep.faseAtual) : "Liberado"} />)}
+              {vm.botao(lista.length, "atletas")}
+            </div>
+          </React.Fragment>
+        ) : itens.length > 0 && <div className="pg-dica">Toque numa linha para ver os atletas.</div>}
+      </div>
+    </div>
+  );
+}
+
+/* 5. Ocupação do alojamento */
+function PainelOcupacaoAlojamento({ atletas, onOpenAtleta }) {
+  const { useState } = React;
+  const [sel, setSel] = useState(null);
+  const vm = useVerMais(6);
+  const ativos = (atletas || []).filter((a) => !a.inativo);
+  const locais = [["Alojamento casa", "Casa"], ["Alojamento apartamento", "Apartamento"]].map(([aloj, rot]) => {
+    const l = ativos.filter((a) => a.alojamento === aloj);
+    return { aloj, rot, l, cap: capacidadeAloj(aloj) };
+  });
+  const oc = locais.reduce((s, x) => s + x.l.length, 0), cap = locais.reduce((s, x) => s + x.cap, 0);
+  const pct = cap ? Math.round((100 * oc) / cap) : 0;
+  const r = 34, C = 2 * Math.PI * r;
+  const escolhido = locais.find((x) => x.aloj === sel);
+  const lista = (escolhido ? escolhido.l : locais.flatMap((x) => x.l)).slice().sort(ordemNomeAtleta);
+  const nomeQuarto = (a) => { const q = quartoPorId(a.quarto); return q && q.grupo.aloj === a.alojamento ? q.grupo.titulo + " · " + q.nome : "Sem quarto definido"; };
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Ocupação do alojamento</h3><span className="pg-head-info">{oc} de {cap} camas</span></div>
+      <div className="pg-corpo">
+        <div className="pg-aloj">
+          <div className="pg-rosca" role="img" aria-label={"Ocupação geral " + pct + "%"}>
+            <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r={r} fill="none" stroke="#E2E8F0" strokeWidth="9" />
+              {pct > 0 && <circle cx="40" cy="40" r={r} fill="none" stroke={pct > 100 ? "#D9463B" : pct >= 90 ? "#F2B53A" : "#1E7446"} strokeWidth="9" strokeLinecap="round" strokeDasharray={`${(Math.min(pct, 100) / 100) * C} ${C}`} transform="rotate(-90 40 40)" />}</svg>
+            <span><b>{pct}%</b>ocupado</span>
+          </div>
+          <div className="pg-aloj-locais">
+            {locais.map((x) => {
+              const p = x.cap ? Math.round((100 * x.l.length) / x.cap) : 0;
+              return (
+                <button key={x.aloj} type="button" className={"pg-aloj-local" + (sel === x.aloj ? " on" : "")} onClick={() => setSel(sel === x.aloj ? null : x.aloj)} aria-pressed={sel === x.aloj}>
+                  <span className="pg-aloj-topo"><b>{x.rot}</b><span>{x.l.length}/{x.cap} · {p}%</span></span>
+                  <span className="pg-aloj-barra"><i className={p > 100 ? "critico" : p >= 90 ? "cheio" : ""} style={{ width: Math.min(p, 100) + "%" }}></i></span>
+                  <small>{Math.max(0, x.cap - x.l.length)} camas livres</small>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="pg-lista-titulo">{escolhido ? "Alojados na " + escolhido.rot.toLowerCase() : "Todos os alojados"} <small>{lista.length}</small></div>
+        {lista.length === 0 ? <div className="inicio-vazio">Nenhum atleta alojado.</div> : (
+          <div className="inicio-lista">
+            {lista.map((a, i) => <LinhaAtletaPainel key={a.id} a={a} classe={vm.classe(i, lista.length)} onOpen={onOpenAtleta} detalhe={[rotuloCategoriasAtleta(a), nomeQuarto(a)].join(" · ")} />)}
+            {vm.botao(lista.length, "atletas")}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* 6. Elenco em números */
+function PainelElencoNumeros({ atletas }) {
+  const { useState } = React;
+  const [cat, setCat] = useState("");
+  const ativos = (atletas || []).filter((a) => !a.inativo);
+  const l = ativos.filter((a) => !cat || atletaNaCategoria(a, cat));
+  const contar = (fn) => { const m = {}; l.forEach((a) => { const k = fn(a); if (k) m[k] = (m[k] || 0) + 1; }); return m; };
+  const anos = Object.entries(contar((a) => (a.data_nascimento || "").slice(0, 4))).sort();
+  const posicoes = Object.entries(contar((a) => SIGLA_POSICAO[a.posicao] || a.posicao)).sort((x, y) => y[1] - x[1]);
+  const proj = contar((a) => a.projecao);
+  const vinc = contar((a) => tipoVinculo(a.vinculo));
+  const maxAno = Math.max(1, ...anos.map((x) => x[1])), maxPos = Math.max(1, ...posicoes.map((x) => x[1]));
+  const barras = (lista, max) => (
+    <div className="pg-mini-barras">{lista.map(([k, v]) => (
+      <div key={k} className="pg-mini" title={k + ": " + v}><span className="pg-mini-num">{v}</span><span className="pg-mini-barra"><i style={{ height: (v / max) * 100 + "%" }}></i></span><span className="pg-mini-rot">{k}</span></div>
+    ))}</div>
+  );
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Elenco em números</h3><span className="pg-head-info">{ativos.length} atletas ativos</span></div>
+      <div className="pg-corpo">
+        <ChipsCategoriaPainel valor={cat} onChange={setCat} contagem={(c) => (c ? ativos.filter((a) => atletaNaCategoria(a, c)).length : ativos.length)} />
+        <div className="pg-resumo">
+          <span><b>{l.length}</b>atletas</span>
+          <span><b>{l.filter((a) => a.em_avaliacao).length}</b>em avaliação</span>
+          <span><b>{l.filter((a) => a.alojamento).length}</b>alojados</span>
+          <span><b>{l.filter((a) => /canhot/i.test(a.perna_dominante || "")).length}</b>canhotos</span>
+        </div>
+        <div className="pg-elenco-grade">
+          <div><div className="pg-sub">Ano de nascimento</div>{anos.length ? barras(anos, maxAno) : <div className="pg-dica">Sem datas de nascimento.</div>}</div>
+          <div><div className="pg-sub">Posições</div>{posicoes.length ? barras(posicoes, maxPos) : <div className="pg-dica">Sem posições.</div>}</div>
+        </div>
+        <div className="pg-elenco-grade">
+          <div><div className="pg-sub">Projeção</div><div className="pg-tags">{PROJECOES.map((p) => <span key={p.id} className={"pg-tag proj-" + p.id}>{p.seta} {p.label} <b>{proj[p.id] || 0}</b></span>)}<span className="pg-tag">Sem avaliar <b>{l.length - PROJECOES.reduce((s, p) => s + (proj[p.id] || 0), 0)}</b></span></div></div>
+          <div><div className="pg-sub">Vínculo</div><div className="pg-tags">{STATUS_VINCULO.map((v) => <span key={v} className="pg-tag">{v} <b>{vinc[v] || 0}</b></span>)}</div></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* 7. Contratos vencendo (usa o término que aparece no card do atleta) */
+function PainelContratosVencendo({ atletas, onOpenAtleta }) {
+  const { useState } = React;
+  const [janela, setJanela] = useState(90);
+  const vm = useVerMais(6);
+  const hoje = hojeISO();
+  const comFim = (atletas || []).filter((a) => !a.inativo && a.vinculo_fim).map((a) => ({ a, d: diasEntreIso(hoje, a.vinculo_fim) }));
+  const lista = comFim.filter((x) => x.d <= janela).sort((x, y) => x.d - y.d);
+  const sinal = (d) => (d < 0 ? "vermelho" : d <= 30 ? "vermelho" : d <= 60 ? "amarelo" : "verde");
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Contratos vencendo</h3><span className="pg-head-info">{comFim.length} com término cadastrado</span></div>
+      <div className="pg-corpo">
+        <div className="pg-chips">{[30, 60, 90, 180].map((j) => <button key={j} type="button" className={"pg-chip" + (janela === j ? " on" : "")} onClick={() => setJanela(j)}>Até {j} dias<small>{comFim.filter((x) => x.d <= j).length}</small></button>)}</div>
+        {lista.length === 0 ? <div className="inicio-vazio">{comFim.length ? "Nenhum contrato vencendo nesse prazo." : "Nenhum atleta com término de contrato cadastrado ainda. O Serviço Social preenche no cadastro."}</div> : (
+          <div className="inicio-lista">
+            {lista.map((x, i) => <LinhaAtletaPainel key={x.a.id} a={x.a} sinal={sinal(x.d)} classe={vm.classe(i, lista.length)} onOpen={onOpenAtleta}
+              detalhe={[rotuloCategoriasAtleta(x.a), tipoVinculo(x.a.vinculo), "Término " + formatarData(x.a.vinculo_fim)].filter(Boolean).join(" · ")}
+              extra={x.d < 0 ? "Vencido" : x.d === 0 ? "Hoje" : "Em " + x.d + " dia" + (x.d === 1 ? "" : "s")} />)}
+            {vm.botao(lista.length, "contratos")}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /** Painel geral: só o essencial do dia a dia. Semáforo do elenco, próximo jogo,
  *  compromissos da semana, pendências, atletas em prioridade e últimas novidades. */
 function PainelAvisosNaoLidos({ usuario, ir }) {
@@ -7501,8 +7960,8 @@ function BlocoSetor({ dados, usuario, eventos, ir, onOpenAtleta }) {
    esconde, reordena e escolhe o tamanho dos blocos. Salvo no perfil (ct_perfis.layout_painel).
    ===================================================================== */
 const LAYOUT_PADRAO = {
-  ordem: ["kpis", "rapido", "bandeira", "meuqts", "avisos", "online", "restricoes", "atualizacoes", "alerta", "jogo", "aniversarios", "semana", "vencimentos", "lembretes", "setor"],
-  tamanho: { kpis: "inteiro", setor: "inteiro" },
+  ordem: ["kpis", "rapido", "bandeira", "meuqts", "avisos", "online", "disponibilidade", "voltam", "restricoes", "atualizacoes", "alerta", "jogo", "semana", "aniversarios", "lesoesTempo", "regioes", "alojamento", "contratos", "elenco", "vencimentos", "lembretes", "setor"],
+  tamanho: { kpis: "inteiro", setor: "inteiro", elenco: "inteiro" },
   ocultos: [],
 };
 function normalizarLayout(salvo, ids) {
@@ -7889,6 +8348,8 @@ function Dashboard({ dados, usuario, onOpenAtleta, onNavigate }) {
                   <button type="button" key={e.id} className={"inicio-evento tipo-" + e.tipo} onClick={() => ir(e.tipo === "jogo" ? "jogos" : "agenda")}>
                     <span className="inicio-evento-dia">{e.data === hoje ? "Hoje" : diaSemanaCurto(e.data) + " " + dataCurta(e.data)}<small>{e.hora || ""}</small></span>
                     <span className="inicio-evento-texto"><b>{tituloEvento(e)}</b><small>{[labelTipoEvento(e.tipo), labelCategoriaEvento(e.categoria), e.local].filter(Boolean).join(" · ")}</small></span>
+                    {e.tipo === "jogo" && (() => { const n = e.convocacao ? (e.convocacao.titulares || []).length + (e.convocacao.reservas || []).length : 0; return <span className={"pg-status " + (n ? "ok" : "pend")}>{n ? n + " convocados" : "Convocação pendente"}</span>; })()}
+                    {e.tipo === "treino" && <span className={"pg-status " + ((e.plano_treino && (e.plano_treino.blocos || []).length) || e.area === "fisico" ? "ok" : "pend")}>{(e.plano_treino && (e.plano_treino.blocos || []).length) || e.area === "fisico" ? "Plano pronto" : "Sem plano"}</span>}
                   </button>
                 ))}
                 {semana.length > 8 && <button type="button" className="link-btn inicio-mais" onClick={() => ir("agenda")}>Mais {semana.length - 8} na agenda</button>}
@@ -7897,6 +8358,13 @@ function Dashboard({ dados, usuario, onOpenAtleta, onNavigate }) {
           </div>
     ) },
     aniversarios: { label: "Aniversários da semana", el: <PainelAniversarios atletas={dados.atletas} /> },
+    disponibilidade: { label: "Disponibilidade por categoria", el: <PainelDisponibilidadeCategorias dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
+    voltam: { label: "Quem volta em breve", el: <PainelQuemVolta dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
+    lesoesTempo: { label: "Lesões ao longo do tempo", el: <PainelLesoesTempo dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
+    regioes: { label: "Regiões e posições", el: <PainelRegioesPosicoes dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
+    alojamento: { label: "Ocupação do alojamento", el: <PainelOcupacaoAlojamento atletas={dados.atletas} onOpenAtleta={onOpenAtleta} />, pode: usuarioEhEquipe(usuario) },
+    elenco: { label: "Elenco em números", el: <PainelElencoNumeros atletas={dados.atletas} />, pode: usuarioEhEquipe(usuario) },
+    contratos: { label: "Contratos vencendo", el: <PainelContratosVencendo atletas={dados.atletas} onOpenAtleta={onOpenAtleta} />, pode: usuarioEhEquipe(usuario) },
     vencimentos: { label: "Vencimentos e alertas", el: <PainelVencimentos dados={dados} usuario={usuario} onOpenAtleta={onOpenAtleta} ir={ir} />, pode: podeVerDadosPessoais(usuario) || temPermissao(usuario, "medicina") },
     lembretes: { label: "Lembretes", el: <PainelLembretes itens={lembretes} onAbrir={abrirLembrete} /> },
     atualizacoes: { label: "Atualizações", el: (
@@ -21087,20 +21555,17 @@ function PainelDocumentosAtletas({ atletas, usuario }) {
    e o campo alojamento acompanha (casa ou apartamento). */
 const QUARTOS_ALOJ = [
   { id: "casa", aloj: "Alojamento casa", titulo: "Casa", quartos: [
-    { id: "casa-q1", nome: "Quarto 1", camas: 4 }, { id: "casa-q2", nome: "Quarto 2", camas: 4 },
-    { id: "casa-q3", nome: "Quarto 3", camas: 4 }, { id: "casa-q4", nome: "Quarto 4", camas: 8 },
+    { id: "casa-q1", nome: "Quarto 1", camas: 4 }, { id: "casa-q2", nome: "Quarto 2", camas: 3 },
+    { id: "casa-q3", nome: "Quarto 3", camas: 5 }, { id: "casa-q4", nome: "Quarto 4", camas: 5 },
   ] },
-  { id: "apto-t", aloj: "Alojamento apartamento", titulo: "Apartamento", quartos: [
+  { id: "apto", aloj: "Alojamento apartamento", titulo: "Apartamento", quartos: [
     { id: "apto-trein", nome: "Quarto do treinador", camas: 1, comissao: true },
-  ] },
-  { id: "apto-1", aloj: "Alojamento apartamento", titulo: "Apartamento · 1º andar", quartos: [
-    { id: "apto1-q1", nome: "Quarto 1", camas: 4 }, { id: "apto1-q2", nome: "Quarto 2", camas: 4 },
-    { id: "apto1-q3", nome: "Quarto 3", camas: 3 }, { id: "apto1-q4", nome: "Quarto 4", camas: 3 }, { id: "apto1-q5", nome: "Quarto 5", camas: 3 },
-  ] },
-  { id: "apto-2", aloj: "Alojamento apartamento", titulo: "Apartamento · 2º andar", quartos: [
-    { id: "apto2-q1", nome: "Quarto 1", camas: 2 }, { id: "apto2-q2", nome: "Quarto 2", camas: 2 },
-    { id: "apto2-q3", nome: "Quarto 3", camas: 2 }, { id: "apto2-q4", nome: "Quarto 4", camas: 2 },
-    { id: "apto2-q5", nome: "Quarto 5", camas: 4 }, { id: "apto2-q6", nome: "Quarto 6", camas: 4 },
+    { id: "apto-q1", nome: "Quarto 1", camas: 3 }, { id: "apto-q2", nome: "Quarto 2", camas: 2 },
+    { id: "apto-q3", nome: "Quarto 3", camas: 3 }, { id: "apto-q4", nome: "Quarto 4", camas: 2 },
+    { id: "apto-q5", nome: "Quarto 5", camas: 4 }, { id: "apto-q7", nome: "Quarto 7", camas: 2 },
+    { id: "apto-q8", nome: "Quarto 8", camas: 2 }, { id: "apto-q9", nome: "Quarto 9", camas: 4 },
+    { id: "apto-q10", nome: "Quarto 10", camas: 2 }, { id: "apto-q11", nome: "Quarto 11", camas: 2 },
+    { id: "apto-q12", nome: "Quarto 12", camas: 2 },
   ] },
 ];
 function quartoPorId(id) {
@@ -21110,8 +21575,7 @@ function quartoPorId(id) {
 function rotuloQuarto(id, comAloj) {
   const q = quartoPorId(id);
   if (!q) return "";
-  const lugar = q.grupo.id === "casa" ? "Casa" : q.grupo.id === "apto-1" ? "1º andar" : q.grupo.id === "apto-2" ? "2º andar" : "Apartamento";
-  return comAloj ? q.grupo.titulo + " · " + q.nome : (q.grupo.id === "casa" ? q.nome : lugar + " · " + q.nome);
+  return comAloj ? q.grupo.titulo + " · " + q.nome : q.nome;
 }
 function textoAlojamento(a) {
   if (!a || !a.alojamento) return "Não alojado";
@@ -21121,6 +21585,201 @@ function textoAlojamento(a) {
 function podeEditarQuartos(u) { return !!u && (u.role === "admin" || (u.modulos || []).includes("social")); }
 function capacidadeAloj(aloj) { return QUARTOS_ALOJ.filter((g) => g.aloj === aloj).reduce((s, g) => s + g.quartos.filter((q) => !q.comissao).reduce((t, q) => t + q.camas, 0), 0); }
 
+/* ---------- Importar quartos por planilha (Serviço Social) ----------
+   Lê Nome / Categoria / Nascimento / Quarto, acha o atleta pelo nome (e pela data de nascimento
+   quando o nome vem diferente) e mostra a prévia. Só grava alojamento e quarto, depois de confirmar. */
+function quartoDoTextoPlanilha(txt) {
+  const t = normalizarBusca(txt).toUpperCase().replace(/\s+/g, " ").trim();
+  if (!t || /DECIDIR|DEFINIR|SEM QUARTO/.test(t)) return { quarto: "", aloj: "" };
+  const n = (t.match(/QUARTO\s*(\d+)/) || [])[1];
+  const casa = /CASA/.test(t) || /ALOJ\w*\s*2/.test(t);
+  if (!n) return { erro: "Não entendi o quarto \"" + String(txt).trim() + "\"" };
+  const id = (casa ? "casa-q" : "apto-q") + Number(n);
+  const q = quartoPorId(id);
+  if (!q || q.comissao) return { erro: (casa ? "Casa" : "Apartamento") + " · Quarto " + Number(n) + " não existe no app" };
+  return { quarto: id, aloj: q.grupo.aloj };
+}
+function dataPlanilhaIso(v) {
+  if (typeof v === "number" && v > 20000 && v < 80000) return new Date(Date.UTC(1899, 11, 30) + Math.round(v) * 86400000).toISOString().slice(0, 10);
+  return dataFlexIso(v);
+}
+function tokensNome(n) { return normalizarBusca(n).toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter((p) => p && !["da", "de", "do", "das", "dos", "e"].includes(p)); }
+function acharAtletaPlanilha(nome, nasc, atletas) {
+  const tn = tokensNome(nome); const chave = tn.join(" ");
+  const notas = atletas.map((a) => {
+    const ta = tokensNome(a.nome || nomeExibicao(a));
+    if (!ta.length || !tn.length) return { a, p: 0 };
+    if (ta.join(" ") === chave) return { a, p: 100 };
+    const comuns = tn.filter((x) => ta.includes(x)).length;
+    const mesmaData = nasc && a.data_nascimento === nasc;
+    let p = 0;
+    if (mesmaData && comuns >= 2) p = 90;
+    else if (mesmaData && ta[0] === tn[0]) p = 85;
+    else if (ta[0] === tn[0] && comuns >= 3) p = 70 + comuns;
+    else if (ta[0] === tn[0] && comuns >= 2 && ta[ta.length - 1] === tn[tn.length - 1]) p = 65;
+    return { a, p };
+  }).filter((x) => x.p >= 60).sort((x, y) => y.p - x.p);
+  if (!notas.length) return { atleta: null, motivo: "Não achei no app" };
+  if (notas[1] && notas[1].p === notas[0].p) return { atleta: null, motivo: "Mais de um atleta parecido" };
+  return { atleta: notas[0].a, certeza: notas[0].p };
+}
+function lerPlanilhaQuartos(linhas, atletas) {
+  const iCab = linhas.findIndex((l) => l.some((c) => /NOME/.test(normalizarBusca(String(c)).toUpperCase())));
+  if (iCab < 0) throw new Error("não achei a coluna com o nome do atleta");
+  const cab = linhas[iCab].map((c) => normalizarBusca(String(c)).toUpperCase());
+  const col = (re) => cab.findIndex((c) => re.test(c));
+  const cN = col(/NOME/), cC = col(/CATEG/), cD = col(/NASC/), cQ = col(/QUARTO|ALOJ/);
+  if (cQ < 0) throw new Error("não achei a coluna do quarto");
+  const saida = [];
+  linhas.slice(iCab + 1).forEach((l, k) => {
+    let nome = String(l[cN] == null ? "" : l[cN]).replace(/\s+/g, " ").trim();
+    let qtxt = String(l[cQ] == null ? "" : l[cQ]).trim();
+    if (!nome) return;
+    const linha = iCab + k + 2;
+    if (/TESTE/i.test(nome)) { saida.push({ linha, nome, ignorada: "Linha de teste" }); return; }
+    const emb = nome.match(/^(.*?)\s+-\s+(ALOJ.*)$/i);
+    if (emb && !qtxt) { nome = emb[1].trim(); qtxt = emb[2]; }
+    const nasc = cD >= 0 ? dataPlanilhaIso(l[cD]) : "";
+    const destino = quartoDoTextoPlanilha(qtxt);
+    const achado = acharAtletaPlanilha(nome, nasc, atletas);
+    saida.push({ linha, nome: nomeTitulo(nome), categoria: cC >= 0 ? String(l[cC] || "").replace(/\s+/g, " ").trim() : "", nasc, quartoTexto: qtxt, ...destino, atletaId: achado.atleta ? achado.atleta.id : "", motivo: achado.motivo || "", duvida: achado.atleta && achado.certeza < 100 });
+  });
+  return saida;
+}
+
+function ImportarQuartos({ atletas, onFechar, onMudou }) {
+  const { useState, useRef } = React;
+  const [linhas, setLinhas] = useState(null);
+  const [erro, setErro] = useState("");
+  const [lendo, setLendo] = useState(false);
+  const [salvando, setSalvando] = useState(false);
+  const [tirarOutros, setTirarOutros] = useState(false);
+  const [feito, setFeito] = useState(null);
+  const inp = useRef(null);
+  const vmOut = useVerMais(8);
+  const ativos = (atletas || []).filter((a) => !a.inativo).sort((a, b) => nomeExibicao(a).localeCompare(nomeExibicao(b), "pt-BR"));
+  const porId = new Map(ativos.map((a) => [a.id, a]));
+
+  async function ler(arq) {
+    if (!arq) return;
+    setErro(""); setLendo(true); setFeito(null);
+    try {
+      await carregarBiblioteca("xlsx");
+      const buf = await arq.arrayBuffer();
+      const wb = XLSX.read(buf, { type: "array" });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const tab = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: "" });
+      const l = lerPlanilhaQuartos(tab, ativos);
+      if (!l.length) throw new Error("a planilha não tem atletas");
+      setLinhas(l.map((x) => ({ ...x, alojEscolhido: x.aloj || (porId.get(x.atletaId) && ALOJAMENTOS.includes(porId.get(x.atletaId).alojamento) ? porId.get(x.atletaId).alojamento : "Alojamento apartamento") })));
+    } catch (e) { setErro("Não consegui ler a planilha: " + e.message); setLinhas(null); }
+    setLendo(false);
+    if (inp.current) inp.current.value = "";
+  }
+  const mudar = (i, campos) => setLinhas((ls) => ls.map((x, j) => (j === i ? { ...x, ...campos } : x)));
+
+  const validas = (linhas || []).filter((x) => !x.ignorada && !x.erro && x.atletaId);
+  const repetidos = new Set(); const vistos = new Set();
+  validas.forEach((x) => { if (vistos.has(x.atletaId)) repetidos.add(x.atletaId); vistos.add(x.atletaId); });
+  const destinoDe = (x) => ({ alojamento: x.quarto ? x.aloj : x.alojEscolhido, quarto: x.quarto || "" });
+  const ocupa = {}; validas.forEach((x) => { if (x.quarto) ocupa[x.quarto] = (ocupa[x.quarto] || 0) + 1; });
+  const lotados = Object.keys(ocupa).filter((id) => ocupa[id] > quartoPorId(id).camas);
+  const fora = ativos.filter((a) => ALOJAMENTOS.includes(a.alojamento) && !vistos.has(a.id));
+  const pendentes = (linhas || []).filter((x) => !x.ignorada && (x.erro || !x.atletaId));
+  const mudam = validas.filter((x) => { const a = porId.get(x.atletaId); const d = destinoDe(x); return a && (a.alojamento !== d.alojamento || (a.quarto || "") !== d.quarto); });
+  const bloqueio = repetidos.size ? "O mesmo atleta aparece em duas linhas." : "";
+
+  async function aplicar() {
+    const ops = mudam.map((x) => [x.atletaId, destinoDe(x)]);
+    if (tirarOutros) fora.forEach((a) => ops.push([a.id, { alojamento: "", quarto: "" }]));
+    if (!ops.length) { setFeito("Nada para mudar: todos já estão nesses quartos."); return; }
+    if (!window.confirm("Gravar o quarto de " + ops.length + " atleta" + (ops.length === 1 ? "" : "s") + "?")) return;
+    setSalvando(true);
+    try {
+      for (let i = 0; i < ops.length; i += 400) {
+        const b = db.batch();
+        ops.slice(i, i + 400).forEach(([id, c]) => b.update(db.collection(COL_ATLETAS).doc(id), c));
+        await b.commit();
+      }
+      setFeito(ops.length + " atleta" + (ops.length === 1 ? " atualizado" : "s atualizados") + ".");
+      setLinhas(null);
+      if (onMudou) onMudou();
+    } catch (e) { alert("Não consegui salvar: " + e.message); }
+    setSalvando(false);
+  }
+
+  const status = (x) => {
+    if (x.ignorada) return <span className="imq-tag cinza">{x.ignorada}</span>;
+    if (x.erro) return <span className="imq-tag vermelho">{x.erro}</span>;
+    if (!x.atletaId) return <span className="imq-tag vermelho">{x.motivo}</span>;
+    if (repetidos.has(x.atletaId)) return <span className="imq-tag vermelho">Atleta repetido</span>;
+    const a = porId.get(x.atletaId); const d = destinoDe(x);
+    if (a && a.alojamento === d.alojamento && (a.quarto || "") === d.quarto) return <span className="imq-tag cinza">Já está aí</span>;
+    return <span className="imq-tag verde">{a && quartoValidoAtleta(a) ? "Muda de " + rotuloQuarto(a.quarto, true) : "Entra"}</span>;
+  };
+
+  return (
+    <div className="panel imq">
+      <div className="panel-head"><h3>Importar quartos da planilha</h3><button type="button" className="link-btn" onClick={onFechar}>Fechar</button></div>
+      <div className="panel-body">
+        <p className="muted" style={{ marginTop: 0, fontSize: 13 }}>Envie a planilha (.xlsx ou .csv) com as colunas Nome do atleta e Quarto. O app acha cada atleta pelo nome e pela data de nascimento, mostra a prévia e só grava depois que você confirmar. Muda só o alojamento e o quarto; o resto da ficha fica igual.</p>
+        <input ref={inp} type="file" accept=".xlsx,.xls,.csv" style={{ display: "none" }} onChange={(e) => ler(e.target.files[0])} />
+        <button type="button" className="pill-btn" disabled={lendo} onClick={() => inp.current && inp.current.click()}>{lendo ? "Lendo..." : linhas ? "Escolher outra planilha" : "Escolher planilha"}</button>
+        {erro && <div className="access-note" style={{ marginTop: 10 }}><span>{erro}</span></div>}
+        {feito && <div className="imq-ok">{feito}</div>}
+        {linhas && (
+          <React.Fragment>
+            <div className="quartos-resumo" style={{ marginTop: 12 }}>
+              <div className="conv-contador ok"><b>{validas.length}</b><span>atletas encontrados</span></div>
+              <div className="conv-contador"><b>{mudam.length}</b><span>vão mudar</span></div>
+              <div className={"conv-contador" + (pendentes.length ? " pendente" : " ok")}><b>{pendentes.length}</b><span>precisam de você</span></div>
+            </div>
+            {lotados.length > 0 && <div className="access-note"><span>Passa do número de camas: {lotados.map((id) => rotuloQuarto(id, true) + " (" + ocupa[id] + "/" + quartoPorId(id).camas + ")").join(", ")}. Dá para gravar mesmo assim.</span></div>}
+            <div className="imq-lista">
+              {linhas.map((x, i) => (
+                <div key={i} className={"imq-linha" + (x.ignorada ? " ign" : (!x.atletaId || x.erro) ? " pend" : "")}>
+                  <div className="imq-nome"><b>{x.nome}</b><small className="muted">{["linha " + x.linha, x.categoria, x.nasc ? formatarData(x.nasc) : ""].filter(Boolean).join(" · ")}</small></div>
+                  <div className="imq-atleta">
+                    {!x.ignorada && (
+                      <select value={x.atletaId} onChange={(e) => mudar(i, { atletaId: e.target.value, duvida: false })} aria-label={"Atleta do app para " + x.nome}>
+                        <option value="">Não importar</option>
+                        {ativos.map((a) => <option key={a.id} value={a.id}>{nomeExibicao(a)}{a.categoria ? " (" + a.categoria + ")" : ""}</option>)}
+                      </select>
+                    )}
+                    {x.duvida && <small className="imq-duvida">Confira se é ele</small>}
+                  </div>
+                  <div className="imq-destino">
+                    {x.ignorada ? <span className="muted">Não entra</span> : x.erro ? <span className="muted">{x.quartoTexto || "Sem quarto"}</span> : x.quarto ? <b>{rotuloQuarto(x.quarto, true)}</b> : (
+                      <span className="imq-semq">Sem quarto em
+                        <select value={x.alojEscolhido} onChange={(e) => mudar(i, { alojEscolhido: e.target.value })} aria-label="Alojamento">
+                          {ALOJAMENTOS.map((al) => <option key={al} value={al}>{al.replace("Alojamento ", "")}</option>)}
+                        </select>
+                      </span>
+                    )}
+                  </div>
+                  <div className="imq-status">{status(x)}</div>
+                </div>
+              ))}
+            </div>
+            {fora.length > 0 && (
+              <div className="imq-fora">
+                <label className="imq-check"><input type="checkbox" checked={tirarOutros} onChange={(e) => setTirarOutros(e.target.checked)} /> Marcar como não alojados os {fora.length} que estão alojados no app e não aparecem na planilha</label>
+                <div className="imq-fora-lista">{fora.map((a, i) => <span key={a.id} className={("imq-chip " + vmOut.classe(i, fora.length)).trim()}>{nomeExibicao(a)} <small className="muted">{a.categoria}</small></span>)}</div>
+                {vmOut.botao(fora.length, "atletas")}
+              </div>
+            )}
+            {bloqueio && <div className="access-note"><span>{bloqueio} Corrija na lista acima antes de gravar.</span></div>}
+            <div className="imq-acoes">
+              <button type="button" className="pill-btn primary" disabled={salvando || !!bloqueio || (!mudam.length && !(tirarOutros && fora.length))} onClick={aplicar}>{salvando ? "Gravando..." : "Gravar " + (mudam.length + (tirarOutros ? fora.length : 0)) + " mudanças"}</button>
+              <button type="button" className="link-btn" onClick={() => setLinhas(null)}>Cancelar</button>
+            </div>
+          </React.Fragment>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function PainelQuartos({ atletas, usuario, onMudou }) {
   const { useState } = React;
   const [mud, setMud] = useState({});
@@ -21128,6 +21787,7 @@ function PainelQuartos({ atletas, usuario, onMudou }) {
   const [aberto, setAberto] = useState(null);
   const [busca, setBusca] = useState("");
   const [toast, setToast] = useState(null);
+  const [importando, setImportando] = useState(false);
   const vmSem = useVerMais(10);
   const pode = podeEditarQuartos(usuario);
   const ativos = (atletas || []).filter((a) => !a.inativo).map((a) => (mud[a.id] ? { ...a, ...mud[a.id] } : a))
@@ -21213,7 +21873,9 @@ function PainelQuartos({ atletas, usuario, onMudou }) {
         {ALOJAMENTOS.map((al) => <div key={al} className="conv-contador"><b>{ocupadas(al)}/{totalCamas(al)}</b><span>camas ocupadas · {al.replace("Alojamento ", "")}</span></div>)}
         <div className={"conv-contador" + (semQuarto.length ? " pendente" : " ok")}><b>{semQuarto.length}</b><span>alojados sem quarto</span></div>
         <button type="button" className="pill-btn" style={{ alignSelf: "center" }} onClick={() => pdfQuartos(ativos, usuario).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF dos quartos</button>
+        {pode && !importando && <button type="button" className="pill-btn primary" style={{ alignSelf: "center" }} onClick={() => setImportando(true)}>Importar planilha</button>}
       </div>
+      {pode && importando && <ImportarQuartos atletas={atletas} onFechar={() => setImportando(false)} onMudou={() => { setMud({}); if (onMudou) onMudou(); }} />}
       {!pode && <div className="access-note"><span>Só o Serviço Social e o admin mudam atletas de quarto.</span></div>}
       {QUARTOS_ALOJ.map((g) => (
         <div key={g.id} className="panel">
