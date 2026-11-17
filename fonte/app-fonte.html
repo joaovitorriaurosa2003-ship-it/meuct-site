@@ -30071,7 +30071,7 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
   }
 
   /* ---------- uma atividade numa coluna ---------- */
-  function atividade(b, n, x, y, w, yFim) {
+  function atividade(b, n, x, y, w, yFim, L) {
     const lab = (t) => ({ fundo: CINZA, negrito: true, tam: 6.4 });
     // 1ª linha: Nª ATIVIDADE | MÉTODO | valor
     const w1 = w * 0.26;
@@ -30091,7 +30091,7 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     ["TÁTICA COLETIVA", "TÁTICA DE GRUPO", "TÉCNICO TÁTICO IND", "COMPORTAMENTAL"].forEach((t, i) => titulo(x + i * wC, y, wC, 5, t, { tam: 5.8 }));
     y += 5;
     const listas = [b.tatica_coletiva || [], b.tatica_grupo || [], b.tecnico_individual || []];
-    const nItens = Math.max(4, ...listas.map((l) => l.length));
+    const nItens = L.nItens;
     const hItem = Math.min(9, 36 / nItens);
     const espacoDe = (item) => ((b.espacos || {})[item] || b.espaco_fase || "");
     for (let i = 0; i < nItens; i++) {
@@ -30117,13 +30117,12 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     const funcoes = (b.funcoes || []).filter((f) => f.membro || f.funcao);
     const linhasF = funcoes.length ? funcoes.map((f) => [f.membro, [f.funcao, f.detalhe].filter(Boolean).join(" · ")]) : LISTAS_PLANO.comissao.slice(0, 6).map((m) => [m, ""]);
     const hF = 3.4;
-    linhasF.slice(0, 8).forEach((l) => { cel(x, y, w * 0.42, hF, l[0] || "", { tam: 6.2 }); cel(x + w * 0.42, y, w * 0.58, hF, l[1] || "", { tam: 6.2 }); y += hF; });
+    for (let i = 0; i < L.nFunc; i++) { const l = linhasF[i] || ["", ""]; cel(x, y, w * 0.42, hF, l[0] || "", { tam: 6.2 }); cel(x + w * 0.42, y, w * 0.58, hF, l[1] || "", { tam: 6.2 }); y += hF; }
     // feedbacks individuais
     titulo(x, y, w * 0.42, 4.2, "FEEDBACKS INDIVIDUAIS", { tam: 6 }); titulo(x + w * 0.42, y, w * 0.32, 4.2, "ATLETAS", { tam: 6 }); titulo(x + w * 0.74, y, w * 0.26, 4.2, "RESPONSÁVEIS", { tam: 6 });
     y += 4.2;
     const fbs = (b.feedbacks || []).filter((f) => f.conteudo || (f.atletas || []).length);
-    const nFb = Math.max(2, fbs.length);
-    for (let i = 0; i < Math.min(nFb, 4); i++) {
+    for (let i = 0; i < L.nFb; i++) {
       const f = fbs[i] || {};
       cel(x, y, w * 0.42, 4.2, f.conteudo || "", { tam: 5.8 }); cel(x + w * 0.42, y, w * 0.32, 4.2, (f.atletas || []).map(nomeDe).join(", "), { tam: 5.6 }); cel(x + w * 0.74, y, w * 0.26, 4.2, f.responsavel || "", { tam: 5.8 });
       y += 4.2;
@@ -30131,9 +30130,10 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     // campo
     y += 1;
     const hDesc = 16, hGrupos = 4 + 10 * 3.1;
-    const hCampo = Math.max(28, Math.min(52, yFim - y - hGrupos - hDesc - 6));
+    const hCampo = Math.max(28, Math.min(64, yFim - y - hGrupos - hDesc - 6));
     caixa(x, y, w, hCampo + 2);
-    try { pdfQuadroTatico(doc, b.quadro, x + 1, y + 1, w - 2, hCampo); } catch (e) { /* sem desenho */ }
+    const qd = b.quadro && (b.quadro.itens || []).length ? b.quadro : { ...(b.quadro || {}), campo: "inteiro", itens: [] };
+    try { pdfQuadroTatico(doc, qd, x + 1, y + 1, w - 2, hCampo); } catch (e) { /* sem desenho */ }
     y += hCampo + 3;
     // distribuição de grupos (4 colunas)
     const grupos = (b.grupos || []).slice(0, 4);
@@ -30154,8 +30154,9 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     y += hGrupos;
     // anotações
     titulo(x, y, w, 4.5, "DESCRIÇÕES / OBSERVAÇÕES / ANOTAÇÕES", { fundo: [255, 255, 255], tam: 7 });
-    cel(x, y + 4.5, w, hDesc - 4.5, linhasTexto(b.descricao).join(" ") || "", { tam: 6.8 });
-    return y + hDesc;
+    const hD = Math.max(hDesc, yFim - y); // o quadro de anotações ocupa o que sobrar da folha
+    cel(x, y + 4.5, w, hD - 4.5, linhasTexto(b.descricao).join(" ") || "", { tam: 6.8 });
+    return y + hD;
   }
 
   /* ---------- páginas: 2 atividades por página ---------- */
@@ -30166,13 +30167,21 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     titulo(M, y, larg, 4.6, "ATIVIDADES", { fundo: [236, 236, 236], tam: 7.6 }); y += 4.6;
     const wT = 7, wA = (larg - wT) / 2;
     const yFim = H - 9;
-    atividade(blocos[i], i + 1, M, y, wA, yFim);
+    const b1 = blocos[i], b2 = blocos[i + 1] || atividadeEcmnVazia(i + 2);
+    // as duas colunas usam o mesmo número de linhas, para o campo e os quadros ficarem alinhados
+    const nF = (b) => (b.funcoes || []).filter((f) => f.membro || f.funcao).length;
+    const nFbk = (b) => (b.feedbacks || []).filter((f) => f.conteudo || (f.atletas || []).length).length;
+    const L = {
+      nItens: Math.max(4, ...[b1, b2].flatMap((b) => [b.tatica_coletiva, b.tatica_grupo, b.tecnico_individual].map((l) => (l || []).length))),
+      nFunc: Math.min(8, Math.max(6, nF(b1), nF(b2))),
+      nFb: Math.min(4, Math.max(2, nFbk(b1), nFbk(b2))),
+    };
+    atividade(b1, i + 1, M, y, wA, yFim, L);
     // transição entre as duas
     caixa(M + wA, y, wT, 16);
     doc.setFont("helvetica", "bold"); doc.setFontSize(4.6); doc.setTextColor(...TXT); doc.text("TRANS.", M + wA + wT / 2, y + 3, { align: "center" }); doc.setFont("helvetica", "normal"); doc.text("(min)", M + wA + wT / 2, y + 14.6, { align: "center" }); doc.setFont("helvetica", "bold");
     doc.setFontSize(8); doc.text(T(blocos[i].transicao || ""), M + wA + wT / 2, y + 10, { align: "center" });
-    if (blocos[i + 1]) atividade(blocos[i + 1], i + 2, M + wA + wT, y, wA, yFim);
-    else atividade(atividadeEcmnVazia(i + 2), i + 2, M + wA + wT, y, wA, yFim);
+    atividade(b2, i + 2, M + wA + wT, y, wA, yFim, L);
     // rodapé
     doc.setFont("helvetica", "normal"); doc.setFontSize(6.4); doc.setTextColor(120, 120, 120);
     doc.text(T("EC Meia Noite SAF · Comissão Técnica · " + tituloEvento(evento)), M, H - 4);
