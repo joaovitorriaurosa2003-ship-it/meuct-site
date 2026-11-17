@@ -1849,6 +1849,7 @@ body.caixa-aberta{overflow:hidden;}
 .instalar-acoes{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
 /* Jogos: filtro no topo, faixa de atenção e títulos das seções */
 .jogos-filtro-topo{margin-bottom:14px;}
+.aviso-versao.aviso-dados{bottom:calc(140px + env(safe-area-inset-bottom));}
 .jogos-atencao{display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:10px 16px 14px; border-top:1px solid var(--line-soft);}
 .jogos-atencao-txt{flex:1 1 260px; font-size:13.5px; color:#8A5A00;}
 .jogos-atencao-txt b{color:#6B4500;}
@@ -3820,8 +3821,110 @@ const SUBCOLS = {
 let CACHE_LEITURA_MS = 2 * 60 * 1000;
 const cacheLeitura = new Map();
 
-function limparCacheLeitura() {
-  cacheLeitura.clear();
+/* ---------- Cópia das leituras no aparelho (IndexedDB) ----------
+   Ao abrir o app, as telas aparecem na hora com o que foi lido da última vez e o app busca o
+   dado novo por trás. Fica guardado por pessoa (uid), vale até 3 dias e é apagado ao sair da conta.
+   Links de check-in (têm o código do atleta) não são guardados. */
+const CACHE_APARELHO_GUARDAR = /^(atletas|eventos|registros:|restricoes|times|comissao|atualizacoes:)/;
+const CACHE_APARELHO_MAX_MS = 3 * 24 * 3600 * 1000;
+const cacheAparelho = (function () {
+  let conexao = null;
+  function abrir() {
+    if (conexao) return conexao;
+    conexao = new Promise((ok) => {
+      try {
+        if (!window.indexedDB) return ok(null);
+        const r = indexedDB.open("meuct-cache", 1);
+        r.onupgradeneeded = () => { try { r.result.createObjectStore("leituras"); } catch (e) { /* já existe */ } };
+        r.onsuccess = () => ok(r.result);
+        r.onerror = () => ok(null);
+        r.onblocked = () => ok(null);
+      } catch (e) { ok(null); }
+    });
+    return conexao;
+  }
+  const uid = () => (auth.currentUser && auth.currentUser.uid) || "";
+  function op(modo, fn) {
+    return abrir().then((base) => new Promise((ok) => {
+      if (!base) return ok(null);
+      try {
+        const tx = base.transaction("leituras", modo);
+        const req = fn(tx.objectStore("leituras"));
+        tx.oncomplete = () => ok(req && req.result !== undefined ? req.result : null);
+        tx.onerror = () => ok(null); tx.onabort = () => ok(null);
+      } catch (e) { ok(null); }
+    }));
+  }
+  // Datas do Firestore (Timestamp) viram { __ts } para caber no JSON e voltam a ser Timestamp na leitura.
+  function paraTexto(v) {
+    return JSON.stringify(v, function (k, x) { const bruto = this[k]; return bruto && typeof bruto.toMillis === "function" && typeof bruto.seconds === "number" ? { __ts: bruto.toMillis() } : x; });
+  }
+  function deTexto(t) {
+    return JSON.parse(t, (k, x) => (x && typeof x === "object" && typeof x.__ts === "number" && Object.keys(x).length === 1 ? firebase.firestore.Timestamp.fromMillis(x.__ts) : x));
+  }
+  function apagarSe(teste) {
+    return op("readwrite", (st) => { const c = st.openCursor(); c.onsuccess = () => { const cur = c.result; if (!cur) return; if (teste(String(cur.key))) cur.delete(); cur.continue(); }; return c; });
+  }
+  return {
+    paraTexto,
+    ler(chave) {
+      const u = uid();
+      if (!u || !CACHE_APARELHO_GUARDAR.test(chave)) return Promise.resolve(null);
+      return op("readonly", (st) => st.get(u + "|" + chave)).then((r) => {
+        if (!r || !r.json || Date.now() - r.em > CACHE_APARELHO_MAX_MS) return null;
+        try { return { em: r.em, valor: deTexto(r.json), json: r.json }; } catch (e) { return null; }
+      });
+    },
+    guardar(chave, valor) {
+      const u = uid();
+      if (!u || !CACHE_APARELHO_GUARDAR.test(chave)) return;
+      let json; try { json = paraTexto(valor); } catch (e) { return; }
+      if (!json || json.length > 4000000) return;
+      op("readwrite", (st) => st.put({ em: Date.now(), json }, u + "|" + chave));
+    },
+    apagar(chave) {
+      const pre = chave.endsWith("*") ? chave.slice(0, -1) : null;
+      return apagarSe((k) => { const c = k.slice(k.indexOf("|") + 1); return pre ? c.startsWith(pre) : c === chave; });
+    },
+    apagarTudo() { return op("readwrite", (st) => st.clear()); },
+    manterSo(uidAtual) { return apagarSe((k) => !k.startsWith(uidAtual + "|")); },
+  };
+})();
+/** Avisa a tela quando o dado novo (buscado por trás) é diferente do que veio do aparelho. */
+let avisoDadosNovosTimer = null;
+function avisarDadosNovos(antesJson, depois) {
+  let depoisJson = ""; try { depoisJson = cacheAparelho.paraTexto(depois); } catch (e) { return; }
+  if (antesJson === depoisJson) return;
+  clearTimeout(avisoDadosNovosTimer);
+  avisoDadosNovosTimer = setTimeout(() => window.dispatchEvent(new Event("meuct-dados-novos")), 300);
+}
+
+function limparCacheLeitura(chaves) {
+  if (!chaves) { cacheLeitura.clear(); cacheAparelho.apagarTudo(); return; }
+  chaves.forEach((k) => {
+    if (k.endsWith("*")) { const pre = k.slice(0, -1); Array.from(cacheLeitura.keys()).filter((x) => x.startsWith(pre)).forEach((x) => cacheLeitura.delete(x)); }
+    else cacheLeitura.delete(k);
+    cacheAparelho.apagar(k);
+  });
+}
+/** Que leituras guardadas uma gravação em `caminho` deixa velhas. null = não dá para saber, limpa tudo. */
+function chavesAfetadas(caminho) {
+  if (!caminho) return null;
+  const p = caminho.split("/");
+  const col = p[0];
+  if (col === COL_ATLETAS) {
+    if (p.length <= 2) return ["atletas"];
+    const area = Object.keys(SUBCOLS).find((k) => SUBCOLS[k] === p[2]);
+    return area ? ["registros:" + area] : null;
+  }
+  const fixo = {
+    ct_eventos: ["eventos"], ct_checkin_links: ["links-checkin"], ct_restricoes: ["restricoes"], ct_times: ["times"],
+    ct_comissao: ["comissao"], ct_atualizacoes: ["atualizacoes:*"],
+    ct_texto_clinico_psi: ["registros:psi"], ct_texto_clinico_medicina: ["registros:medicina"],
+  };
+  if (fixo[col]) return fixo[col];
+  // Coleções que nenhuma leitura guardada usa (presença, tokens, avisos, conversas, rascunhos...): nada a limpar.
+  return [];
 }
 
 /** Devolve a leitura guardada (se ainda estiver valendo) ou busca de novo. Leituras
@@ -3836,13 +3939,29 @@ function lerComCache(chave, buscar) {
     if (!item.atualizando) {
       item.atualizando = true;
       const nova = buscar();
-      nova.then((v) => { const atual = cacheLeitura.get(chave); if (atual === item) cacheLeitura.set(chave, { em: Date.now(), promessa: nova, pronto: true, valor: v }); })
+      nova.then((v) => { const atual = cacheLeitura.get(chave); if (atual === item) { cacheLeitura.set(chave, { em: Date.now(), promessa: nova, pronto: true, valor: v }); cacheAparelho.guardar(chave, v); } })
         .catch(() => { item.atualizando = false; });
     }
     return Promise.resolve(item.valor);
   }
-  const promessa = buscar();
-  const novo = { em: agora, promessa };
+  const novo = { em: agora };
+  // Primeiro procura a cópia guardada no aparelho: se houver, devolve na hora e busca o dado novo por trás.
+  const promessa = (CACHE_LEITURA_MS > 0 ? cacheAparelho.ler(chave) : Promise.resolve(null)).catch(() => null).then((salvo) => {
+    if (salvo && cacheLeitura.get(chave) === novo) {
+      novo.pronto = true; novo.valor = salvo.valor; novo.atualizando = true;
+      novo.em = Date.now() - CACHE_LEITURA_MS - 1; // vencido: quem pedir de novo recebe esta cópia sem buscar em dobro
+      const nova = buscar();
+      nova.then((v) => {
+        if (cacheLeitura.get(chave) !== novo) return;
+        cacheLeitura.set(chave, { em: Date.now(), promessa: nova, pronto: true, valor: v });
+        cacheAparelho.guardar(chave, v);
+        avisarDadosNovos(salvo.json, v);
+      }).catch(() => { novo.atualizando = false; });
+      return salvo.valor;
+    }
+    return buscar().then((v) => { if (cacheLeitura.get(chave) === novo) cacheAparelho.guardar(chave, v); return v; });
+  });
+  novo.promessa = promessa;
   cacheLeitura.set(chave, novo);
   promessa.then((v) => { novo.pronto = true; novo.valor = v; }).catch(() => {
     const atual = cacheLeitura.get(chave);
@@ -3877,21 +3996,28 @@ function copiarDado(v) {
    Firebase não permitir instalar esse gancho, o cache é desligado por segurança. */
 (function instalarLimpezaDoCache() {
   // Trocou a pessoa logada: nada do que foi lido antes é reaproveitado.
-  auth.onAuthStateChanged(() => limparCacheLeitura());
+  auth.onAuthStateChanged((u) => {
+    cacheLeitura.clear();
+    if (!u) cacheAparelho.apagarTudo(); else cacheAparelho.manterSo(u.uid);
+  });
   const fs = firebase.firestore;
   function embrulhar(alvo, metodo) {
     if (!alvo || typeof alvo[metodo] !== "function") return false;
     if (alvo[metodo].__limpaCache) return true;
     const original = alvo[metodo];
     const novo = function () {
-      limparCacheLeitura();
+      const caminhoAlvo = this && typeof this.path === "string" ? this.path : "";
+      // add() grava um documento novo dentro da coleção: o caminho já é o da coleção
+      const afetadas = metodo === "commit" ? null : chavesAfetadas(caminhoAlvo);
+      const limpar = () => { if (afetadas === null) limparCacheLeitura(); else if (afetadas.length) limparCacheLeitura(afetadas); };
+      limpar();
       const r = original.apply(this, arguments);
-      const caminho = this && typeof this.path === "string" ? this.path : "";
+      const caminho = caminhoAlvo;
       const operacao = metodo === "delete" ? "excluiu" : metodo === "add" ? "criou" : metodo === "commit" ? "gravou em lote" : "gravou";
       if (r && typeof r.then === "function") {
         return r.then(
-          (v) => { limparCacheLeitura(); anotarGravacao(operacao, caminho || (metodo === "commit" ? "lote" : "")); return v; },
-          (e) => { limparCacheLeitura(); throw e; }
+          (v) => { limpar(); anotarGravacao(operacao, caminho || (metodo === "commit" ? "lote" : "")); return v; },
+          (e) => { limpar(); throw e; }
         );
       }
       return r;
@@ -32244,6 +32370,21 @@ function AppLogado({ usuario }) {
   }, []);
   useVoltar(menuAberto, () => setMenuAberto(false));
   useVoltar(buscaAberta, () => setBuscaAberta(false));
+  // A tela abriu com a cópia do aparelho e o dado novo chegou diferente: se a pessoa ainda não
+  // começou a mexer (nada aberto nem digitando), redesenha sozinho; senão oferece o botão.
+  const [revisaoDados, setRevisaoDados] = useState(0);
+  const [dadosNovos, setDadosNovos] = useState(false);
+  const telaAbertaEm = React.useRef(Date.now());
+  useEffect(() => { telaAbertaEm.current = Date.now(); setDadosNovos(false); }, [pagina]);
+  useEffect(() => {
+    function chegou() {
+      const ocupado = document.querySelector('[aria-modal="true"]') || (document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName));
+      if (!ocupado && Date.now() - telaAbertaEm.current < 15000) setRevisaoDados((n) => n + 1);
+      else setDadosNovos(true);
+    }
+    window.addEventListener("meuct-dados-novos", chegou);
+    return () => window.removeEventListener("meuct-dados-novos", chegou);
+  }, []);
 
   useEffect(() => {
     function atalho(e) {
@@ -32315,7 +32456,10 @@ function AppLogado({ usuario }) {
       <HubBar current={pagina} categoria={catCampo} onNavigate={navegar} usuario={usuario} onSair={sair} naoLidas={naoLidas} avisosNovos={avisosNovos} conversasNovas={conversasNovas} menuAberto={menuAberto} setMenuAberto={setMenuAberto} />
       <div className="main-content">
         <Topbar pagina={pagina} categoria={catCampo} usuario={usuario} naoLidas={naoLidas} avisosNovos={avisosNovos} conversasNovas={conversasNovas} onNavigate={navegar} onAbrirMenu={abrirMenu} onAbrirBusca={abrirBusca} />
-        {conteudoPagina}
+        <React.Fragment key={"dados-" + revisaoDados}>{conteudoPagina}</React.Fragment>
+        {dadosNovos && (
+          <div className="aviso-versao aviso-dados" role="status"><span>Chegaram dados mais novos.</span><button type="button" onClick={() => { setDadosNovos(false); setRevisaoDados((n) => n + 1); }}>Atualizar tela</button></div>
+        )}
         <GavetaAtletaGlobal usuario={usuario} />
         <EncaminharGlobal usuario={usuario} />
         {usuarioEhEquipe(usuario) && <LembretesDiarios usuario={usuario} onNavigate={navegar} />}
@@ -32440,28 +32584,38 @@ if ("serviceWorker" in navigator) {
   var atual = meta ? meta.content : "";
   if (!atual || atual.indexOf("__") === 0) return;
   var abertoEm = Date.now(), ultimaChecagem = 0, avisoMostrado = false;
-  function mostrarAviso() {
+  // O app abre pela cópia guardada no aparelho; para pegar a versão nova, recarrega com ?v=, que faz o
+  // service worker buscar o app na internet (e guardar a cópia nova).
+  function recarregarNova(nova) {
+    try {
+      var u = new URL(location.href);
+      u.searchParams.set("v", nova);
+      location.replace(u.toString());
+    } catch (e) { location.reload(); }
+  }
+  function mostrarAviso(nova) {
     if (avisoMostrado) return; avisoMostrado = true;
     var d = document.createElement("div");
     d.className = "aviso-versao";
     d.setAttribute("role", "status");
     d.innerHTML = '<span>Há uma versão nova do MeuCT.</span><button type="button">Atualizar agora</button>';
-    d.querySelector("button").onclick = function () { location.reload(); };
+    d.querySelector("button").onclick = function () { recarregarNova(nova); };
     document.body.appendChild(d);
   }
   function checar() {
     if (Date.now() - ultimaChecagem < 60000) return;
     ultimaChecagem = Date.now();
-    fetch("./index.html?versao=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : ""; }).then(function (t) {
-      var m = t.match(/name="meuct-versao" content="([^"]+)"/);
-      if (!m || m[1] === atual) return;
-      var chave = "meuct-recarregou-" + m[1];
+    // Confere só o versao.json (poucos bytes), em vez de baixar o app inteiro de novo.
+    fetch("./versao.json?t=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      var nova = j && j.versao;
+      if (!nova || nova === atual) return;
+      var chave = "meuct-recarregou-" + nova;
       var jaTentou = false;
       try { jaTentou = sessionStorage.getItem(chave) === "1"; } catch (e) {}
       if (Date.now() - abertoEm < 15000 && !jaTentou) {
         try { sessionStorage.setItem(chave, "1"); } catch (e) {}
-        location.reload();
-      } else mostrarAviso();
+        recarregarNova(nova);
+      } else mostrarAviso(nova);
     }).catch(function () {});
   }
   window.addEventListener("load", function () { setTimeout(checar, 1500); });
