@@ -18,6 +18,20 @@ firebase.initializeApp({
 // abre o MeuCT direto na pagina de Avisos.
 firebase.messaging();
 
+// Notificações que o próprio app mostra quando está aberto na tela (não vêm do Firebase):
+// ao tocar, abre o MeuCT na página certa.
+self.addEventListener("notificationclick", (event) => {
+  const d = event.notification && event.notification.data;
+  if (!d || !d.link || d.FCM_MSG) return;
+  event.notification.close();
+  const alvo = new URL(d.link, self.location.href).href;
+  event.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((lista) => {
+    const aberta = lista.find((c) => c.url.startsWith(self.location.origin));
+    if (aberta) return aberta.focus().then((c) => (c && c.navigate ? c.navigate(alvo) : null)).catch(() => self.clients.openWindow(alvo));
+    return self.clients.openWindow(alvo);
+  }));
+});
+
 const CACHE_NAME = "ct-integrado-cache-v6";
 const APP_SHELL = [
   "./index.html",
