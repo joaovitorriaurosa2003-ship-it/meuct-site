@@ -1341,6 +1341,27 @@ select[data-caixa]{display:none !important;}
 .gaveta-proj-btn.ativo{border-color:currentColor; background:rgba(34,197,94,0.10);}
 .gaveta-proj-btn.ativo.desce{background:rgba(220,38,38,0.10);} .gaveta-proj-btn.ativo.mantem, .gaveta-proj-btn.ativo.sem{background:rgba(100,116,139,0.12);}
 .gaveta-proj-btn:disabled{opacity:.6; cursor:wait;}
+.pitch-abas-ano{display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:0 22px 14px;}
+.pitch-abas-rot{font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-right:4px;}
+.pitch-aba-ano{display:inline-flex; align-items:center; gap:8px; padding:9px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:#fff; font:inherit; font-size:14px; font-weight:800; cursor:pointer; transition:all .15s ease; font-variant-numeric:tabular-nums;}
+.pitch-aba-ano .qtd{font-size:11px; padding:1px 7px; border-radius:999px; background:rgba(255,255,255,0.12);}
+.pitch-aba-ano:hover{background:rgba(255,255,255,0.1);}
+.pitch-aba-ano.active{background:var(--pitch); border-color:var(--pitch); color:var(--pitch-ink); box-shadow:0 8px 20px rgba(43,209,126,0.3);}
+.pitch-aba-ano.active .qtd{background:rgba(3,22,11,0.14);}
+.pitch-aba-ano.sem{font-size:12.5px; opacity:.85;}
+.pitch-auto{margin-left:auto; border:1px solid rgba(255,255,255,0.18); background:transparent; color:rgba(255,255,255,0.85); font:inherit; font-size:12px; font-weight:700; padding:7px 12px; border-radius:999px; cursor:pointer;}
+.pitch-auto:hover{background:rgba(255,255,255,0.08);}
+.pitch-salvando{font-size:12px; color:rgba(255,255,255,0.7);}
+.jogador.arrastavel{cursor:grab; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;}
+.jogador.arrastavel img{-webkit-user-drag:none; user-drag:none; pointer-events:none;}
+.jogador.arrastando{opacity:.3;}
+.jogador-fantasma{position:fixed !important; z-index:9999; pointer-events:none; margin:0 !important; transform:rotate(-2deg) scale(1.04); box-shadow:0 18px 40px rgba(0,0,0,0.45) !important; cursor:grabbing; opacity:.96;}
+body.campo-arrastando, body.campo-arrastando *{cursor:grabbing !important; -webkit-user-select:none; user-select:none;}
+.pitch-setor.alvo{outline:1.5px dashed rgba(255,255,255,0.35); outline-offset:4px; border-radius:12px; min-height:64px; transition:background .12s ease;}
+.pitch-setor.alvo.sobre{background:rgba(255,255,255,0.12); outline-color:#fff;}
+.jogador.antes-de{box-shadow:-4px 0 0 0 #fff !important;}
+.pitch-setores.grade .pitch-setor.vazio{min-height:40px;}
+@media (max-width:720px){ .pitch-abas-ano{padding:0 14px 12px; overflow-x:auto; flex-wrap:nowrap;} .pitch-aba-ano{padding:8px 12px; font-size:13px; flex:0 0 auto;} .pitch-auto{margin-left:0; flex:0 0 auto;} }
 .pitch-setores.grade{align-items:start;}
 .pitch-setores.grade .pitch-setor{display:flex; flex-direction:column; flex-wrap:nowrap; align-items:center; align-content:center; justify-content:flex-start; gap:4px;}
 .pitch-setor-grade{display:grid; gap:14px 8px; justify-content:center; justify-items:center;}
@@ -5278,7 +5299,7 @@ ICONES.cadastro_atletas = ICONES.elenco;
 const ROTULO_PAGINA = {
   admin: "Painel geral", elenco: "Elenco", atualizacoes: "Atualizações", relatorios: "Relatórios", usuarios: "Usuários",
   psicologia: "Psicologia", fisioterapia: "Fisioterapia", fisiologia: "Fisiologia", medicina: "Medicina", nutricao: "Nutrição",
-  social: "Serviço Social", desempenho: "Desempenho", treinador: "Elenco em campo", preparacao: "Preparação Física", treinos: "Treinos", goleiros: "Goleiros", qts: "QTS",
+  social: "Serviço Social", desempenho: "Desempenho", treinador: "Campograma", preparacao: "Preparação Física", treinos: "Treinos", goleiros: "Goleiros", qts: "QTS",
   agenda: "Agenda geral", minha_agenda: "Minha agenda", atas: "Atas de reunião", documentos: "Documentos", aniversariantes: "Aniversariantes", encaminhamentos: "Encaminhamentos", avaliacao: "Atletas em avaliação", captacao: "Captação", diretoria: "Diretoria", cadastro_atletas: "Cadastro de atletas", social_documentos: "Documentos dos atletas", social_viagens: "Viagens", social_quartos: "Quartos e alojamentos", social_fds: "Fim de semana", agenda_campo: "Agenda da Comissão técnica", agenda_dm: "Agenda de Saúde e performance", agenda_social: "Agenda de Saúde e performance", agenda_saude: "Agenda de Saúde e performance", meu_qts: "Meu QTS", jogos: "Jogos", monitoramento: "Monitoramento", avisos: "Avisos", conversas: "Conversas",
 };
 
@@ -5321,7 +5342,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
     { id: "goleiros", label: "Goleiros", icone: "goleiros" },
   ] : [];
   const itensSetorAntes = equipe ? [
-    { id: "treinador", label: "Elenco em campo", icone: "elenco" },
+    { id: "treinador", label: "Campograma", icone: "elenco" },
     { id: "avaliacao", label: "Atletas em avaliação", icone: "elenco" },
     ...(podeEditarCaptacao(usuario) ? [{ id: "captacao", label: "Captação", icone: "elenco" }] : []),
     { id: "agenda_campo", label: "Agenda", icone: "agenda" },
@@ -6627,47 +6648,157 @@ function TabelaFichaAtleta({ a }) {
   );
 }
 
+const anoNascCampo = (a) => { const y = String(a.data_nascimento || "").slice(0, 4); return /^\d{4}$/.test(y) ? y : "sem"; };
 function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoInicial }) {
-  const { useState } = React;
-  const times = [
-    ...CATEGORIAS_TIME,
-  ];
-  const [timeAtivo, setTimeAtivo] = useState("sub15");
-  const [filtros, setFiltrosEstado] = useState(() => { try { const s = JSON.parse(localStorage.getItem("meuct:filtrosElenco") || "null"); return s ? { ...FILTROS_ELENCO_VAZIO, ...s } : FILTROS_ELENCO_VAZIO; } catch (e) { return FILTROS_ELENCO_VAZIO; } });
+  const { useState, useRef } = React;
+  const [filtros, setFiltrosEstado] = useState(() => { try { const s = JSON.parse(localStorage.getItem("meuct:filtrosElenco") || "null"); return s ? { ...FILTROS_ELENCO_VAZIO, ...s, anos: [] } : FILTROS_ELENCO_VAZIO; } catch (e) { return FILTROS_ELENCO_VAZIO; } });
   const [verFiltros, setVerFiltros] = useState(false);
   const setFiltros = (fn) => setFiltrosEstado((x) => { const n = typeof fn === "function" ? fn(x) : fn; try { localStorage.setItem("meuct:filtrosElenco", JSON.stringify(n)); } catch (e) {} return n; });
   const alternarF = (k, v) => setFiltros((x) => ({ ...x, [k]: x[k].includes(v) ? x[k].filter((y) => y !== v) : [...x[k], v] }));
   const nFiltros = contarFiltrosElenco(filtros);
-  const atletasComSinal = nFiltros ? todosComSinal.filter((a) => atletaPassaFiltrosElenco(a, filtros)) : todosComSinal;
-  const anosDisponiveis = [...new Set(todosComSinal.map((a) => String(a.data_nascimento || "").slice(0, 4)).filter((y) => /^\d{4}$/.test(y)))].sort();
+  const [arranjo, setArranjo] = useState({}); // lugar escolhido arrastando, antes do banco devolver
+  const comArranjo = (a) => (arranjo[a.id] ? { ...a, campo_bloco: arranjo[a.id].bloco, campo_ordem: arranjo[a.id].ordem } : a);
+  const atletasComSinal = (nFiltros ? todosComSinal.filter((a) => atletaPassaFiltrosElenco(a, filtros)) : todosComSinal).map(comArranjo);
   const temDisp = todosComSinal.some((a) => a.disp);
   const [modo, setModo] = useState(modoInicial === "disponibilidade" ? "disponibilidade" : "semaforo");
   const verDisp = modo === "disponibilidade" && temDisp;
   // Campograma: "ficha" (card com a tabela) ou "bolinha" (só a foto, mais compacto)
   const [vista, setVistaEstado] = useState(() => { try { return localStorage.getItem("meuct:vistaCampo") || "ficha"; } catch (e) { return "ficha"; } });
   const setVista = (v) => { setVistaEstado(v); try { localStorage.setItem("meuct:vistaCampo", v); } catch (e) { /* sem armazenamento */ } };
-  // Filtro por ano de nascimento dentro da categoria (Todos, 2010, 2011...)
-  const [anoCampo, setAnoCampo] = useState("");
-  React.useEffect(() => { setAnoCampo(""); }, [timeAtivo]);
+  // Abas por ano de nascimento (mais novos primeiro), no lugar das categorias.
+  const abasAno = [...new Set(todosComSinal.map(anoNascCampo))].sort((x, y) => (x === "sem" ? 1 : y === "sem" ? -1 : y.localeCompare(x)));
+  const [anoEscolhido, setAnoEstado] = useState(() => { try { return localStorage.getItem("meuct:anoCampo") || ""; } catch (e) { return ""; } });
+  const setAno = (v) => { setAnoEstado(v); try { localStorage.setItem("meuct:anoCampo", v); } catch (e) { /* sem armazenamento */ } };
+  const ano = abasAno.includes(anoEscolhido) ? anoEscolhido : (abasAno.find((y) => y !== "sem") || abasAno[0] || "");
+  const rotAno = (y) => (y === "sem" ? "Sem nascimento" : y);
 
-  const doTimeTodos = atletasComSinal.filter((a) => atletaNaCategoria(a, timeAtivo));
-  const anosDoTime = [...new Set(doTimeTodos.map((a) => String(a.data_nascimento || "").slice(0, 4)).filter((y) => /^\d{4}$/.test(y)))].sort();
-  const doTime = anoCampo ? doTimeTodos.filter((a) => String(a.data_nascimento || "").slice(0, 4) === anoCampo) : doTimeTodos;
-  const semTime = atletasComSinal.filter((a) => !categoriasDoAtleta(a).some((c) => IDS_CATEGORIAS.includes(c)));
-  const { linhas, semPosicao } = montarLinhasCampo(doTime);
-  const banco = [...semPosicao, ...semTime];
+  const podeArrastar = podeEditarProjecao(usuarioLogadoGlobal);
+  const doTime = atletasComSinal.filter((a) => anoNascCampo(a) === ano);
+  const { linhas, semPosicao } = montarLinhasCampo(doTime, { vazios: podeArrastar });
+  const banco = semPosicao;
   const contagemDisp = { disponivel: 0, restricao: 0, fora: 0 };
   doTime.forEach((a) => { if (a.disp) contagemDisp[a.disp.status]++; });
+  const temArranjo = doTime.some((a) => a.campo_bloco);
+
+  /* ---- Arrastar os cards (mouse: arrasta direto; toque: segura um instante e arrasta) ---- */
+  const linhasRef = useRef(linhas); linhasRef.current = linhas;
+  const arr = useRef({});
+  const [salvandoLugar, setSalvandoLugar] = useState(false);
+  function limparArraste() {
+    const g = arr.current;
+    clearTimeout(g.timer);
+    if (g.fantasma) g.fantasma.remove();
+    if (g.origem) g.origem.classList.remove("arrastando");
+    document.querySelectorAll(".pitch-setor.alvo, .pitch-setor.sobre").forEach((el) => el.classList.remove("alvo", "sobre"));
+    document.querySelectorAll(".jogador.antes-de").forEach((el) => el.classList.remove("antes-de"));
+    document.body.classList.remove("campo-arrastando");
+    window.removeEventListener("pointermove", g.mover); window.removeEventListener("pointerup", g.soltar); window.removeEventListener("pointercancel", g.cancelar);
+    document.removeEventListener("touchmove", g.travar, { passive: false });
+    arr.current = { recemArrastou: g.ativo };
+    if (g.ativo) setTimeout(() => { arr.current.recemArrastou = false; }, 250);
+  }
+  function alvoEm(x, y, linha) {
+    const el = document.elementFromPoint(x, y);
+    const setor = el && el.closest ? el.closest(".pitch-setor") : null;
+    if (!setor || setor.dataset.linha !== linha) return null;
+    const cards = [...setor.querySelectorAll(".jogador")].filter((c) => c.dataset.id !== arr.current.id);
+    let idx = cards.length;
+    for (let i = 0; i < cards.length; i++) {
+      const r = cards[i].getBoundingClientRect(); const cy = r.top + r.height / 2, cx = r.left + r.width / 2;
+      if (y < r.top || (y <= r.bottom && x < cx && Math.abs(y - cy) < r.height / 2)) { idx = i; break; }
+    }
+    return { setor, bloco: setor.dataset.bloco, idx, antes: cards[idx] || null };
+  }
+  function comecarArraste() {
+    const g = arr.current;
+    g.ativo = true;
+    const r = g.origem.getBoundingClientRect();
+    const f = g.origem.cloneNode(true);
+    f.classList.add("jogador-fantasma"); f.style.width = r.width + "px";
+    g.dx = g.x0 - r.left; g.dy = g.y0 - r.top;
+    f.style.left = (g.x0 - g.dx) + "px"; f.style.top = (g.y0 - g.dy) + "px";
+    document.body.appendChild(f); g.fantasma = f;
+    g.origem.classList.add("arrastando");
+    document.body.classList.add("campo-arrastando");
+    document.querySelectorAll('.pitch-setor[data-linha="' + g.linha + '"]').forEach((el) => el.classList.add("alvo"));
+    if (navigator.vibrate) { try { navigator.vibrate(15); } catch (e) { /* sem vibração */ } }
+  }
+  function iniciarArraste(e, d, linhaId) {
+    if (!podeArrastar || salvandoLugar || (e.button !== undefined && e.button !== 0)) return;
+    limparArraste();
+    const g = { id: d.id, linha: linhaId, origem: e.currentTarget, x0: e.clientX, y0: e.clientY, toque: e.pointerType !== "mouse", ativo: false };
+    g.mover = (ev) => {
+      if (!g.ativo) {
+        const dist = Math.hypot(ev.clientX - g.x0, ev.clientY - g.y0);
+        if (g.toque) { if (dist > 10) limparArraste(); return; }
+        if (dist < 6) return;
+        comecarArraste();
+      }
+      g.fantasma.style.left = (ev.clientX - g.dx) + "px"; g.fantasma.style.top = (ev.clientY - g.dy) + "px";
+      document.querySelectorAll(".pitch-setor.sobre").forEach((el) => el.classList.remove("sobre"));
+      document.querySelectorAll(".jogador.antes-de").forEach((el) => el.classList.remove("antes-de"));
+      const t = alvoEm(ev.clientX, ev.clientY, g.linha);
+      g.alvo = t;
+      if (t) { t.setor.classList.add("sobre"); if (t.antes) t.antes.classList.add("antes-de"); }
+    };
+    g.soltar = () => { const t = g.ativo ? g.alvo : null; const id = g.id, linha = g.linha; limparArraste(); if (t) guardarLugar(id, linha, t.bloco, t.idx); };
+    g.cancelar = () => limparArraste();
+    g.travar = (ev) => { if (g.ativo) ev.preventDefault(); };
+    arr.current = g;
+    window.addEventListener("pointermove", g.mover); window.addEventListener("pointerup", g.soltar); window.addEventListener("pointercancel", g.cancelar);
+    document.addEventListener("touchmove", g.travar, { passive: false });
+    if (g.toque) g.timer = setTimeout(() => { if (arr.current === g) comecarArraste(); }, 380);
+  }
+  async function guardarLugar(id, linhaId, bloco, idx) {
+    const l = linhasRef.current.find((x) => x.id === linhaId);
+    const b = l && l.blocos.find((x) => x.k === bloco);
+    if (!b) return;
+    const ids = b.atletas.map((a) => a.id).filter((x) => x !== id);
+    ids.splice(Math.min(idx, ids.length), 0, id);
+    const novo = {};
+    ids.forEach((x, i) => { novo[x] = { bloco: linhaId + ":" + bloco, ordem: i + 1 }; });
+    const antes = arranjo;
+    setArranjo((a) => ({ ...a, ...novo }));
+    setSalvandoLugar(true);
+    try {
+      const lote = db.batch();
+      ids.forEach((x) => lote.update(db.collection(COL_ATLETAS).doc(x), { campo_bloco: novo[x].bloco, campo_ordem: novo[x].ordem }));
+      await lote.commit();
+      ids.forEach((x) => { const ind = ATLETAS_INDICE.get(x); if (ind) { ind.campo_bloco = novo[x].bloco; ind.campo_ordem = novo[x].ordem; } });
+      limparCacheLeitura(["atletas"]);
+    } catch (e) { setArranjo(antes); alert("Não consegui salvar o lugar do atleta: " + e.message); }
+    setSalvandoLugar(false);
+  }
+  async function voltarAutomatico() {
+    const ids = doTime.filter((a) => a.campo_bloco).map((a) => a.id);
+    if (!ids.length || !window.confirm("Voltar os " + ids.length + " atletas de " + rotAno(ano) + " para o lugar automático (pela posição e pela perna)?")) return;
+    setSalvandoLugar(true);
+    try {
+      const lote = db.batch();
+      ids.forEach((x) => lote.update(db.collection(COL_ATLETAS).doc(x), { campo_bloco: firebase.firestore.FieldValue.delete(), campo_ordem: firebase.firestore.FieldValue.delete() }));
+      await lote.commit();
+      ids.forEach((x) => { const ind = ATLETAS_INDICE.get(x); if (ind) { delete ind.campo_bloco; delete ind.campo_ordem; } });
+      setArranjo((a) => { const n = { ...a }; ids.forEach((x) => { n[x] = { bloco: "", ordem: null }; }); return n; });
+      limparCacheLeitura(["atletas"]);
+    } catch (e) { alert("Não consegui voltar ao automático: " + e.message); }
+    setSalvandoLugar(false);
+  }
 
   function rotuloSinal(r) { return r === "verde" ? "Liberado" : r === "amarelo" ? "Atenção" : r === "vermelho" ? "Fora" : "Sem sinal"; }
   function sinalDe(d) { return verDisp && d.disp ? DISPONIBILIDADE[d.disp.status].sinal : d.risco; }
 
-  function Jogador(d) {
+  function Jogador(d, linhaId) {
     const outras = [d.posicao_secundaria, d.posicao_terciaria].filter(Boolean).join(" / ");
     const situacao = verDisp && d.disp ? DISPONIBILIDADE[d.disp.status].label + (d.disp.motivos.length ? ": " + d.disp.motivos.join("; ") : "") : rotuloSinal(d.risco);
     const dica = `${d.nome}${d.posicao ? " · " + d.posicao : ""}${outras ? " (também joga: " + outras + ")" : ""} · ${situacao}`;
     return (
-      <button key={d.id} type="button" className={"jogador" + (vista === "ficha" ? " ficha" : "") + (verDisp && d.disp && d.disp.status === "fora" ? " fora" : "")} onClick={() => onOpenAtleta(d.id)} title={dica} aria-label={dica}>
+      <button key={d.id} type="button" data-id={d.id}
+        className={"jogador" + (vista === "ficha" ? " ficha" : "") + (podeArrastar && linhaId ? " arrastavel" : "") + (verDisp && d.disp && d.disp.status === "fora" ? " fora" : "")}
+        onPointerDown={podeArrastar && linhaId ? (e) => iniciarArraste(e, d, linhaId) : undefined}
+        onClick={() => { if (arr.current.recemArrastou) return; onOpenAtleta(d.id); }}
+        onContextMenu={podeArrastar ? (e) => e.preventDefault() : undefined}
+        onDragStart={(e) => e.preventDefault()} draggable={false}
+        title={dica} aria-label={dica}>
         <span className={"jogador-foto" + anelAtleta(d, sinalDe(d))}>
           {d.foto ? <img loading="lazy" decoding="async" src={d.foto} alt="" /> : iniciaisAtleta(d)}
           <IconesAtletaCampo a={d} />
@@ -6684,8 +6815,8 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
     <div className="pitch-panel">
       <div className="pitch-head">
         <div>
-          <h3>Elenco em campo</h3>
-          <div className="sub">{verDisp ? "Disponibilidade pro jogo, pela Medicina, pela Fisioterapia e pelas bandeiras dos setores" : "Toque em um jogador para ver o resumo ao lado"}</div>
+          <h3>Campograma</h3>
+          <div className="sub">{verDisp ? "Disponibilidade pro jogo, pela Medicina, pela Fisioterapia e pelas bandeiras dos setores" : podeArrastar ? "Toque no atleta para ver o resumo. Arraste o card para mudar o lugar dele no campo (no celular, segure um instante antes de arrastar)." : "Toque em um jogador para ver o resumo ao lado"}</div>
         </div>
         <div className="pitch-controles">
           {temDisp && (
@@ -6694,33 +6825,27 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
               <button type="button" className={modo === "disponibilidade" ? "active" : ""} aria-pressed={modo === "disponibilidade"} onClick={() => setModo("disponibilidade")}>Disponibilidade</button>
             </div>
           )}
+          <div className="pitch-modo" role="group" aria-label="Como mostrar os atletas">
+            <button type="button" className={vista === "ficha" ? "active" : ""} aria-pressed={vista === "ficha"} onClick={() => setVista("ficha")}>Ficha</button>
+            <button type="button" className={vista === "bolinha" ? "active" : ""} aria-pressed={vista === "bolinha"} onClick={() => setVista("bolinha")}>Bolinha</button>
+          </div>
           <button type="button" className={"pitch-chip pitch-filtro-btn" + (verFiltros || nFiltros ? " active" : "")} aria-expanded={verFiltros} onClick={() => setVerFiltros((v) => !v)}>
             Filtros{nFiltros ? <span className="qtd">{nFiltros}</span> : null}
           </button>
-          {times.map((t) => {
-            const qtd = atletasComSinal.filter((a) => atletaNaCategoria(a, t.id)).length;
-            return (
-              <button key={t.id} type="button" className={"pitch-chip" + (timeAtivo === t.id ? " active" : "")} onClick={() => setTimeAtivo(t.id)}>
-                {t.label}<span className="qtd">{qtd}</span>
-              </button>
-            );
-          })}
         </div>
       </div>
-      <div className="pitch-sub-filtro">
-        {anosDoTime.length > 1 && (
-          <div className="pitch-anos" role="group" aria-label="Ano de nascimento">
-            <span className="pitch-anos-rot">Nascidos em</span>
-            {["", ...anosDoTime].map((y) => {
-              const qtd = y ? doTimeTodos.filter((a) => String(a.data_nascimento || "").slice(0, 4) === y).length : doTimeTodos.length;
-              return <button key={y || "todos"} type="button" className={"pitch-chip" + (anoCampo === y ? " active" : "")} aria-pressed={anoCampo === y} onClick={() => setAnoCampo(y)}>{y || "Todos"}<span className="qtd">{qtd}</span></button>;
-            })}
-          </div>
-        )}
-        <div className="pitch-modo" role="group" aria-label="Como mostrar os atletas">
-          <button type="button" className={vista === "ficha" ? "active" : ""} aria-pressed={vista === "ficha"} onClick={() => setVista("ficha")}>Ficha</button>
-          <button type="button" className={vista === "bolinha" ? "active" : ""} aria-pressed={vista === "bolinha"} onClick={() => setVista("bolinha")}>Bolinha</button>
-        </div>
+      <div className="pitch-abas-ano" role="tablist" aria-label="Ano de nascimento">
+        <span className="pitch-abas-rot">Nascidos em</span>
+        {abasAno.map((y) => {
+          const qtd = atletasComSinal.filter((a) => anoNascCampo(a) === y).length;
+          return (
+            <button key={y} type="button" role="tab" aria-selected={ano === y} className={"pitch-aba-ano" + (ano === y ? " active" : "") + (y === "sem" ? " sem" : "")} onClick={() => setAno(y)}>
+              {rotAno(y)}<span className="qtd">{qtd}</span>
+            </button>
+          );
+        })}
+        {podeArrastar && temArranjo && <button type="button" className="pitch-auto" disabled={salvandoLugar} onClick={voltarAutomatico} title="Tira os lugares escolhidos à mão deste ano">Voltar ao automático</button>}
+        {salvandoLugar && <span className="pitch-salvando">Salvando...</span>}
       </div>
       <PainelCampograma atletas={doTime} verDisp={verDisp} />
 
@@ -6734,7 +6859,6 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
             <label className="pf-rot">Idade</label>
             <span className="pf-idade">de <input type="number" min="8" max="25" value={filtros.idadeMin} onChange={(e) => { const v = e.target.value; setFiltros((x) => ({ ...x, idadeMin: v })); }} aria-label="Idade mínima" /> até <input type="number" min="8" max="25" value={filtros.idadeMax} onChange={(e) => { const v = e.target.value; setFiltros((x) => ({ ...x, idadeMax: v })); }} aria-label="Idade máxima" /> anos</span>
           </div>
-          {anosDisponiveis.length > 0 && <div className="pf-linha"><label className="pf-rot">Nascimento</label><div className="pf-chips">{anosDisponiveis.map((y) => <button key={y} type="button" className={"pf-chip" + (filtros.anos.includes(y) ? " on" : "")} aria-pressed={filtros.anos.includes(y)} onClick={() => alternarF("anos", y)}>{y}</button>)}</div></div>}
           <div className="pf-linha"><label className="pf-rot">Semáforo</label><div className="pf-chips">{[["verde", "Liberado"], ["amarelo", "Atenção"], ["vermelho", "Fora"]].map(([id, rot]) => <button key={id} type="button" className={"pf-chip sinal-" + id + (filtros.sinal.includes(id) ? " on" : "")} aria-pressed={filtros.sinal.includes(id)} onClick={() => alternarF("sinal", id)}>{rot}</button>)}</div></div>
           {temDisp && <div className="pf-linha"><label className="pf-rot">Disponibilidade</label><div className="pf-chips">{[["disponivel", "Liberado"], ["restricao", "Atenção"], ["fora", "Fora"]].map(([id, rot]) => <button key={id} type="button" className={"pf-chip" + (filtros.disp.includes(id) ? " on" : "")} aria-pressed={filtros.disp.includes(id)} onClick={() => alternarF("disp", id)}>{rot}</button>)}</div></div>}
           <div className="pf-linha"><label className="pf-rot">Posição</label><div className="pf-chips">{POSICOES_FILTRO.map((p) => <button key={p} type="button" className={"pf-chip" + (filtros.pos.includes(p) ? " on" : "")} aria-pressed={filtros.pos.includes(p)} onClick={() => alternarF("pos", p)}>{p}</button>)}</div></div>
@@ -6762,7 +6886,7 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
           <div className="area base"></div><div className="pequena base"></div>
         </div>
         {linhas.length === 0 ? (
-          <div className="empty-state" style={{ color: "rgba(255,255,255,0.8)", position: "relative" }}>{nFiltros ? "Nenhum atleta deste time com esses filtros." : "Nenhum atleta com posição definida neste time ainda."}</div>
+          <div className="empty-state" style={{ color: "rgba(255,255,255,0.8)", position: "relative" }}>{nFiltros ? "Nenhum atleta deste ano com esses filtros." : "Nenhum atleta com posição definida neste ano ainda."}</div>
         ) : linhas.map((l) => (
           <div className="pitch-linha" key={l.id}>
             <div className="pitch-linha-rotulo">{l.label}<span>{l.atletas.length}</span></div>
@@ -6775,7 +6899,7 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
         <div className="pitch-banco">
           {banco.length > 0 && (
             <React.Fragment>
-              <div className="pitch-banco-titulo">Banco · sem posição ou time definido ({banco.length})</div>
+              <div className="pitch-banco-titulo">Banco · sem posição definida ({banco.length})</div>
               <div className="pitch-banco-lista">
                 {banco.map((d) => (
                   <button key={d.id} type="button" className="banco-jogador" onClick={() => onOpenAtleta(d.id)} title={d.nome}>
@@ -13383,7 +13507,7 @@ function PainelTreinador({ usuario, aba, categoria }) {
     <div className="page">
       <div className="page-head">
         <div>
-          <h1>{atletaAberto ? "Perfil do atleta" : (abaTec === "Elenco" ? "Elenco em campo" : abaTec === "QTS" ? "QTS · Quadro de trabalho semanal" : abaTec) + (categoria ? " · " + labelCategoria(categoria) : "")}</h1>
+          <h1>{atletaAberto ? "Perfil do atleta" : (abaTec === "Elenco" ? "Campograma" : abaTec === "QTS" ? "QTS · Quadro de trabalho semanal" : abaTec) + (categoria ? " · " + labelCategoria(categoria) : "")}</h1>
           <div className="crumb">MeuCT · EC Meia Noite SAF · {abaTec === "QTS" ? "quadro de trabalho semanal: horários, atividades e locais de cada categoria" : abaTec === "Treinos" ? "planejamento e relatórios de treino" : abaTec === "Goleiros" ? "ficha de treino com nota de execução e scout de jogo dos goleiros" : "visão completa de cada atleta, com todas as áreas"}</div>
         </div>
       </div>
@@ -14759,7 +14883,7 @@ function ViewAdmin({ usuario, onNavigate, titulo }) {
     <div className="page">
       <div className="page-head">
         <div>
-          <h1>{atletaAberto ? "Perfil do atleta" : (view === "dashboard" ? "Painel geral" : "Elenco em campo")}</h1>
+          <h1>{atletaAberto ? "Perfil do atleta" : (view === "dashboard" ? "Painel geral" : "Campograma")}</h1>
           <div className="crumb">MeuCT · EC Meia Noite SAF</div>
         </div>
       </div>
@@ -19187,12 +19311,23 @@ function ladoZagueiro(a) {
   if (/direit/i.test(a.posicao || "")) return "dir";
   return "";
 }
-function montarLinhasCampo(doTime) {
+function montarLinhasCampo(doTime, opcoes) {
+  const vazios = !!(opcoes && opcoes.vazios);
   const porPos = (pos) => doTime.filter((a) => posicaoBase(a.posicao) === pos);
   const nome = (x, y) => nomeExibicao(x).localeCompare(nomeExibicao(y), "pt-BR");
   const ordC = (l) => l.slice().sort((x, y) => ((ORDEM_CENTRO_CAMPO[x.posicao] ?? 1) - (ORDEM_CENTRO_CAMPO[y.posicao] ?? 1)) || nome(x, y));
   const menor = (l1, l2) => (l1.length <= l2.length ? l1 : l2);
-  const montar = (id, label, blocos) => ({ id, label, blocos: blocos.filter((x) => x.atletas.length || x.fixo), atletas: blocos.flatMap((x) => x.atletas) });
+  // Lugar escolhido à mão no campograma (arrastando o card): campo_bloco = "linha:bloco", campo_ordem = posição no bloco.
+  const montar = (id, label, blocos) => {
+    const porK = Object.fromEntries(blocos.map((b) => [b.k, b]));
+    blocos.forEach((b) => { b.atletas = b.atletas.filter((a) => { const [l, k] = String(a.campo_bloco || "").split(":"); if (l === id && porK[k] && k !== b.k) { porK[k].atletas.push(a); return false; } return true; }); });
+    blocos.forEach((b) => {
+      const auto = new Map(b.atletas.map((a, i) => [a.id, i]));
+      const ord = (a) => (String(a.campo_bloco || "").split(":")[0] === id && typeof a.campo_ordem === "number" ? a.campo_ordem : 1000 + auto.get(a.id));
+      b.atletas = b.atletas.slice().sort((x, y) => ord(x) - ord(y));
+    });
+    return { id, label, blocos: blocos.filter((x) => x.atletas.length || x.fixo || (vazios && x.lado !== undefined)), atletas: blocos.flatMap((x) => x.atletas) };
+  };
   // Ataque: extremos numa coluna de cada lado, atacantes de centro em 2 colunas.
   const ext = setoresDaLinha(porPos("Extremo"), "Extremo");
   const ata = setoresDaLinha(porPos("Atacante"), "Atacante");
@@ -19210,17 +19345,17 @@ function montarLinhasCampo(doTime) {
   const linhas = [
     montar("ataque", "Ataque", [
       { k: "esq", atletas: extE.sort(nome), cols: 1, lado: true, fixo: temExt },
-      { k: "centro", atletas: ordC(ata.centro), cols: 2, fixo: true },
+      { k: "centro", atletas: ordC(ata.centro), cols: 2, fixo: true, lado: false },
       { k: "dir", atletas: extD.sort(nome), cols: 1, lado: true, fixo: temExt },
     ]),
     montar("meio", "Meio-campo", [{ k: "centro", atletas: ordC(porPos("Meia")), cols: 4 }]),
-    montar("volantes", "Volantes", vol.length > 1
-      ? [{ k: "esq", atletas: vol.slice(0, meioV), cols: 2 }, { k: "dir", atletas: vol.slice(meioV), cols: 2 }]
+    montar("volantes", "Volantes", vol.length > 1 || vazios
+      ? [{ k: "esq", atletas: vol.slice(0, meioV), cols: 2, lado: false }, { k: "dir", atletas: vol.slice(meioV), cols: 2, lado: false }]
       : [{ k: "centro", atletas: vol, cols: 2 }]),
     montar("defesa", "Defesa", [
       { k: "esq", atletas: latE.sort(nome), cols: 1, lado: true, fixo: latE.length + latD.length > 0 },
-      { k: "zag-esq", atletas: zagE.sort(nome), cols: 1, rotulo: zagE.length && zagD.length ? "Canhotos" : "", fixo: zagE.length + zagD.length > 0 },
-      { k: "zag-dir", atletas: zagD.sort(nome), cols: 1, rotulo: zagE.length && zagD.length ? "Destros" : "", fixo: zagE.length + zagD.length > 0 },
+      { k: "zag-esq", atletas: zagE.sort(nome), cols: 1, rotulo: zagE.length && zagD.length ? "Canhotos" : "", fixo: zagE.length + zagD.length > 0, lado: false },
+      { k: "zag-dir", atletas: zagD.sort(nome), cols: 1, rotulo: zagE.length && zagD.length ? "Destros" : "", fixo: zagE.length + zagD.length > 0, lado: false },
       { k: "dir", atletas: latD.sort(nome), cols: 1, lado: true, fixo: latE.length + latD.length > 0 },
     ]),
     montar("gol", "Goleiros", [{ k: "centro", atletas: porPos("Goleiro").sort(nome), cols: 0 }]),
@@ -19242,9 +19377,9 @@ function LinhaCampo({ linha, render }) {
   return (
     <div className={"pitch-setores grade" + (total > 9 ? " compacto" : "") + (total > 14 ? " muito" : "")} style={{ gridTemplateColumns: blocos.map((b) => "minmax(0," + larg(b) + "fr)").join(" ") }}>
       {blocos.map((b) => (
-        <div key={b.k} className={"pitch-setor " + b.k + (b.lado ? " lado" : "")}>
+        <div key={b.k} className={"pitch-setor " + b.k + (b.lado ? " lado" : "") + (!b.atletas.length ? " vazio" : "")} data-linha={linha.id} data-bloco={b.k}>
           {b.rotulo && <span className="pitch-setor-rot">{b.rotulo}</span>}
-          <div className="pitch-setor-grade" style={b.cols ? { "--cols": Math.min(b.cols, Math.max(1, b.atletas.length)), gridTemplateColumns: "repeat(" + Math.min(b.cols, Math.max(1, b.atletas.length)) + ", minmax(0, max-content))" } : { display: "flex", flexWrap: "wrap", justifyContent: "center" }}>{b.atletas.map(render)}</div>
+          <div className="pitch-setor-grade" style={b.cols ? { "--cols": Math.min(b.cols, Math.max(1, b.atletas.length)), gridTemplateColumns: "repeat(" + Math.min(b.cols, Math.max(1, b.atletas.length)) + ", minmax(0, max-content))" } : { display: "flex", flexWrap: "wrap", justifyContent: "center" }}>{b.atletas.map((a) => render(a, linha.id))}</div>
         </div>
       ))}
     </div>
@@ -19359,7 +19494,7 @@ function normalizarBusca(s) {
 function paginasDaBusca(usuario) {
   const lista = [
     { id: "admin", label: "Painel geral" }, { id: "agenda", label: "Agenda geral" }, { id: "minha_agenda", label: "Minha agenda" }, { id: "aniversariantes", label: "Aniversariantes" }, { id: "encaminhamentos", label: "Encaminhamentos" }, { id: "atas", label: "Atas de reunião" }, { id: "documentos", label: "Documentos" },
-    { id: "treinador", label: "Elenco em campo" }, { id: "avaliacao", label: "Atletas em avaliação" }, { id: "captacao", label: "Captação" }, { id: "agenda_campo", label: "Agenda da Comissão técnica" }, { id: "qts", label: "QTS semanal das categorias" },
+    { id: "treinador", label: "Campograma" }, { id: "avaliacao", label: "Atletas em avaliação" }, { id: "captacao", label: "Captação" }, { id: "agenda_campo", label: "Agenda da Comissão técnica" }, { id: "qts", label: "QTS semanal das categorias" },
     { id: "treinos", label: "Treinos" }, { id: "goleiros", label: "Goleiros" }, { id: "preparacao", label: "Preparação Física" },
     { id: "monitoramento", label: "Monitoramento" }, { id: "desempenho", label: "Desempenho" }, { id: "jogos", label: "Jogos" },
     { id: "agenda_saude", label: "Agenda de Saúde e performance" }, { id: "cadastro_atletas", label: "Cadastro de atletas" },
