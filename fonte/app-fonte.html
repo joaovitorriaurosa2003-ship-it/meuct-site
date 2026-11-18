@@ -1332,6 +1332,26 @@ select[data-caixa]{display:none !important;}
 .pitch-linha-jogadores{display:flex; flex-wrap:wrap; justify-content:center; gap:14px 10px;}
 .pitch-setores{display:grid; gap:6px; align-items:start; padding:0 8px;}
 .pitch-setor{display:flex; flex-wrap:wrap; justify-content:center; align-content:flex-start; gap:14px 6px; min-width:0;}
+.gaveta-proj{margin-top:12px; padding-top:12px; border-top:1px solid var(--mn-line, #E2E8F0);}
+.gaveta-proj-rot{display:block; font-size:12px; font-weight:800; color:var(--mn-text-3, #64748B); margin-bottom:8px;}
+.gaveta-proj-opcoes{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;}
+.gaveta-proj-btn{display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 4px; border-radius:10px; border:1.5px solid #D5DEE8; background:#fff; color:#0E1A31; font:inherit; font-size:12px; font-weight:700; cursor:pointer;}
+.gaveta-proj-btn em{font-style:normal; font-size:16px; font-weight:900; line-height:1;}
+.gaveta-proj-btn.sobe em{color:#16A34A;} .gaveta-proj-btn.mantem em{color:#64748B;} .gaveta-proj-btn.desce em{color:#DC2626;} .gaveta-proj-btn.sem em{color:#94A3B8;}
+.gaveta-proj-btn.ativo{border-color:currentColor; background:rgba(34,197,94,0.10);}
+.gaveta-proj-btn.ativo.desce{background:rgba(220,38,38,0.10);} .gaveta-proj-btn.ativo.mantem, .gaveta-proj-btn.ativo.sem{background:rgba(100,116,139,0.12);}
+.gaveta-proj-btn:disabled{opacity:.6; cursor:wait;}
+.pitch-setores.grade{align-items:start;}
+.pitch-setores.grade .pitch-setor{display:flex; flex-direction:column; flex-wrap:nowrap; align-items:center; align-content:center; justify-content:flex-start; gap:4px;}
+.pitch-setor-grade{display:grid; gap:14px 8px; justify-content:center; justify-items:center;}
+.pitch-setor-rot{font-size:9.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,0.75); text-shadow:0 1px 3px rgba(0,0,0,0.4);}
+.pitch-setores.grade .pitch-setor.lado{padding-top:0;}
+@media (max-width:720px){
+  .pitch-setores.grade .pitch-setor{align-self:stretch; min-width:0;}
+  .pitch-setores.grade .pitch-setor-grade{gap:10px 3px; width:100%; grid-template-columns:repeat(var(--cols, 1), minmax(0, 1fr)) !important;}
+  .pitch-setores.grade .pitch-setor-grade > .jogador, .pitch-setores.grade .pitch-setor-grade > .jogador.ficha{width:100% !important; max-width:104px; min-width:0;}
+  .pitch-setores.grade .jf-tabela{font-size:7.5px;} .pitch-setores.grade .jf-linha{padding:2px 3px; gap:2px;}
+}
 .pitch-setores > .pitch-setor.esq, .pitch-setores > .pitch-setor.dir{padding-top:4px;}
 .pitch-setores.compacto .jogador{width:90px;}
 .pitch-setores.compacto .jogador-foto{width:52px; height:52px;}
@@ -2495,9 +2515,10 @@ th.num, td.num{text-align:right;}
 .jf-ico{position:absolute; z-index:2; width:20px; height:20px; border-radius:50%; background:#fff; color:#0E1A31; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.35); font-family:var(--font); font-size:12px; font-weight:900; line-height:1;}
 .jf-ico svg{width:12px; height:12px;}
 .jf-casa{top:-6px; right:-6px; color:#1E5AA8;}
-.jf-pe{bottom:-6px; left:-8px; width:auto; min-width:20px; padding:0 4px 0 2px; border-radius:999px; gap:1px; color:#0E1A31;}
+.jf-pe{bottom:-6px; left:-8px; width:auto; min-width:22px; height:22px; padding:0 5px 0 4px; border-radius:999px; gap:2px; color:#0E1A31;}
+.jf-pe svg{width:11px; height:15px;}
 .jf-pe.esq svg{transform:scaleX(-1);}
-.jf-pe b{font-size:9px; font-weight:900;}
+.jf-pe b{font-size:8px; font-weight:900; color:#475569; letter-spacing:.02em;}
 .jf-proj{top:50%; right:-12px; transform:translateY(-50%); font-size:13px;}
 .jf-proj.sobe{background:#1E9E5A; color:#fff;} .jf-proj.desce{background:#D64545; color:#fff;} .jf-proj.mantem{background:#E2E8F0; color:#475569;}
 .chip-espaco{border:1px solid rgba(15,40,30,0.18) !important; background:#F1F5F9 !important; color:#334155 !important; border-radius:999px !important; font-size:10.5px !important; font-weight:800 !important; padding:1px 7px !important; margin:0 2px 0 6px !important; width:auto !important; height:auto !important; cursor:pointer;}
@@ -2518,6 +2539,7 @@ th.num, td.num{text-align:right;}
 .jf-tabela{display:flex; flex-direction:column; width:100%; background:rgba(255,255,255,0.94); border-radius:8px; overflow:hidden; color:#0E1A31; font-size:9.5px; line-height:1.25; box-shadow:0 6px 14px rgba(0,0,0,0.25);}
 .jf-linha{display:flex; justify-content:space-between; gap:6px; padding:2px 7px;}
 .jf-linha + .jf-linha{border-top:1px solid #E2E8F0;}
+.jf-linha.alerta{background:#FEE2E2;} .jf-linha.alerta i, .jf-linha.alerta b{color:#B91C1C;}
 .jf-linha i{font-style:normal; color:#64748B;} .jf-linha b{font-weight:800; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 .proj-seta{display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; font-style:normal; font-weight:900; font-size:12px; margin-right:4px;}
 .proj-seta.sobe{background:#1E9E5A; color:#fff;} .proj-seta.desce{background:#D64545; color:#fff;} .proj-seta.mantem{background:#E2E8F0; color:#475569;}
@@ -3463,6 +3485,8 @@ tr.linha-qr td{background:var(--surface-2);}
 .imq-fora-lista{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
 .imq-chip{padding:4px 10px; border-radius:999px; background:#F1F5F9; font-size:12.5px;}
 .imq-acoes{display:flex; gap:12px; align-items:center; margin-top:14px; flex-wrap:wrap;}
+.imq-linha.fpf{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1.4fr) 120px;}
+.fpf-mud{display:flex; flex-direction:column; gap:2px; font-size:12px;}
 .imq-ok{margin-top:10px; padding:10px 12px; border-radius:10px; background:#DCFCE7; color:#166534; font-weight:700;}
 @media (max-width:720px){ .imq-linha{grid-template-columns:1fr; gap:6px;} }
 </style>
@@ -3513,7 +3537,10 @@ const BIBLIOTECAS = {
   qr: ["https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"],
   pdflib: ["https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"],
   xlsx: ["https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"],
+  pdfjs: ["https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"],
 };
+const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const PDFJS_WORKER_SRI = "sha384-SnzOobpRMLXZ52iJvZm/C0fYw0OQemTXzTjIsdsfMcrCtCEe9qgzxTd3RSklO5x2";
 const bibliotecasCarregando = {};
 
 /* Integridade (SRI): se o arquivo do CDN for alterado, o navegador recusa e o app não roda código estranho. */
@@ -3523,7 +3550,8 @@ const INTEGRIDADE_SCRIPTS = {
   "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js": "sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG",
   "https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js": "sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI",
   "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js": "sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1",
-  "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js": "sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw"
+  "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js": "sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw",
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js": "sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e"
 };
 function carregarScriptExterno(url) {
   return new Promise((resolve, reject) => {
@@ -3975,6 +4003,10 @@ function podeVerArea(usuario, moduloId) {
 }
 
 /** O Serviço Social é a porta de entrada: só ele (e a diretoria/administrador) cadastra, edita, mescla e exclui atleta. */
+/** Projeção (sobe, mantém, desce): comissão técnica, Serviço Social e admin mudam direto pelo campograma. */
+function podeEditarProjecao(usuario) {
+  return temPermissao(usuario, "admin") || temPermissao(usuario, "social") || temPermissao(usuario, "treinador");
+}
 function podeGerenciarAtletas(usuario) {
   return temPermissao(usuario, "admin") || temPermissao(usuario, "social");
 }
@@ -6011,6 +6043,8 @@ function GavetaAtleta({ atletaId, usuario, onFechar, onPerfil }) {
   const [dados, setDados] = useState(null);
   const [manuais, setManuais] = useState([]);
   const [erro, setErro] = useState(null);
+  const [projLocal, setProjLocal] = useState(undefined);
+  const [salvandoProj, setSalvandoProj] = useState(false);
   const vmLanc = useVerMais(5);
   useEffect(() => {
     let vivo = true;
@@ -6036,6 +6070,21 @@ function GavetaAtleta({ atletaId, usuario, onFechar, onPerfil }) {
     .sort((a, b) => (b.data || "").localeCompare(a.data || ""));
   const risco = sem ? sem.risco : null;
   const rotRisco = risco === "verde" ? "Liberado" : risco === "amarelo" ? "Atenção" : risco === "vermelho" ? "Fora" : "";
+  const quem = usuario || usuarioLogadoGlobal;
+  const podeProj = podeEditarProjecao(quem);
+  const projAtual = projLocal !== undefined ? projLocal : (atleta ? atleta.projecao || "" : "");
+  async function mudarProjecao(v) {
+    if (!atleta || salvandoProj || v === projAtual) return;
+    setSalvandoProj(true);
+    try {
+      await db.collection(COL_ATLETAS).doc(atleta.id).update({ projecao: v || "" });
+      setProjLocal(v);
+      const ind = typeof ATLETAS_INDICE !== "undefined" && ATLETAS_INDICE.get(atleta.id); if (ind) ind.projecao = v;
+      limparCacheLeitura(["atletas"]);
+      window.dispatchEvent(new Event("ct:atleta-mudou"));
+    } catch (e) { alert("Não consegui salvar a projeção: " + e.message); }
+    setSalvandoProj(false);
+  }
 
   return (
     <div className="lanc-fundo" onClick={onFechar}>
@@ -6084,7 +6133,21 @@ function GavetaAtleta({ atletaId, usuario, onFechar, onPerfil }) {
                   <dt>Posição</dt><dd>{atleta.posicao || "-"}{outras ? " (também joga: " + outras + ")" : ""}</dd>
                   {atleta.data_nascimento && <React.Fragment><dt>Nascimento</dt><dd>{formatarData(atleta.data_nascimento)}</dd></React.Fragment>}
                   {atleta.perna_dominante && <React.Fragment><dt>Destro ou canhoto</dt><dd>{atleta.perna_dominante}</dd></React.Fragment>}
+                  {!podeProj && <React.Fragment><dt>Projeção</dt><dd>{(PROJECOES.find((p) => p.id === projAtual) || {}).label || "Sem avaliar"}</dd></React.Fragment>}
                 </dl>
+                {podeProj && (
+                  <div className="gaveta-proj">
+                    <span className="gaveta-proj-rot">Projeção</span>
+                    <div className="gaveta-proj-opcoes" role="radiogroup" aria-label="Projeção do atleta">
+                      {[...PROJECOES, { id: "", label: "Sem avaliar", seta: "?" }].map((p) => (
+                        <button key={p.id || "sem"} type="button" role="radio" aria-checked={projAtual === p.id} disabled={salvandoProj}
+                          className={"gaveta-proj-btn " + (p.id || "sem") + (projAtual === p.id ? " ativo" : "")} onClick={() => mudarProjecao(p.id)}>
+                          <em>{p.seta}</em>{p.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="lanc-cartao">
                 <div className="lanc-secao">Últimos lançamentos</div>
@@ -6512,7 +6575,7 @@ function IconesAtletaCampo({ a }) {
   return (
     <React.Fragment>
       {a.alojamento && <span className="jf-ico jf-casa" title={a.alojamento}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /><path d="M6 10.5V20h12v-9.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" /></svg></span>}
-      {pe && <span className={"jf-ico jf-pe" + (pe === "E" ? " esq" : "")} title={"Perna " + a.perna_dominante.toLowerCase()}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 3.5c2.4 0 3.6 2.3 3.4 5.3-.1 2 .6 3.2 2.2 4.4 1.9 1.4 3.6 2.6 3.4 4.6-.2 2.1-2.3 3-4.6 2.6-2.6-.5-4.2-2.2-5.4-4.2-1.3-2.2-2.4-4.6-2.3-7.3.1-3 1.3-5.4 3.3-5.4z" fill="currentColor" /></svg><b>{pe}</b></span>}
+      {pe && <span className={"jf-ico jf-pe" + (pe === "E" ? " esq" : pe === "A" ? " amb" : "")} title={"Perna " + a.perna_dominante.toLowerCase()}><svg viewBox="0 0 20 28" aria-hidden="true"><path d="M7.6 9.4c2.6-.5 5.6-.2 7.2 1.5 1.3 1.4 1.3 3.4.8 5.4-.6 2.1-1.4 3.6-1.2 5.6.2 1.7-.3 3.7-2.4 4.7-2 .9-4.2.2-5.1-1.5-.9-1.7-.5-3.6-.6-5.4-.1-2-1.5-3.4-1.7-5.4-.2-2.3 1-4.4 3-4.9z" fill="currentColor" /><ellipse cx="6.1" cy="5.4" rx="2.3" ry="2.9" fill="currentColor" /><circle cx="10" cy="3.4" r="1.6" fill="currentColor" /><circle cx="13" cy="4.3" r="1.4" fill="currentColor" /><circle cx="15.4" cy="6" r="1.2" fill="currentColor" /><circle cx="17" cy="8.4" r="1" fill="currentColor" /></svg><b>{pe}</b></span>}
       {proj && <span className={"jf-ico jf-proj " + proj.id} title={"Projeção: " + proj.label}>{proj.seta}</span>}
     </React.Fragment>
   );
@@ -6546,15 +6609,17 @@ function PainelCampograma({ atletas, verDisp }) {
 }
 function TabelaFichaAtleta({ a }) {
   const curta = (iso) => { const f = formatarData(iso); return f.length === 10 ? f.slice(0, 6) + f.slice(8) : f; }; // 13/04/11
+  const diasFim = a.vinculo_fim ? diasEntreIso(hojeISO(), a.vinculo_fim) : null;
+  const venceLogo = diasFim !== null && diasFim <= 183; // 6 meses ou menos (ou já vencido): término em vermelho
   const linhas = [
-    ["Nascimento", a.data_nascimento ? curta(a.data_nascimento) : ""],
+    ["Nasc.", a.data_nascimento ? formatarData(a.data_nascimento) : ""],
     ["Chegada", a.data_chegada ? curta(a.data_chegada) : ""],
     ["Contrato", tipoVinculo(a.vinculo)],
-    ["Término", a.vinculo_fim ? curta(a.vinculo_fim) : ""],
+    ["Término", a.vinculo_fim ? curta(a.vinculo_fim) : "", venceLogo ? (diasFim < 0 ? "Contrato vencido" : "Vence em " + diasFim + " dias") : ""],
   ];
   return (
     <span className="jf-tabela">
-      {linhas.map(([r, v]) => <span key={r} className="jf-linha"><i>{r}</i><b>{v || "—"}</b></span>)}
+      {linhas.map(([r, v, alerta]) => <span key={r} className={"jf-linha" + (alerta ? " alerta" : "")} title={alerta || undefined}><i>{r}</i><b>{v || "—"}</b></span>)}
     </span>
   );
 }
@@ -7437,6 +7502,13 @@ function ViewAvaliacao({ usuario }) {
   );
 }
 
+function useRecarregarQuandoAtletaMudar(recarregar) {
+  React.useEffect(() => {
+    const ouvir = () => { recarregar(); };
+    window.addEventListener("ct:atleta-mudou", ouvir);
+    return () => window.removeEventListener("ct:atleta-mudou", ouvir);
+  }, []);
+}
 function ViewElenco({ usuario, cadastro }) {
   const [dados, setDados] = useState(null);
   const [erro, setErro] = useState(null);
@@ -7447,6 +7519,7 @@ function ViewElenco({ usuario, cadastro }) {
   }
 
   useEffect(() => { recarregar(); }, []);
+  useRecarregarQuandoAtletaMudar(recarregar); // projeção editada na gaveta do campograma
 
   if (erro) {
     return <div className="page"><ErroCarregamento mensagem={erro} /></div>;
@@ -8484,6 +8557,228 @@ async function salvarAtletaComPrivado(atletaId, campos, extrasNovo) {
 function fmtAltura(v) { const n = Number(v); return n ? String(n.toFixed(2)).replace(".", ",") + " m" : ""; }
 function fmtPeso(v) { const n = Number(v); return n ? String(Math.round(n * 10) / 10).replace(".", ",") + " kg" : ""; }
 
+/* --- Importar a relação de inscritos da FPF (PDF) ---
+   Lê o PDF da FPF (Relação de Inscritos para Campeonato), acha cada atleta que JÁ está no app
+   pelo nome e pela data de nascimento e atualiza nascimento, nº de registro FPF, tipo de vínculo
+   (Ama = Amador, Pro = Profissional) e término. Não cria atletas e não usa o apelido. */
+let pdfjsWorkerPronto = null;
+async function prepararPdfjs() {
+  await carregarBiblioteca("pdfjs");
+  if (!pdfjsWorkerPronto) {
+    pdfjsWorkerPronto = fetch(PDFJS_WORKER_URL, { integrity: PDFJS_WORKER_SRI, mode: "cors" })
+      .then((r) => { if (!r.ok) throw new Error("worker " + r.status); return r.blob(); })
+      .then((b) => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(b); })
+      .catch((e) => { pdfjsWorkerPronto = null; throw e; });
+  }
+  await pdfjsWorkerPronto;
+  return window.pdfjsLib;
+}
+function lerRelacaoFpfItens(paginas) {
+  const linhasTodas = [];
+  let campeonato = "";
+  paginas.forEach((itens) => {
+    const grupos = [];
+    itens.filter((t) => String(t.str).trim()).forEach((t) => {
+      let g = grupos.find((x) => Math.abs(x.y - t.y) <= 2.5);
+      if (!g) { g = { y: t.y, itens: [] }; grupos.push(g); }
+      g.itens.push(t);
+    });
+    grupos.sort((a, b) => b.y - a.y).forEach((g) => linhasTodas.push(g.itens.sort((a, b) => a.x - b.x)));
+  });
+  let cols = null;
+  const saida = [];
+  linhasTodas.forEach((l) => {
+    const texto = l.map((t) => t.str).join(" ").replace(/\s+/g, " ").trim();
+    const m = texto.match(/Campeonato:\s*(.+)$/i); if (m && !campeonato) campeonato = m[1].trim();
+    if (/Nome do Atleta/i.test(texto) && /Apelido/i.test(texto)) {
+      const x = (re) => { const it = l.find((t) => re.test(t.str)); return it ? it.x : null; };
+      cols = { nome: x(/Nome do Atleta/i), apelido: x(/Apelido/i), categoria: x(/Categoria/i), registro: x(/Registro/i), idade: x(/Idade/i) };
+      return;
+    }
+    if (!cols || cols.nome == null || !/^\d{1,3}\s/.test(texto)) return;
+    const datas = texto.match(/\d{2}\/\d{2}\/\d{4}/g) || [];
+    if (!datas.length) return;
+    const fim = cols.apelido != null ? cols.apelido - 2 : Infinity;
+    const nome = l.filter((t) => t.x >= cols.nome - 4 && t.x < fim).map((t) => t.str).join(" ").replace(/\s+/g, " ").trim();
+    const entre = (a, b) => l.filter((t) => t.x >= a - 6 && t.x < b - 6).map((t) => t.str).join(" ").trim();
+    const categoria = cols.categoria != null ? entre(cols.categoria, cols.registro != null ? cols.registro : Infinity).replace(/\s+/g, "") : "";
+    const registro = ((cols.registro != null ? entre(cols.registro, cols.idade != null ? cols.idade : Infinity) : "").match(/\d{4,}/) || [""])[0];
+    const iso = (d) => (d ? d.slice(6) + "-" + d.slice(3, 5) + "-" + d.slice(0, 2) : "");
+    if (!nome) return;
+    saida.push({ nome, categoria, registro, nascimento: iso(datas[0]), inscricao: iso(datas[1]), protocolo: iso(datas[2]), termino: iso(datas[3]) });
+  });
+  return { campeonato, atletas: saida };
+}
+async function lerPdfRelacaoFpf(arquivo) {
+  const pdfjsLib = await prepararPdfjs();
+  const doc = await pdfjsLib.getDocument({ data: new Uint8Array(await arquivo.arrayBuffer()) }).promise;
+  const paginas = [];
+  for (let i = 1; i <= doc.numPages; i++) {
+    const tc = await (await doc.getPage(i)).getTextContent();
+    paginas.push(tc.items.map((t) => ({ str: t.str, x: t.transform[4], y: t.transform[5] })));
+  }
+  return lerRelacaoFpfItens(paginas);
+}
+function vinculoDaFpf(cat) { return /^ama/i.test(cat || "") ? "Amador" : /^pro/i.test(cat || "") ? "Profissional" : ""; }
+
+function ImportadorRelacaoFpf({ atletas, onImportado }) {
+  const { useState, useRef } = React;
+  const [linhas, setLinhas] = useState(null);
+  const [listas, setListas] = useState([]);
+  const [erro, setErro] = useState("");
+  const [lendo, setLendo] = useState(false);
+  const [salvando, setSalvando] = useState(false);
+  const [feito, setFeito] = useState("");
+  const [privados, setPrivados] = useState({});
+  const inp = useRef(null);
+  const vmFora = useVerMais(8);
+  const ativos = (atletas || []).filter((a) => !a.inativo).sort((a, b) => nomeExibicao(a).localeCompare(nomeExibicao(b), "pt-BR"));
+  const porId = new Map(ativos.map((a) => [a.id, a]));
+  const comPriv = podeVerDadosPessoais();
+
+  async function ler(arquivos) {
+    const lista = Array.from(arquivos || []);
+    if (!lista.length) return;
+    setErro(""); setFeito(""); setLendo(true);
+    try {
+      const priv = comPriv ? await carregarPrivadosAtletas() : {};
+      setPrivados(priv);
+      const vistos = new Map(); const nomesListas = [];
+      for (const arq of lista) {
+        const r = await lerPdfRelacaoFpf(arq);
+        if (!r.atletas.length) throw new Error("o arquivo " + arq.name + " não parece uma relação de inscritos da FPF");
+        nomesListas.push((r.campeonato || arq.name) + " (" + r.atletas.length + ")");
+        r.atletas.forEach((x) => {
+          const chave = x.registro || semAcentoNome(x.nome) + "|" + x.nascimento;
+          const ant = vistos.get(chave);
+          const comp = { ...x, listas: [r.campeonato || arq.name] };
+          if (!ant) vistos.set(chave, comp);
+          else vistos.set(chave, { ...ant, listas: [...ant.listas, ...comp.listas], categoria: ant.categoria && ant.categoria !== "--" ? ant.categoria : x.categoria, registro: ant.registro || x.registro, termino: [ant.termino, x.termino].filter(Boolean).sort().pop() || "" });
+        });
+      }
+      const usados = new Set();
+      const ls = [...vistos.values()].map((x) => {
+        const achado = acharAtletaPlanilha(x.nome, x.nascimento, ativos);
+        return { ...x, atletaId: achado.atleta ? achado.atleta.id : "", motivo: achado.motivo || "", duvida: !!(achado.atleta && achado.certeza < 100) };
+      }).sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+      ls.forEach((x) => { if (x.atletaId) { if (usados.has(x.atletaId)) { x.atletaId = ""; x.motivo = "Mesmo atleta em duas linhas"; } else usados.add(x.atletaId); } });
+      setListas(nomesListas); setLinhas(ls);
+    } catch (e) { setErro("Não consegui ler: " + e.message); setLinhas(null); }
+    setLendo(false);
+    if (inp.current) inp.current.value = "";
+  }
+  const mudar = (i, campos) => setLinhas((ls) => ls.map((x, j) => (j === i ? { ...x, ...campos } : x)));
+
+  function mudancas(x) {
+    const a = porId.get(x.atletaId); if (!a) return { pub: {}, priv: {}, textos: [] };
+    const p = privados[a.id] || {};
+    const pub = {}, priv = {}, textos = [];
+    const comparar = (rot, atual, novo, fmt) => { if (novo && novo !== (atual || "")) { textos.push(rot + ": " + (atual ? fmt(atual) : "vazio") + " → " + fmt(novo)); return true; } return false; };
+    if (comparar("Nascimento", a.data_nascimento, x.nascimento, formatarData)) pub.data_nascimento = x.nascimento;
+    if (comparar("Registro FPF", a.registro_fpf, x.registro, String)) pub.registro_fpf = x.registro;
+    const vinc = vinculoDaFpf(x.categoria);
+    if (comparar("Contrato", tipoVinculo(a.vinculo), vinc, String)) pub.vinculo = vinc;
+    if (comparar("Término", a.vinculo_fim, x.termino, formatarData)) pub.vinculo_fim = x.termino;
+    if (comPriv) {
+      if (vinc && tipoVinculo(p.status_vinculo) !== vinc) priv.status_vinculo = vinc;
+      if (x.termino && (p.vigencia_final || "") !== x.termino) priv.vigencia_final = x.termino;
+    }
+    return { pub, priv, textos };
+  }
+  const validas = (linhas || []).filter((x) => x.atletaId);
+  const comMud = validas.map((x) => ({ x, m: mudancas(x) })).filter(({ m }) => Object.keys(m.pub).length || Object.keys(m.priv).length);
+  const naoAchados = (linhas || []).filter((x) => !x.atletaId);
+
+  async function gravar() {
+    if (!comMud.length) return;
+    if (!window.confirm("Atualizar o cadastro de " + comMud.length + " atleta" + (comMud.length === 1 ? "" : "s") + " com os dados da FPF?")) return;
+    setSalvando(true);
+    try {
+      const ops = [];
+      comMud.forEach(({ x, m }) => {
+        if (Object.keys(m.pub).length) ops.push((b) => b.update(db.collection(COL_ATLETAS).doc(x.atletaId), m.pub));
+        if (Object.keys(m.priv).length) ops.push((b) => b.set(db.collection(COL_ATLETAS_PRIVADO).doc(x.atletaId), { ...m.priv, atualizado_por: uidAtual(), atualizado_em: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }));
+      });
+      for (let i = 0; i < ops.length; i += 400) { const b = db.batch(); ops.slice(i, i + 400).forEach((f) => f(b)); await b.commit(); }
+      setFeito(comMud.length + " atleta" + (comMud.length === 1 ? " atualizado" : "s atualizados") + " com os dados da FPF.");
+      setLinhas(null);
+      if (onImportado) onImportado();
+    } catch (e) { alert("Não consegui salvar: " + e.message); }
+    setSalvando(false);
+  }
+
+  return (
+    <div className="panel imq" style={{ margin: "14px 20px" }}>
+      <div className="panel-head"><h3>Importar relação da FPF (PDF)</h3></div>
+      <div className="panel-body">
+        <p className="muted" style={{ marginTop: 0, fontSize: 13 }}>Envie um ou mais PDFs de "Relação de Inscritos para Campeonato" da FPF. O app só atualiza atletas que já estão cadastrados, procurando pelo nome completo e pela data de nascimento (o apelido da FPF não é usado). Atualiza nascimento, nº de registro FPF, tipo de contrato (Ama = Amador, Pro = Profissional) e término. A chegada ao clube não muda. Nada é gravado antes de você confirmar.</p>
+        <input ref={inp} type="file" accept=".pdf,application/pdf" multiple style={{ display: "none" }} onChange={(e) => ler(e.target.files)} />
+        <button type="button" className="pill-btn primary" disabled={lendo} onClick={() => inp.current && inp.current.click()}>{lendo ? "Lendo os PDFs..." : linhas ? "Escolher outros PDFs" : "Escolher PDFs da FPF"}</button>
+        {erro && <div className="access-note" style={{ marginTop: 10 }}><span>{erro}</span></div>}
+        {feito && <div className="imq-ok">{feito}</div>}
+        {linhas && (
+          <React.Fragment>
+            <p className="muted" style={{ fontSize: 12.5, margin: "10px 0 0" }}>Listas lidas: {listas.join(" · ")}</p>
+            <div className="quartos-resumo" style={{ marginTop: 12 }}>
+              <div className="conv-contador ok"><b>{validas.length}</b><span>encontrados no app</span></div>
+              <div className="conv-contador"><b>{comMud.length}</b><span>com dados para atualizar</span></div>
+              <div className={"conv-contador" + (naoAchados.length ? " pendente" : " ok")}><b>{naoAchados.length}</b><span>não estão no app</span></div>
+            </div>
+            <div className="imq-lista">
+              {linhas.filter((x) => x.atletaId).map((x) => {
+                const i = linhas.indexOf(x); const m = mudancas(x);
+                return (
+                  <div key={i} className="imq-linha fpf">
+                    <div className="imq-nome"><b>{x.nome}</b><small className="muted">{[x.listas.join(", "), x.registro ? "FPF " + x.registro : ""].filter(Boolean).join(" · ")}</small></div>
+                    <div className="imq-atleta">
+                      <select value={x.atletaId} onChange={(e) => mudar(i, { atletaId: e.target.value, duvida: false })} aria-label={"Atleta do app para " + x.nome}>
+                        <option value="">Não importar</option>
+                        {ativos.map((a) => <option key={a.id} value={a.id}>{nomeExibicao(a)}{a.categoria ? " (" + a.categoria + ")" : ""}</option>)}
+                      </select>
+                      {x.duvida && <small className="imq-duvida">Confira se é ele</small>}
+                    </div>
+                    <div className="imq-destino fpf-mud">{m.textos.length ? m.textos.map((t) => <span key={t}>{t}</span>) : <span className="muted">{Object.keys(m.priv).length ? "Só o contrato restrito" : "Nada muda"}</span>}</div>
+                    <div className="imq-status">{m.textos.length || Object.keys(m.priv).length ? <span className="imq-tag verde">Atualiza</span> : <span className="imq-tag cinza">Já está igual</span>}</div>
+                  </div>
+                );
+              })}
+            </div>
+            {naoAchados.length > 0 && (
+              <div className="imq-fora">
+                <b style={{ fontSize: 13 }}>Na FPF, mas não achei no app ({naoAchados.length})</b>
+                <p className="muted" style={{ fontSize: 12.5, margin: "4px 0 8px" }}>Não serão importados. Se algum for um atleta cadastrado com outro nome, escolha ele na lista.</p>
+                <div className="imq-lista" style={{ marginTop: 0 }}>
+                  {naoAchados.map((x, k) => {
+                    const i = linhas.indexOf(x);
+                    return (
+                      <div key={i} className={("imq-linha pend " + vmFora.classe(k, naoAchados.length)).trim()}>
+                        <div className="imq-nome"><b>{x.nome}</b><small className="muted">{[x.listas.join(", "), x.nascimento ? formatarData(x.nascimento) : ""].filter(Boolean).join(" · ")}</small></div>
+                        <div className="imq-atleta">
+                          <select value="" onChange={(e) => mudar(i, { atletaId: e.target.value, duvida: false })} aria-label={"Atleta do app para " + x.nome}>
+                            <option value="">Não importar</option>
+                            {ativos.map((a) => <option key={a.id} value={a.id}>{nomeExibicao(a)}{a.categoria ? " (" + a.categoria + ")" : ""}</option>)}
+                          </select>
+                        </div>
+                        <div className="imq-destino"><span className="muted">{x.motivo}</span></div>
+                        <div className="imq-status"><span className="imq-tag cinza">Não entra</span></div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {vmFora.botao(naoAchados.length, "atletas")}
+              </div>
+            )}
+            <div className="imq-acoes">
+              <button type="button" className="pill-btn primary" disabled={salvando || !comMud.length} onClick={gravar}>{salvando ? "Gravando..." : "Atualizar " + comMud.length + " atleta" + (comMud.length === 1 ? "" : "s")}</button>
+              <button type="button" className="link-btn" onClick={() => setLinhas(null)}>Cancelar</button>
+            </div>
+          </React.Fragment>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* --- Importar a relação do clube (.docx com uma tabela por atleta) --- */
 function semAcentoNome(t) { return String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim(); }
 function posicoesDoTexto(t) {
@@ -9112,6 +9407,7 @@ function ListaAtletas({ dados, onOpenAtleta, onRecarregar, usuario }) {
           {podeGerenciar && (
             <div style={{display:"flex", gap:8}}>
               <button className={"pill-btn" + (modo === "relacao" ? " primary" : "")} onClick={() => setModo(modo === "relacao" ? null : "relacao")}>{modo === "relacao" ? "Fechar" : "Importar relação"}</button>
+              <button className={"pill-btn" + (modo === "fpf" ? " primary" : "")} onClick={() => setModo(modo === "fpf" ? null : "fpf")}>{modo === "fpf" ? "Fechar" : "Importar FPF (PDF)"}</button>
               <button className={"pill-btn" + (modo === "fotos" ? " primary" : "")} onClick={() => setModo(modo === "fotos" ? null : "fotos")}>{modo === "fotos" ? "Fechar" : "Importar fotos"}</button>
               {podeApagar(usuario) && <button className={"pill-btn" + (modo === "mesclar" ? " primary" : "")} onClick={() => setModo(modo === "mesclar" ? null : "mesclar")}>Mesclar duplicata</button>}
               <button className={"pill-btn primary"} onClick={() => setModo(modo === "novo" ? null : "novo")}>{modo === "novo" ? "Fechar" : "+ Novo atleta"}</button>
@@ -9124,6 +9420,7 @@ function ListaAtletas({ dados, onOpenAtleta, onRecarregar, usuario }) {
           <FormAtleta atleta={null} onSalvar={salvarNovo} onCancelar={() => setModo(null)} />
         )}
         {modo === "relacao" && podeGerenciar && <ImportadorRelacaoAtletas atletas={dados.atletas} onImportado={onRecarregar} />}
+        {modo === "fpf" && podeGerenciar && <ImportadorRelacaoFpf atletas={dados.atletas} onImportado={onRecarregar} />}
         <div className="relacao-barra">
           <span className="muted">Relação de atletas em PDF:</span>
           {[["", "Todas"], ...CATEGORIAS_TIME.map((c) => [c.id, c.label])].map(([id, rot]) => (
@@ -13058,6 +13355,7 @@ function PainelTreinador({ usuario, aba, categoria }) {
   }
 
   useEffect(() => { recarregar(); }, []);
+  useRecarregarQuandoAtletaMudar(recarregar);
 
   if (erro) {
     return (
@@ -14451,6 +14749,7 @@ function ViewAdmin({ usuario, onNavigate, titulo }) {
   }
 
   useEffect(() => { recarregar(); }, []);
+  useRecarregarQuandoAtletaMudar(recarregar);
 
 
   return (
@@ -18877,19 +19176,51 @@ function setoresDaLinha(atletas, base) {
   const ord = (l) => l.slice().sort((x, y) => ((ORDEM_CENTRO_CAMPO[x.posicao] ?? 1) - (ORDEM_CENTRO_CAMPO[y.posicao] ?? 1)) || nomeExibicao(x).localeCompare(nomeExibicao(y), "pt-BR"));
   return { esq: ord(out.esq), centro: ord(out.centro), dir: ord(out.dir) };
 }
+/** Lado do zagueiro: canhoto na esquerda, destro na direita; sem perna, vale a posição e depois o equilíbrio. */
+function ladoZagueiro(a) {
+  if (a.perna_dominante === "Canhoto") return "esq";
+  if (a.perna_dominante === "Destro") return "dir";
+  if (/esquerd/i.test(a.posicao || "")) return "esq";
+  if (/direit/i.test(a.posicao || "")) return "dir";
+  return "";
+}
 function montarLinhasCampo(doTime) {
   const porPos = (pos) => doTime.filter((a) => posicaoBase(a.posicao) === pos);
-  const linha = (id, label, bases) => {
-    const s = { esq: [], centro: [], dir: [] };
-    bases.forEach((b) => { const x = setoresDaLinha(porPos(b), b); s.esq.push(...x.esq); s.centro.push(...x.centro); s.dir.push(...x.dir); });
-    return { id, label, setores: s, atletas: [...s.esq, ...s.centro, ...s.dir] };
-  };
+  const nome = (x, y) => nomeExibicao(x).localeCompare(nomeExibicao(y), "pt-BR");
+  const ordC = (l) => l.slice().sort((x, y) => ((ORDEM_CENTRO_CAMPO[x.posicao] ?? 1) - (ORDEM_CENTRO_CAMPO[y.posicao] ?? 1)) || nome(x, y));
+  const menor = (l1, l2) => (l1.length <= l2.length ? l1 : l2);
+  const montar = (id, label, blocos) => ({ id, label, blocos: blocos.filter((x) => x.atletas.length || x.fixo), atletas: blocos.flatMap((x) => x.atletas) });
+  // Ataque: extremos numa coluna de cada lado, atacantes de centro em 2 colunas.
+  const ext = setoresDaLinha(porPos("Extremo"), "Extremo");
+  const ata = setoresDaLinha(porPos("Atacante"), "Atacante");
+  const extE = [...ext.esq, ...ata.esq], extD = [...ext.dir, ...ata.dir];
+  ext.centro.forEach((a) => menor(extE, extD).push(a));
+  // Defesa: laterais numa coluna de cada lado; zagueiros canhotos à esquerda e destros à direita.
+  const latE = [], latD = [], zagE = [], zagD = [], zagSem = [];
+  ["Lateral-esquerdo", "Lateral-direito"].forEach((b) => { const x = setoresDaLinha(porPos(b), b); latE.push(...x.esq); latD.push(...x.dir); x.centro.forEach((a) => menor(latE, latD).push(a)); });
+  porPos("Zagueiro").forEach((a) => { const l = ladoZagueiro(a); (l === "esq" ? zagE : l === "dir" ? zagD : zagSem).push(a); });
+  ordC(zagSem).forEach((a) => menor(zagE, zagD).push(a));
+  // Volantes em dois blocos de 2 colunas (metade de cada lado).
+  const vol = ordC(porPos("Volante"));
+  const meioV = Math.ceil(vol.length / 2);
+  const temExt = extE.length + extD.length > 0;
   const linhas = [
-    linha("ataque", "Ataque", ["Extremo", "Atacante"]),
-    linha("meio", "Meio-campo", ["Meia"]),
-    linha("volantes", "Volantes", ["Volante"]),
-    linha("defesa", "Defesa", ["Lateral-esquerdo", "Zagueiro", "Lateral-direito"]),
-    linha("gol", "Goleiros", ["Goleiro"]),
+    montar("ataque", "Ataque", [
+      { k: "esq", atletas: extE.sort(nome), cols: 1, lado: true, fixo: temExt },
+      { k: "centro", atletas: ordC(ata.centro), cols: 2, fixo: true },
+      { k: "dir", atletas: extD.sort(nome), cols: 1, lado: true, fixo: temExt },
+    ]),
+    montar("meio", "Meio-campo", [{ k: "centro", atletas: ordC(porPos("Meia")), cols: 4 }]),
+    montar("volantes", "Volantes", vol.length > 1
+      ? [{ k: "esq", atletas: vol.slice(0, meioV), cols: 2 }, { k: "dir", atletas: vol.slice(meioV), cols: 2 }]
+      : [{ k: "centro", atletas: vol, cols: 2 }]),
+    montar("defesa", "Defesa", [
+      { k: "esq", atletas: latE.sort(nome), cols: 1, lado: true, fixo: latE.length + latD.length > 0 },
+      { k: "zag-esq", atletas: zagE.sort(nome), cols: 1, rotulo: zagE.length && zagD.length ? "Canhotos" : "", fixo: zagE.length + zagD.length > 0 },
+      { k: "zag-dir", atletas: zagD.sort(nome), cols: 1, rotulo: zagE.length && zagD.length ? "Destros" : "", fixo: zagE.length + zagD.length > 0 },
+      { k: "dir", atletas: latD.sort(nome), cols: 1, lado: true, fixo: latE.length + latD.length > 0 },
+    ]),
+    montar("gol", "Goleiros", [{ k: "centro", atletas: porPos("Goleiro").sort(nome), cols: 0 }]),
   ].filter((l) => l.atletas.length > 0);
   const semPosicao = doTime.filter((a) => !a.posicao || !SIGLA_POSICAO[a.posicao]);
   return { linhas, semPosicao };
@@ -18900,17 +19231,18 @@ function ordenarPorPosicao(atletas) {
   return atletas.slice().sort((a, b) => (ordem(a) - ordem(b)) || nomeExibicao(a).localeCompare(nomeExibicao(b)));
 }
 
-/** Desenha uma linha do campo em três faixas; com muitos atletas os cartões ficam menores para caber. */
+/** Desenha uma linha do campo em blocos (colunas fixas por setor, como no desenho da comissão). */
 function LinhaCampo({ linha, render }) {
-  const s = linha.setores || { esq: [], centro: linha.atletas, dir: [] };
-  const lados = s.esq.length > 0 || s.dir.length > 0;
+  const blocos = linha.blocos || [{ k: "centro", atletas: linha.atletas, cols: 0 }];
   const total = linha.atletas.length;
-  const peso = (n, min) => Math.max(n, min);
-  const colunas = lados ? `${peso(s.esq.length, 1)}fr ${peso(s.centro.length, 1.5)}fr ${peso(s.dir.length, 1)}fr` : "1fr";
+  const larg = (b) => (b.cols ? b.cols : Math.max(1, Math.min(b.atletas.length, 6)));
   return (
-    <div className={"pitch-setores" + (total > 9 ? " compacto" : "") + (total > 14 ? " muito" : "")} style={{ gridTemplateColumns: colunas }}>
-      {(lados ? ["esq", "centro", "dir"] : ["centro"]).map((k) => (
-        <div key={k} className={"pitch-setor " + k}>{s[k].map(render)}</div>
+    <div className={"pitch-setores grade" + (total > 9 ? " compacto" : "") + (total > 14 ? " muito" : "")} style={{ gridTemplateColumns: blocos.map((b) => "minmax(0," + larg(b) + "fr)").join(" ") }}>
+      {blocos.map((b) => (
+        <div key={b.k} className={"pitch-setor " + b.k + (b.lado ? " lado" : "")}>
+          {b.rotulo && <span className="pitch-setor-rot">{b.rotulo}</span>}
+          <div className="pitch-setor-grade" style={b.cols ? { "--cols": Math.min(b.cols, Math.max(1, b.atletas.length)), gridTemplateColumns: "repeat(" + Math.min(b.cols, Math.max(1, b.atletas.length)) + ", minmax(0, max-content))" } : { display: "flex", flexWrap: "wrap", justifyContent: "center" }}>{b.atletas.map(render)}</div>
+        </div>
       ))}
     </div>
   );
