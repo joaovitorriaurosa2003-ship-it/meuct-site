@@ -3468,6 +3468,9 @@ tr.linha-qr td{background:var(--surface-2);}
 .edq-acoes{display:flex; gap:4px;}
 .edq-x{color:#B91C1C;}
 @media (max-width:720px){ .edq-linha{grid-template-columns:1fr auto; } .edq-com, .edq-oc{grid-column:auto;} }
+.aviso-push-ajuda{flex-basis:100%; margin-top:8px; font-size:12.5px;}
+.aviso-push-ajuda summary{cursor:pointer; font-weight:800; color:#166534;}
+.aviso-push-ajuda ol{margin:8px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:4px; color:#334155;}
 .imq-lista{display:flex; flex-direction:column; gap:6px; margin-top:12px;}
 .imq-linha{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) minmax(0,1fr) 140px; gap:10px; align-items:center; padding:9px 12px; border:1px solid var(--line); border-radius:12px; background:#fff;}
 .imq-linha.pend{border-color:#F2B8B5; background:#FFF7F6;}
@@ -32857,6 +32860,27 @@ function estadoPush() {
   try { tk = localStorage.getItem(CHAVE_TOKEN_PUSH); } catch (e) {}
   return Notification.permission === "granted" && tk ? "ativo" : "inativo";
 }
+/** Com o MeuCT aberto na tela, o Firebase entrega a notificação para a página (e não para o celular).
+    Aqui ela vira notificação do sistema também. Avisos da equipe já aparecem no pop-up do app, então ficam de fora. */
+function ouvirPushComAppAberto() {
+  if (window.__meuctPushAberto || !pushSuportado()) return;
+  window.__meuctPushAberto = true;
+  try {
+    firebase.messaging().onMessage(async (p) => {
+      try {
+        const n = (p && p.notification) || {};
+        const d = (p && p.data) || {};
+        if (d.abrir === "avisos" || Notification.permission !== "granted") return;
+        const reg = await navigator.serviceWorker.ready;
+        const link = (p.fcmOptions && p.fcmOptions.link) || ("./index.html?abrir=" + encodeURIComponent(d.abrir || ""));
+        await reg.showNotification(n.title || "MeuCT", {
+          body: n.body || "", icon: "./icon-192.png", badge: "./favicon-32.png",
+          tag: d.tag || undefined, renotify: !!d.tag, data: { link },
+        });
+      } catch (e) { /* sem notificação, o app segue normal */ }
+    });
+  } catch (e) { window.__meuctPushAberto = false; }
+}
 async function registrarAparelhoPush(usuario, pedirPermissao) {
   if (!pushSuportado()) throw new Error("Este navegador não recebe notificações.");
   if (Notification.permission !== "granted") {
@@ -33023,7 +33047,7 @@ function CartaoNotificacoes({ usuario }) {
   const [msg, setMsg] = useState(null);
   async function ativar() {
     setOcupado(true); setMsg(null);
-    try { await registrarAparelhoPush(usuario, true); setEstado("ativo"); setMsg({ tipo: "ok", texto: "Pronto. Este aparelho vai receber os avisos mesmo com o MeuCT fechado." }); }
+    try { await registrarAparelhoPush(usuario, true); ouvirPushComAppAberto(); setEstado("ativo"); setMsg({ tipo: "ok", texto: "Pronto. Este aparelho vai receber os avisos mesmo com o MeuCT fechado." }); }
     catch (e) { setEstado(estadoPush()); setMsg({ tipo: "erro", texto: erroDePermissao(e) ? "O banco ainda não aceita aparelhos. O administrador precisa publicar as regras dos avisos no Firebase." : e.message }); }
     finally { setOcupado(false); }
   }
@@ -33051,6 +33075,19 @@ function CartaoNotificacoes({ usuario }) {
       {estado === "ios-instalar" && <BotaoInstalarApp className="pill-btn primary" rotulo="Como instalar" classeMsg="aviso-push-msg ok" />}
       {estado === "inativo" && <button className="pill-btn primary" disabled={ocupado} onClick={ativar}>{ocupado ? "Ativando..." : "Ativar neste aparelho"}</button>}
       {estado === "ativo" && <button className="pill-btn" disabled={ocupado} onClick={desligar}>Desligar</button>}
+      {estado === "ativo" && /Android/i.test(navigator.userAgent || "") && (
+        <details className="aviso-push-ajuda">
+          <summary>Ativo, mas não está chegando?</summary>
+          <ol>
+            <li>No Chrome, toque no cadeado ao lado do endereço › Permissões › Notificações: deixe em "Permitir".</li>
+            <li>Configurações do celular › Apps › Chrome › Notificações: ligado, e em "Sites" deixe o meuct.meianoitesaf.com ligado.</li>
+            <li>Apps › Chrome › Bateria: "Sem restrições". Samsung: tire o Chrome de "Apps em suspensão profunda". Xiaomi: ative "Início automático".</li>
+            <li>Confira se o "Não perturbe" e a economia de energia estão desligados.</li>
+            <li>Se usa o MeuCT pelo app instalado e também pelo Chrome, ative as notificações nos dois.</li>
+            <li>Ainda não chegou? Toque em "Desligar" e depois em "Ativar neste aparelho" de novo.</li>
+          </ol>
+        </details>
+      )}
     </div>
   );
 }
@@ -33693,7 +33730,7 @@ function AvisosAoVivo({ usuario, pagina, onNavigate, onContagem }) {
     const pulso = setInterval(() => { if (document.visibilityState === "visible") registrarNoDiretorio(usuario); }, 240000);
     const aoVoltar = () => { if (document.visibilityState === "visible") registrarNoDiretorio(usuario); };
     document.addEventListener("visibilitychange", aoVoltar);
-    if (pushSuportado() && Notification.permission === "granted") registrarAparelhoPush(usuario, false).catch(() => null);
+    if (pushSuportado() && Notification.permission === "granted") registrarAparelhoPush(usuario, false).then(ouvirPushComAppAberto).catch(() => null);
     const unsub = db.collection(COL_AVISOS).where("destinatarios", "array-contains", usuario.id)
       .onSnapshot((s) => setAvisos(s.docs.map((d) => ({ id: d.id, ...d.data() }))), () => setAvisos([]));
     return () => { unsub(); clearInterval(pulso); document.removeEventListener("visibilitychange", aoVoltar); };
