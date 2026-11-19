@@ -1,5 +1,14 @@
 {
   "functions": [
-    { "source": "functions", "codebase": "meuct", "runtime": "nodejs22" }
+    {
+      "source": "functions",
+      "codebase": "meuct",
+      "runtime": "nodejs22"
+    },
+    {
+      "source": "agendados",
+      "codebase": "agendados",
+      "runtime": "nodejs22"
+    }
   ]
 }
