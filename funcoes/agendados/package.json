@@ -1,0 +1,11 @@
+{
+  "name": "meuct-avisos-agendados",
+  "private": true,
+  "description": "MeuCT: envia na hora marcada os avisos agendados (ct_avisos_agendados vira ct_avisos).",
+  "main": "index.js",
+  "engines": { "node": "22" },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.1.0"
+  }
+}
