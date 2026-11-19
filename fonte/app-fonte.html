@@ -6181,6 +6181,46 @@ function abrirMenuContexto(e, itens) {
   MENU_CTX.abrir({ x: e.clientX, y: e.clientY, itens: lista });
   return true;
 }
+/** Menu padrão do botão direito em qualquer lugar do app (campos de texto, links, texto selecionado, página). */
+function itensMenuGeral(e) {
+  const t = e.target && e.target.closest ? e.target : null;
+  const campo = t && t.closest('input:not([type=checkbox]):not([type=radio]):not([type=button]):not([type=submit]), textarea, [contenteditable="true"]');
+  const link = t && t.closest("a[href]");
+  const img = t && t.closest("img[src]");
+  const sel = (window.getSelection && String(window.getSelection())) || "";
+  const itens = [];
+  if (campo) {
+    const ehInput = campo.tagName === "INPUT" || campo.tagName === "TEXTAREA";
+    const temSel = ehInput ? campo.selectionStart !== campo.selectionEnd : !!sel;
+    const doCampo = () => (ehInput ? campo.value.slice(campo.selectionStart || 0, campo.selectionEnd || 0) : sel);
+    const inserir = (txt) => { campo.focus(); try { if (!document.execCommand("insertText", false, txt)) throw new Error(); } catch (err) { if (ehInput) { const a = campo.selectionStart || 0, b = campo.selectionEnd || 0; const setter = Object.getOwnPropertyDescriptor(campo.tagName === "TEXTAREA" ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype, "value").set; setter.call(campo, campo.value.slice(0, a) + txt + campo.value.slice(b)); campo.dispatchEvent(new Event("input", { bubbles: true })); } } };
+    itens.push({ secao: "Texto" });
+    itens.push({ rotulo: "Recortar", icone: "✂", desabilitado: !temSel || campo.readOnly, acao: () => { const x = doCampo(); navigator.clipboard.writeText(x).then(() => inserir("")).catch(() => {}); } });
+    itens.push({ rotulo: "Copiar", icone: "⧉", desabilitado: !temSel, acao: () => copiarTextoMenu(doCampo()) });
+    itens.push({ rotulo: "Colar", icone: "📋", desabilitado: campo.readOnly || campo.disabled, acao: async () => { try { inserir(await navigator.clipboard.readText()); } catch (err) { avisoApp("Para colar aqui, use Ctrl+V (no celular, segure o dedo no campo)."); } } });
+    itens.push({ rotulo: "Selecionar tudo", icone: "▣", acao: () => { campo.focus(); if (ehInput && campo.select) campo.select(); else document.execCommand("selectAll"); } });
+  } else if (sel.trim()) {
+    itens.push({ secao: "Seleção" });
+    itens.push({ rotulo: "Copiar", icone: "⧉", acao: () => copiarTextoMenu(sel) });
+  }
+  if (link) {
+    const href = link.href;
+    itens.push({ sep: true }, { secao: "Link" });
+    itens.push({ rotulo: "Abrir em nova aba", icone: "↗", acao: () => window.open(href, "_blank", "noopener") });
+    itens.push({ rotulo: "Copiar endereço do link", icone: "⧉", acao: () => copiarTextoMenu(href) });
+  }
+  if (img && !link) {
+    const src = img.currentSrc || img.src;
+    itens.push({ sep: true }, { secao: "Imagem" });
+    itens.push({ rotulo: "Abrir imagem em nova aba", icone: "↗", acao: () => window.open(src, "_blank", "noopener") });
+  }
+  itens.push({ sep: true }, { secao: "MeuCT" });
+  itens.push({ rotulo: "Voltar", icone: "←", desabilitado: !((VOLTAR.prof || 0) > 0), acao: () => { try { history.back(); } catch (err) { /* sem histórico */ } } });
+  itens.push({ rotulo: "Buscar atleta ou página", icone: "⌕", acao: () => window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true })) });
+  itens.push({ rotulo: "Recarregar", icone: "↻", acao: () => location.reload() });
+  itens.push({ rotulo: "Imprimir esta tela", icone: "⎙", acao: () => window.print() });
+  return itens.filter((x, i, l) => !(x.sep && (i === 0 || l[i - 1].sep)));
+}
 function MenuContextoRaiz() {
   const { useState, useEffect, useRef, useLayoutEffect } = React;
   const [menu, setMenu] = useState(null);
@@ -6188,6 +6228,21 @@ function MenuContextoRaiz() {
   const [ativo, setAtivo] = useState(-1);
   const ref = useRef(null);
   useEffect(() => { MENU_CTX.abrir = (m) => { setMenu(m); setPos({ x: m.x, y: m.y }); setAtivo(-1); }; return () => { MENU_CTX.abrir = null; }; }, []);
+  // Em todo o app, o botão direito abre o menu do MeuCT (nunca o do navegador).
+  useEffect(() => {
+    let ultimoPonteiro = "mouse";
+    const ponteiro = (e) => { ultimoPonteiro = e.pointerType || "mouse"; };
+    const geral = (e) => {
+      if (e.defaultPrevented) return;
+      if (ultimoPonteiro === "touch" || ultimoPonteiro === "pen") return; // no celular, segurar o dedo continua selecionando texto
+      e.preventDefault();
+      const itens = itensMenuGeral(e);
+      if (MENU_CTX.abrir) MENU_CTX.abrir({ x: e.clientX, y: e.clientY, itens });
+    };
+    document.addEventListener("pointerdown", ponteiro, true);
+    document.addEventListener("contextmenu", geral);
+    return () => { document.removeEventListener("pointerdown", ponteiro, true); document.removeEventListener("contextmenu", geral); };
+  }, []);
   useLayoutEffect(() => {
     if (!menu || !ref.current) return;
     const r = ref.current.getBoundingClientRect(); const W = window.innerWidth, H = window.innerHeight;
@@ -20796,7 +20851,7 @@ function AdicionarCompromissoRecebido({ a, usuario }) {
   );
 }
 
-function FormCompromisso({ inicial, usuario, onSalvo, onFechar }) {
+function FormCompromisso({ inicial, usuario, onSalvo, onFechar, abrirEncaminhar }) {
   const { useState } = React;
   const [f, setF] = useState({ titulo: "", data: hojeISO(), inicio: "", fim: "", dia_todo: false, local: "", obs: "", repetir: "nao", repetir_ate: "", ...inicial });
   const [repeticao, setRepeticao] = useState(() => repeticaoDoCompromisso({ repetir: "nao", ...inicial }));
@@ -20806,7 +20861,7 @@ function FormCompromisso({ inicial, usuario, onSalvo, onFechar }) {
   const [pessoas, setPessoas] = useState(null);
   const [para, setPara] = useState([]);
   const [recado, setRecado] = useState("");
-  const [escolhendo, setEscolhendo] = useState(false);
+  const [escolhendo, setEscolhendo] = useState(!!abrirEncaminhar);
   const [enviado, setEnviado] = useState(null);
   const rasc = useRascunho("compromisso:" + (f.id || "novo"), { __f: f, rep: repeticao }, (v) => { if (v && v.__f) { setF(v.__f); if (v.rep) setRepeticao(v.rep); } else if (v) setF(v); });
   useVoltar(true, onFechar);
@@ -20930,6 +20985,7 @@ function ViewMinhaAgenda({ usuario, onNavigate }) {
   const [ajudaCelular, setAjudaCelular] = useState(false);
   const [pessoais, setPessoais] = useState([]);
   const [editComp, setEditComp] = useState(null);
+  const [encaminhar, setEncaminhar] = useState(false);
   const vmProx = useVerMais(8);
   const recarregarPessoais = () => carregarAgendaPessoal(usuario.id).then(setPessoais).catch(() => setPessoais([]));
   useEffect(() => { recarregarPessoais(); }, []);
@@ -21003,6 +21059,36 @@ function ViewMinhaAgenda({ usuario, onNavigate }) {
     if (e.tipo === "aniversario") return;
     setDia(e.data); setMes(e.data.slice(0, 7));
   }
+  /* Botão direito num item da agenda: abrir, encaminhar, avisar, copiar, apagar. */
+  function menuItem(ev, e) {
+    const real = !["pessoal", "qtsp", "aniversario"].includes(e.tipo);
+    const comp = e.tipo === "pessoal" ? pessoais.find((x) => x.id === e.docId) : null;
+    const repete = comp && (comp.repetir === "semanal" || comp.repetir === "datas" || (comp.data_fim && comp.data_fim > comp.data));
+    const paraAviso = real ? e : { id: "ag-" + e.id, tipo: e.tipo, semEvento: true, rotuloAviso: e.tipo === "qtsp" ? "QTS" : e.tipo === "aniversario" ? "Aniversário" : "Compromisso", titulo: tituloItemAgenda(e), data: e.data, hora: e.hora || "", local: e.local || "", observacao: (comp && comp.obs) || "" };
+    const detalhes = [tituloItemAgenda(e), formatarData(e.data) + (e.hora ? " às " + e.hora + (e.fim ? " até " + e.fim : "") : ""), e.local ? "Local: " + e.local : "", (comp && comp.obs) || e.observacao || ""].filter(Boolean).join("\n");
+    const podeApagarEv = real && ehEu && podeApagarItem(e);
+    abrirMenuContexto(ev, [
+      { secao: tituloItemAgenda(e) },
+      comp && { rotulo: "Abrir / editar", icone: "✎", acao: () => setEditComp(comp) },
+      e.tipo === "jogo" && podeVerJogos(usuario) && { rotulo: "Abrir o jogo", icone: "⚽", acao: () => abrirItem(e) },
+      e.tipo !== "aniversario" && { rotulo: "Ver o dia " + formatarData(e.data), icone: "▦", acao: () => { setDia(e.data); setMes(e.data.slice(0, 7)); } },
+      { sep: true },
+      comp && ehEu && { rotulo: "Encaminhar para pessoas…", icone: "➦", acao: () => { setEncaminhar(true); setEditComp(comp); } },
+      e.tipo !== "aniversario" && { rotulo: real ? "Enviar aviso sobre este evento" : "Enviar aviso sobre isto", icone: "📣", acao: () => abrirAvisoDoEvento(paraAviso, false) },
+      e.tipo !== "aniversario" && { rotulo: "Agendar aviso", icone: "⏰", acao: () => abrirAvisoDoEvento(paraAviso, true) },
+      { rotulo: "Copiar detalhes", icone: "⧉", acao: () => copiarTextoMenu(detalhes) },
+      e.tipo !== "aniversario" && { rotulo: "Adicionar ao Google Agenda", icone: "+", acao: () => window.open(linkGoogleAgenda(e), "_blank", "noopener") },
+      (comp && ehEu || podeApagarEv) && { sep: true },
+      comp && ehEu && { rotulo: repete ? "Apagar (todas as repetições)" : "Apagar compromisso", icone: "✕", perigo: true, acao: async () => {
+        if (!(await confirmarApp((repete ? "Apagar o compromisso \"" + (comp.titulo || "Compromisso") + "\" e todas as repetições?" : "Apagar o compromisso \"" + (comp.titulo || "Compromisso") + "\" de " + formatarData(e.data) + "?"), { perigo: true, ok: "Apagar" }))) return;
+        try { await db.collection(COL_AGENDA_PESSOAL).doc(comp.id).delete(); recarregarPessoais(); } catch (err) { avisoApp("Não consegui apagar: " + err.message); }
+      } },
+      podeApagarEv && { rotulo: "Excluir evento", icone: "✕", perigo: true, acao: async () => {
+        if (!(await confirmarApp("Excluir " + tituloEvento(e) + " (" + formatarData(e.data) + ") da agenda para todos?", { perigo: true, ok: "Excluir" }))) return;
+        try { await excluirEvento(e.id); limparCacheLeitura(); carregarEventos().then(setEventos).catch(() => {}); } catch (err) { avisoApp("Não consegui excluir: " + err.message); }
+      } },
+    ]);
+  }
   const linhaItem = (e) => [e.hora ? e.hora + (e.fim ? "-" + e.fim : "") : "Dia todo", e.tipo === "aniversario" ? (e.idade ? e.idade + " anos" : "") + (e.catTexto ? (e.idade ? " · " : "") + e.catTexto : "") : [e.categoria && IDS_CATEGORIAS.includes(e.categoria) ? labelCategoria(e.categoria) : e.catTexto, e.local].filter(Boolean).join(" · ")].filter(Boolean).join(" · ");
 
   return (
@@ -21022,7 +21108,7 @@ function ViewMinhaAgenda({ usuario, onNavigate }) {
           <button type="button" className="pill-btn" onClick={baixarCelular} disabled={baixando}>{baixando ? "Gerando..." : "Levar para o celular"}</button>
         </div>
       </div>
-      {editComp && <FormCompromisso inicial={editComp} usuario={usuario} onFechar={() => setEditComp(null)} onSalvo={() => { setEditComp(null); recarregarPessoais(); }} />}
+      {editComp && <FormCompromisso inicial={editComp} usuario={usuario} abrirEncaminhar={encaminhar} onFechar={() => { setEditComp(null); setEncaminhar(false); }} onSalvo={() => { setEditComp(null); setEncaminhar(false); recarregarPessoais(); }} />}
 
       {ajudaCelular && (
         <div className="agenda-ajuda-cel">
@@ -21042,7 +21128,7 @@ function ViewMinhaAgenda({ usuario, onNavigate }) {
 
       <div className="agenda-qts-nota">
         <span className="muted" style={{ fontSize: 13 }}>Os aniversários ficam em Aniversariantes, no menu Principal.</span>
-        {ehEu && <span className="muted" style={{ fontSize: 13 }}>Toque num compromisso para editar ou apagar.</span>}
+        {ehEu && <span className="muted" style={{ fontSize: 13 }}>Toque num compromisso para editar. No computador, o botão direito abre apagar, encaminhar e aviso.</span>}
       </div>
 
       <div className="agenda-grid">
@@ -21064,7 +21150,7 @@ function ViewMinhaAgenda({ usuario, onNavigate }) {
                   <span className="cal-num">{Number(iso.slice(8))}</span>
                   <span className="cal-eventos">
                     {evs.slice(0, 3).map((e) => (
-                      <span key={e.id} className={"cal-evento tipo-" + e.tipo} title={[e.hora, tituloItemAgenda(e)].filter(Boolean).join(" · ")}>
+                      <span key={e.id} className={"cal-evento tipo-" + e.tipo} title={[e.hora, tituloItemAgenda(e)].filter(Boolean).join(" · ")} onContextMenu={(ev) => { setDia(iso); menuItem(ev, e); }}>
                         <i></i><em>{e.tipo === "aniversario" ? primeiroNome(e.nome) : e.tipo === "jogo" ? "x " + (e.adversario || "?") : e.tipo === "qtsp" || e.tipo === "pessoal" ? e.titulo : e.tipo === "treino" ? (e.area === "fisico" ? "Físico" : "Treino") : tituloEvento(e)}</em>
                       </span>
                     ))}
@@ -21089,7 +21175,7 @@ function ViewMinhaAgenda({ usuario, onNavigate }) {
             <div className="panel-head"><h3>{dia === hoje ? "Hoje" : dataPorExtenso(dia)}</h3>{ehEu && <button type="button" className="pill-btn" onClick={() => setEditComp({ data: dia })}>+ Compromisso</button>}</div>
             {doDia.length === 0 ? <div className="empty-state" style={{ padding: "28px 18px" }}>Nada {dia === hoje ? "pra hoje" : "neste dia"}.</div> : (
               <div className="evento-lista compacta">
-                {doDia.map((e) => <ItemAgendaPessoal key={e.id} e={e} linha={linhaItem(e)} onAbrir={abrirItem} />)}
+                {doDia.map((e) => <ItemAgendaPessoal key={e.id} e={e} linha={linhaItem(e)} onAbrir={abrirItem} onMenu={menuItem} />)}
               </div>
             )}
           </div>
@@ -21097,7 +21183,7 @@ function ViewMinhaAgenda({ usuario, onNavigate }) {
             <div className="panel-head"><h3>Próximos 14 dias ({proximos.length})</h3></div>
             {proximos.length === 0 ? <div className="empty-state" style={{ padding: "28px 18px" }}>Nada marcado nos próximos 14 dias.</div> : (
               <div className="evento-lista compacta">
-                {proximos.map((e, i) => <ItemAgendaPessoal key={e.id} e={e} linha={linhaItem(e)} onAbrir={abrirItem} comData classe={vmProx.classe(i, proximos.length)} />)}
+                {proximos.map((e, i) => <ItemAgendaPessoal key={e.id} e={e} linha={linhaItem(e)} onAbrir={abrirItem} onMenu={menuItem} comData classe={vmProx.classe(i, proximos.length)} />)}
                 {vmProx.botao(proximos.length, "itens")}
               </div>
             )}
@@ -21185,9 +21271,9 @@ function AbaAniversariantes({ atletas, equipe }) {
     </React.Fragment>
   );
 }
-function ItemAgendaPessoal({ e, linha, onAbrir, comData, classe }) {
+function ItemAgendaPessoal({ e, linha, onAbrir, onMenu, comData, classe }) {
   return (
-    <div className={"agenda-pessoal-item tipo-" + e.tipo + (classe || "")}>
+    <div className={"agenda-pessoal-item tipo-" + e.tipo + (classe || "")} onContextMenu={onMenu ? (ev) => onMenu(ev, e) : undefined}>
       <button type="button" className="proximo-item" onClick={() => onAbrir(e)}>
         {comData && <span className="proximo-data"><b>{Number(e.data.slice(8))}</b>{diaSemanaCurto(e.data)}</span>}
         <span className="proximo-texto"><b>{tituloItemAgenda(e)}</b><small>{linha}</small></span>
@@ -34858,7 +34944,7 @@ function AvisoDoEventoGlobal({ usuario }) {
         {ok ? (
           <div className="panel-body"><div className="imq-ok">{ok}</div><div className="imq-acoes"><button type="button" className="pill-btn" onClick={() => setAberto(null)}>Fechar</button></div></div>
         ) : (
-          <NovoAviso key={ev.id + (aberto.agendar ? "a" : "n")} usuario={usuario} inicial={{ titulo: labelTipoEvento(ev.tipo) + ": " + tituloEvento(ev), mensagem: textoAvisoDoEvento(ev), evento_id: ev.id }}
+          <NovoAviso key={ev.id + (aberto.agendar ? "a" : "n")} usuario={usuario} inicial={{ titulo: (ev.rotuloAviso || labelTipoEvento(ev.tipo)) + ": " + tituloEvento(ev), mensagem: textoAvisoDoEvento(ev), ...(ev.semEvento ? {} : { evento_id: ev.id }) }}
             agendarPadrao={!!aberto.agendar} quandoPadrao={quandoPadraoAvisoEvento(ev)}
             onEnviado={(m) => setOk(m ? "Aviso agendado para " + m.toLocaleDateString("pt-BR") + " às " + m.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + ". Ele aparece em Avisos › Agendados até sair." : "Aviso enviado.")} />
         )}
