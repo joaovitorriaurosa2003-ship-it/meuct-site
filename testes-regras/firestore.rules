@@ -589,6 +589,34 @@ match /ct_captacao_privado/{id} {
       }
     }
 
+    // Avisos agendados: quem agendou vê, muda e cancela; a função avisosAgendados envia na hora marcada.
+    match /ct_avisos_agendados/{id} {
+      allow read: if ctEstaLogado() && (resource.data.remetente_uid == request.auth.uid || ctEhAdmin());
+      allow create: if ctEhEquipe()
+        && request.resource.data.remetente_uid == request.auth.uid
+        && request.resource.data.status == 'agendado'
+        && request.resource.data.enviar_em is timestamp
+        && request.resource.data.destinatarios is list
+        && request.resource.data.destinatarios.size() > 0
+        && request.resource.data.destinatarios.size() <= 300
+        && request.resource.data.nivel in ['informativo', 'urgente']
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() <= 120
+        && request.resource.data.mensagem is string && request.resource.data.mensagem.size() <= 2000;
+      allow update: if ctEhEquipe() && resource.data.remetente_uid == request.auth.uid
+        && resource.data.status == 'agendado' && request.resource.data.remetente_uid == request.auth.uid
+        && request.resource.data.status in ['agendado', 'cancelado'];
+      allow delete: if ctEstaLogado() && (resource.data.remetente_uid == request.auth.uid || ctEhAdmin());
+    }
+
+    // Quartos e camas dos alojamentos (um documento só, "quartos"). A equipe lê; o Serviço Social e o admin editam.
+    match /ct_alojamento/{id} {
+      allow read: if ctEhEquipe();
+      allow create, update: if ctTemAcesso('social') && id == 'quartos'
+        && request.resource.data.grupos is list && request.resource.data.grupos.size() > 0 && request.resource.data.grupos.size() <= 6
+        && request.resource.data.atualizado_por == request.auth.uid;
+      allow delete: if ctEhAdmin();
+    }
+
     // Cronograma do dia da Fisioterapia (um documento por dia). No futuro, o atleta lê só o dia em que aparece (atletas_ids).
     match /ct_cronograma_fisio/{dia} {
       allow read: if ctEhEquipe();

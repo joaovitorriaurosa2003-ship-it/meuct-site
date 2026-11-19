@@ -111,6 +111,26 @@ caso("Treinador", "Ler campeonatos", "treinador", "permite", (db) => getDoc(doc(
 caso("Fisioterapia", "Criar campeonato", "fisio", "nega", (db) => setDoc(doc(db, "ct_campeonatos", "c3"), { nome: "Copa", inscritos: [] }));
 caso("Admin", "Ler auditoria", "admin", "permite", (db) => getDocs(collection(db, "ct_auditoria")));
 
+// Avisos agendados (ct_avisos_agendados)
+const agOk = (uid) => ({ remetente_uid: uid, status: "agendado", enviar_em: new Date(Date.now() + 3600000), destinatarios: ["admin"], nivel: "informativo", titulo: "T", mensagem: "M" });
+caso("Fisioterapia", "Agendar aviso", "fisio", "permite", (db) => setDoc(doc(db, "ct_avisos_agendados", "ag1"), agOk("fisio")));
+caso("Fisioterapia", "Agendar aviso em nome de outro", "fisio", "nega", (db) => setDoc(doc(db, "ct_avisos_agendados", "ag2"), agOk("admin")));
+caso("Fisioterapia", "Agendar aviso já como enviado", "fisio", "nega", (db) => setDoc(doc(db, "ct_avisos_agendados", "ag3"), { ...agOk("fisio"), status: "enviado" }));
+caso("Fisioterapia", "Agendar aviso sem horário", "fisio", "nega", (db) => setDoc(doc(db, "ct_avisos_agendados", "ag4"), { ...agOk("fisio"), enviar_em: "amanhã" }));
+caso("Sem módulo", "Agendar aviso", "semmodulo", "nega", (db) => setDoc(doc(db, "ct_avisos_agendados", "ag5"), agOk("semmodulo")));
+
+// Quartos e camas (ct_alojamento/quartos)
+const gruposOk = [{ id: "casa", aloj: "Alojamento casa", titulo: "Casa", quartos: [{ id: "casa-q1", nome: "Quarto 1", camas: 4 }] }];
+caso("Serviço Social", "Salvar quartos e camas", "social", "permite", (db) => setDoc(doc(db, "ct_alojamento", "quartos"), { grupos: gruposOk, atualizado_por: "social" }));
+caso("Serviço Social", "Salvar quartos em nome de outra pessoa", "social", "nega", (db) => setDoc(doc(db, "ct_alojamento", "quartos"), { grupos: gruposOk, atualizado_por: "admin" }));
+caso("Serviço Social", "Salvar quartos em outro documento", "social", "nega", (db) => setDoc(doc(db, "ct_alojamento", "outro"), { grupos: gruposOk, atualizado_por: "social" }));
+caso("Serviço Social", "Salvar quartos vazios", "social", "nega", (db) => setDoc(doc(db, "ct_alojamento", "quartos"), { grupos: [], atualizado_por: "social" }));
+caso("Admin", "Salvar quartos e camas", "admin", "permite", (db) => setDoc(doc(db, "ct_alojamento", "quartos"), { grupos: gruposOk, atualizado_por: "admin" }));
+caso("Fisioterapia", "Salvar quartos e camas", "fisio", "nega", (db) => setDoc(doc(db, "ct_alojamento", "quartos"), { grupos: gruposOk, atualizado_por: "fisio" }));
+caso("Fisioterapia", "Ler quartos e camas", "fisio", "permite", (db) => getDoc(doc(db, "ct_alojamento", "quartos")));
+caso("Sem módulo", "Ler quartos e camas", "semmodulo", "nega", (db) => getDoc(doc(db, "ct_alojamento", "quartos")));
+caso("Serviço Social", "Apagar quartos", "social", "nega", (db) => deleteDoc(doc(db, "ct_alojamento", "quartos")));
+
 const res = [];
 for (const c of casos) {
   let ok;
