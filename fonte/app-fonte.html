@@ -3492,6 +3492,71 @@ tr.linha-qr td{background:var(--surface-2);}
 .aviso-push-ajuda{flex-basis:100%; margin-top:8px; font-size:12.5px;}
 .aviso-push-ajuda summary{cursor:pointer; font-weight:800; color:#166534;}
 .aviso-push-ajuda ol{margin:8px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:4px; color:#334155;}
+.dlg-fundo{position:fixed; inset:0; z-index:10050; background:rgba(8,15,30,0.55); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:16px; animation:dlgIn .12s ease;}
+@keyframes dlgIn{from{opacity:0} to{opacity:1}}
+.dlg-caixa{width:min(440px,100%); background:#fff; color:#0E1A31; border-radius:18px; box-shadow:0 30px 70px rgba(5,12,28,0.45); padding:22px 22px 18px; display:grid; grid-template-columns:auto 1fr; gap:4px 14px; animation:dlgPop .14s ease;}
+@keyframes dlgPop{from{transform:translateY(8px) scale(.98); opacity:0} to{transform:none; opacity:1}}
+.dlg-icone{grid-row:1 / span 1; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:18px; background:#DCFCE7; color:#15803D;}
+.dlg-caixa.perigo .dlg-icone, .dlg-caixa.erro .dlg-icone{background:#FEE2E2; color:#B91C1C;}
+.dlg-corpo h3{margin:0 0 4px; font-size:16px; font-weight:800;}
+.dlg-corpo p{margin:0; font-size:14px; line-height:1.5; color:#334155; white-space:pre-wrap;}
+.dlg-botoes{grid-column:1 / -1; display:flex; justify-content:flex-end; gap:8px; margin-top:16px; flex-wrap:wrap;}
+.dlg-btn{padding:10px 18px; border-radius:999px; border:1px solid #D5DEE8; background:#fff; color:#0E1A31; font:inherit; font-size:14px; font-weight:700; cursor:pointer;}
+.dlg-btn:hover{background:#F1F5F9;}
+.dlg-btn.primario{background:#16A34A; border-color:#16A34A; color:#fff;}
+.dlg-btn.primario:hover{background:#15803D;}
+.dlg-btn.primario.perigo{background:#DC2626; border-color:#DC2626;}
+.dlg-btn.primario.perigo:hover{background:#B91C1C;}
+.dlg-btn:focus-visible{outline:3px solid rgba(22,163,74,0.35); outline-offset:2px;}
+.mctx{position:fixed; z-index:10040; min-width:220px; max-width:300px; max-height:calc(100vh - 16px); overflow-y:auto; background:#fff; color:#0E1A31; border:1px solid #E2E8F0; border-radius:14px; box-shadow:0 18px 44px rgba(5,12,28,0.28); padding:6px; animation:dlgPop .1s ease;}
+.mctx-secao{padding:8px 10px 4px; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#64748B; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.mctx-sep{height:1px; background:#E2E8F0; margin:5px 4px;}
+.mctx-item{display:flex; align-items:center; gap:8px; width:100%; text-align:left; padding:8px 10px; border:none; background:transparent; border-radius:9px; font:inherit; font-size:13.5px; font-weight:600; color:inherit; cursor:pointer;}
+.mctx-item.ativo, .mctx-item:hover{background:#F1F5F9;}
+.mctx-item.perigo{color:#B91C1C;} .mctx-item.perigo.ativo, .mctx-item.perigo:hover{background:#FEE2E2;}
+.mctx-item.marcado{color:#15803D; font-weight:800;}
+.mctx-item:disabled{opacity:.45; cursor:default;}
+.mctx-marca{width:18px; text-align:center; font-size:12px; color:#64748B; flex:0 0 18px;}
+.mctx-item.marcado .mctx-marca{color:#15803D; font-weight:900;}
+.editor-rapido{max-width:760px;}
+.aviso-agendar{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-top:10px;}
+.aviso-agendar .field{margin:0; min-width:150px;}
+.aviso-novo.agendado{background:#E0F2FE; color:#075985;}
+.pal-form{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px 14px;}
+.pal-form .pal-tema{grid-column:1 / -1;}
+.pal-chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;}
+.pal-filtros{display:flex; flex-wrap:wrap; gap:8px 10px; align-items:center; margin:12px 0;}
+.pal-filtros input[type=search], .pal-filtros select{padding:8px 12px; border:1px solid var(--line); border-radius:10px; font:inherit; font-size:13.5px; background:#fff; min-width:200px;}
+.pal-grupo{font-size:11.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:16px 0 8px;}
+.pal-lista-cartoes{display:flex; flex-direction:column; gap:8px;}
+.pal-cartao{display:grid; grid-template-columns:64px minmax(0,1fr) 130px; gap:14px; align-items:center; width:100%; text-align:left; padding:12px 14px; border:1px solid var(--line); border-radius:14px; background:#fff; font:inherit; cursor:pointer; transition:box-shadow .15s ease, border-color .15s ease;}
+.pal-cartao:hover{border-color:#0E7490; box-shadow:0 8px 20px rgba(14,116,144,0.12);}
+.pal-cartao.futura{border-style:dashed;}
+.pal-data{display:flex; flex-direction:column; align-items:center; justify-content:center; height:56px; border-radius:12px; background:rgba(14,116,144,0.10); color:#0E7490;}
+.pal-data b{font-size:17px; font-weight:900;} .pal-data small{font-size:11px; font-weight:700;}
+.pal-corpo{display:flex; flex-direction:column; gap:4px; min-width:0;}
+.pal-corpo b{font-size:15px; color:var(--navy); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.pal-corpo small{color:var(--muted); font-size:12.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.pal-pct{display:flex; flex-direction:column; align-items:flex-end; text-align:right;}
+.pal-pct b{font-size:20px; font-weight:900; color:#15803D;} .pal-pct small{font-size:11.5px; color:var(--muted);}
+.pal-barra{display:flex; height:7px; border-radius:999px; overflow:hidden; background:#E2E8F0; margin-top:6px; max-width:420px;}
+.pal-barra i{display:block; height:100%;} .pal-barra i.p{background:#22C55E;} .pal-barra i.j{background:#F59E0B;} .pal-barra i.f{background:#EF4444;}
+.pal-info{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:13.5px; color:#334155;}
+.pal-resumo{margin:10px 0 0; padding:10px 12px; border-radius:10px; background:#F8FAFC; white-space:pre-wrap; font-size:13.5px; color:#334155;}
+.pal-cont{cursor:pointer; font:inherit; border:1px solid transparent;}
+.pal-cont.on{outline:2px solid #0E7490; outline-offset:1px;}
+.pal-cont.presente b{color:#15803D;} .pal-cont.faltou b{color:#B91C1C;} .pal-cont.justificado b{color:#B45309;}
+.pal-lista{max-height:none;}
+.pal-rel{display:flex; flex-direction:column; gap:6px;}
+.pal-rel-linha{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1.6fr) 70px; gap:10px; align-items:center; width:100%; text-align:left; padding:9px 12px; border:1px solid var(--line); border-radius:12px; background:#fff; font:inherit; cursor:pointer;}
+.pal-rel-linha .nome{display:flex; flex-direction:column;} .pal-rel-linha .nome small{color:var(--muted); font-size:11.5px;}
+.pal-rel-linha .nums{font-size:12.5px; color:#475569;} .pal-rel-linha .nums em{font-style:normal; font-weight:900;}
+.pal-rel-linha .nums em.p{color:#15803D;} .pal-rel-linha .nums em.f{color:#B91C1C;} .pal-rel-linha .nums em.j{color:#B45309;}
+.pal-rel-linha .pct{font-size:18px; font-weight:900; color:#15803D; text-align:right;} .pal-rel-linha .pct.baixo{color:#B91C1C;}
+.pal-rel-det{margin:4px 0 6px 14px; padding:8px 12px; border-left:3px solid #0E7490; display:flex; flex-direction:column; gap:4px; font-size:12.5px;}
+.pal-rel-det div{display:flex; justify-content:space-between; gap:10px;}
+.pal-rel-det b.presente{color:#15803D;} .pal-rel-det b.faltou{color:#B91C1C;} .pal-rel-det b.justificado{color:#B45309;} .pal-rel-det b.sem{color:#94A3B8;}
+@media (max-width:720px){ .pal-form{grid-template-columns:1fr;} .pal-cartao{grid-template-columns:52px minmax(0,1fr); } .pal-pct{grid-column:2; align-items:flex-start; text-align:left;} .pal-rel-linha{grid-template-columns:minmax(0,1fr) 60px;} .pal-rel-linha .nums{grid-column:1 / -1; grid-row:2;} .pal-filtros input[type=search], .pal-filtros select{min-width:0; width:100%;} }
 .imq-lista{display:flex; flex-direction:column; gap:6px; margin-top:12px;}
 .imq-linha{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) minmax(0,1fr) 140px; gap:10px; align-items:center; padding:9px 12px; border:1px solid var(--line); border-radius:12px; background:#fff;}
 .imq-linha.pend{border-color:#F2B8B5; background:#FFF7F6;}
@@ -5296,11 +5361,12 @@ ICONES.agenda_campo = ICONES.agenda_dm = ICONES.agenda_social = ICONES.agenda_sa
 ICONES.instalar = [["rect", { x: 7, y: 2.5, width: 10, height: 19, rx: 2.2 }], ["path", { d: "M12 7v7M9.2 11.4 12 14.2l2.8-2.8M10.5 18.5h3" }]];
 ICONES.diretoria = [["rect", { x: 3.5, y: 7.5, width: 17, height: 12.5, rx: 2.2 }], ["path", { d: "M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9M3.5 12.5h17M10.5 12.5v1.6h3v-1.6" }]];
 ICONES.cadastro_atletas = ICONES.elenco;
+ICONES.palestras = [["rect", { x: 3.5, y: 4, width: 17, height: 11, rx: 1.8 }], ["path", { d: "M12 15v3.5M8 21l4-2.5 4 2.5M7.5 8.5h6M7.5 11.5h9" }]];
 const ROTULO_PAGINA = {
   admin: "Painel geral", elenco: "Elenco", atualizacoes: "Atualizações", relatorios: "Relatórios", usuarios: "Usuários",
   psicologia: "Psicologia", fisioterapia: "Fisioterapia", fisiologia: "Fisiologia", medicina: "Medicina", nutricao: "Nutrição",
   social: "Serviço Social", desempenho: "Desempenho", treinador: "Campograma", preparacao: "Preparação Física", treinos: "Treinos", goleiros: "Goleiros", qts: "QTS",
-  agenda: "Agenda geral", minha_agenda: "Minha agenda", atas: "Atas de reunião", documentos: "Documentos", aniversariantes: "Aniversariantes", encaminhamentos: "Encaminhamentos", avaliacao: "Atletas em avaliação", captacao: "Captação", diretoria: "Diretoria", cadastro_atletas: "Cadastro de atletas", social_documentos: "Documentos dos atletas", social_viagens: "Viagens", social_quartos: "Quartos e alojamentos", social_fds: "Fim de semana", agenda_campo: "Agenda da Comissão técnica", agenda_dm: "Agenda de Saúde e performance", agenda_social: "Agenda de Saúde e performance", agenda_saude: "Agenda de Saúde e performance", meu_qts: "Meu QTS", jogos: "Jogos", monitoramento: "Monitoramento", avisos: "Avisos", conversas: "Conversas",
+  agenda: "Agenda geral", minha_agenda: "Minha agenda", atas: "Atas de reunião", documentos: "Documentos", aniversariantes: "Aniversariantes", encaminhamentos: "Encaminhamentos", avaliacao: "Atletas em avaliação", captacao: "Captação", diretoria: "Diretoria", cadastro_atletas: "Cadastro de atletas", social_documentos: "Documentos dos atletas", social_viagens: "Viagens", social_quartos: "Quartos e alojamentos", social_fds: "Fim de semana", palestras_campo: "Palestras", palestras_saude: "Palestras", agenda_campo: "Agenda da Comissão técnica", agenda_dm: "Agenda de Saúde e performance", agenda_social: "Agenda de Saúde e performance", agenda_saude: "Agenda de Saúde e performance", meu_qts: "Meu QTS", jogos: "Jogos", monitoramento: "Monitoramento", avisos: "Avisos", conversas: "Conversas",
 };
 
 /** Quantas atualizações o usuário ainda não viu (zera ao abrir a aba Atualizações). */
@@ -5347,6 +5413,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
     ...(podeEditarCaptacao(usuario) ? [{ id: "captacao", label: "Captação", icone: "elenco" }] : []),
     { id: "agenda_campo", label: "Agenda", icone: "agenda" },
     { id: "qts", label: "QTS semanal", icone: "agenda" },
+    { id: "palestras_campo", label: "Palestras", icone: "palestras" },
     { id: "treinos", label: "Treinos", icone: "treinos" },
     { id: "goleiros", label: "Goleiros", icone: "goleiros" },
   ] : [];
@@ -5358,6 +5425,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
   ] : [];
   const itensSaude = equipe ? [
     { id: "agenda_saude", label: "Agenda", icone: "agenda" },
+    { id: "palestras_saude", label: "Palestras", icone: "palestras" },
     { id: "cadastro_atletas", label: "Cadastro de atletas", icone: "elenco" },
     { id: "fisioterapia", label: "Fisioterapia" },
     { id: "medicina", label: "Medicina" },
@@ -5378,7 +5446,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
   const sub = (id, label, icone, ids) => ({ id: "__sub_" + id, subgrupo: id, label, icone, itens: ids.map((x) => porIdCampo[x]).filter(Boolean) });
   const itensCampo = equipe ? [
     sub("atletas", "Atletas", "elenco", ["treinador", "avaliacao", "captacao"]),
-    sub("planejamento", "Planejamento", "agenda", ["agenda_campo", "qts", "treinos", "goleiros"]),
+    sub("planejamento", "Planejamento", "agenda", ["agenda_campo", "qts", "palestras_campo", "treinos", "goleiros"]),
     sub("performance", "Performance", "desempenho", ["preparacao", "monitoramento", "desempenho", "jogos"]),
   ].filter((x) => x.itens.length) : [];
   /* Saúde e performance: o Serviço Social vira subgrupo com acompanhamento, cadastro, documentos e viagens. */
@@ -5710,7 +5778,7 @@ function escalaYLegivel(valores, extra) {
 const VOLTAR = { abertos: [], ignorar: 0, seq: 1, irParaPagina: null, fila: [] };
 /** Enquanto um "voltar" feito pelo próprio app ainda está em andamento, novos passos esperam na fila. */
 function gravarPassoVoltar(estado, substituir) {
-  const fazer = () => { try { history[substituir ? "replaceState" : "pushState"](estado, ""); } catch (e) {} };
+  const fazer = () => { try { history[substituir ? "replaceState" : "pushState"](estado, ""); if (!substituir) VOLTAR.prof = (VOLTAR.prof || 0) + 1; } catch (e) {} };
   if (VOLTAR.ignorar > 0) VOLTAR.fila.push(fazer); else fazer();
 }
 function voltarEstado() { return (window.history && history.state) || {}; }
@@ -5733,6 +5801,7 @@ function registrarPaginaVoltar(pagina, substituir) {
 }
 if (typeof window !== "undefined") {
   window.addEventListener("popstate", (e) => {
+    VOLTAR.prof = Math.max(0, (VOLTAR.prof || 0) - 1);
     if (VOLTAR.ignorar > 0) {
       VOLTAR.ignorar--;
       if (VOLTAR.ignorar === 0) { const f = VOLTAR.fila.splice(0); f.forEach((fn) => fn()); }
@@ -5914,7 +5983,13 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
     if (e.key === "Escape" && !e.defaultPrevented) {
       // Só fecha janelas (nunca uma tela de edição inteira). Digitando: o 1º Esc só sai do campo.
       const m = modalDoTopo();
-      if (!m) return;
+      // Sem janela aberta, o Esc é o "voltar": fecha a tela de cima ou volta para a página anterior do app.
+      if (!m) {
+        if (_digitando(t)) { t.blur(); return; }
+        if (document.querySelector(".mctx")) return; // o menu do botão direito fecha sozinho
+        if ((VOLTAR.prof || 0) > 0) { e.preventDefault(); try { history.back(); } catch (err) { /* sem histórico */ } }
+        return;
+      }
       if (_digitando(t) && m.contains(t)) { t.blur(); m.setAttribute("tabindex", "-1"); m.focus(); return; }
       const antes = VOLTAR.abertos.length;
       setTimeout(() => {
@@ -6041,6 +6116,184 @@ function useVoltar(ativo, fechar) {
   }, [!!ativo]);
 }
 
+/* =====================================================================
+   Caixas do próprio app no lugar das do navegador (confirmar e avisar).
+   confirmarApp(texto) devolve uma Promise<boolean>; avisoApp(texto) só mostra.
+   ===================================================================== */
+const DIALOGO = { abrir: null };
+function dialogoApp(op) {
+  return new Promise((res) => {
+    if (DIALOGO.abrir) DIALOGO.abrir({ ...op, res });
+    else if (op.tipo === "confirm") res(window.confirm(op.mensagem)); // antes do app montar
+    else { window.alert(op.mensagem); res(true); }
+  });
+}
+function confirmarApp(mensagem, op) { return dialogoApp({ tipo: "confirm", mensagem: String(mensagem || ""), ...(op || {}) }); }
+function avisoApp(mensagem, op) { return dialogoApp({ tipo: "alert", mensagem: String(mensagem || ""), ...(op || {}) }); }
+function DialogoAppRaiz() {
+  const { useState, useEffect, useRef } = React;
+  const [fila, setFila] = useState([]);
+  const okRef = useRef(null);
+  useEffect(() => { DIALOGO.abrir = (item) => setFila((f) => [...f, item]); return () => { DIALOGO.abrir = null; }; }, []);
+  const atual = fila[0];
+  const responder = (v) => { if (!atual) return; atual.res(v); setFila((f) => f.slice(1)); };
+  useEffect(() => {
+    if (!atual) return;
+    const foco = document.activeElement;
+    setTimeout(() => { if (okRef.current) okRef.current.focus(); }, 30);
+    const tecla = (e) => {
+      if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); responder(atual.tipo === "confirm" ? false : true); }
+      else if (e.key === "Enter") { e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); responder(true); }
+    };
+    window.addEventListener("keydown", tecla, true);
+    return () => { window.removeEventListener("keydown", tecla, true); try { if (foco && foco.focus) foco.focus(); } catch (e) { /* sem foco */ } };
+  }, [atual]);
+  if (!atual) return null;
+  const perigo = atual.perigo !== undefined ? atual.perigo : atual.tipo === "confirm" && /\b(apagar|excluir|remover|tirar|limpar|sair|desativar|inativar)\b/i.test(atual.mensagem);
+  const erro = atual.tipo === "alert" && /^não consegui|^erro|falhou/i.test(atual.mensagem);
+  const titulo = atual.titulo || (atual.tipo === "confirm" ? (perigo ? "Confirmar" : "Confirmar") : erro ? "Algo deu errado" : "Aviso");
+  return (
+    <div className="dlg-fundo" onMouseDown={(e) => { if (e.target === e.currentTarget && atual.tipo === "confirm") responder(false); }}>
+      <div className={"dlg-caixa" + (perigo ? " perigo" : "") + (erro ? " erro" : "")} role="alertdialog" aria-modal="true" aria-labelledby="dlg-titulo" aria-describedby="dlg-texto">
+        <div className="dlg-icone" aria-hidden="true">{perigo || erro ? "!" : atual.tipo === "confirm" ? "?" : "i"}</div>
+        <div className="dlg-corpo">
+          <h3 id="dlg-titulo">{titulo}</h3>
+          <p id="dlg-texto">{atual.mensagem}</p>
+        </div>
+        <div className="dlg-botoes">
+          {atual.tipo === "confirm" && <button type="button" className="dlg-btn" onClick={() => responder(false)}>{atual.cancelar || "Cancelar"}</button>}
+          <button type="button" ref={okRef} className={"dlg-btn primario" + (perigo ? " perigo" : "")} onClick={() => responder(true)}>{atual.ok || (atual.tipo === "confirm" ? (perigo ? "Sim, confirmar" : "Confirmar") : "Entendi")}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =====================================================================
+   Menu do botão direito (no celular, segurar o dedo). abrirMenuContexto(e, itens):
+   item = { rotulo, acao, perigo, marcado, desabilitado, dica } | { secao: "Título" } | { sep: true }
+   ===================================================================== */
+const MENU_CTX = { abrir: null };
+function abrirMenuContexto(e, itens) {
+  const lista = (itens || []).filter(Boolean);
+  if (!MENU_CTX.abrir || !lista.some((x) => x.rotulo)) return false;
+  e.preventDefault(); e.stopPropagation();
+  MENU_CTX.abrir({ x: e.clientX, y: e.clientY, itens: lista });
+  return true;
+}
+function MenuContextoRaiz() {
+  const { useState, useEffect, useRef, useLayoutEffect } = React;
+  const [menu, setMenu] = useState(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [ativo, setAtivo] = useState(-1);
+  const ref = useRef(null);
+  useEffect(() => { MENU_CTX.abrir = (m) => { setMenu(m); setPos({ x: m.x, y: m.y }); setAtivo(-1); }; return () => { MENU_CTX.abrir = null; }; }, []);
+  useLayoutEffect(() => {
+    if (!menu || !ref.current) return;
+    const r = ref.current.getBoundingClientRect(); const W = window.innerWidth, H = window.innerHeight;
+    setPos({ x: Math.max(8, Math.min(menu.x, W - r.width - 8)), y: Math.max(8, menu.y + r.height > H - 8 ? Math.max(8, menu.y - r.height) : menu.y) });
+  }, [menu]);
+  const clicaveis = menu ? menu.itens.map((x, i) => (x.rotulo && !x.desabilitado ? i : -1)).filter((i) => i >= 0) : [];
+  function fechar() { setMenu(null); }
+  function escolher(it) { fechar(); if (it && it.acao) setTimeout(() => { try { it.acao(); } catch (err) { /* ação falhou */ } }, 0); }
+  useEffect(() => {
+    if (!menu) return;
+    const fora = (e) => { if (ref.current && !ref.current.contains(e.target)) fechar(); };
+    const tecla = (e) => {
+      if (e.key === "Escape") { e.preventDefault(); e.stopImmediatePropagation(); fechar(); }
+      else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault(); e.stopImmediatePropagation();
+        setAtivo((a) => { const k = clicaveis.indexOf(a); const n = e.key === "ArrowDown" ? (k + 1) % clicaveis.length : (k <= 0 ? clicaveis.length - 1 : k - 1); return clicaveis[n]; });
+      } else if (e.key === "Enter" && ativo >= 0) { e.preventDefault(); e.stopImmediatePropagation(); escolher(menu.itens[ativo]); }
+    };
+    const sair = () => fechar();
+    document.addEventListener("mousedown", fora, true); document.addEventListener("touchstart", fora, true);
+    window.addEventListener("keydown", tecla, true); window.addEventListener("resize", sair); window.addEventListener("scroll", sair, true); window.addEventListener("blur", sair);
+    return () => {
+      document.removeEventListener("mousedown", fora, true); document.removeEventListener("touchstart", fora, true);
+      window.removeEventListener("keydown", tecla, true); window.removeEventListener("resize", sair); window.removeEventListener("scroll", sair, true); window.removeEventListener("blur", sair);
+    };
+  }, [menu, ativo]);
+  if (!menu) return null;
+  return (
+    <div ref={ref} className="mctx" role="menu" style={{ left: pos.x, top: pos.y }} onContextMenu={(e) => e.preventDefault()}>
+      {menu.itens.map((it, i) => {
+        if (it.sep) return <div key={i} className="mctx-sep" role="separator"></div>;
+        if (it.secao) return <div key={i} className="mctx-secao">{it.secao}</div>;
+        return (
+          <button key={i} type="button" role={it.marcado !== undefined ? "menuitemradio" : "menuitem"} aria-checked={it.marcado !== undefined ? !!it.marcado : undefined}
+            className={"mctx-item" + (it.perigo ? " perigo" : "") + (i === ativo ? " ativo" : "") + (it.marcado ? " marcado" : "")} disabled={it.desabilitado} title={it.dica || undefined}
+            onMouseEnter={() => setAtivo(i)} onClick={() => escolher(it)}>
+            <span className="mctx-marca" aria-hidden="true">{it.marcado ? "✓" : it.icone || ""}</span>{it.rotulo}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+/* ---- Ações de atleta usadas no menu (campograma, listas) ---- */
+function editarAtletaRapido(id) { window.dispatchEvent(new CustomEvent("ct:editar-atleta", { detail: id })); }
+function avisarAtletaMudou() { limparCacheLeitura(["atletas"]); window.dispatchEvent(new Event("ct:atleta-mudou")); }
+async function mudarProjecaoAtleta(id, v) {
+  try {
+    await db.collection(COL_ATLETAS).doc(id).update({ projecao: v || "" });
+    const ind = ATLETAS_INDICE.get(id); if (ind) ind.projecao = v || "";
+    avisarAtletaMudou();
+  } catch (e) { avisoApp("Não consegui salvar a projeção: " + e.message); }
+}
+async function inativarAtletaMenu(a) {
+  if (!(await confirmarApp("Inativar " + nomeExibicao(a) + "? Ele sai do elenco, das convocações e dos relatórios, mas nada é apagado e dá para reativar no Cadastro de atletas."))) return;
+  try { await db.collection(COL_ATLETAS).doc(a.id).update({ inativo: true }); avisarAtletaMudou(); }
+  catch (e) { avisoApp("Não consegui inativar: " + e.message); }
+}
+function abrirPerfilCompletoAtleta(id) {
+  if (!pedirAberturaAtleta(id) && VOLTAR.irParaPagina) VOLTAR.irParaPagina("cadastro_atletas");
+}
+function itensMenuAtleta(a, op) {
+  const u = usuarioLogadoGlobal; const o = op || {};
+  const gerenciar = podeGerenciarAtletas(u);
+  return [
+    { secao: nomeExibicao(a) },
+    { rotulo: "Ver resumo", icone: "◐", acao: () => (o.onResumo ? o.onResumo(a.id) : abrirGavetaAtleta(a.id, () => abrirPerfilCompletoAtleta(a.id))) },
+    { rotulo: "Abrir perfil completo", icone: "↗", acao: () => abrirPerfilCompletoAtleta(a.id) },
+    gerenciar && { rotulo: "Editar cadastro", icone: "✎", acao: () => (o.onEditar ? o.onEditar(a.id) : editarAtletaRapido(a.id)) },
+    ...(podeEditarProjecao(u) ? [{ sep: true }, { secao: "Projeção" }, ...[...PROJECOES, { id: "", label: "Sem avaliar", seta: "?" }].map((p) => ({ rotulo: p.seta + "  " + p.label, marcado: (a.projecao || "") === p.id, acao: () => mudarProjecaoAtleta(a.id, p.id) }))] : []),
+    ...(o.extras || []),
+    gerenciar && { sep: true },
+    gerenciar && !a.inativo && { rotulo: "Inativar atleta", icone: "⏸", perigo: true, acao: () => inativarAtletaMenu(a) },
+    ...(o.extrasFim || []),
+  ];
+}
+/** Edição do cadastro numa janela, aberta pelo menu do botão direito em qualquer tela. */
+function EditorAtletaRapido({ usuario }) {
+  const { useState, useEffect } = React;
+  const [atleta, setAtleta] = useState(null);
+  useVoltar(atleta, () => setAtleta(null));
+  useEffect(() => {
+    const ouvir = async (e) => {
+      const id = e.detail;
+      let a = ATLETAS_INDICE.get(id);
+      if (!a) { try { const d = await db.collection(COL_ATLETAS).doc(id).get(); a = d.exists ? { id: d.id, ...d.data() } : null; } catch (err) { a = null; } }
+      if (a) setAtleta({ ...a, id });
+    };
+    window.addEventListener("ct:editar-atleta", ouvir);
+    return () => window.removeEventListener("ct:editar-atleta", ouvir);
+  }, []);
+  if (!atleta || !podeGerenciarAtletas(usuario || usuarioLogadoGlobal)) return null;
+  async function salvar(campos) {
+    try { await salvarAtletaComPrivado(atleta.id, campos); setAtleta(null); avisarAtletaMudou(); }
+    catch (e) { avisoApp("Não consegui salvar: " + e.message); }
+  }
+  return (
+    <div className="lanc-fundo" onClick={() => setAtleta(null)}>
+      <div className="lanc-folha editor-rapido" role="dialog" aria-modal="true" aria-label={"Editar " + nomeExibicao(atleta)} onClick={(e) => e.stopPropagation()}>
+        <div className="panel-head"><h3>Editar: {nomeExibicao(atleta)}</h3><button type="button" className="link-btn" aria-label="Fechar" onClick={() => setAtleta(null)}>Fechar</button></div>
+        <FormAtleta key={atleta.id} atleta={atleta} onSalvar={salvar} onCancelar={() => setAtleta(null)} />
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Painel lateral do atleta (mesmo padrão do detalhe de lançamento) ----------
    Em qualquer aba, tocar num atleta abre primeiro este resumo à direita, sem sair da lista.
    O botão "Abrir perfil completo" leva ao perfil inteiro, como antes. */
@@ -6106,7 +6359,7 @@ function GavetaAtleta({ atletaId, usuario, onFechar, onPerfil }) {
       const ind = typeof ATLETAS_INDICE !== "undefined" && ATLETAS_INDICE.get(atleta.id); if (ind) ind.projecao = v;
       limparCacheLeitura(["atletas"]);
       window.dispatchEvent(new Event("ct:atleta-mudou"));
-    } catch (e) { alert("Não consegui salvar a projeção: " + e.message); }
+    } catch (e) { avisoApp("Não consegui salvar a projeção: " + e.message); }
     setSalvandoProj(false);
   }
 
@@ -6648,6 +6901,10 @@ function TabelaFichaAtleta({ a }) {
   );
 }
 
+function NOME_BLOCO_CAMPO(linha, k) {
+  const m = { esq: linha === "volantes" ? "Volantes da esquerda" : "Lado esquerdo", dir: linha === "volantes" ? "Volantes da direita" : "Lado direito", centro: linha === "ataque" ? "Centro do ataque" : "Centro", "zag-esq": "Zagueiros: coluna da esquerda", "zag-dir": "Zagueiros: coluna da direita" };
+  return "Mover para: " + (m[k] || k);
+}
 const anoNascCampo = (a) => { const y = String(a.data_nascimento || "").slice(0, 4); return /^\d{4}$/.test(y) ? y : "sem"; };
 function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoInicial }) {
   const { useState, useRef } = React;
@@ -6693,6 +6950,10 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
     document.querySelectorAll(".jogador.antes-de").forEach((el) => el.classList.remove("antes-de"));
     document.body.classList.remove("campo-arrastando");
     window.removeEventListener("pointermove", g.mover); window.removeEventListener("pointerup", g.soltar); window.removeEventListener("pointercancel", g.cancelar);
+    window.removeEventListener("blur", g.cancelar); document.removeEventListener("visibilitychange", g.cancelar); window.removeEventListener("keydown", g.tecla, true);
+    document.querySelectorAll(".jogador-fantasma").forEach((el) => el.remove());
+    document.querySelectorAll(".jogador.arrastando").forEach((el) => el.classList.remove("arrastando"));
+    try { const sel = window.getSelection && window.getSelection(); if (g.ativo && sel) sel.removeAllRanges(); } catch (e) { /* sem seleção */ }
     document.removeEventListener("touchmove", g.travar, { passive: false });
     arr.current = { recemArrastou: g.ativo };
     if (g.ativo) setTimeout(() => { arr.current.recemArrastou = false; }, 250);
@@ -6745,7 +7006,9 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
     g.cancelar = () => limparArraste();
     g.travar = (ev) => { if (g.ativo) ev.preventDefault(); };
     arr.current = g;
+    g.tecla = (ev) => { if (ev.key === "Escape") { ev.preventDefault(); ev.stopImmediatePropagation(); limparArraste(); } };
     window.addEventListener("pointermove", g.mover); window.addEventListener("pointerup", g.soltar); window.addEventListener("pointercancel", g.cancelar);
+    window.addEventListener("blur", g.cancelar); document.addEventListener("visibilitychange", g.cancelar); window.addEventListener("keydown", g.tecla, true);
     document.addEventListener("touchmove", g.travar, { passive: false });
     if (g.toque) g.timer = setTimeout(() => { if (arr.current === g) comecarArraste(); }, 380);
   }
@@ -6766,12 +7029,20 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
       await lote.commit();
       ids.forEach((x) => { const ind = ATLETAS_INDICE.get(x); if (ind) { ind.campo_bloco = novo[x].bloco; ind.campo_ordem = novo[x].ordem; } });
       limparCacheLeitura(["atletas"]);
-    } catch (e) { setArranjo(antes); alert("Não consegui salvar o lugar do atleta: " + e.message); }
+    } catch (e) { setArranjo(antes); avisoApp("Não consegui salvar o lugar do atleta: " + e.message); }
     setSalvandoLugar(false);
+  }
+  async function voltarAutomaticoAtleta(id) {
+    try {
+      await db.collection(COL_ATLETAS).doc(id).update({ campo_bloco: firebase.firestore.FieldValue.delete(), campo_ordem: firebase.firestore.FieldValue.delete() });
+      const ind = ATLETAS_INDICE.get(id); if (ind) { delete ind.campo_bloco; delete ind.campo_ordem; }
+      setArranjo((a) => ({ ...a, [id]: { bloco: "", ordem: null } }));
+      limparCacheLeitura(["atletas"]);
+    } catch (e) { avisoApp("Não consegui voltar ao automático: " + e.message); }
   }
   async function voltarAutomatico() {
     const ids = doTime.filter((a) => a.campo_bloco).map((a) => a.id);
-    if (!ids.length || !window.confirm("Voltar os " + ids.length + " atletas de " + rotAno(ano) + " para o lugar automático (pela posição e pela perna)?")) return;
+    if (!ids.length || !await confirmarApp("Voltar os " + ids.length + " atletas de " + rotAno(ano) + " para o lugar automático (pela posição e pela perna)?")) return;
     setSalvandoLugar(true);
     try {
       const lote = db.batch();
@@ -6780,7 +7051,7 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
       ids.forEach((x) => { const ind = ATLETAS_INDICE.get(x); if (ind) { delete ind.campo_bloco; delete ind.campo_ordem; } });
       setArranjo((a) => { const n = { ...a }; ids.forEach((x) => { n[x] = { bloco: "", ordem: null }; }); return n; });
       limparCacheLeitura(["atletas"]);
-    } catch (e) { alert("Não consegui voltar ao automático: " + e.message); }
+    } catch (e) { avisoApp("Não consegui voltar ao automático: " + e.message); }
     setSalvandoLugar(false);
   }
 
@@ -6796,7 +7067,17 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
         className={"jogador" + (vista === "ficha" ? " ficha" : "") + (podeArrastar && linhaId ? " arrastavel" : "") + (verDisp && d.disp && d.disp.status === "fora" ? " fora" : "")}
         onPointerDown={podeArrastar && linhaId ? (e) => iniciarArraste(e, d, linhaId) : undefined}
         onClick={() => { if (arr.current.recemArrastou) return; onOpenAtleta(d.id); }}
-        onContextMenu={podeArrastar ? (e) => e.preventDefault() : undefined}
+        onContextMenu={(e) => {
+          if (arr.current && (arr.current.toque || arr.current.ativo)) { e.preventDefault(); return; } // no celular, segurar é arrastar
+          const l = linhasRef.current.find((x) => x.id === linhaId);
+          const outros = podeArrastar && l ? l.blocos.filter((b) => !b.atletas.some((x) => x.id === d.id)) : [];
+          abrirMenuContexto(e, itensMenuAtleta(d, {
+            onResumo: (id) => onOpenAtleta(id),
+            extras: outros.length || d.campo_bloco ? [{ sep: true }, { secao: "Mover no campo" },
+              ...outros.map((b) => ({ rotulo: NOME_BLOCO_CAMPO(linhaId, b.k), icone: "⇄", acao: () => guardarLugar(d.id, linhaId, b.k, 999) })),
+              d.campo_bloco && podeArrastar ? { rotulo: "Voltar ao lugar automático", icone: "↺", acao: () => voltarAutomaticoAtleta(d.id) } : null] : [],
+          }));
+        }}
         onDragStart={(e) => e.preventDefault()} draggable={false}
         title={dica} aria-label={dica}>
         <span className={"jogador-foto" + anelAtleta(d, sinalDe(d))}>
@@ -7425,7 +7706,7 @@ function ViewCaptacao({ usuario, onNavigate }) {
           <div className="crumb">MeuCT · EC Meia Noite SAF · atletas observados, avaliação presencial e banco de quem passou pelo clube</div>
         </div>
         {pode && <div className="capt-topo-acoes">
-          <button type="button" className="pill-btn" onClick={() => pdfCaptacao(lista, usuario, "", "").catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Relatório</button>
+          <button type="button" className="pill-btn" onClick={() => pdfCaptacao(lista, usuario, "", "").catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Relatório</button>
           <a className="pill-btn" href={FORM_CAPTACAO_URL} target="_blank" rel="noopener noreferrer">Abrir formulário</a>
           <button type="button" className="pill-btn primary" onClick={() => setEditando({})}>+ Atleta observado</button>
         </div>}
@@ -7530,7 +7811,7 @@ function ViewAvaliacao({ usuario }) {
         } catch (e) { /* captação sem permissão: a decisão do atleta já foi gravada */ }
       }
       setDecidindo(null); await carregar();
-    } catch (e) { alert("Não consegui salvar: " + e.message); }
+    } catch (e) { avisoApp("Não consegui salvar: " + e.message); }
     setOcupado(false);
   }
   const prazo = (a) => {
@@ -8818,7 +9099,7 @@ function ImportadorRelacaoFpf({ atletas, onImportado }) {
 
   async function gravar() {
     if (!comMud.length) return;
-    if (!window.confirm("Atualizar o cadastro de " + comMud.length + " atleta" + (comMud.length === 1 ? "" : "s") + " com os dados da FPF?")) return;
+    if (!await confirmarApp("Atualizar o cadastro de " + comMud.length + " atleta" + (comMud.length === 1 ? "" : "s") + " com os dados da FPF?")) return;
     setSalvando(true);
     try {
       const ops = [];
@@ -8830,7 +9111,7 @@ function ImportadorRelacaoFpf({ atletas, onImportado }) {
       setFeito(comMud.length + " atleta" + (comMud.length === 1 ? " atualizado" : "s atualizados") + " com os dados da FPF.");
       setLinhas(null);
       if (onImportado) onImportado();
-    } catch (e) { alert("Não consegui salvar: " + e.message); }
+    } catch (e) { avisoApp("Não consegui salvar: " + e.message); }
     setSalvando(false);
   }
 
@@ -9551,10 +9832,10 @@ function ListaAtletas({ dados, onOpenAtleta, onRecarregar, usuario }) {
         <div className="relacao-barra">
           <span className="muted">Relação de atletas em PDF:</span>
           {[["", "Todas"], ...CATEGORIAS_TIME.map((c) => [c.id, c.label])].map(([id, rot]) => (
-            <button key={id || "todas"} type="button" className="pill-btn" onClick={() => baixarRelacaoAtletasPdf(dados.atletas, usuario, id).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />{rot}</button>
+            <button key={id || "todas"} type="button" className="pill-btn" onClick={() => baixarRelacaoAtletasPdf(dados.atletas, usuario, id).catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />{rot}</button>
           ))}
           <span className="muted" style={{ marginLeft: 8 }}>Peso, altura e idade:</span>
-          <button type="button" className="pill-btn" onClick={() => pdfAntropometria(dados.atletas, usuario, "").catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Todas</button>
+          <button type="button" className="pill-btn" onClick={() => pdfAntropometria(dados.atletas, usuario, "").catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Todas</button>
         </div>
         {modo === "fotos" && podeGerenciar && (
           <div style={{padding:"14px 20px 20px"}}>
@@ -9577,7 +9858,11 @@ function ListaAtletas({ dados, onOpenAtleta, onRecarregar, usuario }) {
             <thead><tr><th></th><th>Nome</th><th>Nº</th><th>Categoria</th><th>Posição</th><th>Nascimento</th><th>Status</th>{podeGerenciar && <th></th>}</tr></thead>
             <tbody>
               {linha.map(d => (
-                <tr key={d.id} className="clickable">
+                <tr key={d.id} className="clickable" onContextMenu={(e) => abrirMenuContexto(e, itensMenuAtleta(d, {
+                  onResumo: (id) => onOpenAtleta(id),
+                  onEditar: podeGerenciar ? (id) => { setModo({ editando: id }); } : undefined,
+                  extrasFim: podeGerenciar && podeApagar(usuario) ? [{ rotulo: "Excluir atleta...", icone: "✕", perigo: true, acao: () => setModo({ excluindo: d.id }) }] : [],
+                }))}>
                   <td onClick={() => onOpenAtleta(d.id)} style={{width:34}}>
                     <div className="jersey-badge" style={{width:30, height:30, margin:0, fontSize:11, borderRadius:7}}>
                       {d.foto ? <img loading="lazy" decoding="async" className="jersey-foto" src={d.foto} alt="" /> : d.nome.split(" ").map(p => p[0]).slice(0, 2).join("").toUpperCase()}
@@ -10267,7 +10552,7 @@ function PerfilAtleta({ atletaId, onBack, dados, onRecarregar, usuario }) {
   const idadeAtleta = calcularIdade(atleta.data_nascimento);
 
   async function removerFoto() {
-    if (!window.confirm("Tirar a foto de " + nomeExibicao(atleta) + "?")) return;
+    if (!await confirmarApp("Tirar a foto de " + nomeExibicao(atleta) + "?")) return;
     try {
       try { if (atleta.foto && storage.refFromURL) await storage.refFromURL(atleta.foto).delete(); } catch (e) { /* arquivo já não existe ou sem permissão: segue */ }
       await db.collection(COL_ATLETAS).doc(atletaId).update({ foto: null });
@@ -10343,7 +10628,7 @@ function PerfilAtleta({ atletaId, onBack, dados, onRecarregar, usuario }) {
         <div className="perfil-hero-acoes">
           {usuarioEhEquipe(usuario) && <button className="pill-btn" onClick={() => { atletaParaConversaGlobal = atleta; VOLTAR.irParaPagina && VOLTAR.irParaPagina("conversas"); }}><Icone nome="conversas" />Conversar sobre ele</button>}
           {podeEditar && atleta.foto && <button className="pill-btn" onClick={removerFoto}>Tirar foto</button>}
-          <button className="pill-btn" disabled={gerandoPdf} onClick={async () => { setGerandoPdf(true); try { await baixarPerfilAtletaPdf(atleta, dados, usuario); } catch (e) { alert("Não consegui gerar o PDF: " + e.message); } setGerandoPdf(false); }}><Icone nome="pdf" />{gerandoPdf ? "Gerando PDF..." : "Gerar relatório PDF"}</button>
+          <button className="pill-btn" disabled={gerandoPdf} onClick={async () => { setGerandoPdf(true); try { await baixarPerfilAtletaPdf(atleta, dados, usuario); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } setGerandoPdf(false); }}><Icone nome="pdf" />{gerandoPdf ? "Gerando PDF..." : "Gerar relatório PDF"}</button>
         </div>
       </div>
       {erroFoto && (
@@ -12345,7 +12630,7 @@ function TreinosGoleiro({ usuario, goleiros }) {
   const atual = campo && treinos.find((t) => t.id === campo);
   if (atual) return <CampoTreinoGoleiro treino={atual} goleiros={goleiros} usuario={usuario} onVoltar={() => { setCampo(null); carregar(); }} onEditar={pode ? () => { setCampo(null); setEditando(atual); } : null} />;
   const nomes = {}; goleiros.forEach((g) => { nomes[g.id] = nomeExibicao(g); });
-  async function apagar(t) { if (!window.confirm("Apagar o treino de " + formatarData(t.data) + "?")) return; try { await db.collection(COL_TREINOS_GOLEIRO).doc(t.id).delete(); carregar(); } catch (e) { alert("Não consegui apagar: " + e.message); } }
+  async function apagar(t) { if (!await confirmarApp("Apagar o treino de " + formatarData(t.data) + "?")) return; try { await db.collection(COL_TREINOS_GOLEIRO).doc(t.id).delete(); carregar(); } catch (e) { avisoApp("Não consegui apagar: " + e.message); } }
   function reutilizar(t) { setEditando({ ...treinoGolVazio(goleiros.filter((g) => (t.goleiros || []).includes(g.id))), categoria: t.categoria || "", objetivo: t.objetivo || "", exercicios: (t.exercicios || []).map((e) => ({ ...e, uid: idCurto() })) }); }
   return (
     <React.Fragment>
@@ -12428,11 +12713,11 @@ function PainelGoleiros({ usuario, atletas, categoria }) {
       }} />;
   }
   const atual = aberto && scouts.find((x) => x.id === aberto);
-  async function pdf(s) { try { await carregarBiblioteca("pdf"); baixarScoutGoleiroPdf(s, usuario); } catch (e) { alert("Não consegui gerar o PDF: " + e.message); } }
+  async function pdf(s) { try { await carregarBiblioteca("pdf"); baixarScoutGoleiroPdf(s, usuario); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } }
   if (atual) {
     return <DetalheScoutGoleiro s={atual} onVoltar={() => setAberto(null)} onEditar={podeLancar("treinador") ? () => setEditando(atual) : null} onPdf={() => pdf(atual)}
       podeApagar={podeApagarItem(atual)}
-      onApagar={async () => { if (!window.confirm("Apagar este scout?")) return; await db.collection(COL_GOLEIROS).doc(atual.id).delete(); setAberto(null); carregar(); }} />;
+      onApagar={async () => { if (!await confirmarApp("Apagar este scout?")) return; await db.collection(COL_GOLEIROS).doc(atual.id).delete(); setAberto(null); carregar(); }} />;
   }
 
   const visiveis = scouts.filter((s) => s.tipo === "jogo" && (filtro === "todos" || s.goleiro_id === filtro) && (!categoria || goleiros.some((g) => g.id === s.goleiro_id)));
@@ -12715,11 +13000,11 @@ function PainelQTS({ usuario, categoria }) {
   async function copiarAnterior() {
     try {
       const ant = await carregarQts(somarDiasISO(semana, -7));
-      if (!ant || !qtsTemConteudo(ant)) { alert("A semana anterior está vazia."); return; }
+      if (!ant || !qtsTemConteudo(ant)) { avisoApp("A semana anterior está vazia."); return; }
       mudar(() => ({ ...qtsVazio(), ...JSON.parse(JSON.stringify(ant)) }));
-    } catch (e) { alert("Não consegui copiar: " + e.message); }
+    } catch (e) { avisoApp("Não consegui copiar: " + e.message); }
   }
-  async function pdf() { try { await carregarBiblioteca("pdf"); baixarQtsPdf(semana, q, usuario); } catch (e) { alert("Não consegui gerar o PDF: " + e.message); } }
+  async function pdf() { try { await carregarBiblioteca("pdf"); baixarQtsPdf(semana, q, usuario); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } }
 
   const locais = Array.from(new Set([...LOCAIS_QTS, ...Object.values((q && q.grade) || {}).flatMap((g) => Object.values(g || {}).flatMap((l) => (l || []).map((i) => (i.local || "").trim())))].filter(Boolean)));
   const hoje = hojeISO();
@@ -12750,7 +13035,7 @@ function PainelQTS({ usuario, categoria }) {
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
           {podeEditar && status && <span className={"qts-status " + status.tipo}>{status.tipo === "salvando" ? "Salvando..." : status.tipo === "pendente" ? "Alteração anotada" : status.texto}</span>}
           {podeEditar && !vazio && <button type="button" className="pill-btn perigo" onClick={async () => {
-            if (!window.confirm("Apagar a programação desta semana inteira?")) return;
+            if (!await confirmarApp("Apagar a programação desta semana inteira?")) return;
             try { await fila.current; await db.collection(COL_QTS).doc(semana).delete(); tocado.current = false; setQ(qtsVazio()); setExiste(false); setStatus({ tipo: "ok", texto: "Semana apagada" }); }
             catch (e) { setStatus({ tipo: "erro", texto: "Não consegui apagar: " + e.message }); }
           }}>Apagar semana</button>}
@@ -12810,7 +13095,7 @@ function PainelQTS({ usuario, categoria }) {
                 <span key={c} className="qts-cat-chip">
                   <button type="button" disabled={i === 0} onClick={() => mudar((x) => { const l = x.categorias.slice(); [l[i - 1], l[i]] = [l[i], l[i - 1]]; return { ...x, categorias: l }; })} aria-label={"Subir " + c}>↑</button>
                   {c}
-                  <button type="button" onClick={() => { if (window.confirm(`Tirar ${c} do quadro desta semana?`)) mudar((x) => ({ ...x, categorias: x.categorias.filter((y) => y !== c) })); }} aria-label={"Tirar " + c}>×</button>
+                  <button type="button" onClick={async () => { if (await confirmarApp(`Tirar ${c} do quadro desta semana?`)) mudar((x) => ({ ...x, categorias: x.categorias.filter((y) => y !== c) })); }} aria-label={"Tirar " + c}>×</button>
                 </span>
               ))}
               <span className="qts-nova-cat">
@@ -13151,7 +13436,7 @@ function CardapioSemanal({ usuario, somenteLeitura, semanaFixa }) {
   const valor = (d, r) => (((c && c.dias) || {})[d] || {})[r] || "";
   async function copiarAnterior() {
     const ant = await carregarCardapio(somarDiasISO(semana, -7)).catch(() => null);
-    if (!cardapioTemConteudo(ant)) { alert("A semana anterior está vazia."); return; }
+    if (!cardapioTemConteudo(ant)) { avisoApp("A semana anterior está vazia."); return; }
     mudar(() => ({ dias: JSON.parse(JSON.stringify(ant.dias)), observacoes: ant.observacoes || "" }));
   }
   function pdf() {
@@ -13175,7 +13460,7 @@ function CardapioSemanal({ usuario, somenteLeitura, semanaFixa }) {
       const n = doc.getNumberOfPages();
       for (let p = 1; p <= n; p++) { doc.setPage(p); r2Rodape(ctx, rel, p, n); }
       doc.save(`Cardapio_${dataArquivo(semana)}.pdf`);
-    }).catch((e) => alert("Não consegui gerar o PDF: " + e.message));
+    }).catch((e) => avisoApp("Não consegui gerar o PDF: " + e.message));
   }
   if (!c) return <SkeletonPanel />;
   if (somenteLeitura && !cardapioTemConteudo(c)) return null;
@@ -13193,7 +13478,7 @@ function CardapioSemanal({ usuario, somenteLeitura, semanaFixa }) {
             {status && <span className={"qts-status " + status.tipo}>{status.tipo === "salvando" ? "Salvando..." : status.tipo === "pendente" ? "Alteração anotada" : status.texto}</span>}
             {podeEditar && !cardapioTemConteudo(c) && <button type="button" className="pill-btn" onClick={copiarAnterior}>Copiar a semana anterior</button>}
             {podeEditar && cardapioTemConteudo(c) && <button type="button" className="pill-btn perigo" onClick={async () => {
-              if (!window.confirm("Apagar o cardápio desta semana inteira?")) return;
+              if (!await confirmarApp("Apagar o cardápio desta semana inteira?")) return;
               try { await db.collection(COL_CARDAPIO).doc(semana).delete(); tocado.current = false; setC({ dias: {}, observacoes: "" }); setStatus({ tipo: "ok", texto: "Semana apagada" }); }
               catch (e) { setStatus({ tipo: "erro", texto: "Não consegui apagar: " + e.message }); }
             }}>Apagar semana</button>}
@@ -13306,7 +13591,7 @@ function ViewNutricao({ usuario }) {
     setToast("Registro salvo para " + nomeAtleta(atletas, atletaId));
     setTimeout(() => setToast(null), 3200);
   }
-  async function pdfPlano(atletaId, r) { try { await carregarBiblioteca("pdf"); baixarPlanoAlimentarPdf((atletas || []).find((a) => a.id === atletaId) || {}, r, usuario); } catch (e) { alert("Não consegui gerar o PDF: " + e.message); } }
+  async function pdfPlano(atletaId, r) { try { await carregarBiblioteca("pdf"); baixarPlanoAlimentarPdf((atletas || []).find((a) => a.id === atletaId) || {}, r, usuario); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } }
 
   const cabecalho = (
     <div className="page-head"><div><h1>Nutrição</h1><div className="crumb">MeuCT · EC Meia Noite SAF · Departamento Médico · antropometria, planos alimentares, atendimentos e cardápio</div></div></div>
@@ -13658,7 +13943,7 @@ function ViewPsicologia() {
                 <table>
                   <thead><tr><th>Atleta</th><th>Data</th><th>Para a equipe</th><th>Lançado por</th><th>Bandeira</th></tr></thead>
                   <tbody>
-                    {<LancamentosRecentes area="psi" atletas={atletas} registros={registros} onAbrir={det.abrir} colSpan={5} render={(athleteId, r, i) => (
+                    {<LancamentosRecentes area="psi" atletas={atletas} registros={registros} onAbrir={det.abrir} onApagado={() => carregar()} colSpan={5} render={(athleteId, r, i) => (
                       <tr key={athleteId + i}>
                         <td style={{ fontWeight: 600, color: "var(--navy)" }}>{nomeAtleta(atletas, athleteId)}</td>
                         <td>{formatarData(r.data)}</td>
@@ -13784,7 +14069,7 @@ function CronoVariosDias({ modo, usuario, atletas, onAbrirDia, onPlano }) {
     const ocupados = destino.filter((d) => alvo[d] && Object.keys(alvo[d].slots || {}).length);
     const origem = datas.filter((d) => cronos[d] && Object.keys(cronos[d].slots || {}).length);
     if (!origem.length) { setMsg({ ok: false, t: "Esta semana não tem atendimentos para copiar." }); return; }
-    if (!window.confirm("Copiar " + origem.length + " dia(s) desta semana para a semana de " + formatarData(destino[0]) + "?" + (ocupados.length ? "\n\nAtenção: " + ocupados.length + " dia(s) da próxima semana já têm cronograma e serão substituídos." : ""))) return;
+    if (!await confirmarApp("Copiar " + origem.length + " dia(s) desta semana para a semana de " + formatarData(destino[0]) + "?" + (ocupados.length ? "\n\nAtenção: " + ocupados.length + " dia(s) da próxima semana já têm cronograma e serão substituídos." : ""))) return;
     setTrabalhando(true);
     try {
       for (const d of origem) {
@@ -14090,7 +14375,7 @@ function CronogramaFisio({ usuario, atletas, registros }) {
       const s = await db.collection(COL_CRONO_FISIO).doc(de).get();
       if (!s.exists) { setMsg({ ok: false, t: "Não há cronograma em " + formatarData(de) + "." }); return; }
       const o = s.data();
-      if (crono && Object.keys(crono.slots || {}).length && !window.confirm("Substituir o cronograma de " + formatarData(data) + " pelo de " + formatarData(de) + "?")) return;
+      if (crono && Object.keys(crono.slots || {}).length && !await confirmarApp("Substituir o cronograma de " + formatarData(data) + " pelo de " + formatarData(de) + "?")) return;
       await ref.set({ data, inicio: o.inicio || "07:00", fim: o.fim || "19:00", intervalo: o.intervalo || 30, colunas: o.colunas || cronoVazio(data).colunas, slots: o.slots || {}, atletas_ids: idsDoCrono(o.slots), criado_por: usuario.id, copiado_de: de, atualizado_por_nome: nomeUsuario(usuario), atualizado_em: firebase.firestore.FieldValue.serverTimestamp() });
       setCopiarDe(null); setMsg({ ok: true, t: "Cronograma copiado de " + formatarData(de) + "." });
     } catch (e) { setMsg({ ok: false, t: "Não consegui copiar: " + e.message }); }
@@ -14178,7 +14463,7 @@ function CronogramaFisio({ usuario, atletas, registros }) {
           <table className="crono-grade">
             <thead><tr><th className="crono-hora">Horário</th>{c.colunas.map((col, i) => (
               <th key={col.id}>{pode ? <input className="crono-col-nome" value={col.nome} aria-label="Nome da coluna" onChange={(e) => setCrono({ ...c, colunas: c.colunas.map((x) => x.id === col.id ? { ...x, nome: e.target.value } : x) })} onBlur={(e) => mudarColunas(c.colunas.map((x) => x.id === col.id ? { ...x, nome: e.target.value.trim() || x.nome } : x))} list="crono-fisios" /> : col.nome}
-                {pode && c.colunas.length > 1 && <button type="button" className="crono-col-x" title="Tirar coluna" onClick={() => { if (slots.some((s) => s.coluna === col.id) && !window.confirm("A coluna tem atendimentos. Tirar mesmo?")) return; mudarColunas(c.colunas.filter((x) => x.id !== col.id)); }}>×</button>}</th>
+                {pode && c.colunas.length > 1 && <button type="button" className="crono-col-x" title="Tirar coluna" onClick={async () => { if (slots.some((s) => s.coluna === col.id) && !await confirmarApp("A coluna tem atendimentos. Tirar mesmo?")) return; mudarColunas(c.colunas.filter((x) => x.id !== col.id)); }}>×</button>}</th>
             ))}{pode && <th className="crono-add"><button type="button" className="link-btn" onClick={() => mudarColunas([...c.colunas, { id: "c" + Date.now().toString(36), nome: "Maca " + (c.colunas.length + 1) }])}>+ coluna</button></th>}</tr></thead>
             <tbody>{linhas.map((h) => (
               <tr key={h}><td className="crono-hora">{h}</td>{c.colunas.map((col) => {
@@ -14246,11 +14531,11 @@ function EditorSlotFisio({ usuario, c, data, edit, atletas, fisios, qts, eventos
             {atual && atual.plano_id && (
               <div className="crono-plano-info">
                 <span>Faz parte de um plano de tratamento{atual.plano_ate ? " até " + formatarData(atual.plano_ate) : ""}.</span>
-                <button type="button" className="link-btn perigo" disabled={salvando} onClick={async () => { if (!window.confirm("Tirar este plano de " + formatarData(data) + " em diante? Os dias anteriores ficam como estão.")) return; setSalvando(true); try { const n = await cancelarPlanoFisio(atual.plano_id, data, atual.plano_ate, usuario); window.alert(n + " atendimento(s) do plano foram tirados."); } catch (e) { window.alert("Não consegui cancelar: " + e.message); } onFechar(); }}>Cancelar o plano daqui em diante</button>
+                <button type="button" className="link-btn perigo" disabled={salvando} onClick={async () => { if (!await confirmarApp("Tirar este plano de " + formatarData(data) + " em diante? Os dias anteriores ficam como estão.")) return; setSalvando(true); try { const n = await cancelarPlanoFisio(atual.plano_id, data, atual.plano_ate, usuario); window.alert(n + " atendimento(s) do plano foram tirados."); } catch (e) { window.alert("Não consegui cancelar: " + e.message); } onFechar(); }}>Cancelar o plano daqui em diante</button>
               </div>
             )}
             <div className="form-acoes">
-              {atual && <button type="button" className="link-btn perigo" disabled={salvando} onClick={async () => { if (!window.confirm("Apagar este atendimento?")) return; setSalvando(true); await onSalvar(edit.id, null); }}>Apagar</button>}
+              {atual && <button type="button" className="link-btn perigo" disabled={salvando} onClick={async () => { if (!await confirmarApp("Apagar este atendimento?")) return; setSalvando(true); await onSalvar(edit.id, null); }}>Apagar</button>}
               <button type="button" className="pill-btn" onClick={onFechar} disabled={salvando}>Cancelar</button>
               <button type="button" className="pill-btn primary" disabled={salvando || !(f.atletas || []).length || !f.hora} onClick={async () => { setSalvando(true); await onSalvar(edit.id || "s" + Date.now().toString(36), { ...f, obs: (f.obs || "").trim().slice(0, 300), fisio_nome: (f.fisio_nome || "").trim().slice(0, 80), local: (f.local || "").trim().slice(0, 60) }); }}>{salvando ? "Salvando..." : "Salvar"}</button>
             </div>
@@ -14406,7 +14691,7 @@ function ViewFisioterapia({ usuario }) {
                 <table>
                   <thead><tr><th>Atleta</th><th>Data</th><th>Tipo</th><th>Observação</th><th>Avaliado por</th><th>Sinal</th></tr></thead>
                   <tbody>
-                    {<LancamentosRecentes area="fisio" atletas={atletas} registros={registros} onAbrir={det.abrir} colSpan={6} render={(athleteId, r, i) => (
+                    {<LancamentosRecentes area="fisio" atletas={atletas} registros={registros} onAbrir={det.abrir} onApagado={() => carregar()} colSpan={6} render={(athleteId, r, i) => (
                         <tr key={athleteId + i}>
                           <td style={{fontWeight:600, color:"var(--navy)"}}>{nomeAtleta(atletas, athleteId)}</td>
                           <td>{formatarData(r.data)}</td>
@@ -14642,7 +14927,7 @@ function ViewMedicina() {
                 <table>
                   <thead><tr><th>Atleta</th><th>Data</th><th>Tipo</th><th>Observação</th><th>Sinal</th></tr></thead>
                   <tbody>
-                    {<LancamentosRecentes area="medicina" atletas={atletas} registros={registros} onAbrir={det.abrir} colSpan={5} render={(athleteId, r, i) => (
+                    {<LancamentosRecentes area="medicina" atletas={atletas} registros={registros} onAbrir={det.abrir} onApagado={() => carregar()} colSpan={5} render={(athleteId, r, i) => (
                         <tr key={athleteId + i}>
                           <td style={{fontWeight:600, color:"var(--navy)"}}>{nomeAtleta(atletas, athleteId)}</td>
                           <td>{formatarData(r.data)}</td>
@@ -14734,7 +15019,7 @@ function ViewSocial({ abaInicial }) {
                 <table>
                   <thead><tr><th>Atleta</th><th>Data</th><th>Tipo</th><th>Status</th><th>Detalhe</th></tr></thead>
                   <tbody>
-                    {<LancamentosRecentes area="social" atletas={atletas} registros={registros} onAbrir={det.abrir} colSpan={5} render={(athleteId, r, i) => (
+                    {<LancamentosRecentes area="social" atletas={atletas} registros={registros} onAbrir={det.abrir} onApagado={() => carregar()} colSpan={5} render={(athleteId, r, i) => (
                         <tr key={athleteId + i}>
                           <td style={{fontWeight:600, color:"var(--navy)"}}>{nomeAtleta(atletas, athleteId)}</td>
                           <td>{formatarData(r.data)}</td>
@@ -19497,7 +19782,7 @@ function paginasDaBusca(usuario) {
     { id: "treinador", label: "Campograma" }, { id: "avaliacao", label: "Atletas em avaliação" }, { id: "captacao", label: "Captação" }, { id: "agenda_campo", label: "Agenda da Comissão técnica" }, { id: "qts", label: "QTS semanal das categorias" },
     { id: "treinos", label: "Treinos" }, { id: "goleiros", label: "Goleiros" }, { id: "preparacao", label: "Preparação Física" },
     { id: "monitoramento", label: "Monitoramento" }, { id: "desempenho", label: "Desempenho" }, { id: "jogos", label: "Jogos" },
-    { id: "agenda_saude", label: "Agenda de Saúde e performance" }, { id: "cadastro_atletas", label: "Cadastro de atletas" },
+    { id: "agenda_saude", label: "Agenda de Saúde e performance" }, { id: "palestras_saude", label: "Palestras e lista de presença" }, { id: "cadastro_atletas", label: "Cadastro de atletas" },
     { id: "fisioterapia", label: "Fisioterapia" }, { id: "medicina", label: "Medicina" }, { id: "nutricao", label: "Nutrição" },
     { id: "psicologia", label: "Psicologia" }, { id: "social", label: "Serviço Social" },
   ];
@@ -19896,7 +20181,7 @@ function FormEvento({ inicial, usuario, onSalvo, onCancelar }) {
       };
       if (dados.categoria === CATEGORIA_SO_EQUIPE.id && !TIPOS_SO_EQUIPE.includes(dados.tipo)) dados.categoria = "ambas";
       const extras = dados.data_fim ? [] : datasDaRepeticao(dados.data, repeticao);
-      if (extras.length > 30 && !window.confirm("Vai criar " + extras.length + " cópias deste evento. Continuar?")) { setSalvando(false); return; }
+      if (extras.length > 30 && !await confirmarApp("Vai criar " + extras.length + " cópias deste evento. Continuar?")) { setSalvando(false); return; }
       const idBase = await rasc.apos(salvarEvento(dados, usuario));
       if (extras.length) {
         const copia = {};
@@ -20056,7 +20341,7 @@ function eventosDoQts(qtsPorSemana) {
 }
 let qtsSemanaPendente = null;
 
-function ItemEvento({ ev, onEditar, onConvocacao, onCarga, podeJogos, podeCarga, mostrarSetor, onAbrirQts }) {
+function ItemEvento({ ev, onEditar, onConvocacao, onCarga, podeJogos, podeCarga, mostrarSetor, onAbrirQts, onExcluido }) {
   if (ev.qts) {
     return (
       <div className={"evento-item tipo-qts" + (ev.destaque ? " destaque" : "")}>
@@ -20072,8 +20357,23 @@ function ItemEvento({ ev, onEditar, onConvocacao, onCarga, podeJogos, podeCarga,
   const placar = placarEvento(ev);
   const conv = ev.convocacao ? (ev.convocacao.titulares || []).length + (ev.convocacao.reservas || []).length : 0;
   const qtdCargas = ev.cargas ? Object.keys(ev.cargas).length : 0;
+  const menuEvento = (e) => abrirMenuContexto(e, [
+    { secao: tituloEvento(ev) },
+    { rotulo: "Abrir / editar", icone: "✎", acao: () => onEditar(ev) },
+    ev.tipo === "jogo" && podeJogos && { rotulo: conv ? "Convocação (" + conv + ")" : "Convocar", icone: "⚽", acao: () => onConvocacao(ev) },
+    (ev.tipo === "treino" || ev.tipo === "jogo") && podeCarga && ev.data <= hojeISO() && { rotulo: qtdCargas ? "Carga lançada (" + qtdCargas + ")" : "Lançar carga", icone: "▤", acao: () => onCarga(ev) },
+    { sep: true },
+    { rotulo: "Enviar aviso sobre este evento", icone: "📣", acao: () => abrirAvisoDoEvento(ev, false) },
+    { rotulo: "Agendar aviso sobre este evento", icone: "⏰", acao: () => abrirAvisoDoEvento(ev, true) },
+    { rotulo: "Copiar detalhes", icone: "⧉", acao: () => copiarTextoMenu([labelTipoEvento(ev.tipo) + ": " + tituloEvento(ev), formatarData(ev.data) + (ev.hora ? " às " + ev.hora : ""), ev.local ? "Local: " + ev.local : "", ev.observacao || ""].filter(Boolean).join("\n")) },
+    podeApagarItem(ev) && { sep: true },
+    podeApagarItem(ev) && { rotulo: "Excluir evento", icone: "✕", perigo: true, acao: async () => {
+      if (!(await confirmarApp("Excluir " + tituloEvento(ev) + " (" + formatarData(ev.data) + ") da agenda para todos?"))) return;
+      try { await excluirEvento(ev.id); limparCacheLeitura(); if (onExcluido) onExcluido(); } catch (err) { avisoApp("Não consegui excluir: " + err.message); }
+    } },
+  ]);
   return (
-    <div className={"evento-item tipo-" + ev.tipo}>
+    <div className={"evento-item tipo-" + ev.tipo} onContextMenu={menuEvento}>
       <div className="evento-hora">{ev.hora || "--:--"}</div>
       <div className="evento-corpo">
         <div className="evento-linha1">
@@ -20088,6 +20388,7 @@ function ItemEvento({ ev, onEditar, onConvocacao, onCarga, podeJogos, podeCarga,
         {ev.observacao && <div className="evento-obs">{ev.observacao}</div>}
         <div className="evento-acoes">
           <button type="button" className="link-btn" onClick={() => onEditar(ev)}>Editar</button>
+          <button type="button" className="link-btn" onClick={() => abrirAvisoDoEvento(ev, ev.data > hojeISO())} title="Enviar ou agendar um aviso para a equipe sobre este evento">Aviso</button>
           {ev.tipo === "jogo" && podeJogos && <button type="button" className="link-btn" onClick={() => onConvocacao(ev)}>{conv ? `Convocação (${conv})` : "Convocar"}</button>}
           {(ev.tipo === "treino" || ev.tipo === "jogo") && podeCarga && ev.data <= hojeISO() && <button type="button" className="link-btn" onClick={() => onCarga(ev)}>{qtdCargas ? `Carga lançada (${qtdCargas})` : "Lançar carga"}</button>}
         </div>
@@ -20286,7 +20587,7 @@ function ViewAgenda({ usuario, onNavigate, setor, categoria }) {
               <div className="empty-state" style={{ padding: "28px 18px" }}>Nada marcado {dia === hoje ? "pra hoje" : "neste dia"}.</div>
             ) : (
               <div className="evento-lista">
-                {doDia.map((e) => <ItemEvento key={e.id} ev={e} onEditar={setEditando} onConvocacao={abrirConvocacao} onCarga={abrirCarga} podeJogos={podeJogos} podeCarga={podeCarga} mostrarSetor={!setorAtivo || setorEvento(e) !== setorAtivo} onAbrirQts={abrirQts} />)}
+                {doDia.map((e) => <ItemEvento key={e.id} ev={e} onExcluido={recarregar} onEditar={setEditando} onConvocacao={abrirConvocacao} onCarga={abrirCarga} podeJogos={podeJogos} podeCarga={podeCarga} mostrarSetor={!setorAtivo || setorEvento(e) !== setorAtivo} onAbrirQts={abrirQts} />)}
               </div>
             )}
           </div>
@@ -21135,7 +21436,7 @@ function PainelRestricoesAtivas({ dados, usuario, onOpenAtleta, categoria, titul
   const linhas = atletas.map((a) => ({ a, rs: restricoesDoAtleta(a.id, dados, manuais) })).filter((l) => l.rs.length)
     .sort((x, y) => (y.rs.some((r) => r.nivel === "vermelho") ? 1 : 0) - (x.rs.some((r) => r.nivel === "vermelho") ? 1 : 0) || nomeExibicao(x.a).localeCompare(nomeExibicao(y.a), "pt-BR"));
   const pode = usuarioEhEquipe(usuario);
-  async function apagar(r) { try { await encerrarRestricao(r); recarregar(); } catch (e) { alert("Não consegui encerrar: " + e.message); } }
+  async function apagar(r) { try { await encerrarRestricao(r); recarregar(); } catch (e) { avisoApp("Não consegui encerrar: " + e.message); } }
   return (
     <div className="panel">
       <div className="panel-head"><h3>{titulo || "Restrições de hoje"} ({linhas.length})</h3>{pode && <button type="button" className="pill-btn" onClick={() => setNova((v) => !v)}>{nova ? "Fechar" : "+ Restrição"}</button>}</div>
@@ -21162,7 +21463,7 @@ function FaixaRestricoesAtleta({ atleta, dados, usuario }) {
   const rs = restricoesDoAtleta(atleta.id, dados, manuais);
   const pode = usuarioEhEquipe(usuario);
   if (!rs.length && !pode) return null;
-  async function apagar(r) { try { await encerrarRestricao(r); recarregar(); } catch (e) { alert("Não consegui encerrar: " + e.message); } }
+  async function apagar(r) { try { await encerrarRestricao(r); recarregar(); } catch (e) { avisoApp("Não consegui encerrar: " + e.message); } }
   return (
     <div className={"panel restr-faixa" + (rs.length ? " com" : "")}>
       <div className="panel-head"><h3>Restrições hoje ({rs.length})</h3>{pode && <button type="button" className="pill-btn" onClick={() => setNova((v) => !v)}>{nova ? "Fechar" : "+ Restrição"}</button>}</div>
@@ -21506,7 +21807,7 @@ function CartaoEncaminhamento({ e, usuario, podeResponder, onMudou, classe }) {
           {podeResponder && ["pendente", "visto", "agendado"].includes(st) && <button type="button" className="pill-btn" disabled={ocupado} onClick={() => passo("em_atendimento")}>Iniciar atendimento</button>}
           {podeResponder && st !== "atendido" && <button type="button" className="pill-btn primary" disabled={ocupado} onClick={() => { setModo("concluir"); setResposta(""); setDepois("so"); }}>Concluir</button>}
           {hist.length > 0 && <button type="button" className="link-btn" onClick={() => setVerHist((v) => !v)}>{verHist ? "Esconder histórico" : "Histórico (" + hist.length + ")"}</button>}
-          {(e.de_uid === usuario.id || podeApagar(usuario)) && st === "pendente" && <button type="button" className="link-btn perigo" onClick={async () => { if (!window.confirm("Apagar este encaminhamento?")) return; try { await db.collection(COL_ENCAMINHAMENTOS).doc(e.id).delete(); onMudou && onMudou(); } catch (err) { setErro("Não consegui apagar: " + err.message); } }}>Apagar</button>}
+          {(e.de_uid === usuario.id || podeApagar(usuario)) && st === "pendente" && <button type="button" className="link-btn perigo" onClick={async () => { if (!await confirmarApp("Apagar este encaminhamento?")) return; try { await db.collection(COL_ENCAMINHAMENTOS).doc(e.id).delete(); onMudou && onMudou(); } catch (err) { setErro("Não consegui apagar: " + err.message); } }}>Apagar</button>}
         </div>
       )}
       {verHist && <ul className="capt-hist enc-hist">{hist.map((h, i) => <li key={i}><b>{(STATUS_ENCAMINHAMENTO[h.status] || {}).label || h.status}</b> · {h.em ? formatarData(h.em.slice(0, 10)) + (h.em.length > 10 ? " " + h.em.slice(11) : "") : ""}{h.por ? " · " + h.por : ""}{h.obs ? <div className="muted">{h.obs}</div> : null}</li>)}</ul>}
@@ -21663,7 +21964,7 @@ function PainelLesoesMedicina({ atletas, usuario }) {
   const regioes = Object.values(porRegiao).sort((x, y) => y.n - x.n);
   return (
     <div className="panel">
-      <div className="panel-head"><h3>Lesões do elenco</h3><div className="enc-acoes" style={{ margin: 0 }}><span style={{ fontSize: 12.5, color: "#fff" }}>{todas.length} lesão(ões) ativa(s)</span><button type="button" className="pill-btn" onClick={() => pdfLesoesElenco(atletas, usuario, cat, isoMaisDias(hojeISO(), -90), hojeISO()).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF</button></div></div>
+      <div className="panel-head"><h3>Lesões do elenco</h3><div className="enc-acoes" style={{ margin: 0 }}><span style={{ fontSize: 12.5, color: "#fff" }}>{todas.length} lesão(ões) ativa(s)</span><button type="button" className="pill-btn" onClick={() => pdfLesoesElenco(atletas, usuario, cat, isoMaisDias(hojeISO(), -90), hojeISO()).catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF</button></div></div>
       <div className="lesao-topo">
         <div className="field lesao-cat"><label>Categoria</label><select value={cat} onChange={(e) => { setCat(e.target.value); setLocal(null); }}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
         <div className="lesao-kpis">
@@ -21851,7 +22152,7 @@ function PainelTestesFisicos({ usuario, atletas, categoria }) {
     return { def, linhas, media };
   })();
   const historicoAtleta = atletaVer ? baterias.filter((b) => b.resultados && b.resultados[atletaVer] !== undefined && b.resultados[atletaVer] !== "").sort((a, b) => (b.data || "").localeCompare(a.data || "")) : [];
-  async function apagar(b) { if (!window.confirm("Apagar esta bateria de testes?")) return; try { await db.collection(COL_TESTES).doc(b.id).delete(); carregar(); } catch (e) { alert("Não consegui apagar: " + e.message); } }
+  async function apagar(b) { if (!await confirmarApp("Apagar esta bateria de testes?")) return; try { await db.collection(COL_TESTES).doc(b.id).delete(); carregar(); } catch (e) { avisoApp("Não consegui apagar: " + e.message); } }
   return (
     <React.Fragment>
       {erro && <div className="access-note" style={{ background: "var(--amarelo-bg)", borderColor: "var(--amarelo)" }}><span>{erro}</span></div>}
@@ -22008,12 +22309,12 @@ function PainelDocumentosAtletas({ atletas, usuario }) {
     try {
       await db.collection(COL_ATLETAS_PRIVADO).doc(a.id).set({ documentos: { [nomeDoc]: novo[nomeDoc] }, atualizado_por: uidAtual(), atualizado_em: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
       setPrivados((p) => ({ ...p, [a.id]: { ...(p[a.id] || {}), documentos: novo } }));
-    } catch (e) { alert("Não consegui salvar: " + e.message); }
+    } catch (e) { avisoApp("Não consegui salvar: " + e.message); }
     setSalvando(null);
   }
   return (
     <div className="panel">
-      <div className="panel-head"><h3>Documentos dos atletas</h3><div className="enc-acoes" style={{ margin: 0 }}><small className="muted" style={{ color: "#fff" }}>{completos} de {lista.length} com tudo entregue</small><button type="button" className="pill-btn" onClick={() => pdfDocumentosPendentes(atletas, usuario, cat).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Pendências</button><button type="button" className="pill-btn" onClick={() => pdfChegadas(atletas, usuario, cat).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Chegadas</button></div></div>
+      <div className="panel-head"><h3>Documentos dos atletas</h3><div className="enc-acoes" style={{ margin: 0 }}><small className="muted" style={{ color: "#fff" }}>{completos} de {lista.length} com tudo entregue</small><button type="button" className="pill-btn" onClick={() => pdfDocumentosPendentes(atletas, usuario, cat).catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Pendências</button><button type="button" className="pill-btn" onClick={() => pdfChegadas(atletas, usuario, cat).catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />Chegadas</button></div></div>
       <div className="jogos-filtros">
         <div className="field"><label>Categoria</label><select value={cat} onChange={(e) => setCat(e.target.value)}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
         <label className="check-linha"><input type="checkbox" checked={soPend} onChange={(e) => setSoPend(e.target.checked)} /> Só quem tem pendência</label>
@@ -22207,7 +22508,7 @@ function ImportarQuartos({ atletas, onFechar, onMudou }) {
     const ops = mudam.map((x) => [x.atletaId, destinoDe(x)]);
     if (tirarOutros) fora.forEach((a) => ops.push([a.id, { alojamento: "", quarto: "" }]));
     if (!ops.length) { setFeito("Nada para mudar: todos já estão nesses quartos."); return; }
-    if (!window.confirm("Gravar o quarto de " + ops.length + " atleta" + (ops.length === 1 ? "" : "s") + "?")) return;
+    if (!await confirmarApp("Gravar o quarto de " + ops.length + " atleta" + (ops.length === 1 ? "" : "s") + "?")) return;
     setSalvando(true);
     try {
       for (let i = 0; i < ops.length; i += 400) {
@@ -22218,7 +22519,7 @@ function ImportarQuartos({ atletas, onFechar, onMudou }) {
       setFeito(ops.length + " atleta" + (ops.length === 1 ? " atualizado" : "s atualizados") + ".");
       setLinhas(null);
       if (onMudou) onMudou();
-    } catch (e) { alert("Não consegui salvar: " + e.message); }
+    } catch (e) { avisoApp("Não consegui salvar: " + e.message); }
     setSalvando(false);
   }
 
@@ -22320,14 +22621,14 @@ function EditorQuartos({ atletas, usuario, onFechar, onSalvou }) {
 
   async function salvar() {
     const limpo = sanearQuartosAloj(grupos.map((g) => ({ ...g, quartos: g.quartos.map((q) => ({ ...q, nome: String(q.nome).trim() })) })));
-    if (!limpo) { alert("Cadastre pelo menos um quarto."); return; }
+    if (!limpo) { avisoApp("Cadastre pelo menos um quarto."); return; }
     setSalvando(true);
     try {
       await db.collection(COL_ALOJ_CONFIG).doc("quartos").set({ grupos: limpo, atualizado_em: firebase.firestore.FieldValue.serverTimestamp(), atualizado_por: usuario.id });
       aplicarQuartosAloj(limpo);
       quartosAlojPromessa = Promise.resolve(QUARTOS_ALOJ);
       if (onSalvou) onSalvou();
-    } catch (e) { alert("Não consegui salvar os quartos: " + e.message); }
+    } catch (e) { avisoApp("Não consegui salvar os quartos: " + e.message); }
     setSalvando(false);
   }
 
@@ -22406,19 +22707,19 @@ function PainelQuartos({ atletas, usuario, onMudou }) {
       setMud((m) => ({ ...m, [a.id]: { ...(m[a.id] || {}), ...campos } }));
       avisar(msg);
       if (onMudou) onMudou();
-    } catch (e) { alert("Não consegui salvar: " + e.message); }
+    } catch (e) { avisoApp("Não consegui salvar: " + e.message); }
     setSalvando(null);
   }
-  function colocar(q, a) {
+  async function colocar(q, a) {
     const atual = quartoValido(a);
     if (atual && atual.id === q.id) return;
-    if ((noQuarto[q.id] || []).length >= q.camas) { alert(q.nome + " já está cheio."); return; }
-    if (atual && !window.confirm(nomeExibicao(a) + " está em " + rotuloQuarto(atual.id, true) + ". Mudar para " + rotuloQuarto(q.id, true) + "?")) return;
+    if ((noQuarto[q.id] || []).length >= q.camas) { avisoApp(q.nome + " já está cheio."); return; }
+    if (atual && !await confirmarApp(nomeExibicao(a) + " está em " + rotuloQuarto(atual.id, true) + ". Mudar para " + rotuloQuarto(q.id, true) + "?")) return;
     setAberto(null); setBusca("");
     gravar(a, { quarto: q.id, alojamento: q.grupo.aloj }, nomeExibicao(a) + " foi para " + rotuloQuarto(q.id, true));
   }
-  function tirar(a) {
-    if (!window.confirm("Tirar " + nomeExibicao(a) + " do quarto? Ele continua como " + a.alojamento + ", sem quarto.")) return;
+  async function tirar(a) {
+    if (!await confirmarApp("Tirar " + nomeExibicao(a) + " do quarto? Ele continua como " + a.alojamento + ", sem quarto.")) return;
     gravar(a, { quarto: "" }, nomeExibicao(a) + " saiu do quarto");
   }
 
@@ -22473,7 +22774,7 @@ function PainelQuartos({ atletas, usuario, onMudou }) {
       <div className="quartos-resumo">
         {ALOJAMENTOS.map((al) => <div key={al} className="conv-contador"><b>{ocupadas(al)}/{totalCamas(al)}</b><span>camas ocupadas · {al.replace("Alojamento ", "")}</span></div>)}
         <div className={"conv-contador" + (semQuarto.length ? " pendente" : " ok")}><b>{semQuarto.length}</b><span>alojados sem quarto</span></div>
-        <button type="button" className="pill-btn" style={{ alignSelf: "center" }} onClick={() => pdfQuartos(ativos, usuario).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF dos quartos</button>
+        <button type="button" className="pill-btn" style={{ alignSelf: "center" }} onClick={() => pdfQuartos(ativos, usuario).catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF dos quartos</button>
         {pode && !editando && <button type="button" className="pill-btn" style={{ alignSelf: "center" }} onClick={() => { setEditando(true); setImportando(false); }}>Cadastrar quartos e camas</button>}
         {pode && !importando && <button type="button" className="pill-btn primary" style={{ alignSelf: "center" }} onClick={() => { setImportando(true); setEditando(false); }}>Importar planilha</button>}
       </div>
@@ -22782,15 +23083,15 @@ function DetalheFimDeSemana({ fds, atletas, usuario, pode, onEditar, onNovo, onR
     const novo = status === atual.status ? { ...atual, status: "" } : { ...atual, status };
     setResp((r) => ({ ...r, [a.id]: novo }));
     try { await db.collection(COL_VIAGENS).doc(fds.id).update({ ["respostas." + a.id]: { status: novo.status || "", busca: novo.busca || "" }, atletas: firebase.firestore.FieldValue.arrayUnion(a.id) }); }
-    catch (e) { alert("Não consegui salvar: " + e.message); setResp((r) => ({ ...r, [a.id]: atual })); }
+    catch (e) { avisoApp("Não consegui salvar: " + e.message); setResp((r) => ({ ...r, [a.id]: atual })); }
   }
   async function salvarBusca(a, valor) {
     const atual = resp[a.id] || {};
     if ((atual.busca || "") === valor) return;
     setResp((r) => ({ ...r, [a.id]: { ...atual, busca: valor } }));
-    try { await db.collection(COL_VIAGENS).doc(fds.id).update({ ["respostas." + a.id]: { status: atual.status || "", busca: valor } }); } catch (e) { alert("Não consegui salvar: " + e.message); }
+    try { await db.collection(COL_VIAGENS).doc(fds.id).update({ ["respostas." + a.id]: { status: atual.status || "", busca: valor } }); } catch (e) { avisoApp("Não consegui salvar: " + e.message); }
   }
-  async function copiar(t, msg) { try { await copiarTexto(t); avisar(msg); } catch (e) { alert("Não consegui copiar. Selecione o texto e copie manualmente."); } }
+  async function copiar(t, msg) { try { await copiarTexto(t); avisar(msg); } catch (e) { avisoApp("Não consegui copiar. Selecione o texto e copie manualmente."); } }
   const resumo = () => {
     const l = ["Fim de semana " + formatarData(fds.data_saida) + " a " + formatarData(fds.data_retorno), ""];
     l.push("Vão para casa (" + vao.length + "):");
@@ -22817,10 +23118,10 @@ function DetalheFimDeSemana({ fds, atletas, usuario, pode, onEditar, onNovo, onR
     const uso = {};
     movem.forEach((a) => { if (escolha[a.id]) uso[escolha[a.id]] = (uso[escolha[a.id]] || 0) + 1; });
     const estoura = quartosApto.find((q) => (uso[q.id] || 0) > livres[q.id]);
-    if (estoura) { alert(rotuloQuarto(estoura.id, true) + " passou do número de camas livres. Ajuste antes de confirmar."); return; }
+    if (estoura) { avisoApp(rotuloQuarto(estoura.id, true) + " passou do número de camas livres. Ajuste antes de confirmar."); return; }
     const indo = movem.filter((a) => escolha[a.id]);
-    if (!indo.length) { alert("Ninguém para transferir."); return; }
-    if (!window.confirm("Transferir " + indo.length + " atleta(s) da casa para o apartamento neste fim de semana?")) return;
+    if (!indo.length) { avisoApp("Ninguém para transferir."); return; }
+    if (!await confirmarApp("Transferir " + indo.length + " atleta(s) da casa para o apartamento neste fim de semana?")) return;
     setTrabalhando(true);
     const registro = {}; const falhas = [];
     for (const a of indo) {
@@ -22837,12 +23138,12 @@ function DetalheFimDeSemana({ fds, atletas, usuario, pode, onEditar, onNovo, onR
     setTransf((t) => ({ ...t, ...registro }));
     rascTransf.limpar(); setPlano(null); setTrabalhando(false);
     if (onMudouAtletas) await onMudouAtletas();
-    if (falhas.length) alert("Não consegui transferir: " + falhas.join(", ")); else avisar(Object.keys(registro).length + " atleta(s) transferidos para o apartamento");
+    if (falhas.length) avisoApp("Não consegui transferir: " + falhas.join(", ")); else avisar(Object.keys(registro).length + " atleta(s) transferidos para o apartamento");
   }
   async function desfazerTransferencia() {
     const ids = Object.keys(transf);
     if (!ids.length) return;
-    if (!window.confirm("Voltar " + ids.length + " atleta(s) para os quartos de origem?")) return;
+    if (!await confirmarApp("Voltar " + ids.length + " atleta(s) para os quartos de origem?")) return;
     setTrabalhando(true);
     const porId = {}; (atletas || []).forEach((a) => { porId[a.id] = a; });
     const pulados = []; const voltaram = [];
@@ -22857,11 +23158,11 @@ function DetalheFimDeSemana({ fds, atletas, usuario, pode, onEditar, onNovo, onR
       const upd = { devolvido_em: firebase.firestore.FieldValue.serverTimestamp(), historico_transferencia: { ...(fds.historico_transferencia || {}), ...transf } };
       voltaram.forEach((id) => { upd["transferencia." + id] = firebase.firestore.FieldValue.delete(); });
       await db.collection(COL_VIAGENS).doc(fds.id).update(upd);
-    } catch (e) { alert("Os atletas voltaram, mas não consegui atualizar o registro: " + e.message); }
+    } catch (e) { avisoApp("Os atletas voltaram, mas não consegui atualizar o registro: " + e.message); }
     setTransf((t) => { const n = { ...t }; voltaram.forEach((id) => delete n[id]); return n; });
     setTrabalhando(false);
     if (onMudouAtletas) await onMudouAtletas();
-    if (pulados.length) alert("Estes já tinham mudado de quarto depois da transferência e ficaram onde estão: " + pulados.join(", "));
+    if (pulados.length) avisoApp("Estes já tinham mudado de quarto depois da transferência e ficaram onde estão: " + pulados.join(", "));
     else avisar("Todos voltaram para os quartos de origem");
     if (onRecarregar) onRecarregar();
   }
@@ -22877,7 +23178,7 @@ function DetalheFimDeSemana({ fds, atletas, usuario, pode, onEditar, onNovo, onR
       <div className="panel">
         <div className="panel-head">
           <h3>Fim de semana · {formatarData(fds.data_saida)} a {formatarData(fds.data_retorno)}</h3>
-          {pode && <div className="enc-acoes" style={{ margin: 0 }}><button type="button" className="pill-btn" onClick={() => pdfFimDeSemana({ ...fds, respostas: resp, transferencia: transf }, atletas, usuario).catch((e) => alert("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF</button><button type="button" className="pill-btn" onClick={onEditar}>Editar datas</button><button type="button" className="pill-btn" onClick={onNovo}>+ Novo fim de semana</button></div>}
+          {pode && <div className="enc-acoes" style={{ margin: 0 }}><button type="button" className="pill-btn" onClick={() => pdfFimDeSemana({ ...fds, respostas: resp, transferencia: transf }, atletas, usuario).catch((e) => avisoApp("Não consegui gerar: " + e.message))}><Icone nome="pdf" />PDF</button><button type="button" className="pill-btn" onClick={onEditar}>Editar datas</button><button type="button" className="pill-btn" onClick={onNovo}>+ Novo fim de semana</button></div>}
         </div>
         <div className="panel-body fds-corpo">
           <div className="quartos-resumo" style={{ marginBottom: 6 }}>
@@ -22988,7 +23289,7 @@ function PainelViagens({ atletas, usuario }) {
   const hoje = hojeISO();
   const proximas = viagens.filter((v) => (v.data_volta || v.data_ida || "") >= hoje).reverse();
   const passadas = viagens.filter((v) => (v.data_volta || v.data_ida || "") < hoje);
-  async function apagar(v) { if (!window.confirm("Apagar a viagem " + (v.titulo || "") + "?")) return; try { await db.collection(COL_VIAGENS).doc(v.id).delete(); carregar(); } catch (e) { alert("Não consegui apagar: " + e.message); } }
+  async function apagar(v) { if (!await confirmarApp("Apagar a viagem " + (v.titulo || "") + "?")) return; try { await db.collection(COL_VIAGENS).doc(v.id).delete(); carregar(); } catch (e) { avisoApp("Não consegui apagar: " + e.message); } }
   const cartao = (v) => {
     const aut = Object.values(v.autorizacoes || {}).filter(Boolean).length;
     return (
@@ -23206,7 +23507,7 @@ function CartaoResumoSemanal({ usuario }) {
         <span>Jogos, presença, carga, lançamentos de cada área, lesões novas, atletas em alerta, restrições e encaminhamentos num PDF só.</span>
         <div className="resumo-acoes">
           <select value={semana} onChange={(e) => setSemana(e.target.value)}>{opcoes.map((w) => <option key={w} value={w}>{formatarData(w)} a {formatarData(somarDiasISO(w, 6))}{w === semanaPassada ? " (semana passada)" : w === segundaDaSemana(hojeISO()) ? " (esta semana)" : ""}</option>)}</select>
-          <button type="button" className="pill-btn primary" disabled={gerando} onClick={async () => { setGerando(true); try { await baixarResumoSemanalPdf(usuario, semana); } catch (e) { alert("Não consegui gerar o PDF: " + e.message); } setGerando(false); }}><Icone nome="pdf" />{gerando ? "Gerando..." : "Baixar resumo"}</button>
+          <button type="button" className="pill-btn primary" disabled={gerando} onClick={async () => { setGerando(true); try { await baixarResumoSemanalPdf(usuario, semana); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } setGerando(false); }}><Icone nome="pdf" />{gerando ? "Gerando..." : "Baixar resumo"}</button>
         </div>
       </div>
     </div>
@@ -23454,11 +23755,11 @@ function ViewAtas({ usuario }) {
         tx.update(ref, { tarefas: final, atualizado_por_nome: nomeUsuario(usuario), atualizado_em: firebase.firestore.FieldValue.serverTimestamp() });
       });
       setAtas((l) => l.map((x) => (x.id === a.id ? { ...x, tarefas: final } : x)));
-    } catch (e) { alert("Não consegui atualizar: " + e.message); }
+    } catch (e) { avisoApp("Não consegui atualizar: " + e.message); }
   }
   async function apagar(a) {
-    if (!window.confirm("Apagar a ata \"" + (a.titulo || "") + "\"? Não dá para desfazer.")) return;
-    try { await db.collection(COL_ATAS).doc(a.id).delete(); setAberta(null); carregar(); } catch (e) { alert("Não consegui apagar: " + e.message); }
+    if (!await confirmarApp("Apagar a ata \"" + (a.titulo || "") + "\"? Não dá para desfazer.")) return;
+    try { await db.collection(COL_ATAS).doc(a.id).delete(); setAberta(null); carregar(); } catch (e) { avisoApp("Não consegui apagar: " + e.message); }
   }
   if (editando) return <div className="page"><FormAta inicial={editando} usuario={usuario} equipe={equipe} onCancelar={() => setEditando(null)} onSalvo={() => { setEditando(null); carregar(); }} /></div>;
   if (atual) {
@@ -23835,7 +24136,7 @@ function grupoData(iso) {
 const SINAIS_FILTRO = [["", "Todos"], ["vermelho", "Fora"], ["amarelo", "Atenção"], ["verde", "Liberado"], ["neutro", "Informativo"]];
 const PERIODOS_FILTRO = [["", "Todo o período"], ["7", "7 dias"], ["30", "30 dias"], ["90", "90 dias"]];
 
-function LancamentosRecentes({ registros, colSpan, render, onAbrir, area, atletas }) {
+function LancamentosRecentes({ registros, colSpan, render, onAbrir, area, atletas, onApagado }) {
   const [aberto, setAberto] = React.useState(false);
   const [fBusca, setFBusca] = React.useState("");
   const [fTipo, setFTipo] = React.useState("");
@@ -23858,7 +24159,25 @@ function LancamentosRecentes({ registros, colSpan, render, onAbrir, area, atleta
   const linhaDe = ({ athleteId, r, i }) => {
     const linha = render(athleteId, r, i);
     if (!onAbrir || !linha) return linha;
-    return React.cloneElement(linha, { className: ((linha.props.className || "") + " linha-clicavel").trim(), onClick: () => onAbrir(athleteId, r), title: "Abrir o lançamento" });
+    return React.cloneElement(linha, { className: ((linha.props.className || "") + " linha-clicavel").trim(), onClick: () => onAbrir(athleteId, r), title: "Abrir o lançamento",
+      onContextMenu: (e) => {
+        const regs = (registros && registros[athleteId]) || [];
+        const ligados = regs.filter((x) => x.tipo === "Acompanhamento" && x.ref_registro === r.id);
+        const ehAutor = !!r.autor_uid && r.autor_uid === uidAtual() && ligados.every((x) => x.autor_uid === r.autor_uid);
+        const pode = !!onApagado && !!area && (podeApagar(usuarioLogadoGlobal) || ehAutor) && !!SUBCOLS[area] && !!r.id;
+        const atl = ATLETAS_INDICE.get(athleteId);
+        abrirMenuContexto(e, [
+          { secao: (r.tipo || "Lançamento") + (r.data ? " · " + formatarData(r.data) : "") },
+          { rotulo: "Abrir lançamento", icone: "↗", acao: () => onAbrir(athleteId, r) },
+          atl && { rotulo: "Ver resumo de " + nomeExibicao(atl), icone: "◐", acao: () => abrirGavetaAtleta(athleteId, () => abrirPerfilCompletoAtleta(athleteId)) },
+          atl && { rotulo: "Abrir perfil completo", icone: "↗", acao: () => abrirPerfilCompletoAtleta(athleteId) },
+          pode && { sep: true },
+          pode && { rotulo: ligados.length ? "Apagar lançamento e " + ligados.length + " evolução(ões)" : "Apagar lançamento", icone: "✕", perigo: true, acao: async () => {
+            if (!(await confirmarApp("Apagar este lançamento" + (ligados.length ? " e as " + ligados.length + " evoluções ligadas a ele" : "") + "? Não dá para desfazer."))) return;
+            try { await apagarLancamento(athleteId, area, r, ligados); limparCacheLeitura(); onApagado(); } catch (err) { avisoApp("Não consegui apagar: " + err.message); }
+          } },
+        ]);
+      } });
   };
   const contagem = {}; lista.forEach(({ r }) => { const g = grupoData(r.data); contagem[g] = (contagem[g] || 0) + 1; });
   let grupoAtual = null;
@@ -24189,7 +24508,7 @@ async function baixarConvocacaoPdf(evento, titulares, reservas, usuario, numeroD
   try {
     await carregarBiblioteca("pdf");
   } catch (e) {
-    alert(e.message);
+    avisoApp(e.message);
     return;
   }
   const doc = novoDocPdf();
@@ -25164,7 +25483,7 @@ function EditorPosJogo({ jogadores, pos, setPos, placar, setPlacar, porId, mudou
 
 /** Relatório completo de um jogo (pré e pós-jogo) em PDF. */
 async function baixarRelatorioJogoPdf(evento, porId, usuario) {
-  try { await carregarBiblioteca("pdf"); } catch (e) { alert(e.message); return; }
+  try { await carregarBiblioteca("pdf"); } catch (e) { avisoApp(e.message); return; }
   const r = resumoJogo(evento, porId);
   const doc = novoDocPdf();
   const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
@@ -25254,7 +25573,7 @@ function somarJogosPorAtleta(resumos) {
   return Object.values(m).sort((a, b) => b.minutos - a.minutos || nomeExibicao(a.atleta).localeCompare(nomeExibicao(b.atleta)));
 }
 async function baixarRelatorioJogosPdf(eventosEscolhidos, porId, usuario, descricao) {
-  try { await carregarBiblioteca("pdf"); } catch (e) { alert(e.message); return; }
+  try { await carregarBiblioteca("pdf"); } catch (e) { avisoApp(e.message); return; }
   const ordenados = eventosEscolhidos.slice().sort((a, b) => (a.data + (a.hora || "")).localeCompare(b.data + (b.hora || "")));
   const resumos = ordenados.map((e) => resumoJogo(e, porId));
   const somas = somarJogosPorAtleta(resumos);
@@ -25480,7 +25799,7 @@ function ListaJogosRealizados({ jogos, atletas, usuario, onAbrir, filtrosExterno
     const base = escolhidos.length ? escolhidos : filtrados;
     const partes = [cat ? labelCategoriaEvento(cat) : "", comp, rotuloFiltro || "", de || ate ? (de ? formatarData(de) : "início") + " a " + (ate ? formatarData(ate) : "hoje") : ""].filter(Boolean).join(" · ");
     try { await baixarRelatorioTreinadoresPdf(base, atletas, usuario, partes ? "Não relacionados e números · " + partes : ""); }
-    catch (e) { alert("Não consegui gerar o relatório: " + e.message); }
+    catch (e) { avisoApp("Não consegui gerar o relatório: " + e.message); }
     finally { setGerando(false); }
   }
   return (
@@ -25645,7 +25964,7 @@ function BotaoExcluirEvento({ evento, rotulo, onExcluido }) {
   async function excluir() {
     setOcupado(true);
     try { await excluirEvento(evento.id); limparCacheLeitura && limparCacheLeitura(); onExcluido && onExcluido(); }
-    catch (e) { alert("Não consegui excluir: " + e.message); setOcupado(false); }
+    catch (e) { avisoApp("Não consegui excluir: " + e.message); setOcupado(false); }
   }
   if (!confirmando) return <button type="button" className="pill-btn perigo" onClick={() => setConfirmando(true)}>Excluir {rotulo}</button>;
   return (
@@ -26537,14 +26856,14 @@ function DetalheCampeonato({ campeonato, eventos, atletas, usuario, onVoltar, on
   }
   async function excluir() {
     if (jogos.length) { setMsg({ tipo: "erro", texto: "Este campeonato tem " + jogos.length + " jogo(s). Exclua ou desligue os jogos antes." }); return; }
-    if (!window.confirm("Excluir o campeonato " + c.nome + "? A lista de inscritos e a classificação são apagadas.")) return;
+    if (!await confirmarApp("Excluir o campeonato " + c.nome + "? A lista de inscritos e a classificação são apagadas.")) return;
     try { await db.collection(COL_CAMPEONATOS).doc(c.id).delete(); onMudou(); onVoltar(); } catch (e) { setMsg({ tipo: "erro", texto: "Não consegui excluir: " + e.message }); }
   }
   async function ligarJogo(e) {
     try { await atualizarCamposEvento(e.id, { campeonato_id: c.id, competicao: c.nome }); limparCacheLeitura(); onMudou(); } catch (x) { setMsg({ tipo: "erro", texto: "Não consegui ligar o jogo: " + x.message }); }
   }
   async function desligarJogo(e) {
-    if (!window.confirm("Tirar " + tituloEvento(e) + " (" + formatarData(e.data) + ") deste campeonato? O jogo continua na agenda.")) return;
+    if (!await confirmarApp("Tirar " + tituloEvento(e) + " (" + formatarData(e.data) + ") deste campeonato? O jogo continua na agenda.")) return;
     try { await atualizarCamposEvento(e.id, { campeonato_id: null }); limparCacheLeitura(); onMudou(); } catch (x) { setMsg({ tipo: "erro", texto: "Não consegui: " + x.message }); }
   }
   async function baixarPdf() { setBaixando(true); try { await baixarPdfInscritos(c, atletas, usuario); } catch (e) { setMsg({ tipo: "erro", texto: "Não consegui gerar o PDF: " + e.message }); } setBaixando(false); }
@@ -27346,7 +27665,7 @@ function TabCarga({ atletas, todosAtletas, eventos, checkins, hoje, onRecarregar
               <span className="carga-botoes">
                 {qtdAutorrelato > 0 && <button type="button" className="pill-btn" onClick={usarRespostas}>Usar {qtdAutorrelato} resposta{qtdAutorrelato > 1 ? "s" : ""} dos atletas</button>}
                 {sessao && sessao.cargas && Object.keys(sessao.cargas).length > 0 && <button type="button" className="pill-btn perigo" disabled={salvando} onClick={async () => {
-                  if (!window.confirm("Apagar a carga lançada nesta sessão?")) return;
+                  if (!await confirmarApp("Apagar a carga lançada nesta sessão?")) return;
                   setSalvando(true); setMensagem(null);
                   try { await atualizarCamposEvento(sessao.id, { cargas: firebase.firestore.FieldValue.delete() }); setValores({}); setAlterado(false); setMensagem({ tipo: "ok", texto: "Carga apagada." }); onRecarregar && onRecarregar(); }
                   catch (e) { setMensagem({ tipo: "erro", texto: "Não consegui apagar: " + e.message }); }
@@ -27564,7 +27883,7 @@ function TabLinks({ atletas, links, onRecarregar }) {
                         {l && <button type="button" className="link-btn" onClick={() => copiar(a)}>{copiado === a.id ? "Copiado" : "Copiar link"}</button>}
                         {l && <button type="button" className="link-btn" onClick={() => setAberto(aberto === a.id ? null : a.id)}>{aberto === a.id ? "Esconder QR" : "Mostrar QR"}</button>}
                         {l && <button type="button" className="link-btn" onClick={() => renovar(a)} disabled={!!ocupado}>Gerar novo</button>}
-                        {l && <button type="button" className="link-btn perigo" onClick={() => { if (window.confirm("Excluir o link de " + nomeExibicao(a) + "? O link antigo para de funcionar.")) desativar(a); }} disabled={!!ocupado}>Excluir link</button>}
+                        {l && <button type="button" className="link-btn perigo" onClick={async () => { if (await confirmarApp("Excluir o link de " + nomeExibicao(a) + "? O link antigo para de funcionar.")) desativar(a); }} disabled={!!ocupado}>Excluir link</button>}
                       </div></td>
                     </tr>
                     {l && aberto === a.id && (
@@ -27832,9 +28151,9 @@ function PainelMonitoramentoAtleta({ atleta }) {
   const [recarga, setRecarga] = useState(0);
   const podeApagarResposta = podeApagar() || podeGerirCheckin(usuarioLogadoGlobal);
   async function apagarResposta(c) {
-    if (!window.confirm("Apagar a resposta de " + formatarData(c.data) + "?")) return;
+    if (!await confirmarApp("Apagar a resposta de " + formatarData(c.data) + "?")) return;
     try { await db.collection(COL_CHECKINS).doc(c.id).delete(); limparCacheLeitura && limparCacheLeitura(); setRecarga((n) => n + 1); }
-    catch (e) { alert("Não consegui apagar: " + e.message); }
+    catch (e) { avisoApp("Não consegui apagar: " + e.message); }
   }
 
   useEffect(() => {
@@ -28268,8 +28587,8 @@ function EditorQuadroTela({ quadro, onSalvar, onFechar }) {
     const fora = itens.filter((it) => !sel.includes(it.id)), dentro = itens.filter((it) => sel.includes(it.id));
     aplicar(frente ? [...fora, ...dentro] : [...dentro, ...fora]);
   }
-  function fechar() {
-    if (alterado && !window.confirm("Sair sem aplicar as mudanças do desenho?")) { history.pushState && null; return; }
+  async function fechar() {
+    if (alterado && !await confirmarApp("Sair sem aplicar as mudanças do desenho?")) { history.pushState && null; return; }
     onFechar();
   }
   function concluir() { onSalvar({ ...(quadro || {}), campo, linhas: linhasQ, itens }); }
@@ -28417,7 +28736,7 @@ function EditorQuadroTela({ quadro, onSalvar, onFechar }) {
           <button type="button" className={"qe-btn" + (linhasQ !== "limpo" ? " on" : "")} aria-pressed={linhasQ !== "limpo"} onClick={() => { setLinhasQ("completo"); setAlterado(true); }} title="Campo com área, meio-campo e círculo">Com marcações</button>
           <button type="button" className={"qe-btn" + (linhasQ === "limpo" ? " on" : "")} aria-pressed={linhasQ === "limpo"} onClick={() => { setLinhasQ("limpo"); setAlterado(true); }} title="Só as linhas laterais e de fundo">Sem linhas</button>
         </div>
-        <button type="button" className="qe-btn" onClick={() => { if (itens.length && window.confirm("Apagar todo o desenho?")) { aplicar([]); setSel([]); } }} disabled={!itens.length}>Limpar</button>
+        <button type="button" className="qe-btn" onClick={async () => { if (itens.length && await confirmarApp("Apagar todo o desenho?")) { aplicar([]); setSel([]); } }} disabled={!itens.length}>Limpar</button>
         <button type="button" className="qe-btn primario" onClick={concluir}>Concluir</button>
       </div>
 
@@ -29386,7 +29705,7 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
   const setP = (c, v) => setPlano((p) => ({ ...p, [c]: v }));
   const setBloco = (id, mud) => setPlano((p) => ({ ...p, blocos: p.blocos.map((b) => (b.id === id ? { ...b, ...mud } : b)) }));
   const moverBloco = (i, d) => setPlano((p) => { const bl = p.blocos.slice(); const j = i + d; if (j < 0 || j >= bl.length) return p; [bl[i], bl[j]] = [bl[j], bl[i]]; return { ...p, blocos: bl }; });
-  const removerBloco = (id) => { if (!window.confirm("Remover esta atividade?")) return; setPlano((p) => ({ ...p, blocos: p.blocos.filter((b) => b.id !== id) })); };
+  const removerBloco = async (id) => { if (!await confirmarApp("Remover esta atividade?")) return; setPlano((p) => ({ ...p, blocos: p.blocos.filter((b) => b.id !== id) })); };
   const addBloco = () => { const a = atividadeEcmnVazia(); setPlano((p) => ({ ...p, blocos: [...p.blocos, a] })); setAberta(a.id); };
   const duplicarBloco = (id) => setPlano((p) => {
     const i = p.blocos.findIndex((b) => b.id === id); if (i < 0) return p;
@@ -29512,7 +29831,7 @@ function EditorPlanoTreinoEcmn({ evento, atletas, usuario, onFechar, categoriaPa
             <textarea rows="3" value={plano.objetivos_semana} onChange={(e) => setP("objetivos_semana", e.target.value)} placeholder={OBJETIVO_SEMANA_MODELO} />
             <div className="obj-semana-acoes">
               {!plano.objetivos_semana && <button type="button" className="link-btn" onClick={() => setP("objetivos_semana", OBJETIVO_SEMANA_MODELO)}>Usar o texto modelo</button>}
-              {refObj.anterior && plano.objetivos_semana !== refObj.anterior.plano_treino.objetivos_semana && <button type="button" className="link-btn" onClick={() => { if ((plano.objetivos_semana || "").trim() && !window.confirm("Trocar o texto atual pelo do treino anterior?")) return; setP("objetivos_semana", refObj.anterior.plano_treino.objetivos_semana); setObjOrigem(refObj.anterior); }}>Pegar do treino anterior ({formatarData(refObj.anterior.data).slice(0, 5)})</button>}
+              {refObj.anterior && plano.objetivos_semana !== refObj.anterior.plano_treino.objetivos_semana && <button type="button" className="link-btn" onClick={async () => { if ((plano.objetivos_semana || "").trim() && !await confirmarApp("Trocar o texto atual pelo do treino anterior?")) return; setP("objetivos_semana", refObj.anterior.plano_treino.objetivos_semana); setObjOrigem(refObj.anterior); }}>Pegar do treino anterior ({formatarData(refObj.anterior.data).slice(0, 5)})</button>}
             </div>
           </div>
           <div className="field"><label>Material</label><input type="text" value={plano.material || ""} onChange={(e) => setP("material", e.target.value)} placeholder="Ex.: 20 cones, 10 coletes, 2 mini-traves, 15 bolas" /></div>
@@ -30856,7 +31175,7 @@ function RelatorioTemporadas({ eventos, fisico, usuario, categoria }) {
   ];
   async function pdf() {
     try { await carregarBiblioteca("pdf"); baixarRelatorioTemporadasPdf({ A, B, kpis, trabalhados, faltaram, sumiram, atividadesB, fisico, ateDia, base, usuario, categoria }); }
-    catch (e) { alert("Não consegui gerar o PDF: " + e.message); }
+    catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); }
   }
   return (
     <div className="plano-analise temporadas">
@@ -31042,7 +31361,7 @@ function BibliotecaTreinos({ eventos, fisico, onUsar, onPdf, onMudou }) {
   const lista = todos.filter((x) => (!soFav || x.favorito) && (!q || semAcento([x.evento.titulo, ...conteudosDoTreino(x.evento), ...((x.evento.plano_treino || {}).blocos || []).map((b) => b.titulo + " " + (b.metodo || ""))].join(" ")).includes(q)))
     .sort((a, b) => (b.favorito - a.favorito) || b.ultima.localeCompare(a.ultima));
   async function favoritar(x) {
-    try { await atualizarCamposEvento(x.evento.id, { favorito_biblioteca: !x.favorito }); onMudou && onMudou(); } catch (e) { alert("Não consegui marcar: " + e.message); }
+    try { await atualizarCamposEvento(x.evento.id, { favorito_biblioteca: !x.favorito }); onMudou && onMudou(); } catch (e) { avisoApp("Não consegui marcar: " + e.message); }
   }
   return (
     <div className="panel">
@@ -32085,7 +32404,7 @@ function PainelAssinatura({ uid }) {
                 <small>{atual.em ? "Cadastrada em " + formatarData(String(atual.em).slice(0, 10)) : ""}</small>
                 <div className="pad-acoes">
                   <button type="button" className="pill-btn" onClick={() => setDesenhar(true)}>Desenhar de novo</button>
-                  <button type="button" className="link-btn perigo" disabled={salvando} onClick={() => { if (window.confirm("Apagar sua assinatura?")) salvar(null); }}>Apagar assinatura</button>
+                  <button type="button" className="link-btn perigo" disabled={salvando} onClick={async () => { if (await confirmarApp("Apagar sua assinatura?")) salvar(null); }}>Apagar assinatura</button>
                 </div>
               </div>
             )}
@@ -32339,7 +32658,7 @@ function ViewDocumentos({ usuario }) {
     setOcupado(null);
   }
   async function apagar(d) {
-    if (!window.confirm("Apagar \"" + d.titulo + "\" para todo mundo?")) return;
+    if (!await confirmarApp("Apagar \"" + d.titulo + "\" para todo mundo?")) return;
     setOcupado(d.id + "x");
     try { const s = await db.collection(COL_DOCUMENTOS).doc(d.id).collection("partes").get(); for (const p of s.docs) await p.ref.delete(); await db.collection(COL_DOCUMENTOS).doc(d.id).delete(); await carregar(); }
     catch (e) { setMsg({ ok: false, t: "Não consegui apagar: " + e.message }); }
@@ -32467,7 +32786,7 @@ function instrumentarDocPdf(doc) {
         avisoTecla("Encaminhando o documento...");
         enviarDocumento({ blob: doc.output("blob"), nome, para: esc.para, nomes: esc.nomes, recado: esc.recado, assinadoNoDocumento: !!esc.ass })
           .then(() => avisoTecla("Documento encaminhado para " + esc.para.length + " pessoa" + (esc.para.length === 1 ? "" : "s")))
-          .catch((e) => window.alert(/permission/i.test(e.message) ? "O documento não foi encaminhado: o banco ainda não aceita documentos. O admin precisa publicar a regra nova (aparece para ele em Comunicação › Documentos)." : "O documento não foi encaminhado: " + e.message));
+          .catch((e) => avisoApp(/permission/i.test(e.message) ? "O documento não foi encaminhado: o banco ainda não aceita documentos. O admin precisa publicar a regra nova (aparece para ele em Comunicação › Documentos)." : "O documento não foi encaminhado: " + e.message));
       }
     });
     return doc;
@@ -32549,7 +32868,7 @@ function FolhaAvaliacaoConstructos({ atleta, usuario, onFechar, onMudou }) {
     carregarPerfis().then((l) => { const m = {}; l.forEach((p) => { m[p.id] = p; }); setPerfis(m); }).catch(() => {});
   }, []);
   const res = avals ? resumoConstructos(avals) : {};
-  async function pdf() { setBaixando(true); try { await baixarAvaliacaoConstructosPdf(atleta, avals || [], perfis); } catch (e) { alert("Não consegui gerar o PDF: " + e.message); } setBaixando(false); }
+  async function pdf() { setBaixando(true); try { await baixarAvaliacaoConstructosPdf(atleta, avals || [], perfis); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } setBaixando(false); }
   return (
     <div className="lanc-fundo" onClick={onFechar}>
       <div className="lanc-folha aval-folha" role="dialog" aria-modal="true" aria-label={"Avaliação de " + nomeExibicao(atleta)} onClick={(e) => e.stopPropagation()}>
@@ -33590,8 +33909,8 @@ function ThreadConversa({ conversa, usuario, pessoas, atletas, onVoltar, onNavig
   function abrirAtleta(id) { if (!pedirAberturaAtleta(id)) onNavigate("elenco", { manterPendente: true }); }
   async function apagar(m) {
     setMenuMsg(null);
-    if (!window.confirm("Apagar esta mensagem para todos?")) return;
-    await db.collection(COL_CONVERSAS).doc(conversa.id).collection("mensagens").doc(m.id).update({ apagada: true, texto: "", atletas: [], resposta: null }).catch((e) => alert("Não consegui apagar: " + e.message));
+    if (!await confirmarApp("Apagar esta mensagem para todos?")) return;
+    await db.collection(COL_CONVERSAS).doc(conversa.id).collection("mensagens").doc(m.id).update({ apagada: true, texto: "", atletas: [], resposta: null }).catch((e) => avisoApp("Não consegui apagar: " + e.message));
   }
   async function alternarSilencio() {
     await db.collection(COL_CONVERSAS).doc(conversa.id).update({ ["silenciado." + usuario.id]: !silenciada }).catch(() => null);
@@ -33753,7 +34072,7 @@ function ParticipantesGrupo({ conversa, usuario, pessoas, onFechar, onSaiu }) {
     } catch (e) { setErro("Não consegui salvar: " + e.message); setSalvando(false); }
   }
   async function sair() {
-    if (!window.confirm("Sair do grupo " + conversa.nome + "? Você deixa de ver as mensagens.")) return;
+    if (!await confirmarApp("Sair do grupo " + conversa.nome + "? Você deixa de ver as mensagens.")) return;
     try { await db.collection(COL_CONVERSAS).doc(conversa.id).update({ membros: firebase.firestore.FieldValue.arrayRemove(usuario.id) }); onSaiu(); }
     catch (e) { setErro("Não consegui sair: " + e.message); }
   }
@@ -33932,7 +34251,8 @@ function TagNivelAviso({ nivel }) {
     : <span className="aviso-tag info"><span className="quadrado"></span>Informativo</span>;
 }
 
-function NovoAviso({ usuario, onEnviado }) {
+const COL_AVISOS_AGENDADOS = "ct_avisos_agendados";
+function NovoAviso({ usuario, onEnviado, inicial, agendarPadrao, quandoPadrao }) {
   const { useState, useEffect } = React;
   const [pessoas, setPessoas] = useState(null);
   const [modo, setModo] = useState("Pessoas");
@@ -33940,10 +34260,13 @@ function NovoAviso({ usuario, onEnviado }) {
   const [deptos, setDeptos] = useState({});
   const [busca, setBusca] = useState("");
   const [nivel, setNivel] = useState("informativo");
-  const [titulo, setTitulo] = useState("");
-  const [mensagem, setMensagem] = useState("");
+  const [titulo, setTitulo] = useState((inicial && inicial.titulo) || "");
+  const [mensagem, setMensagem] = useState((inicial && inicial.mensagem) || "");
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState(null);
+  const [quando, setQuando] = useState(agendarPadrao ? "Agendar" : "Agora");
+  const [diaAg, setDiaAg] = useState((quandoPadrao || "").slice(0, 10) || hojeISO());
+  const [horaAg, setHoraAg] = useState((quandoPadrao || "").slice(11, 16) || "08:00");
 
   useEffect(() => { carregarDestinatarios(usuario).then(setPessoas).catch(() => setPessoas([])); }, []);
   if (!pessoas) return <SkeletonPanel />;
@@ -33962,6 +34285,10 @@ function NovoAviso({ usuario, onEnviado }) {
     if (!titulo.trim()) { setErro("Escreva um título."); return; }
     if (!mensagem.trim()) { setErro("Escreva a mensagem."); return; }
     if (alvo.length > 300) { setErro("Um aviso vai para no máximo 300 pessoas."); return; }
+    const agendar = quando === "Agendar";
+    const momento = agendar ? new Date(diaAg + "T" + (horaAg || "08:00") + ":00") : null;
+    if (agendar && (!diaAg || isNaN(momento.getTime()))) { setErro("Escolha o dia e a hora do envio."); return; }
+    if (agendar && momento.getTime() < Date.now() + 60000) { setErro("Escolha um horário no futuro."); return; }
     setEnviando(true);
     try {
       const nomes = {};
@@ -33970,16 +34297,21 @@ function NovoAviso({ usuario, onEnviado }) {
       const alvoTexto = modo === "Toda a equipe" ? "Toda a equipe"
         : modo === "Departamento" ? Object.keys(deptos).filter((d) => deptos[d]).join(", ")
         : alvo.length === 1 ? nomes[alvo[0].id] : `${alvo.length} pessoas`;
-      await db.collection(COL_AVISOS).add({
+      const base = {
         remetente_uid: usuario.id,
         remetente_nome: String(eu.nome || usuario.nome || usuario.email || "Equipe").slice(0, 80),
         destinatarios: alvo.map((p) => p.id),
         nomes, alvo_texto: alvoTexto.slice(0, 200),
         nivel, titulo: titulo.trim().slice(0, LIMITE_TITULO_AVISO), mensagem: mensagem.trim().slice(0, LIMITE_MENSAGEM_AVISO),
-        lidos: {}, criado_em: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+        ...(inicial && inicial.evento_id ? { evento_id: inicial.evento_id } : {}),
+      };
+      if (agendar) {
+        await db.collection(COL_AVISOS_AGENDADOS).add({ ...base, enviar_em: firebase.firestore.Timestamp.fromDate(momento), status: "agendado", criado_em: firebase.firestore.FieldValue.serverTimestamp() });
+      } else {
+        await db.collection(COL_AVISOS).add({ ...base, lidos: {}, criado_em: firebase.firestore.FieldValue.serverTimestamp() });
+      }
       setTitulo(""); setMensagem(""); setEscolhidos({});
-      onEnviado();
+      onEnviado(agendar ? momento : null);
     } catch (e) {
       setErro(erroDePermissao(e) ? "O banco ainda não aceita avisos. O administrador precisa publicar as regras dos avisos no Firebase (aparece no topo desta tela para ele)." : "Não consegui enviar: " + e.message);
     } finally { setEnviando(false); }
@@ -34027,21 +34359,38 @@ function NovoAviso({ usuario, onEnviado }) {
         <div className="perfil-editor-secao">Mensagem</div>
         <div className="field"><label>Título</label><input type="text" maxLength={LIMITE_TITULO_AVISO} value={titulo} onChange={(e) => setTitulo(e.target.value)} placeholder="Ex.: Treino remarcado para 16h" /></div>
         <div className="field"><label>Mensagem</label><textarea rows={5} maxLength={LIMITE_MENSAGEM_AVISO} value={mensagem} onChange={(e) => setMensagem(e.target.value)} placeholder="Escreva o aviso" /></div>
+        <div className="perfil-editor-secao">Quando enviar</div>
+        <TabSelect opcoes={["Agora", "Agendar"]} valor={quando} onChange={setQuando} tamanho="sm" />
+        {quando === "Agendar" && (
+          <div className="aviso-agendar">
+            <div className="field"><label>Dia</label><input type="date" value={diaAg} min={hojeISO()} onChange={(e) => setDiaAg(e.target.value)} /></div>
+            <div className="field"><label>Hora</label><input type="time" value={horaAg} onChange={(e) => setHoraAg(e.target.value)} /></div>
+            <p className="aviso-dica" style={{ flexBasis: "100%", margin: 0 }}>O aviso sai sozinho nesse horário (o robô confere a cada 5 minutos). Até lá, só você vê o aviso em "Agendados" e pode cancelar.</p>
+          </div>
+        )}
         {erro && <div className="access-note" style={{ background: "var(--vermelho-bg)", borderColor: "var(--vermelho)" }}><span>{erro}</span></div>}
         <div className="treino-acoes-fim" style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 6 }}>
-          <button className={"pill-btn primary" + (nivel === "urgente" ? " aviso-btn-urgente" : "")} disabled={enviando} onClick={enviar}>{enviando ? "Enviando..." : nivel === "urgente" ? "Enviar aviso urgente" : "Enviar aviso"}</button>
+          <button className={"pill-btn primary" + (nivel === "urgente" ? " aviso-btn-urgente" : "")} disabled={enviando} onClick={enviar}>{enviando ? (quando === "Agendar" ? "Agendando..." : "Enviando...") : quando === "Agendar" ? "Agendar aviso" : nivel === "urgente" ? "Enviar aviso urgente" : "Enviar aviso"}</button>
         </div>
       </div>
     </div>
   );
 }
 
+function copiarTextoMenu(t) {
+  try { navigator.clipboard.writeText(t).catch(() => avisoApp("Não consegui copiar.")); }
+  catch (e) { avisoApp("Não consegui copiar."); }
+}
 function CartaoAvisoRecebido({ a, usuario }) {
   const { useState } = React;
   const [ocupado, setOcupado] = useState(false);
   const lido = avisoLidoPor(a, usuario.id);
   return (
-    <div className={"aviso-cartao" + (a.nivel === "urgente" ? " urgente" : "") + (lido ? "" : " novo")}>
+    <div className={"aviso-cartao" + (a.nivel === "urgente" ? " urgente" : "") + (lido ? "" : " novo")} onContextMenu={(e) => abrirMenuContexto(e, [
+      { secao: a.titulo || "Aviso" },
+      !lido && { rotulo: a.nivel === "urgente" ? "Marcar como ciente" : "Marcar como lido", icone: "✓", acao: () => marcarAvisoLido(a, usuario.id).catch(() => {}) },
+      { rotulo: "Copiar texto", icone: "⧉", acao: () => copiarTextoMenu((a.titulo ? a.titulo + "\n" : "") + (a.mensagem || "")) },
+    ])}>
       <div className="aviso-cartao-topo">
         <TagNivelAviso nivel={a.nivel} />
         {!lido && <span className="aviso-novo">Novo</span>}
@@ -34069,7 +34418,13 @@ function CartaoAvisoEnviado({ a }) {
   const faltam = dest.filter((u) => !(a.lidos && a.lidos[u]));
   const r = a.push_resultado;
   return (
-    <div className={"aviso-cartao" + (a.nivel === "urgente" ? " urgente" : "")}>
+    <div className={"aviso-cartao" + (a.nivel === "urgente" ? " urgente" : "")} onContextMenu={(e) => abrirMenuContexto(e, [
+      { secao: a.titulo || "Aviso" },
+      { rotulo: aberto ? "Esconder quem leu" : "Ver quem leu", icone: "👁", acao: () => setAberto((v) => !v) },
+      { rotulo: "Copiar texto", icone: "⧉", acao: () => copiarTextoMenu((a.titulo ? a.titulo + "\n" : "") + (a.mensagem || "")) },
+      podeApagarItem(a, "remetente_uid") && { sep: true },
+      podeApagarItem(a, "remetente_uid") && { rotulo: "Apagar aviso", icone: "✕", perigo: true, acao: async () => { if (!(await confirmarApp("Apagar este aviso para todo mundo?"))) return; try { await db.collection(COL_AVISOS).doc(a.id).delete(); } catch (err) { avisoApp("Não consegui apagar: " + err.message); } } },
+    ])}>
       <div className="aviso-cartao-topo">
         <TagNivelAviso nivel={a.nivel} />
         <span className="quando">{quandoAviso(a)}</span>
@@ -34094,7 +34449,7 @@ function CartaoAvisoEnviado({ a }) {
           {leram.length > 0 && <div><small>{a.nivel === "urgente" ? "Cientes" : "Leram"}</small>{leram.map((u) => <span key={u} className="ok">{nomes[u] || "Sem nome"}</span>)}</div>}
           {faltam.length > 0 && <div><small>Ainda não</small>{faltam.map((u) => <span key={u}>{nomes[u] || "Sem nome"}</span>)}</div>}
           {podeApagarItem(a, "remetente_uid") && <button className="pill-btn perigo" disabled={apagando} onClick={async () => {
-            if (!window.confirm("Apagar este aviso para todo mundo?")) return;
+            if (!await confirmarApp("Apagar este aviso para todo mundo?")) return;
             setApagando(true);
             try { await db.collection(COL_AVISOS).doc(a.id).delete(); } catch (e) { setApagando(false); }
           }}>{apagando ? "Apagando..." : "Apagar aviso"}</button>}
@@ -34143,6 +34498,375 @@ function ProximosEventosAvisos({ usuario }) {
   );
 }
 
+/* =====================================================================
+   Palestras: registro (tema, palestrante, setor, resumo) e lista de presença dos atletas.
+   Cada palestra é um evento da agenda (tipo "palestra") com presenca_palestra = { atletaId: status }.
+   Aparece em Comissão técnica › Planejamento e em Saúde e performance.
+   ===================================================================== */
+const SETORES_PALESTRA = ["Psicologia", "Nutrição", "Comissão técnica", "Preparação física", "Fisioterapia", "Medicina", "Serviço Social", "Diretoria", "Convidado externo"];
+const STATUS_PALESTRA = [
+  { id: "presente", label: "Presente", curto: "P" },
+  { id: "faltou", label: "Faltou", curto: "F" },
+  { id: "justificado", label: "Justificado", curto: "J" },
+];
+const anoNascAtleta = (a) => String(a.data_nascimento || "").slice(0, 4);
+function publicoDaPalestra(p, atletas) {
+  const cats = p.publico_categorias || [], anos = p.publico_anos || [];
+  return atletas.filter((a) => !a.inativo && ((!cats.length && !anos.length) || cats.some((c) => atletaNaCategoria(a, c)) || anos.includes(anoNascAtleta(a))));
+}
+function rotuloPublicoPalestra(p) {
+  const cats = (p.publico_categorias || []).map(labelCategoria).filter(Boolean), anos = (p.publico_anos || []).map((y) => "nascidos em " + y);
+  return [...cats, ...anos].join(", ") || "Todos os atletas";
+}
+function resumoPresenca(p, atletas) {
+  const pub = publicoDaPalestra(p, atletas); const pres = p.presenca_palestra || {};
+  const c = { presente: 0, faltou: 0, justificado: 0, sem: 0, total: pub.length };
+  pub.forEach((a) => { const st = pres[a.id]; if (c[st] !== undefined) c[st]++; else c.sem++; });
+  c.pct = c.total ? Math.round((c.presente / c.total) * 100) : 0;
+  return c;
+}
+function BarraPresenca({ c }) {
+  const w = (n) => (c.total ? (n / c.total) * 100 : 0) + "%";
+  return (
+    <div className="pal-barra" title={`${c.presente} presentes · ${c.faltou} faltas · ${c.justificado} justificados · ${c.sem} sem marcar`}>
+      <i className="p" style={{ width: w(c.presente) }}></i><i className="j" style={{ width: w(c.justificado) }}></i><i className="f" style={{ width: w(c.faltou) }}></i>
+    </div>
+  );
+}
+
+function FormPalestra({ inicial, origem, usuario, onSalvo, onCancelar, anosDisponiveis }) {
+  const { useState } = React;
+  const [p, setP] = useState(() => ({ tipo: "palestra", titulo: "", palestrante: "", setor_palestra: origem === "campo" ? "Comissão técnica" : "Psicologia", data: hojeISO(), hora: "", local: "", observacao: "", publico_categorias: [], publico_anos: [], setor: origem === "campo" ? "campo" : "saude", categoria: "ambas", ...(inicial || {}) }));
+  const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState(null);
+  const muda = (k) => (e) => { const v = e.target.value; setP((x) => ({ ...x, [k]: v })); };
+  const alterna = (k, v) => setP((x) => ({ ...x, [k]: (x[k] || []).includes(v) ? x[k].filter((y) => y !== v) : [...(x[k] || []), v] }));
+  async function salvar() {
+    if (!p.titulo.trim()) { setErro("Escreva o tema da palestra."); return; }
+    if (!p.data) { setErro("Escolha a data."); return; }
+    setSalvando(true); setErro(null);
+    try {
+      await salvarEvento({ ...p, titulo: p.titulo.trim(), palestrante: (p.palestrante || "").trim(), local: (p.local || "").trim(), observacao: (p.observacao || "").trim(), categoria: (p.publico_categorias || []).length === 1 ? p.publico_categorias[0] : "ambas" }, usuario);
+      limparCacheLeitura(); onSalvo();
+    } catch (e) { setErro("Não consegui salvar: " + e.message); setSalvando(false); }
+  }
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>{p.id ? "Editar palestra" : "Nova palestra"}</h3></div>
+      <div className="form-panel" style={{ borderTop: "none" }}>
+        <div className="pal-form">
+          <div className="field pal-tema"><label>Tema</label><input type="text" maxLength={140} value={p.titulo} onChange={muda("titulo")} placeholder="Ex.: Sono e recuperação" /></div>
+          <div className="field"><label>Palestrante</label><input type="text" maxLength={80} value={p.palestrante || ""} onChange={muda("palestrante")} placeholder="Nome de quem vai falar" /></div>
+          <div className="field"><label>Setor responsável</label><select value={p.setor_palestra || ""} onChange={muda("setor_palestra")}>{SETORES_PALESTRA.map((x) => <option key={x} value={x}>{x}</option>)}</select></div>
+          <div className="field"><label>Data</label><input type="date" value={p.data} onChange={muda("data")} /></div>
+          <div className="field"><label>Hora</label><input type="time" value={p.hora || ""} onChange={muda("hora")} /></div>
+          <div className="field"><label>Local</label><input type="text" maxLength={80} value={p.local || ""} onChange={muda("local")} placeholder="Ex.: Auditório do CT" /></div>
+        </div>
+        <div className="perfil-editor-secao">Público (quem entra na lista de presença)</div>
+        <div className="pal-chips">
+          {CATEGORIAS_TIME.map((c) => <button key={c.id} type="button" className={"chip-filtro" + ((p.publico_categorias || []).includes(c.id) ? " on" : "")} onClick={() => alterna("publico_categorias", c.id)}>{c.label}</button>)}
+        </div>
+        {anosDisponiveis.length > 0 && <div className="pal-chips">{anosDisponiveis.map((y) => <button key={y} type="button" className={"chip-filtro" + ((p.publico_anos || []).includes(y) ? " on" : "")} onClick={() => alterna("publico_anos", y)}>Nascidos em {y}</button>)}</div>}
+        <p className="aviso-dica" style={{ marginTop: 6 }}>{(p.publico_categorias || []).length || (p.publico_anos || []).length ? "Entram os atletas de " + rotuloPublicoPalestra(p) + "." : "Sem escolha, entram todos os atletas ativos."}</p>
+        <div className="perfil-editor-secao">Resumo e observações</div>
+        <div className="field"><textarea rows={4} maxLength={2000} value={p.observacao || ""} onChange={muda("observacao")} placeholder="O que foi falado, combinados, materiais..." /></div>
+        {erro && <div className="access-note" style={{ background: "var(--vermelho-bg)", borderColor: "var(--vermelho)" }}><span>{erro}</span></div>}
+        <div className="imq-acoes" style={{ justifyContent: "flex-end" }}>
+          <button type="button" className="link-btn" aria-label="Cancelar" onClick={onCancelar}>Cancelar</button>
+          <button type="button" className="pill-btn primary" disabled={salvando} onClick={salvar}>{salvando ? "Salvando..." : "Salvar palestra"}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PresencaPalestra({ palestra, atletas, usuario, onEditar, onVoltar, onMudou }) {
+  const { useState } = React;
+  const [pres, setPres] = useState(() => ({ ...(palestra.presenca_palestra || {}) }));
+  const [filtro, setFiltro] = useState("todos");
+  const [busca, setBusca] = useState("");
+  const [cat, setCat] = useState("");
+  const [salvando, setSalvando] = useState(false);
+  const vm = useVerMais(30);
+  const pub = publicoDaPalestra(palestra, atletas).sort((a, b) => nomeExibicao(a).localeCompare(nomeExibicao(b), "pt-BR"));
+  const c = resumoPresenca({ ...palestra, presenca_palestra: pres }, atletas);
+  const termo = normalizarBusca(busca);
+  const lista = pub.filter((a) => (!termo || normalizarBusca(nomeExibicao(a) + " " + (a.nome || "")).includes(termo))
+    && (!cat || (cat.startsWith("ano:") ? anoNascAtleta(a) === cat.slice(4) : atletaNaCategoria(a, cat)))
+    && (filtro === "todos" || (filtro === "sem" ? !pres[a.id] : pres[a.id] === filtro)));
+  const catsNoPublico = CATEGORIAS_TIME.filter((x) => pub.some((a) => atletaNaCategoria(a, x.id)));
+  const anosNoPublico = [...new Set(pub.map(anoNascAtleta).filter((y) => /^\d{4}$/.test(y)))].sort().reverse();
+  async function marcar(ids, st) {
+    if (!ids.length) return;
+    const antes = pres;
+    const novo = { ...pres }; ids.forEach((id) => { if (st) novo[id] = st; else delete novo[id]; });
+    setPres(novo); setSalvando(true);
+    try {
+      const upd = {}; ids.forEach((id) => { upd["presenca_palestra." + id] = st || firebase.firestore.FieldValue.delete(); });
+      await db.collection(COL_EVENTOS).doc(palestra.id).update(upd);
+      limparCacheLeitura(["eventos"]); if (onMudou) onMudou();
+    } catch (e) { setPres(antes); avisoApp("Não consegui salvar a presença: " + e.message); }
+    setSalvando(false);
+  }
+  async function excluir() {
+    if (!(await confirmarApp("Excluir a palestra \"" + palestra.titulo + "\" e a lista de presença dela?"))) return;
+    try { await excluirEvento(palestra.id); limparCacheLeitura(); onVoltar(true); } catch (e) { avisoApp("Não consegui excluir: " + e.message); }
+  }
+  const semMarcar = pub.filter((a) => !pres[a.id]).map((a) => a.id);
+  return (
+    <div className="panel pal-detalhe">
+      <div className="panel-head">
+        <h3>{palestra.titulo}</h3>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <button type="button" className="pill-btn" onClick={() => abrirAvisoDoEvento(palestra, palestra.data > hojeISO())}>Aviso</button>
+          <button type="button" className="pill-btn" onClick={onEditar}>Editar</button>
+          {podeApagarItem(palestra) && <button type="button" className="pill-btn perigo" onClick={excluir}>Excluir</button>}
+          <button type="button" className="link-btn" aria-label="Voltar" onClick={() => onVoltar(false)}>Voltar</button>
+        </div>
+      </div>
+      <div className="panel-body">
+        <div className="pal-info">
+          <span><b>{formatarData(palestra.data)}{palestra.hora ? " às " + palestra.hora : ""}</b></span>
+          {palestra.palestrante && <span>Palestrante: <b>{palestra.palestrante}</b></span>}
+          {palestra.setor_palestra && <span>Setor: <b>{palestra.setor_palestra}</b></span>}
+          {palestra.local && <span>Local: <b>{palestra.local}</b></span>}
+          <span>Público: <b>{rotuloPublicoPalestra(palestra)}</b></span>
+        </div>
+        {palestra.observacao && <p className="pal-resumo">{palestra.observacao}</p>}
+        <div className="quartos-resumo" style={{ marginTop: 12 }}>
+          {[["presente", "presentes"], ["faltou", "faltaram"], ["justificado", "justificados"], ["sem", "sem marcar"]].map(([k, rot]) => (
+            <button key={k} type="button" className={"conv-contador pal-cont " + k + (filtro === k ? " on" : "")} onClick={() => setFiltro(filtro === k ? "todos" : k)}><b>{c[k]}</b><span>{rot}</span></button>
+          ))}
+          <div className="conv-contador ok"><b>{c.pct}%</b><span>de presença</span></div>
+        </div>
+        <BarraPresenca c={c} />
+        <div className="pal-filtros">
+          <input type="search" placeholder="Buscar atleta" value={busca} onChange={(e) => setBusca(e.target.value)} data-nativo="1" />
+          <div className="pal-chips">
+            <button type="button" className={"chip-filtro" + (!cat ? " on" : "")} onClick={() => setCat("")}>Todos</button>
+            {catsNoPublico.map((x) => <button key={x.id} type="button" className={"chip-filtro" + (cat === x.id ? " on" : "")} onClick={() => setCat(cat === x.id ? "" : x.id)}>{x.label}</button>)}
+            {anosNoPublico.map((y) => <button key={y} type="button" className={"chip-filtro" + (cat === "ano:" + y ? " on" : "")} onClick={() => setCat(cat === "ano:" + y ? "" : "ano:" + y)}>{y}</button>)}
+          </div>
+          {semMarcar.length > 0 && <button type="button" className="pill-btn primary" disabled={salvando} onClick={async () => { if (await confirmarApp("Marcar os " + semMarcar.length + " atletas sem marcação como presentes?")) marcar(semMarcar, "presente"); }}>Marcar os {semMarcar.length} restantes como presentes</button>}
+        </div>
+        {filtro !== "todos" && <div className="pitch-filtros-ativos" style={{ margin: "8px 0" }}><span>Mostrando: {({ presente: "presentes", faltou: "faltaram", justificado: "justificados", sem: "sem marcar" })[filtro]} ({lista.length})</span><button type="button" className="pf-limpar" onClick={() => setFiltro("todos")}>Ver todos</button></div>}
+        <div className="treino-presenca pal-lista">
+          {lista.map((a, i) => (
+            <div key={a.id} className={("treino-presenca-linha" + (pres[a.id] === "faltou" ? " p-ausente" : "") + " " + vm.classe(i, lista.length)).trim()}
+              onContextMenu={(e) => abrirMenuContexto(e, [{ secao: nomeExibicao(a) }, ...STATUS_PALESTRA.map((s) => ({ rotulo: s.label, marcado: pres[a.id] === s.id, acao: () => marcar([a.id], s.id) })), pres[a.id] && { rotulo: "Limpar marcação", icone: "↺", acao: () => marcar([a.id], null) }, { sep: true }, { rotulo: "Ver resumo do atleta", icone: "◐", acao: () => abrirGavetaAtleta(a.id, () => abrirPerfilCompletoAtleta(a.id)) }])}>
+              <span className="nome">{nomeExibicao(a)}<small>{[rotuloCategoriasAtleta(a), anoNascAtleta(a)].filter(Boolean).join(" · ")}</small></span>
+              <span className="opcoes">
+                {STATUS_PALESTRA.map((s) => <button key={s.id} type="button" disabled={salvando} className={(pres[a.id] === s.id ? "on " : "") + (s.id === "presente" ? "presente" : s.id === "faltou" ? "ausente" : "poupado")} aria-pressed={pres[a.id] === s.id} onClick={() => marcar([a.id], pres[a.id] === s.id ? null : s.id)}>{s.label}</button>)}
+              </span>
+            </div>
+          ))}
+          {!lista.length && <div className="empty-state">Nenhum atleta com esse filtro.</div>}
+        </div>
+        {vm.botao(lista.length, "atletas")}
+      </div>
+    </div>
+  );
+}
+
+function RelatorioPalestras({ palestras, atletas }) {
+  const { useState } = React;
+  const [cat, setCat] = useState("");
+  const [busca, setBusca] = useState("");
+  const [aberto, setAberto] = useState(null);
+  const [ordem, setOrdem] = useState("pct");
+  const vm = useVerMais(25);
+  const passadas = palestras.filter((p) => p.data <= hojeISO());
+  const linhas = atletas.filter((a) => !a.inativo).map((a) => {
+    const previstas = passadas.filter((p) => publicoDaPalestra(p, [a]).length);
+    const c = { presente: 0, faltou: 0, justificado: 0, sem: 0 };
+    previstas.forEach((p) => { const st = (p.presenca_palestra || {})[a.id]; if (c[st] !== undefined) c[st]++; else c.sem++; });
+    const marcadas = c.presente + c.faltou + c.justificado;
+    return { a, previstas, c, pct: marcadas ? Math.round((c.presente / marcadas) * 100) : null };
+  }).filter((x) => x.previstas.length)
+    .filter((x) => (!cat || (cat.startsWith("ano:") ? anoNascAtleta(x.a) === cat.slice(4) : atletaNaCategoria(x.a, cat))) && (!busca || normalizarBusca(nomeExibicao(x.a)).includes(normalizarBusca(busca))))
+    .sort((x, y) => (ordem === "nome" ? nomeExibicao(x.a).localeCompare(nomeExibicao(y.a), "pt-BR") : ordem === "faltas" ? (y.c.faltou - x.c.faltou) : ((x.pct === null ? 101 : x.pct) - (y.pct === null ? 101 : y.pct))));
+  const anos = [...new Set(atletas.map(anoNascAtleta).filter((y) => /^\d{4}$/.test(y)))].sort().reverse();
+  if (!passadas.length) return <div className="empty-state">Ainda não há palestras realizadas para o relatório.</div>;
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Presença por atleta</h3><span className="muted" style={{ fontSize: 12.5 }}>{passadas.length} palestra{passadas.length === 1 ? "" : "s"} realizada{passadas.length === 1 ? "" : "s"}</span></div>
+      <div className="panel-body">
+        <div className="pal-filtros">
+          <input type="search" placeholder="Buscar atleta" value={busca} onChange={(e) => setBusca(e.target.value)} data-nativo="1" />
+          <div className="pal-chips">
+            <button type="button" className={"chip-filtro" + (!cat ? " on" : "")} onClick={() => setCat("")}>Todos</button>
+            {CATEGORIAS_TIME.map((x) => <button key={x.id} type="button" className={"chip-filtro" + (cat === x.id ? " on" : "")} onClick={() => setCat(cat === x.id ? "" : x.id)}>{x.label}</button>)}
+            {anos.map((y) => <button key={y} type="button" className={"chip-filtro" + (cat === "ano:" + y ? " on" : "")} onClick={() => setCat(cat === "ano:" + y ? "" : "ano:" + y)}>{y}</button>)}
+          </div>
+          <select value={ordem} onChange={(e) => setOrdem(e.target.value)} aria-label="Ordenar"><option value="pct">Menor presença primeiro</option><option value="faltas">Mais faltas primeiro</option><option value="nome">Nome</option></select>
+        </div>
+        <div className="pal-rel">
+          {linhas.map((x, i) => (
+            <div key={x.a.id} className={vm.classe(i, linhas.length).trim() || undefined}>
+              <button type="button" className="pal-rel-linha" onClick={() => setAberto(aberto === x.a.id ? null : x.a.id)} aria-expanded={aberto === x.a.id}>
+                <span className="nome"><b>{nomeExibicao(x.a)}</b><small>{[rotuloCategoriasAtleta(x.a), anoNascAtleta(x.a)].filter(Boolean).join(" · ")}</small></span>
+                <span className="nums"><em className="p">{x.c.presente}</em> presentes · <em className="f">{x.c.faltou}</em> faltas · <em className="j">{x.c.justificado}</em> justif.{x.c.sem ? " · " + x.c.sem + " sem marcar" : ""}</span>
+                <span className={"pct" + (x.pct !== null && x.pct < 60 ? " baixo" : "")}>{x.pct === null ? "—" : x.pct + "%"}</span>
+              </button>
+              {aberto === x.a.id && (
+                <div className="pal-rel-det">
+                  {x.previstas.slice().reverse().map((p) => { const st = (p.presenca_palestra || {})[x.a.id]; const s = STATUS_PALESTRA.find((y) => y.id === st); return <div key={p.id}><span>{formatarData(p.data)} · {p.titulo}</span><b className={st || "sem"}>{s ? s.label : "Sem marcar"}</b></div>; })}
+                </div>
+              )}
+            </div>
+          ))}
+          {!linhas.length && <div className="empty-state">Nenhum atleta com esse filtro.</div>}
+        </div>
+        {vm.botao(linhas.length, "atletas")}
+      </div>
+    </div>
+  );
+}
+
+function ViewPalestras({ usuario, origem }) {
+  const { useState, useEffect } = React;
+  const [eventos, setEventos] = useState(null);
+  const [atletas, setAtletas] = useState([]);
+  const [erro, setErro] = useState(null);
+  const [aba, setAba] = useState("Palestras");
+  const [aberta, setAberta] = useState(null);
+  const [editando, setEditando] = useState(null);
+  const [busca, setBusca] = useState("");
+  const [setorF, setSetorF] = useState("");
+  const [periodo, setPeriodo] = useState("");
+  const vm = useVerMais(12);
+  useVoltar(aberta || editando, () => { setAberta(null); setEditando(null); });
+  function carregar() {
+    return Promise.all([carregarEventos(), carregarAtletas()]).then(([ev, at]) => { setEventos(ev.filter((e) => e.tipo === "palestra")); setAtletas(at.filter((a) => !a.inativo)); }).catch((e) => setErro(e.message));
+  }
+  useEffect(() => { carregar(); }, []);
+  if (erro) return <div className="page"><ErroCarregamento mensagem={erro} /></div>;
+  if (!eventos) return <div className="page"><SkeletonPanel /></div>;
+  const anosDisponiveis = [...new Set(atletas.map(anoNascAtleta).filter((y) => /^\d{4}$/.test(y)))].sort().reverse();
+  const termo = normalizarBusca(busca);
+  const limite = periodo ? isoMaisDias(hojeISO(), -Number(periodo)) : "";
+  const lista = eventos.filter((p) => (!termo || normalizarBusca([p.titulo, p.palestrante, p.setor_palestra].filter(Boolean).join(" ")).includes(termo)) && (!setorF || p.setor_palestra === setorF) && (!limite || p.data >= limite))
+    .sort((a, b) => ((b.data || "") + (b.hora || "")).localeCompare((a.data || "") + (a.hora || "")));
+  const proximas = lista.filter((p) => p.data > hojeISO()).reverse();
+  const realizadas = lista.filter((p) => p.data <= hojeISO());
+  const pAberta = aberta ? eventos.find((p) => p.id === aberta) : null;
+  const totalPres = realizadas.reduce((t, p) => { const c = resumoPresenca(p, atletas); t.p += c.presente; t.m += c.presente + c.faltou + c.justificado; return t; }, { p: 0, m: 0 });
+  const Cartao = ({ p }) => {
+    const c = resumoPresenca(p, atletas); const futura = p.data > hojeISO();
+    return (
+      <button type="button" className={"pal-cartao" + (futura ? " futura" : "")} onClick={() => setAberta(p.id)}
+        onContextMenu={(e) => abrirMenuContexto(e, [{ secao: p.titulo }, { rotulo: "Abrir lista de presença", icone: "↗", acao: () => setAberta(p.id) }, { rotulo: "Editar", icone: "✎", acao: () => setEditando(p) }, { sep: true }, { rotulo: "Enviar aviso sobre a palestra", icone: "📣", acao: () => abrirAvisoDoEvento(p, false) }, { rotulo: "Agendar aviso", icone: "⏰", acao: () => abrirAvisoDoEvento(p, true) }])}>
+        <span className="pal-data"><b>{formatarData(p.data).slice(0, 5)}</b><small>{p.hora || (futura ? "em breve" : "")}</small></span>
+        <span className="pal-corpo">
+          <b>{p.titulo}</b>
+          <small>{[p.palestrante, p.setor_palestra, rotuloPublicoPalestra(p)].filter(Boolean).join(" · ")}</small>
+          {!futura && <BarraPresenca c={c} />}
+        </span>
+        <span className="pal-pct">{futura ? <em className="aviso-novo agendado">Próxima</em> : c.presente + c.faltou + c.justificado ? <React.Fragment><b>{c.pct}%</b><small>{c.presente}/{c.total} presentes</small></React.Fragment> : <small>Presença não marcada</small>}</span>
+      </button>
+    );
+  };
+  return (
+    <div className="page">
+      <div className="page-head">
+        <div><h1>Palestras</h1><div className="crumb">Registro das palestras e lista de presença dos atletas</div></div>
+        {!editando && !pAberta && <button type="button" className="pill-btn primary" onClick={() => setEditando({})}>+ Nova palestra</button>}
+      </div>
+      {editando ? (
+        <FormPalestra inicial={editando.id ? editando : null} origem={origem} usuario={usuario} anosDisponiveis={anosDisponiveis}
+          onCancelar={() => setEditando(null)} onSalvo={() => { setEditando(null); carregar(); }} />
+      ) : pAberta ? (
+        <PresencaPalestra key={pAberta.id} palestra={pAberta} atletas={atletas} usuario={usuario} onEditar={() => setEditando(pAberta)} onVoltar={(recarregar) => { setAberta(null); if (recarregar) carregar(); }} onMudou={() => carregarEventos().then((ev) => setEventos(ev.filter((e) => e.tipo === "palestra")))} />
+      ) : (
+        <React.Fragment>
+          <div className="quartos-resumo">
+            <div className="conv-contador"><b>{realizadas.length}</b><span>realizadas</span></div>
+            <div className="conv-contador"><b>{proximas.length}</b><span>próximas</span></div>
+            <div className="conv-contador ok"><b>{totalPres.m ? Math.round((totalPres.p / totalPres.m) * 100) + "%" : "—"}</b><span>presença média</span></div>
+          </div>
+          <div style={{ margin: "14px 0" }}><TabSelect opcoes={["Palestras", "Presença por atleta"]} valor={aba} onChange={setAba} abas /></div>
+          {aba === "Presença por atleta" ? <RelatorioPalestras palestras={lista} atletas={atletas} /> : (
+            <React.Fragment>
+              <div className="pal-filtros">
+                <input type="search" placeholder="Buscar tema ou palestrante" value={busca} onChange={(e) => setBusca(e.target.value)} data-nativo="1" />
+                <select value={setorF} onChange={(e) => setSetorF(e.target.value)} aria-label="Setor"><option value="">Todos os setores</option>{SETORES_PALESTRA.map((x) => <option key={x} value={x}>{x}</option>)}</select>
+                <select value={periodo} onChange={(e) => setPeriodo(e.target.value)} aria-label="Período"><option value="">Todo o período</option><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="365">Último ano</option></select>
+              </div>
+              {proximas.length > 0 && <React.Fragment><div className="pal-grupo">Próximas</div><div className="pal-lista-cartoes">{proximas.map((p) => <Cartao key={p.id} p={p} />)}</div></React.Fragment>}
+              <div className="pal-grupo">Realizadas</div>
+              {realizadas.length ? <div className="pal-lista-cartoes">{realizadas.map((p, i) => <div key={p.id} className={vm.classe(i, realizadas.length).trim() || undefined}><Cartao p={p} /></div>)}</div> : <div className="empty-state">Nenhuma palestra registrada ainda. Toque em "+ Nova palestra".</div>}
+              {vm.botao(realizadas.length, "palestras")}
+            </React.Fragment>
+          )}
+        </React.Fragment>
+      )}
+    </div>
+  );
+}
+
+function ListaAvisosAgendados({ lista }) {
+  if (!lista.length) return <div className="empty-state">Nenhum aviso agendado.</div>;
+  const quando = (a) => { const d = a.enviar_em && a.enviar_em.toDate ? a.enviar_em.toDate() : null; return d ? d.toLocaleDateString("pt-BR") + " às " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : ""; };
+  async function cancelar(a) {
+    if (!(await confirmarApp("Cancelar o aviso agendado \"" + a.titulo + "\"? Ele não será enviado."))) return;
+    try { await db.collection(COL_AVISOS_AGENDADOS).doc(a.id).delete(); } catch (e) { avisoApp("Não consegui cancelar: " + e.message); }
+  }
+  return (
+    <div className="aviso-lista">
+      {lista.map((a) => (
+        <div key={a.id} className={"aviso-cartao agendado" + (a.nivel === "urgente" ? " urgente" : "")} onContextMenu={(e) => abrirMenuContexto(e, [{ secao: a.titulo }, { rotulo: "Cancelar envio", icone: "✕", perigo: true, acao: () => cancelar(a) }])}>
+          <div className="aviso-cartao-topo"><TagNivelAviso nivel={a.nivel} /><span className="aviso-novo agendado">Sai em {quando(a)}</span></div>
+          <b className="aviso-cartao-titulo">{a.titulo}</b>
+          <p className="aviso-texto">{a.mensagem}</p>
+          <div className="aviso-cartao-pe"><span className="aviso-de">Para <b>{a.alvo_texto || (a.destinatarios || []).length + " pessoas"}</b></span><button type="button" className="pill-btn perigo" onClick={() => cancelar(a)}>Cancelar envio</button></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+/** Aviso a partir de um evento da agenda (enviar agora ou agendar). Abre numa janela por cima de qualquer tela. */
+function abrirAvisoDoEvento(ev, agendar) { window.dispatchEvent(new CustomEvent("ct:aviso-evento", { detail: { ev, agendar } })); }
+function textoAvisoDoEvento(ev) {
+  const partes = [formatarData(ev.data) + (ev.hora ? " às " + ev.hora : ""), ev.local ? "Local: " + ev.local : "", ev.categoria ? labelCategoriaEvento(ev.categoria) : "", ev.observacao || ""].filter(Boolean);
+  return partes.join("\n");
+}
+function quandoPadraoAvisoEvento(ev) {
+  // véspera às 18h; se já passou, 1 hora antes do evento; se também passou, daqui a 1 hora
+  const antes = isoMaisDias(ev.data, -1) + "T18:00";
+  const umaHoraAntes = ev.hora ? (() => { const d = new Date(ev.data + "T" + ev.hora + ":00"); d.setHours(d.getHours() - 1); return d; })() : null;
+  const fmt = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0") + "T" + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+  if (new Date(antes + ":00").getTime() > Date.now() + 3600000) return antes;
+  if (umaHoraAntes && umaHoraAntes.getTime() > Date.now() + 600000) return fmt(umaHoraAntes);
+  const d = new Date(Date.now() + 3600000); d.setMinutes(0); return fmt(d);
+}
+function AvisoDoEventoGlobal({ usuario }) {
+  const { useState, useEffect } = React;
+  const [aberto, setAberto] = useState(null);
+  const [ok, setOk] = useState("");
+  useVoltar(aberto, () => setAberto(null));
+  useEffect(() => {
+    const ouvir = (e) => { setOk(""); setAberto(e.detail); };
+    window.addEventListener("ct:aviso-evento", ouvir);
+    return () => window.removeEventListener("ct:aviso-evento", ouvir);
+  }, []);
+  if (!aberto || !usuario) return null;
+  const ev = aberto.ev;
+  return (
+    <div className="lanc-fundo" onClick={() => setAberto(null)}>
+      <div className="lanc-folha editor-rapido" role="dialog" aria-modal="true" aria-label="Aviso do evento" onClick={(e) => e.stopPropagation()}>
+        <div className="panel-head"><h3>{aberto.agendar ? "Agendar aviso" : "Enviar aviso"}: {tituloEvento(ev)}</h3><button type="button" className="link-btn" aria-label="Fechar" onClick={() => setAberto(null)}>Fechar</button></div>
+        {ok ? (
+          <div className="panel-body"><div className="imq-ok">{ok}</div><div className="imq-acoes"><button type="button" className="pill-btn" onClick={() => setAberto(null)}>Fechar</button></div></div>
+        ) : (
+          <NovoAviso key={ev.id + (aberto.agendar ? "a" : "n")} usuario={usuario} inicial={{ titulo: labelTipoEvento(ev.tipo) + ": " + tituloEvento(ev), mensagem: textoAvisoDoEvento(ev), evento_id: ev.id }}
+            agendarPadrao={!!aberto.agendar} quandoPadrao={quandoPadraoAvisoEvento(ev)}
+            onEnviado={(m) => setOk(m ? "Aviso agendado para " + m.toLocaleDateString("pt-BR") + " às " + m.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + ". Ele aparece em Avisos › Agendados até sair." : "Aviso enviado.")} />
+        )}
+      </div>
+    </div>
+  );
+}
+
 function PainelAvisos({ usuario }) {
   const { useState, useEffect } = React;
   const ehAdmin = usuario.role === "admin";
@@ -34151,7 +34875,10 @@ function PainelAvisos({ usuario }) {
   const [enviados, setEnviados] = useState(null);
   const [semRegra, setSemRegra] = useState(false);
   const [enviadoOk, setEnviadoOk] = useState(false);
+  const [agendados, setAgendados] = useState([]);
   const vm = useVerMais(10);
+  useEffect(() => db.collection(COL_AVISOS_AGENDADOS).where("remetente_uid", "==", usuario.id)
+    .onSnapshot((s) => setAgendados(s.docs.map((d) => ({ id: d.id, ...d.data() })).filter((a) => a.status === "agendado").sort((a, b) => ((a.enviar_em && a.enviar_em.toMillis()) || 0) - ((b.enviar_em && b.enviar_em.toMillis()) || 0))), () => setAgendados([])), [usuario.id]);
 
   useEffect(() => {
     const falha = (e) => { if (erroDePermissao(e)) setSemRegra(true); };
@@ -34186,11 +34913,11 @@ function PainelAvisos({ usuario }) {
       <CartaoNotificacoes usuario={usuario} />
       <ProximosEventosAvisos usuario={usuario} />
       <div style={{ margin: "14px 0" }}>
-        <TabSelect opcoes={[novos > 0 ? `Recebidos (${novos})` : "Recebidos", "Enviados", "Novo aviso"]} valor={aba === "Recebidos" && novos > 0 ? `Recebidos (${novos})` : aba}
-          onChange={(v) => { setEnviadoOk(false); setAba(v.startsWith("Recebidos") ? "Recebidos" : v); }} abas />
+        <TabSelect opcoes={[novos > 0 ? `Recebidos (${novos})` : "Recebidos", "Enviados", ...(agendados.length ? [`Agendados (${agendados.length})`] : []), "Novo aviso"]} valor={aba === "Recebidos" && novos > 0 ? `Recebidos (${novos})` : aba === "Agendados" ? `Agendados (${agendados.length})` : aba}
+          onChange={(v) => { setEnviadoOk(false); setAba(v.startsWith("Recebidos") ? "Recebidos" : v.startsWith("Agendados") ? "Agendados" : v); }} abas />
       </div>
-      {aba === "Novo aviso" ? (
-        <NovoAviso usuario={usuario} onEnviado={() => { setEnviadoOk(true); setAba("Enviados"); }} />
+      {aba === "Agendados" ? <ListaAvisosAgendados lista={agendados} /> : aba === "Novo aviso" ? (
+        <NovoAviso usuario={usuario} onEnviado={(agendadoPara) => { setEnviadoOk(!agendadoPara); setAba(agendadoPara ? "Agendados" : "Enviados"); }} />
       ) : (recebidos === null || enviados === null) ? <SkeletonPanel /> : (
         <React.Fragment>
           {enviadoOk && aba === "Enviados" && <div className="access-note" style={{ background: "var(--verde-bg)", borderColor: "var(--verde)" }}><span><b>Aviso enviado.</b> Ele aparece na hora para quem está com o app aberto e chega como notificação em quem ativou no aparelho.</span></div>}
@@ -34312,6 +35039,8 @@ function AppLogado({ usuario }) {
     captacao: podeEditarCaptacao(usuario) ? <ViewCaptacao usuario={usuario} onNavigate={navegar} /> : null,
     agenda_campo: <ViewAgenda key="campo" setor="campo" usuario={usuario} onNavigate={navegar} />,
     agenda_saude: <ViewAgenda key="saude" setor="saude" usuario={usuario} onNavigate={navegar} />,
+    palestras_campo: <ViewPalestras key="pal_campo" usuario={usuario} origem="campo" />,
+    palestras_saude: <ViewPalestras key="pal_saude" usuario={usuario} origem="saude" />,
     jogos: <ViewJogos usuario={usuario} onNavigate={navegar} />,
     monitoramento: <ViewMonitoramento usuario={usuario} />,
     avisos: <PainelAvisos usuario={usuario} />,
@@ -34340,6 +35069,10 @@ function AppLogado({ usuario }) {
           <div className="aviso-versao aviso-dados" role="status"><span>Chegaram dados mais novos.</span><button type="button" onClick={() => { setDadosNovos(false); setRevisaoDados((n) => n + 1); }}>Atualizar tela</button></div>
         )}
         <GavetaAtletaGlobal usuario={usuario} />
+        <DialogoAppRaiz />
+        <MenuContextoRaiz />
+        <EditorAtletaRapido usuario={usuario} />
+        <AvisoDoEventoGlobal usuario={usuario} />
         <EncaminharGlobal usuario={usuario} />
         {usuarioEhEquipe(usuario) && <LembretesDiarios usuario={usuario} onNavigate={navegar} />}
         <BuscaRapida usuario={usuario} aberta={buscaAberta} onFechar={fecharBusca} onNavigate={navegar} />
