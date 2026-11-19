@@ -3520,6 +3520,9 @@ tr.linha-qr td{background:var(--surface-2);}
 .mctx-marca .ico-menu{width:16px; height:16px; stroke-width:1.9;}
 .mctx-item.perigo .mctx-marca{color:#0B1220;}
 .ico-em{width:1em; height:1em; vertical-align:-0.14em; stroke-width:2;}
+.camp-num-barra{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:8px 16px 10px; font-size:12.5px;}
+.camp-num-cel{width:64px;}
+.num-camisa.repetido{border-color:#B42318; color:#B42318; box-shadow:0 0 0 2px rgba(180,35,24,.12);}
 /* ---- Notas e dicas: visual sóbrio (fundo neutro, filete lateral, texto escuro) ---- */
 .faixa-rascunho, .retorno-caixa, .capt-pendente, .aval-aviso, .qtsp-conflito, .imq-ok, .comp-enviado, .agenda-ajuda-cel, .crono-plano-info, .obj-semana-nota, .aval-caixa.on{
   background:#F8FAFC !important; border:1px solid #E2E8F0 !important; border-left:3px solid #64748B !important; border-radius:8px !important;
@@ -25267,7 +25270,7 @@ function resumoJogo(evento, porId) {
   const vagaDe = {};
   Object.keys(escal).forEach((n) => { if (tit.includes(escal[n])) vagaDe[escal[n]] = Number(n); });
   const reservasOrd = ordenarPorPosicao(res.map((id) => porId[id]));
-  const numeros = conv.numeros || {};
+  const numeros = { ...(conv.numeros_jogo || {}), ...(conv.numeros || {}) };
   const numero = (id) => numeros[id] || vagaDe[id] || (res.includes(id) ? 12 + reservasOrd.findIndex((a) => a.id === id) : "");
   const funcao = (id) => {
     const vg = vagaDe[id] ? formacao.vagas.find((v) => v.n === vagaDe[id]) : null;
@@ -26144,6 +26147,14 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
   const [formacaoId, setFormacaoId] = useState(convSalva.formacao || FORMACAO_PADRAO);
   const [escalacaoBase, setEscalacaoBase] = useState(convSalva.escalacao || {});
   const [numeros, setNumeros] = useState(convSalva.numeros || {});
+  /* Números do campeonato: lidos na hora do banco (a lista de campeonatos da tela pode estar desatualizada). */
+  const [camisasCamp, setCamisasCamp] = useState((campeonato && campeonato.camisas) || {});
+  useEffect(() => {
+    if (!campeonato || !campeonato.id) return;
+    let vivo = true;
+    db.collection(COL_CAMPEONATOS).doc(campeonato.id).get().then((d) => { if (vivo && d.exists) setCamisasCamp((d.data() || {}).camisas || {}); }).catch(() => {});
+    return () => { vivo = false; };
+  }, [campeonato && campeonato.id]);
   const [capitao, setCapitao] = useState(convSalva.capitao || "");
   const [comissao, setComissao] = useState(() => (Array.isArray(convSalva.comissao) ? convSalva.comissao : lerComissaoPadrao()));
   const [arbitragem, setArbitragem] = useState(() => FUNCOES_ARBITRAGEM.map((f, i) => ({ funcao: f, nome: (Array.isArray(convSalva.arbitragem) && (convSalva.arbitragem.find((x) => x.funcao === f) || {}).nome) || "" })));
@@ -26217,7 +26228,8 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
   Object.keys(escalacao).forEach((n) => { vagaDoAtleta[escalacao[n]] = Number(n); });
   const reservasBase = ordenarPorPosicao(reservas);
   const numeroPadrao = (a) => (vagaDoAtleta[a.id] ? vagaDoAtleta[a.id] : selecao[a.id] === "reserva" ? 12 + reservasBase.findIndex((r) => r.id === a.id) : "");
-  const numeroDe = (a) => (numeros[a.id] ? numeros[a.id] : a.camisa ? a.camisa : numeroPadrao(a));
+  const numeroBase = (a) => camisasCamp[a.id] || a.camisa || numeroPadrao(a);
+  const numeroDe = (a) => (numeros[a.id] ? numeros[a.id] : numeroBase(a));
   const porNumero = (lista) => lista.slice().sort((a, b) => (Number(numeroDe(a)) || 99) - (Number(numeroDe(b)) || 99));
   const titularesOrdenados = porNumero(titulares);
   const reservasOrdenadas = porNumero(reservas);
@@ -26295,6 +26307,7 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
           formacao: formacaoId,
           escalacao,
           numeros: Object.fromEntries(Object.entries(numeros).filter(([id]) => selecao[id])),
+          numeros_jogo: Object.fromEntries([...titulares, ...reservas].map((a) => [a.id, String(numeroDe(a) || "")]).filter(([, n]) => n)),
           capitao: selecao[capitao] === "titular" ? capitao : "",
           comissao: comissaoLimpa,
           arbitragem: arbitragemLimpa,
@@ -26313,6 +26326,19 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
       const campos = { convocacao: montarConvocacao(), placar_nos: placarNum(placarEd.nos), placar_eles: placarNum(placarEd.eles) };
       if (posTocado || pjSalvo) campos.pos_jogo = montarPosJogo();
       await atualizarCamposEvento(evento.id, campos);
+      /* Número trocado na convocação de jogo de campeonato fica guardado no campeonato para os próximos jogos. */
+      if (campeonato && campeonato.id) {
+        const novas = {};
+        Object.entries(numeros).forEach(([id, n]) => { if (n && selecao[id] && (campeonato.inscritos || []).includes(id) && String(camisasCamp[id] || "") !== String(n)) novas[id] = String(n); });
+        if (Object.keys(novas).length) {
+          try {
+            const atual = await db.collection(COL_CAMPEONATOS).doc(campeonato.id).get();
+            const mapa = { ...((atual.exists && atual.data().camisas) || {}), ...novas };
+            await atualizarCampeonato(campeonato.id, { camisas: mapa });
+            setCamisasCamp(mapa);
+          } catch (e3) { console.warn("camisas do campeonato", e3); }
+        }
+      }
       setPosTocado(false);
       try { localStorage.setItem(CHAVE_COMISSAO_PADRAO, JSON.stringify(comissaoLimpa)); } catch (e2) {}
       setAlterado(false);
@@ -26552,7 +26578,7 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
               <ol className="relacao-lista com-numero">
                 {lista.map((a) => (
                   <li key={a.id}>
-                    <input type="number" className="num-camisa" min="1" max="99" inputMode="numeric" aria-label={"Número de " + nomeExibicao(a)} value={numeros[a.id] || ""} placeholder={String(numeroPadrao(a) || "")} onChange={(e) => definirNumero(a.id, e.target.value)} />
+                    <input type="number" className="num-camisa" min="1" max="99" inputMode="numeric" aria-label={"Número de " + nomeExibicao(a)} value={numeros[a.id] || ""} placeholder={String(numeroBase(a) || "")} title={camisasCamp[a.id] ? "Número do campeonato: " + camisasCamp[a.id] : undefined} onChange={(e) => definirNumero(a.id, e.target.value)} />
                     <span className="relacao-pos">{SIGLA_POSICAO[a.posicao] || "-"}</span>
                     <span className="relacao-nome">{nomeExibicao(a)}{a.data_nascimento && <small className="relacao-nasc"> · {formatarData(a.data_nascimento)}</small>}</span>
                     {a.disp && a.disp.status !== "disponivel" && <span className={"badge " + DISPONIBILIDADE[a.disp.status].sinal}>{DISPONIBILIDADE[a.disp.status].label}</span>}
@@ -26835,7 +26861,7 @@ async function baixarPdfInscritos(c, atletas, usuario) {
   const gol = lista.filter((a) => posicaoBase(a.posicao) === "Goleiro").length;
   const semReg = lista.filter((a) => !a.registro_cbf).length;
   const head = ["Nº", "Atleta", "Apelido", "Posição", "Nascimento", "CBF", "FPF", ...(comPriv ? ["CPF"] : [])];
-  const body = lista.map((a, i) => [String(i + 1), a.nome || "", a.apelido || "", a.posicao || "", a.data_nascimento ? formatarData(a.data_nascimento) : "", a.registro_cbf || "", a.registro_fpf || "", ...(comPriv ? [(priv[a.id] && priv[a.id].cpf) || ""] : [])]);
+  const body = lista.map((a, i) => [String((c.camisas || {})[a.id] || a.camisa || ""), a.nome || "", a.apelido || "", a.posicao || "", a.data_nascimento ? formatarData(a.data_nascimento) : "", a.registro_cbf || "", a.registro_fpf || "", ...(comPriv ? [(priv[a.id] && priv[a.id].cpf) || ""] : [])]);
   await baixarPdfGestao({
     departamento: "Comissão Técnica", titulo: "RELAÇÃO DE INSCRITOS", subtitulo: [c.nome, labelCategoriaEvento(c.categoria)].filter(Boolean).join(" · "),
     faixaInfo: [["Campeonato", c.nome || "-"], ["Categoria", labelCategoriaEvento(c.categoria) || "-"], ["Organizador", c.organizador || "-"], ["Período", periodoCampeonato(c) || "-"]],
@@ -26991,6 +27017,18 @@ function DetalheCampeonato({ campeonato, eventos, atletas, usuario, onVoltar, on
   const v = placares.filter((p) => p.nos > p.eles).length, em = placares.filter((p) => p.nos === p.eles).length, d = placares.filter((p) => p.nos < p.eles).length;
   const vmIns = useVerMais(30);
 
+  const [camisasEd, setCamisasEd] = useState(() => ({ ...(c.camisas || {}) }));
+  React.useEffect(() => { setCamisasEd({ ...(c.camisas || {}) }); }, [c.id, JSON.stringify(c.camisas || {})]);
+  const numRepetidos = (() => { const cont = {}; (c.inscritos || []).forEach((id) => { const n = String(camisasEd[id] || ""); if (n) cont[n] = (cont[n] || 0) + 1; }); return new Set(Object.keys(cont).filter((n) => cont[n] > 1)); })();
+  function mudarCamisa(id, v) { const n = String(v || "").replace(/\D/g, "").slice(0, 3); setCamisasEd((m) => { const x = { ...m }; if (n) x[id] = n; else delete x[id]; return x; }); }
+  async function gravarCamisas(mapa) {
+    const limpo = {}; (c.inscritos || []).forEach((id) => { if (mapa[id]) limpo[id] = String(mapa[id]); });
+    if (JSON.stringify(limpo) === JSON.stringify(c.camisas || {})) return;
+    try { await atualizarCampeonato(c.id, { camisas: limpo }); setMsg({ tipo: "ok", texto: "Números salvos." }); onMudou && onMudou(); }
+    catch (e) { setMsg({ tipo: "erro", texto: "Não consegui salvar os números: " + e.message }); }
+  }
+  function salvarCamisas() { gravarCamisas(camisasEd); }
+  function usarNumerosCadastro() { const m = { ...camisasEd }; inscritos.forEach((a) => { if (a.camisa && !m[a.id]) m[a.id] = String(a.camisa); }); setCamisasEd(m); gravarCamisas(m); }
   async function mudarInscritos(ids) {
     const lim = Number(c.limite_inscritos) || 0;
     if (lim && ids.length > lim) { setMsg({ tipo: "erro", texto: `O limite é de ${lim} inscritos. Tire alguém antes de incluir mais.` }); return; }
@@ -27081,6 +27119,12 @@ function DetalheCampeonato({ campeonato, eventos, atletas, usuario, onVoltar, on
       {aba === "inscritos" && (
         <div className="panel">
           <div className="panel-head"><h3>Atletas inscritos</h3><span className="muted" style={{ fontSize: 12 }}>{inscritos.length}{c.limite_inscritos ? " de " + c.limite_inscritos : ""}</span></div>
+          {pode && inscritos.length > 0 && (
+            <div className="camp-num-barra">
+              <span className="muted">Digite o número de cada atleta na coluna Nº. Fica salvo no campeonato e entra sozinho na convocação dos jogos dele.{numRepetidos.size ? " Número repetido: " + [...numRepetidos].join(", ") + "." : ""}</span>
+              {inscritos.some((a) => a.camisa && !camisasEd[a.id]) && <button type="button" className="pill-btn" onClick={usarNumerosCadastro}>Usar nº do cadastro nos vazios</button>}
+            </div>
+          )}
           <div style={{ padding: "12px 20px 4px" }}>
             {pode && (
               <SeletorAtletas titulo={"Inscritos · " + c.nome} rotulo={prazoInscricaoEncerrado(c) ? "Prazo de inscrição encerrado em " + formatarData(c.prazo_inscricao) + " (dá para ajustar se a federação aceitou a troca)" : "Toque para incluir ou tirar atletas"}
@@ -27090,12 +27134,16 @@ function DetalheCampeonato({ campeonato, eventos, atletas, usuario, onVoltar, on
           {inscritos.length === 0 ? <div className="empty-state">Nenhum atleta inscrito ainda.</div> : (
             <div className="tabela-rolagem">
               <table>
-                <thead><tr><th>Atleta</th><th>Posição</th><th>Nascimento</th><th>Categoria</th><th>CBF</th><th>Situação</th></tr></thead>
+                <thead><tr><th title="Número da camisa neste campeonato">Nº</th><th>Atleta</th><th>Posição</th><th>Nascimento</th><th>Categoria</th><th>CBF</th><th>Situação</th></tr></thead>
                 <tbody>
                   {inscritos.map((a, i) => {
                     const susp = cartoes.suspensos.find((s) => s.id === a.id), pend = cartoes.pendurados.find((s) => s.id === a.id);
                     return (
                       <tr key={a.id} className={vmIns.classe(i, inscritos.length).trim() || undefined}>
+                        <td className="camp-num-cel">{pode
+                          ? <input type="text" inputMode="numeric" maxLength={3} className={"num-camisa" + (numRepetidos.has(String(camisasEd[a.id] || "")) ? " repetido" : "")} aria-label={"Número de " + nomeExibicao(a) + " no campeonato"} placeholder={a.camisa || "-"} value={camisasEd[a.id] || ""}
+                              onChange={(e) => mudarCamisa(a.id, e.target.value)} onBlur={salvarCamisas} onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }} />
+                          : <b>{(c.camisas || {})[a.id] || a.camisa || "-"}</b>}</td>
                         <td><b>{nomeExibicao(a)}</b>{a.apelido ? <div className="muted" style={{ fontSize: 12 }}>{a.nome}</div> : null}</td>
                         <td>{a.posicao || "-"}</td>
                         <td>{a.data_nascimento ? formatarData(a.data_nascimento) : "-"}</td>
