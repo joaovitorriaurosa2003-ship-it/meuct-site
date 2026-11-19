@@ -3516,8 +3516,32 @@ tr.linha-qr td{background:var(--surface-2);}
 .mctx-item.perigo{color:#B91C1C;} .mctx-item.perigo.ativo, .mctx-item.perigo:hover{background:#FEE2E2;}
 .mctx-item.marcado{color:#15803D; font-weight:800;}
 .mctx-item:disabled{opacity:.45; cursor:default;}
-.mctx-marca{width:18px; text-align:center; font-size:12px; color:#64748B; flex:0 0 18px;}
-.mctx-item.marcado .mctx-marca{color:#15803D; font-weight:900;}
+.mctx-marca{width:18px; text-align:center; font-size:12px; color:#0B1220; flex:0 0 18px; display:inline-flex; align-items:center; justify-content:center;}
+.mctx-marca .ico-menu{width:16px; height:16px; stroke-width:1.9;}
+.mctx-item.perigo .mctx-marca{color:#0B1220;}
+.ico-em{width:1em; height:1em; vertical-align:-0.14em; stroke-width:2;}
+/* ---- Notas e dicas: visual sóbrio (fundo neutro, filete lateral, texto escuro) ---- */
+.faixa-rascunho, .retorno-caixa, .capt-pendente, .aval-aviso, .qtsp-conflito, .imq-ok, .comp-enviado, .agenda-ajuda-cel, .crono-plano-info, .obj-semana-nota, .aval-caixa.on{
+  background:#F8FAFC !important; border:1px solid #E2E8F0 !important; border-left:3px solid #64748B !important; border-radius:8px !important;
+  color:#1F2937 !important; font-weight:500; box-shadow:none !important;}
+.faixa-rascunho, .retorno-caixa, .capt-pendente, .aval-caixa.on{border-left-color:#A16207 !important;}
+.qtsp-conflito{border-left-color:#B42318 !important;}
+.imq-ok, .comp-enviado, .agenda-ajuda-cel, .obj-semana-nota{border-left-color:#1E7446 !important;}
+.imq-ok, .comp-enviado{font-weight:600;}
+.aovivo-dica{background:#F8FAFC; border-left:3px solid #64748B; color:#1F2937;}
+.restr-linha, .venc-item, .camp-cartao-bloco, .ata-tarefa.atrasada, .enc-item.atrasado{background:#fff !important;}
+.restr-linha{border-left-width:3px;}
+.crono-conflito{color:#7C2D12 !important; font-weight:600;}
+/* Pendências do card de jogo (card escuro) */
+.jogo-pendencias{background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.09); border-left:3px solid #C9A227; border-radius:8px;
+  color:#CBD5E1; font-size:12.5px; font-weight:500; padding:9px 12px 10px; gap:4px;}
+.jogo-pendencias:not(.ok)::before{content:"Pendências"; display:block; font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#94A3B8; margin-bottom:3px;}
+.jogo-pendencias li{display:flex; align-items:baseline; gap:8px;}
+.jogo-pendencias li::before{content:""; width:4px; height:4px; background:#94A3B8; flex:0 0 4px; margin:0; transform:translateY(-2px);}
+.jogo-pendencias li.grave{color:#FCA5A5; font-weight:600;}
+.jogo-pendencias li.grave::before{background:#F87171;}
+.jogo-pendencias.ok{background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.09); border-left:3px solid #22A05A; color:#CBD5E1; font-weight:600;}
+.mctx-item.marcado .mctx-marca{color:#0B1220; font-weight:900;}
 .editor-rapido{max-width:760px;}
 .aviso-agendar{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-top:10px;}
 .aviso-agendar .field{margin:0; min-width:150px;}
@@ -5357,6 +5381,45 @@ function Icone({ nome, className }) {
   );
 }
 
+/* Ícones de traço (sem emoji colorido) usados nos menus e marcadores. */
+Object.assign(ICONES, {
+  m_cortar: [["circle", { cx: 6, cy: 7, r: 2.5 }], ["circle", { cx: 6, cy: 17, r: 2.5 }], ["path", { d: "M8.2 8.4 20 17M8.2 15.6 20 7" }]],
+  m_colar: [["rect", { x: 5, y: 4.5, width: 14, height: 16.5, rx: 2 }], ["path", { d: "M9 3.5h6v3H9z" }]],
+  m_copiar: [["rect", { x: 8, y: 8, width: 12, height: 12, rx: 2 }], ["path", { d: "M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8" }]],
+  m_abrir: [["path", { d: "M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10" }]],
+  m_voltar: [["path", { d: "M19 12H5M11 6l-6 6 6 6" }]],
+  m_buscar: [["circle", { cx: 11, cy: 11, r: 6 }], ["path", { d: "M20 20l-4.5-4.5" }]],
+  m_recarregar: [["path", { d: "M20 12a8 8 0 1 1-2.3-5.7M20 4v4.5h-4.5" }]],
+  m_desfazer: [["path", { d: "M4 12a8 8 0 1 0 2.3-5.7M4 4v4.5h4.5" }]],
+  m_imprimir: [["path", { d: "M7 9V3.5h10V9" }], ["rect", { x: 3.5, y: 9, width: 17, height: 8, rx: 2 }], ["rect", { x: 7, y: 14, width: 10, height: 6.5 }]],
+  m_editar: [["path", { d: "M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4" }]],
+  m_apagar: [["path", { d: "M6 6l12 12M18 6 6 18" }]],
+  m_check: [["path", { d: "M5 12.5l4.5 4.5L19 7.5" }]],
+  m_bola: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M12 8.2l3.2 2.3-1.2 3.8h-4l-1.2-3.8zM12 3.5v4.7M15.2 10.5l4.6-1.5M14 14.3l2.8 3.9M10 14.3l-2.8 3.9M8.8 10.5 4.2 9" }]],
+  m_aviso: [["path", { d: "M4 10v4h3l8 4.5v-13L7 10H4zM18.5 9.5a3.5 3.5 0 0 1 0 5M7 14l1.2 5h2.3l-1-4.3" }]],
+  m_relogio: [["circle", { cx: 12, cy: 13, r: 7.5 }], ["path", { d: "M12 9v4l2.5 2.5M5.5 3.8 3 6.3M18.5 3.8 21 6.3" }]],
+  m_olho: [["path", { d: "M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" }], ["circle", { cx: 12, cy: 12, r: 3 }]],
+  m_pausa: [["path", { d: "M9 5v14M15 5v14" }]],
+  m_dia: [["rect", { x: 3.5, y: 5, width: 17, height: 15.5, rx: 2 }], ["path", { d: "M3.5 10h17M8 3v4M16 3v4" }]],
+  m_tabela: [["rect", { x: 4, y: 4, width: 16, height: 16, rx: 2 }], ["path", { d: "M4 9.5h16M4 14.5h16" }]],
+  m_quadro: [["rect", { x: 4, y: 4, width: 16, height: 16, rx: 2 }], ["rect", { x: 8.5, y: 8.5, width: 7, height: 7, rx: 1 }]],
+  m_meio: [["circle", { cx: 12, cy: 12, r: 8 }], ["path", { d: "M12 4a8 8 0 0 1 0 16z", fill: "currentColor" }]],
+  m_encaminhar: [["path", { d: "M14 5l6 6-6 6M20 11h-9a6 6 0 0 0-6 6v2" }]],
+  m_trocar: [["path", { d: "M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4" }]],
+  m_mais: [["path", { d: "M12 5v14M5 12h14" }]],
+  m_alerta: [["path", { d: "M12 4 2.8 19.5h18.4zM12 10v4.5M12 17.2v.3" }]],
+  rosto1: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M8 9.2l2.2.9M16 9.2l-2.2.9M9 16.5c.8-1.3 1.8-1.9 3-1.9s2.2.6 3 1.9" }]],
+  rosto2: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M9.3 10v.4M14.7 10v.4M9 16c.8-.9 1.8-1.3 3-1.3s2.2.4 3 1.3" }]],
+  rosto3: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M9.3 10v.4M14.7 10v.4M9 15.3h6" }]],
+  rosto4: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M9.3 10v.4M14.7 10v.4M9 14.3c.8.9 1.8 1.3 3 1.3s2.2-.4 3-1.3" }]],
+  rosto5: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M9 9.5c.3-.5.7-.7 1.1-.7M13.9 8.8c.4 0 .8.2 1.1.7M8 13.3c.9 2.1 2.3 3.1 4 3.1s3.1-1 4-3.1z" }]],
+});
+const GLIFO_ICONE = { "✂": "m_cortar", "📋": "m_colar", "⧉": "m_copiar", "↗": "m_abrir", "←": "m_voltar", "⌕": "m_buscar", "↻": "m_recarregar", "↺": "m_desfazer", "⎙": "m_imprimir", "✎": "m_editar", "✕": "m_apagar", "✓": "m_check", "⚽": "m_bola", "📣": "m_aviso", "⏰": "m_relogio", "👁": "m_olho", "⏸": "m_pausa", "▦": "m_dia", "▤": "m_tabela", "▣": "m_quadro", "◐": "m_meio", "➦": "m_encaminhar", "⇄": "m_trocar", "+": "m_mais", "⚠": "m_alerta" };
+function IconeMenu({ icone }) {
+  if (!icone) return null;
+  const nome = GLIFO_ICONE[icone] || (ICONES[icone] ? icone : null);
+  return nome ? <Icone nome={nome} className="ico-menu" /> : <span>{icone}</span>;
+}
 ICONES.agenda_campo = ICONES.agenda_dm = ICONES.agenda_social = ICONES.agenda_saude = ICONES.qts = ICONES.meu_qts = ICONES.minha_agenda = ICONES.agenda;
 ICONES.instalar = [["rect", { x: 7, y: 2.5, width: 10, height: 19, rx: 2.2 }], ["path", { d: "M12 7v7M9.2 11.4 12 14.2l2.8-2.8M10.5 18.5h3" }]];
 ICONES.diretoria = [["rect", { x: 3.5, y: 7.5, width: 17, height: 12.5, rx: 2.2 }], ["path", { d: "M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9M3.5 12.5h17M10.5 12.5v1.6h3v-1.6" }]];
@@ -6279,7 +6342,7 @@ function MenuContextoRaiz() {
           <button key={i} type="button" role={it.marcado !== undefined ? "menuitemradio" : "menuitem"} aria-checked={it.marcado !== undefined ? !!it.marcado : undefined}
             className={"mctx-item" + (it.perigo ? " perigo" : "") + (i === ativo ? " ativo" : "") + (it.marcado ? " marcado" : "")} disabled={it.desabilitado} title={it.dica || undefined}
             onMouseEnter={() => setAtivo(i)} onClick={() => escolher(it)}>
-            <span className="mctx-marca" aria-hidden="true">{it.marcado ? "✓" : it.icone || ""}</span>{it.rotulo}
+            <span className="mctx-marca" aria-hidden="true"><IconeMenu icone={it.marcado ? "✓" : it.icone} /></span>{it.rotulo}
           </button>
         );
       })}
@@ -14210,7 +14273,7 @@ function CronoVariosDias({ modo, usuario, atletas, onAbrirDia, onPlano }) {
                       <button key={s.id} type="button" className="crono-mini" style={{ borderLeftColor: tipo ? tipo.cor : "#94A3B8" }} onClick={() => onAbrirDia(d)}>
                         <span className="crono-mini-hora">{s.hora}</span>
                         <span className="crono-mini-txt"><b>{nomes(s)}</b><small>{[tipo && tipo.label, s.fisio_nome || nomeColunaCrono(cronos[d], s.coluna), s.plano_id ? "plano" : ""].filter(Boolean).join(" · ")}</small>
-                          {conf.length > 0 && <small className="crono-conflito" title={conf.join("\n")}>⚠ {conf.length === 1 ? conf[0].split(": ").slice(1).join(": ") : conf.length + " conflitos"}</small>}</span>
+                          {conf.length > 0 && <small className="crono-conflito" title={conf.join("\n")}><Icone nome="m_alerta" className="ico-em" /> {conf.length === 1 ? conf[0].split(": ").slice(1).join(": ") : conf.length + " conflitos"}</small>}</span>
                       </button>
                     );
                   })}
@@ -14533,7 +14596,7 @@ function CronogramaFisio({ usuario, atletas, registros }) {
                         <b>{(s.atletas || []).map((id) => nomeExibicao(porId.get(id) || { nome: "?" })).join(", ")}</b>
                         <small>{[tipo && tipo.label, s.duracao ? s.duracao + " min" : "", s.local].filter(Boolean).join(" · ")}</small>
                         {s.obs && <small className="crono-obs">{s.obs}</small>}
-                        {conf.length > 0 && <small className="crono-conflito" title={conf.join("\n")}>⚠ Bate com {conf.length === 1 ? conf[0].split(": ").slice(1).join(": ") : conf.length + " compromissos do QTS/agenda"}</small>}
+                        {conf.length > 0 && <small className="crono-conflito" title={conf.join("\n")}><Icone nome="m_alerta" className="ico-em" /> Bate com {conf.length === 1 ? conf[0].split(": ").slice(1).join(": ") : conf.length + " compromissos do QTS/agenda"}</small>}
                       </div>
                     )}
                   </td>
@@ -14708,7 +14771,7 @@ function ViewFisioterapia({ usuario }) {
                             <td><span className={"badge " + (ep.faseAtual === "liberado" ? "verde" : ep.faseAtual === "repouso" ? "vermelho" : "amarelo")}>{labelFaseRtp(ep.faseAtual)}</span></td>
                             <td>{calcularDiasEntre(ep.dataInicio)}</td>
                             <td className="muted">{(ep.registros[0] && ep.registros[0].avaliador) || "—"}</td>
-                            <td>{ep.reincidente && <span className="badge amarelo">⚠ Reincidência</span>}</td>
+                            <td>{ep.reincidente && <span className="badge amarelo"><Icone nome="m_alerta" className="ico-em" /> Reincidência</span>}</td>
                             <td onClick={(e) => e.stopPropagation()}>{ep.ativo && <AvancarFaseRtp atletaId={atleta.id} episodio={ep} usuario={usuario} onSalvar={adicionar} />}</td>
                           </tr>
                         ))
@@ -25349,7 +25412,7 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
   const marcasDe = (id) => {
     const r = reg(pos, id);
     return [
-      Number(r.gols) ? <i key="g" className="m-gol">{"⚽".repeat(Math.min(3, Number(r.gols)))}</i> : null,
+      Number(r.gols) ? <i key="g" className="m-gol">{Array.from({ length: Math.min(3, Number(r.gols)) }, (_, k) => <Icone key={k} nome="m_bola" className="ico-em" />)}</i> : null,
       Number(r.assist) ? <i key="a" className="m-ast">A{Number(r.assist) > 1 ? r.assist : ""}</i> : null,
       Number(r.ca) ? <i key="ca" className="m-ca"></i> : null,
       Number(r.cv) ? <i key="cv" className="m-cv"></i> : null,
@@ -28057,7 +28120,7 @@ function ViewMonitoramento({ usuario, categoria: categoriaFixa }) {
 }
 
 /* ---------- Check-in público (link individual do atleta, sem login) ---------- */
-const EMOJIS_BEMESTAR = ["😣", "🙁", "😐", "🙂", "😄"];
+const EMOJIS_BEMESTAR = [1, 2, 3, 4, 5].map((n) => <Icone key={n} nome={"rosto" + n} className="ico-em" />);
 function chaveCheckinLocal(token, data, tipo) { return `ct-checkin-${token}-${data}-${tipo}`; }
 
 function CheckinPublico({ token }) {
@@ -30675,7 +30738,7 @@ function MicrocicloSemana({ treinos, jogos, categoria, podeEditar, onNovo, onAbr
               onDragOver={(e) => { if (arrastando) { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; } }}
               onDrop={(e) => { e.preventDefault(); if (arrastando && arrastando.data !== d) onCopiar(arrastando, d); setArrastando(null); }}>
               <div className="micro-topo"><b>{DIAS_SEMANA_CURTO[new Date(d + "T12:00:00").getDay()]} {d.slice(8, 10)}/{d.slice(5, 7)}</b>{md && <span className={"micro-md " + (md === "MD" ? "jogo" : md.startsWith("MD+") ? "pos" : "pre")}>{rotuloDiaJogo(md, true)}</span>}</div>
-              {jg.map((j) => <div key={j.id} className="micro-jogo">⚽ {tituloEvento(j)}{j.hora ? " · " + j.hora : ""}</div>)}
+              {jg.map((j) => <div key={j.id} className="micro-jogo"><Icone nome="m_bola" className="ico-em" /> {tituloEvento(j)}{j.hora ? " · " + j.hora : ""}</div>)}
               {tr.map((e) => {
                 const c = cargaPlanejada(e.plano_treino), r = cargaReal(e, c.minutos);
                 return (
