@@ -3520,6 +3520,57 @@ tr.linha-qr td{background:var(--surface-2);}
 .mctx-marca .ico-menu{width:16px; height:16px; stroke-width:1.9;}
 .mctx-item.perigo .mctx-marca{color:#0B1220;}
 .ico-em{width:1em; height:1em; vertical-align:-0.14em; stroke-width:2;}
+/* Lances: ícones e linha do tempo (referência: escalação e "lance a lance" do SofaScore e FotMob) */
+.ic-cartao{display:inline-block; width:9px; height:12px; border-radius:1.5px; background:#F2C200; box-shadow:0 0 0 1px rgba(0,0,0,.08); transform:rotate(8deg); flex:0 0 auto;}
+.ic-cartao.cv{background:#D7263D;}
+.ic-bola, .ic-lesao, .ic-acao{display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; flex:0 0 auto;}
+.ic-bola .ico{width:15px; height:15px; stroke-width:1.7;}
+.ic-bola.gol_adv .ico, .ic-bola.gol_sofrido .ico{opacity:.55;}
+.ic-assist{display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border:1.5px solid currentColor; border-radius:50%; font-size:8.5px; font-weight:800; line-height:1; flex:0 0 auto;}
+.ic-sub{display:inline-flex; align-items:center; gap:0; flex:0 0 auto;}
+.ic-sub .ico{width:12px; height:14px; stroke-width:2.6;}
+.ic-sub .ent{color:#16A34A; margin-right:-3px;} .ic-sub .sai{color:#DC2626;}
+.ic-sub.so .ent, .ic-sub.so .sai{margin:0;}
+.ic-lesao .ico{width:12px; height:12px; color:#DC2626; fill:#DC2626; stroke-width:0;}
+.ic-acao .ico{width:13px; height:13px; stroke-width:2.6;} .ic-acao.certo{color:#15803D;} .ic-acao.errado{color:#B91C1C;}
+.ic-ponto{display:inline-block; width:6px; height:6px; border-radius:50%; background:#94A3B8;}
+.tl{display:flex; flex-direction:column; font-size:13px;}
+.tl-tempo{display:flex; align-items:center; gap:10px; margin:10px 0 2px; font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#64748B;}
+.tl-tempo::before, .tl-tempo::after{content:""; height:1px; background:#E2E8F0; flex:1;}
+.tl-tempo:first-child{margin-top:0;}
+.tl-item{display:grid; grid-template-columns:38px 26px 1fr auto; align-items:center; gap:8px; padding:7px 2px; border-bottom:1px solid #F1F5F9; color:#0F172A;}
+.tl-item:last-child{border-bottom:none;}
+.tl-min{font-variant-numeric:tabular-nums; font-weight:700; color:#475569; text-align:right; font-size:12.5px;}
+.tl-ic{display:flex; justify-content:center; color:#0F172A;}
+.tl-txt{display:flex; flex-direction:column; min-width:0;}
+.tl-txt b{font-weight:600; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.tl-txt small{color:#64748B; font-size:12px;}
+.tl-placar{font-variant-numeric:tabular-nums; font-weight:800; font-size:12.5px; padding:2px 8px; border-radius:6px; background:#0F172A; color:#fff;}
+.tl-gol .tl-txt b{font-weight:800;}
+.tl-item.anulado .tl-txt b, .tl-item.anulado .tl-min{text-decoration:line-through; color:#94A3B8;}
+.tl-item.anulado .tl-ic{opacity:.4;}
+.tl-vazio{font-size:12.5px; color:#64748B; padding:6px 2px;}
+.aovivo-tl{margin:0 20px 16px; padding:12px 14px; border:1px solid #E2E8F0; border-radius:10px; background:#fff; max-height:340px; overflow:auto;}
+.aovivo-tl-titulo{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#64748B; margin-bottom:6px;}
+.camisa-marcas{gap:4px; flex-wrap:wrap; justify-content:center; min-height:16px;}
+.camisa-marcas .mk{display:inline-flex; align-items:center; gap:3px; background:#fff; color:#0F172A; border-radius:6px; padding:2px 5px; font-style:normal; box-shadow:0 1px 2px rgba(0,0,0,.25); min-height:18px;}
+.camisa-marcas .mk em{font-style:normal; font-size:11px; font-weight:800; font-variant-numeric:tabular-nums;}
+.camisa-marcas .mk .ic-bola, .camisa-marcas .mk .ic-lesao{width:14px; height:14px;} .camisa-marcas .mk .ic-bola .ico{width:14px; height:14px; stroke-width:1.9;}
+.camisa-marcas .mk .ic-assist{width:14px; height:14px; font-size:8px; border-width:1.4px;}
+.camisa-marcas .mk .ic-cartao{width:8px; height:11px;}
+.camisa-marcas .mk .ic-sub .ico{width:12px; height:14px;}
+.aovivo-menu{min-width:190px; padding:6px; gap:2px; border:1px solid #E2E8F0; box-shadow:0 14px 32px rgba(15,23,42,.22);}
+.aovivo-menu-nome{font-size:11px; font-weight:700; color:#64748B; padding:4px 8px 6px; border-bottom:1px solid #F1F5F9; margin-bottom:2px; text-transform:uppercase; letter-spacing:.06em;}
+.aovivo-menu button{display:flex; align-items:center; gap:10px; border-left:none !important; background:transparent; font-weight:600; color:#0F172A; padding:8px 8px;}
+.aovivo-menu button:hover{background:#F1F5F9;}
+.aovivo-menu .m-lesao{color:#B91C1C;}
+.aovivo-botoes .pill-btn{display:inline-flex; align-items:center; gap:6px;}
+.scout-relogio{border-top:1px solid var(--line-soft);}
+.scout-emcampo{padding:8px 20px; font-size:12.5px; font-weight:600; color:#334155; border-bottom:1px solid var(--line-soft);}
+.scout-troca{display:flex; flex-direction:column; gap:8px; padding:10px 20px; background:#F8FAFC; border-left:3px solid #0F172A; font-size:13px;}
+.scout-troca-lista{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+.scout-troca-lista .pill-btn{display:inline-flex; align-items:center; gap:6px;}
+.scout-tl{border:1px solid #E2E8F0; border-radius:10px; padding:10px 12px; background:#fff; max-height:420px; overflow:auto;}
 .camp-num-barra{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:8px 16px 10px; font-size:12.5px;}
 .camp-num-cel{width:64px;}
 .num-camisa.repetido{border-color:#B42318; color:#B42318; box-shadow:0 0 0 2px rgba(180,35,24,.12);}
@@ -12062,6 +12113,9 @@ function dadosScoutGoleiro(s) {
     fundamentos: s.fundamentos || {}, gols: s.gols || {},
     peso_antes: curto(s.peso_antes, 8), peso_depois: curto(s.peso_depois, 8), nota: curto(s.nota, 4),
     obs_adversario: curto(s.obs_adversario, 2000), relatorio: curto(s.relatorio, 4000),
+    lances: (s.lances || []).slice(-800), relogio: s.relogio || null, duracao: Number(s.duracao) || null,
+    entrada_min: s.entrada_min === undefined || s.entrada_min === "" ? null : s.entrada_min,
+    saida_min: s.saida_min === undefined || s.saida_min === "" ? null : s.saida_min,
     atualizado_em: firebase.firestore.FieldValue.serverTimestamp(),
   });
 }
@@ -12069,6 +12123,28 @@ function msgErroScout(e) {
   return /permission/i.test(e.message) ? "O banco ainda não aceita o scout de goleiros. O administrador precisa publicar a regra de ct_goleiros no Firebase." : "Não consegui salvar: " + e.message;
 }
 function horaCurta(d) { return d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" }); }
+/** Lances do scout de goleiro (minuto a minuto) como itens da linha do tempo. */
+function itensLancesGoleiro(s) {
+  const fund = (id) => (FUNDAMENTOS_GOLEIRO.find((f) => f.id === id) || {}).label || id;
+  const zona = (id) => (ZONAS_GOL.find((z) => z.id === id) || {}).label || "";
+  return (s.lances || []).map((l) => {
+    const base = { min: l.min, t: l.t, anulado: !!l.anulado, anulado_min: l.anulado_min };
+    if (l.tipo === "acao") return { ...base, tipo: l.res === "c" ? "certo" : "errado", titulo: fund(l.fund), sub: l.res === "c" ? "Certo" : "Errado" };
+    if (l.tipo === "gol") return { ...base, tipo: "gol_sofrido", titulo: "Gol sofrido", sub: zona(l.zona) };
+    if (l.tipo === "troca") return { ...base, tipo: "troca", titulo: "Entra " + (l.entra_nome || "-"), sub: "Sai " + (l.sai_nome || "-") };
+    if (l.tipo === "relogio") return { ...base, tipo: "ponto", titulo: l.txt || "" };
+    return { ...base, tipo: "ponto", titulo: l.txt || l.tipo };
+  });
+}
+function textoEmCampoGoleiro(s, dur, curto) {
+  if (s.tipo !== "jogo") return "";
+  const e = s.entrada_min === null || s.entrada_min === undefined ? 0 : Number(s.entrada_min);
+  const sa = s.saida_min === null || s.saida_min === undefined ? null : Number(s.saida_min);
+  const trocaSai = (s.lances || []).filter((l) => l.tipo === "troca" && l.sai === s.goleiro_id && !l.anulado).pop();
+  if (curto) return sa !== null ? `${e}' a ${sa}' (${Math.max(0, sa - e)} min)` : e > 0 ? `Entrou aos ${e}'` : "Jogo todo";
+  if (sa !== null) return `Em campo de ${e}' a ${sa}' (${Math.max(0, sa - e)} min)` + (trocaSai ? `, substituído por ${trocaSai.entra_nome}` : "");
+  return e > 0 ? `Entrou aos ${e}'` + (dur ? ` (${Math.max(0, dur - e)} min até o fim)` : "") : "Titular desde o início";
+}
 
 /** Gravação automática do scout ao vivo: cada toque agenda uma gravação (fila única, sem duplicar o documento),
  *  e ao sair da tela ou esconder o app o que estiver pendente é gravado na hora. */
@@ -12127,22 +12203,89 @@ function useAutoSalvarScout(s, ativo, usuario, aoGravar) {
   return { status, gravar, idRef };
 }
 
-function EditorScoutGoleiro({ inicial, goleiros, usuario, onFechar, embutido }) {
-  const { useState } = React;
+function autoSrvDe(s) { return !!s.evento_id || s.tipo === "jogo"; }
+function EditorScoutGoleiro({ inicial, goleiros, usuario, onFechar, embutido, relogioJogo, durJogo, onTrocar, reservas }) {
+  const { useState, useEffect } = React;
   const [s, setS] = useState(() => JSON.parse(JSON.stringify(inicial)));
-  const [tempo, setTempo] = useState(1);
+  const [tempo, setTempo] = useState(() => { const r = (inicial.relogio || relogioJogo || {}); return r.fase === "2t" || r.fase === "fim" ? 2 : 1; });
+  const [agora, setAgora] = useState(Date.now());
+  const [escolhendoTroca, setEscolhendoTroca] = useState(false);
+  /* Relógio: se o jogo já está com o cronômetro do pós-jogo rodando, usa ele; senão, o do próprio scout. */
+  const dur = Number(s.duracao) || Number(durJogo) || 80;
+  const usaRelogioJogo = !!(relogioJogo && relogioJogo.fase && relogioJogo.fase !== "pre");
+  const rel = usaRelogioJogo ? relogioJogo : (s.relogio || { fase: "pre", ajuste: 0 });
+  useEffect(() => {
+    if (rel.fase !== "1t" && rel.fase !== "2t") return undefined;
+    const t = setInterval(() => setAgora(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [rel.fase]);
+  useEffect(() => { if (rel.fase === "2t") setTempo(2); else if (rel.fase === "1t") setTempo(1); }, [rel.fase]);
+  const minuto = minutoDoRelogio(rel, dur, Date.now());
+  void agora;
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState(null);
   const aoVivo = !!s.evento_id;
   /* Scout de jogo (ao vivo ou lançado à mão) grava sozinho a cada toque; o de treino guarda rascunho no aparelho até salvar. */
-  const autoSrv = aoVivo || s.tipo === "jogo";
+  const autoSrv = autoSrvDe(s);
   const chaveRasc = React.useRef("scout:" + (inicial.evento_id ? inicial.evento_id + ":" + (inicial.goleiro_id || "") : inicial.id || "novo")).current;
   const rasc = useRascunho(chaveRasc, s, (v) => setS(v));
   const auto = useAutoSalvarScout(s, autoSrv, usuario, () => rasc.limpar());
   const set = (c) => (e) => setS((x) => ({ ...x, [c]: e.target.value }));
   const r = resumoScoutGoleiro(s);
+  const registra = autoSrvDe(s);
+  /** Cada toque vira um lance com minuto; o "−" não apaga: marca o último lance igual como desfeito. */
+  function comLance(x, novo, anular) {
+    if (!registra) return x;
+    const lances = (x.lances || []).slice();
+    const base = { min: minuto, t: tempo, em: new Date().toISOString() };
+    if (anular) {
+      for (let i = lances.length - 1; i >= 0; i--) { if (!lances[i].anulado && anular(lances[i])) { lances[i] = { ...lances[i], anulado: true, anulado_min: minuto }; break; } }
+      return { ...x, lances };
+    }
+    return { ...x, lances: [...lances, { ...base, ...novo }] };
+  }
   function mudarFund(id, campo, v) {
-    setS((x) => ({ ...x, fundamentos: { ...(x.fundamentos || {}), [id]: { ...contFund(x, id), [campo]: v } } }));
+    setS((x) => {
+      const antes = contFund(x, id)[campo];
+      const res = campo.endsWith("c") ? "c" : "e";
+      const t = campo.startsWith("t1") ? 1 : 2;
+      let y = { ...x, fundamentos: { ...(x.fundamentos || {}), [id]: { ...contFund(x, id), [campo]: v } } };
+      if (v > antes) y = comLance(y, { tipo: "acao", fund: id, res, t });
+      else if (v < antes) y = comLance(y, null, (l) => l.tipo === "acao" && l.fund === id && l.res === res && (l.t || 1) === t);
+      return y;
+    });
+  }
+  function mudarGol(z, v) {
+    setS((x) => {
+      const antes = Number((x.gols || {})[z]) || 0;
+      let y = { ...x, gols: { ...(x.gols || {}), [z]: Math.max(0, v) } };
+      if (v > antes) y = comLance(y, { tipo: "gol", zona: z });
+      else if (v < antes) y = comLance(y, null, (l) => l.tipo === "gol" && l.zona === z);
+      return y;
+    });
+  }
+  function setRelogio(novo) {
+    setS((x) => {
+      const relNovo = { ...(x.relogio || { fase: "pre", ajuste: 0 }), ...novo };
+      const txt = novo.fase === "1t" ? "Início do 1º tempo" : novo.fase === "int" ? "Intervalo" : novo.fase === "2t" ? "Início do 2º tempo" : novo.fase === "fim" ? "Fim de jogo" : null;
+      const y = { ...x, relogio: relNovo, duracao: x.duracao || dur };
+      return txt ? { ...y, lances: [...(y.lances || []), { tipo: "relogio", txt, min: minutoDoRelogio(relNovo, dur, Date.now()), t: novo.fase === "2t" || novo.fase === "fim" ? 2 : 1, em: new Date().toISOString() }] } : y;
+    });
+    setAgora(Date.now());
+  }
+  async function confirmarTroca(paraId) {
+    const para = (reservas || []).find((g) => g.id === paraId);
+    if (!para) return;
+    const lance = { tipo: "troca", sai: s.goleiro_id, sai_nome: s.goleiro_nome, entra: para.id, entra_nome: nomeExibicao(para), min: minuto, t: tempo, em: new Date().toISOString() };
+    const novo = { ...s, saida_min: minuto, duracao: s.duracao || dur, relogio: s.relogio || null, lances: [...(s.lances || []), lance] };
+    setS(novo); setEscolhendoTroca(false);
+    try {
+      const dados = dadosScoutGoleiro(novo);
+      if (auto.idRef.current) await db.collection(COL_GOLEIROS).doc(auto.idRef.current).set(dados, { merge: true });
+      else { const ref = await db.collection(COL_GOLEIROS).add({ ...dados, criado_por: usuario.id, criado_por_nome: usuario.nome || usuario.email || "", criado_em: firebase.firestore.FieldValue.serverTimestamp() }); auto.idRef.current = ref.id; }
+      rasc.limpar();
+      onTrocar(para, { lance, min: minuto, relogio: s.relogio || null, duracao: dur });
+    } catch (e) { setErro(msgErroScout(e)); }
   }
   function escolherGoleiro(id) {
     const g = goleiros.find((a) => a.id === id);
@@ -12181,10 +12324,34 @@ function EditorScoutGoleiro({ inicial, goleiros, usuario, onFechar, embutido }) 
           {st.tipo === "erro" && <button type="button" className="link-btn" onClick={() => auto.gravar()}>Tentar de novo</button>}
         </div>
       )}
+      {autoSrv && (
+        <div className="aovivo-relogio scout-relogio">
+          <div className="aovivo-tempo"><b>{relogioTexto(rel, dur, Date.now())}</b><small>{FASE_RELOGIO[rel.fase || "pre"]} · minuto {minuto}'{usaRelogioJogo ? " · relógio do pós-jogo" : ""}</small></div>
+          <div className="aovivo-botoes">
+            {!usaRelogioJogo && (rel.fase === "pre" || !rel.fase) && <button type="button" className="pill-btn primary" onClick={() => setRelogio({ fase: "1t", t1: Date.now() })}>Iniciar 1º tempo</button>}
+            {!usaRelogioJogo && rel.fase === "1t" && <button type="button" className="pill-btn" onClick={() => setRelogio({ fase: "int" })}>Intervalo</button>}
+            {!usaRelogioJogo && rel.fase === "int" && <button type="button" className="pill-btn primary" onClick={() => setRelogio({ fase: "2t", t2: Date.now() })}>Iniciar 2º tempo</button>}
+            {!usaRelogioJogo && rel.fase === "2t" && <button type="button" className="pill-btn" onClick={() => setRelogio({ fase: "fim" })}>Encerrar</button>}
+            {!usaRelogioJogo && <button type="button" className="pill-btn" onClick={() => setRelogio({ ajuste: ((s.relogio || {}).ajuste || 0) - 1 })} aria-label="Menos um minuto">-1'</button>}
+            {!usaRelogioJogo && <button type="button" className="pill-btn" onClick={() => setRelogio({ ajuste: ((s.relogio || {}).ajuste || 0) + 1 })} aria-label="Mais um minuto">+1'</button>}
+            {aoVivo && onTrocar && (reservas || []).length > 0 && (s.saida_min === null || s.saida_min === undefined) && <button type="button" className="pill-btn" onClick={() => setEscolhendoTroca((v) => !v)}><IconeLance tipo="troca" /> Trocar goleiro</button>}
+          </div>
+        </div>
+      )}
+      {autoSrv && <div className="scout-emcampo">{textoEmCampoGoleiro(s, dur)}</div>}
+      {escolhendoTroca && (
+        <div className="scout-troca">
+          <span>Sai <b>{s.goleiro_nome}</b> aos <b>{minuto}'</b>. Quem entra?</span>
+          <div className="scout-troca-lista">
+            {(reservas || []).map((g) => <button key={g.id} type="button" className="pill-btn" onClick={() => confirmarTroca(g.id)}><IconeLance tipo="entra" /> {nomeExibicao(g)}</button>)}
+            <button type="button" className="link-btn" onClick={() => setEscolhendoTroca(false)}>Cancelar</button>
+          </div>
+        </div>
+      )}
       <div className="form-panel" style={{ borderTop: "none" }}>
         <div className="form-grid">
           <div className="field"><label>Goleiro</label>
-            <select value={s.goleiro_id} onChange={(e) => escolherGoleiro(e.target.value)}>
+            <select value={s.goleiro_id} disabled={aoVivo && !!onTrocar} onChange={(e) => escolherGoleiro(e.target.value)}>
               <option value="">Escolha</option>
               {goleiros.map((g) => <option key={g.id} value={g.id}>{nomeExibicao(g)}{g.categoria ? " · " + g.categoria : ""}</option>)}
             </select>
@@ -12237,7 +12404,7 @@ function EditorScoutGoleiro({ inicial, goleiros, usuario, onFechar, embutido }) 
         </div>
 
         <div className="perfil-editor-secao">Gols sofridos <span className="scout-dica">({r.gols}) toque na zona onde a bola entrou</span></div>
-        <GolZonas gols={s.gols} onMudar={(z, v) => setS((x) => ({ ...x, gols: { ...(x.gols || {}), [z]: Math.max(0, v) } }))} />
+        <GolZonas gols={s.gols} onMudar={mudarGol} />
 
         <div className="perfil-editor-secao">Físico e avaliação</div>
         <div className="form-grid treino-grid-3">
@@ -12248,6 +12415,8 @@ function EditorScoutGoleiro({ inicial, goleiros, usuario, onFechar, embutido }) 
         {r.perdaPeso && <p className={"scout-peso" + (r.perdaPeso.pct >= 2 ? " alerta" : "")}>Perdeu {String(r.perdaPeso.kg).replace(".", ",")} kg ({String(r.perdaPeso.pct).replace(".", ",")}% do peso){r.perdaPeso.pct >= 2 ? ": acima de 2%, atenção à hidratação." : "."}</p>}
         {s.tipo === "jogo" && <div className="field"><label>Informações do adversário</label><textarea rows={3} value={s.obs_adversario} onChange={set("obs_adversario")} placeholder="Cobradores de falta e pênalti, chutes de média e longa distância..." /></div>}
         <div className="field"><label>Relatório técnico</label><textarea rows={4} value={s.relatorio} onChange={set("relatorio")} placeholder="Orientações dadas, concentração, pontos fortes e o que trabalhar." /></div>
+        {autoSrv && <React.Fragment><div className="perfil-editor-secao">Lance a lance <span className="scout-dica">cada toque fica registrado com o minuto; o − marca como desfeito</span></div>
+          <div className="scout-tl"><LinhaDoTempo itens={itensLancesGoleiro(s)} dur={dur} nomeTempo={(t) => nomeTempoGoleiro(s.tipo, t)} vazio="Nenhum lance ainda. Inicie o relógio e toque em Certo, Errado ou na zona do gol." /></div></React.Fragment>}
         {erro && <div className="access-note" style={{ background: "var(--vermelho-bg)", borderColor: "var(--vermelho)" }}><span>{erro}</span></div>}
         <div className="treino-acoes-fim" style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
           {!autoSrv && <button className="pill-btn" onClick={() => onFechar(false)}>Cancelar</button>}
@@ -12288,6 +12457,7 @@ function DetalheScoutGoleiro({ s, onVoltar, onEditar, onPdf, podeApagar, onApaga
         <button className="pill-btn" onClick={onVoltar}>Voltar</button>
       </div>
       <div className="panel-body">
+        {s.tipo === "jogo" && <div className="scout-emcampo" style={{ margin: "0 0 12px" }}>{textoEmCampoGoleiro(s, Number(s.duracao) || 80)}</div>}
         <div className="goleiro-kpis">
           {kpis.map(([l, v]) => <div key={l} className={"goleiro-kpi " + corPct(v)}><span>{l}</span><b>{v === null ? "-" : v + "%"}</b></div>)}
           <div className="goleiro-kpi navy"><span>Gols sofridos</span><b>{r.gols}</b></div>
@@ -12319,6 +12489,7 @@ function DetalheScoutGoleiro({ s, onVoltar, onEditar, onPdf, podeApagar, onApaga
         </div>
         {s.obs_adversario && <><div className="scout-grupo-titulo">Informações do adversário</div><p className="aviso-texto">{s.obs_adversario}</p></>}
         {s.relatorio && <><div className="scout-grupo-titulo">Relatório técnico</div><p className="aviso-texto">{s.relatorio}</p></>}
+        {(s.lances || []).length > 0 && <><div className="scout-grupo-titulo">Lance a lance<span>{(s.lances || []).filter((l) => !l.anulado && l.tipo !== "relogio").length} lances</span></div><div className="scout-tl"><LinhaDoTempo itens={itensLancesGoleiro(s)} dur={Number(s.duracao) || 80} nomeTempo={(t) => nomeTempoGoleiro(s.tipo, t)} crescente /></div></>}
         <div className="treino-acoes-fim" style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
           {podeApagar && <button className="pill-btn perigo" onClick={onApagar}>Apagar</button>}
           {onEditar && <button className="pill-btn" onClick={onEditar}>Editar</button>}
@@ -12358,7 +12529,7 @@ function baixarScoutGoleiroPdf(s, usuario) {
     departamento: "Treinamento de goleiros", clube: "EC Meia Noite SAF",
     titulo: jogo ? "SCOUT DE GOLEIRO · JOGO" : "SCOUT DE GOLEIRO · TREINO",
     subtitulo: s.goleiro_nome + (jogo && s.adversario ? " · x " + s.adversario : ""),
-    faixaInfo: [["Data", formatarData(s.data) + (s.hora ? " · " + s.hora : "")], [jogo ? "Adversário" : "Categoria", jogo ? (s.adversario || "-") : (s.categoria || "-")], ["Local", s.local || "-"], [jogo ? "Competição" : "Tipo", jogo ? (s.competicao || "-") : "Treino"]],
+    faixaInfo: [["Data", formatarData(s.data) + (s.hora ? " · " + s.hora : "")], [jogo ? "Adversário" : "Categoria", jogo ? (s.adversario || "-") : (s.categoria || "-")], [jogo ? "Em campo" : "Local", jogo ? textoEmCampoGoleiro(s, Number(s.duracao) || 80, true) : (s.local || "-")], [jogo ? "Competição" : "Tipo", jogo ? (s.competicao || "-") : "Treino"]],
     rodape: "Treinamento de goleiros · EC Meia Noite SAF",
     local: "Patrocínio Paulista", dataAssinatura: dataAssinaturaRelatorio(hojeISO()),
     responsavelNome: (usuario && usuario.nome) || s.criado_por_nome || "", responsavelRegistro: "",
@@ -12415,6 +12586,12 @@ function baixarScoutGoleiroPdf(s, usuario) {
   ctx.y = gy + gh + 9;
   if (s.obs_adversario) { r2Secao(ctx, "Informações do adversário", { reservar: 10 }); r2Paragrafo(ctx, s.obs_adversario); }
   if (s.relatorio) { r2Secao(ctx, "Relatório técnico", { reservar: 10 }); r2Paragrafo(ctx, s.relatorio); }
+  if ((s.lances || []).length) {
+    r2Secao(ctx, "Lance a lance", { reservar: 24 });
+    pdfTabelaLances(doc, ctx, itensLancesGoleiro(s), (t) => nomeTempoGoleiro(s.tipo, t),
+      { font: "helvetica", fontSize: 8, textColor: R2.texto, cellPadding: { top: 1.1, bottom: 1.1, left: 2, right: 2 }, lineColor: R2.linha, lineWidth: { bottom: 0.2 }, valign: "middle" },
+      { fillColor: R2.verde, textColor: R2.branco, fontStyle: "bold" });
+  }
   r2Assinatura(ctx, rel);
   const fim = doc.getNumberOfPages();
   for (let pg = ini; pg <= fim; pg++) { doc.setPage(pg); if (pg > ini) r2CabecalhoContinuacao(ctx, rel); r2Rodape(ctx, rel, pg - ini + 1, fim - ini + 1); }
@@ -12470,18 +12647,38 @@ function EscolhaJogoScout({ scouts, onEscolher, onAvulso, onCancelar }) {
 }
 
 /** Aba "Goleiro ao vivo" da página do jogo: um scout por goleiro, salvo sozinho a cada toque. */
-function ScoutGoleiroDoJogo({ evento, atletas, usuario }) {
+function ScoutGoleiroDoJogo({ evento, atletas, usuario, relogioJogo, durJogo }) {
   const { useState, useEffect } = React;
   const goleiros = goleirosDoJogo(evento, atletas);
   const [scouts, setScouts] = useState(null);
   const [erro, setErro] = useState(null);
   const [gid, setGid] = useState(goleiros[0] ? goleiros[0].id : "");
   const [versao, setVersao] = useState(0);
+  const escolhido = React.useRef(false);
   useEffect(() => {
     db.collection(COL_GOLEIROS).where("evento_id", "==", evento.id).get()
-      .then((snap) => setScouts(snap.docs.map((d) => ({ id: d.id, ...d.data() }))))
+      .then((snap) => {
+        const l = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        /* Abre no goleiro que está em campo agora (entrou numa troca e ainda não saiu). */
+        if (!escolhido.current) { const emCampo = l.filter((x) => x.entrada_min !== null && x.entrada_min !== undefined && (x.saida_min === null || x.saida_min === undefined)).pop(); if (emCampo) setGid(emCampo.goleiro_id); }
+        setScouts(l);
+      })
       .catch((e) => { setErro(msgErroScout(e)); setScouts([]); });
   }, [evento.id, versao]);
+  /** Troca de goleiro: o reserva ganha (ou atualiza) o scout dele com o minuto de entrada e o mesmo relógio. */
+  async function trocar(para, info) {
+    try {
+      const ex = (scouts || []).find((x) => x.goleiro_id === para.id);
+      const extra = { entrada_min: info.min, saida_min: null, relogio: info.relogio, duracao: info.duracao };
+      if (ex) {
+        await db.collection(COL_GOLEIROS).doc(ex.id).set({ ...extra, lances: [...(ex.lances || []), info.lance].slice(-800) }, { merge: true });
+      } else {
+        const base = { ...scoutGoleiroDoJogo(evento, para), ...extra, lances: [info.lance] };
+        await db.collection(COL_GOLEIROS).add({ ...dadosScoutGoleiro(base), criado_por: usuario.id, criado_por_nome: usuario.nome || usuario.email || "", criado_em: firebase.firestore.FieldValue.serverTimestamp() });
+      }
+      escolhido.current = true; setScouts(null); setGid(para.id); setVersao((v) => v + 1);
+    } catch (e) { setErro(msgErroScout(e)); }
+  }
   if (scouts === null) return <SkeletonPanel />;
   if (!goleiros.length) return <div className="panel"><div className="empty-state">Nenhum goleiro no elenco. Defina a posição Goleiro no cadastro do atleta.</div></div>;
   const g = goleiros.find((x) => x.id === gid) || goleiros[0];
@@ -12491,10 +12688,11 @@ function ScoutGoleiroDoJogo({ evento, atletas, usuario }) {
       {erro && <div className="access-note" style={{ background: "var(--amarelo-bg)", borderColor: "var(--amarelo)" }}><span>{erro}</span></div>}
       {goleiros.length > 1 && (
         <div className="equipe-filtros" style={{ marginBottom: 12 }}>
-          {goleiros.map((x) => <button key={x.id} type="button" className={"chip-filtro" + (x.id === g.id ? " on" : "")} onClick={() => { if (x.id === g.id) return; setScouts(null); setGid(x.id); setVersao((v) => v + 1); }}>{nomeExibicao(x)}{scouts.some((y) => y.goleiro_id === x.id) ? " ●" : ""}</button>)}
+          {goleiros.map((x) => { const sx = scouts.find((y) => y.goleiro_id === x.id); const fora = sx && sx.saida_min !== null && sx.saida_min !== undefined; return <button key={x.id} type="button" className={"chip-filtro" + (x.id === g.id ? " on" : "")} onClick={() => { if (x.id === g.id) return; escolhido.current = true; setScouts(null); setGid(x.id); setVersao((v) => v + 1); }}>{nomeExibicao(x)}{sx ? (fora ? " · saiu " + sx.saida_min + "'" : " · scout") : ""}</button>; })}
         </div>
       )}
       <EditorScoutGoleiro key={g.id + ":" + (existente ? existente.id : "novo")} embutido inicial={existente || scoutGoleiroDoJogo(evento, g)} goleiros={goleiros} usuario={usuario}
+        relogioJogo={relogioJogo} durJogo={durJogo} reservas={goleiros.filter((x) => x.id !== g.id)} onTrocar={trocar}
         onFechar={() => setVersao((v) => v + 1)} />
     </React.Fragment>
   );
@@ -25301,6 +25499,67 @@ function textoResultado(evento) {
 }
 
 /** Pós-jogo: placar, duração, substituições, minutos, gols, assistências, cartões e observações. */
+/* ---------- Linha do tempo de lances (padrão dos apps de placar: minuto, ícone, texto) ---------- */
+Object.assign(ICONES, {
+  ev_entra: [["path", { d: "M12 19V5.5M6.5 11 12 5.5l5.5 5.5" }]],
+  ev_sai: [["path", { d: "M12 5v13.5M6.5 13l5.5 5.5 5.5-5.5" }]],
+  ev_lesao: [["path", { d: "M9.5 4h5v5.5H20v5h-5.5V20h-5v-5.5H4v-5h5.5z" }]],
+  ev_luva: [["path", { d: "M7 21v-7.5L4.6 9.8a1.6 1.6 0 0 1 2.6-1.8L9 10.3V4.6a1.4 1.4 0 0 1 2.8 0V10V3.6a1.4 1.4 0 0 1 2.8 0V10V4.6a1.4 1.4 0 0 1 2.8 0V10.5V7a1.4 1.4 0 0 1 2.8 0v7c0 3.6-2.6 7-6.6 7H7z" }]],
+  ev_troca: [["path", { d: "M7 4v15M3.5 15.5 7 19l3.5-3.5M17 20V5M13.5 8.5 17 5l3.5 3.5" }]],
+});
+/** Ícone de um lance: bola, cartão (retângulo na cor do cartão), setas de entrada e saída, cruz de lesão. */
+function IconeLance({ tipo }) {
+  if (tipo === "ca" || tipo === "cv") return <span className={"ic-cartao " + tipo} aria-hidden="true"></span>;
+  if (tipo === "gol" || tipo === "gol_adv" || tipo === "gol_sofrido") return <span className={"ic-bola " + tipo} aria-hidden="true"><Icone nome="m_bola" /></span>;
+  if (tipo === "assist") return <span className="ic-assist" aria-hidden="true">A</span>;
+  if (tipo === "sub" || tipo === "troca") return <span className="ic-sub" aria-hidden="true"><Icone nome="ev_entra" className="ent" /><Icone nome="ev_sai" className="sai" /></span>;
+  if (tipo === "entra") return <span className="ic-sub so" aria-hidden="true"><Icone nome="ev_entra" className="ent" /></span>;
+  if (tipo === "sai") return <span className="ic-sub so" aria-hidden="true"><Icone nome="ev_sai" className="sai" /></span>;
+  if (tipo === "lesao") return <span className="ic-lesao" aria-hidden="true"><Icone nome="ev_lesao" /></span>;
+  if (tipo === "certo" || tipo === "errado") return <span className={"ic-acao " + tipo} aria-hidden="true">{tipo === "certo" ? <Icone nome="m_check" /> : <Icone nome="m_apagar" />}</span>;
+  return <span className="ic-ponto" aria-hidden="true"></span>;
+}
+/** Linha do tempo: itens { min, t, tipo, titulo, sub, placar, anulado }. Agrupa por tempo; mais recente em cima. */
+function LinhaDoTempo({ itens, dur, nomeTempo, crescente, vazio }) {
+  const meio = Math.round((dur || 80) / 2);
+  const tempoDe = (i) => i.t || (Number(i.min) > meio ? 2 : 1);
+  const ord = itens.map((i, k) => ({ ...i, _k: k })).sort((a, b) => (tempoDe(a) - tempoDe(b)) || ((Number(a.min) || 0) - (Number(b.min) || 0)) || (a._k - b._k));
+  if (!crescente) ord.reverse();
+  if (!ord.length) return vazio ? <div className="tl-vazio">{vazio}</div> : null;
+  const linhas = [];
+  let atual = null;
+  ord.forEach((i) => {
+    const t = tempoDe(i);
+    if (t !== atual) { atual = t; linhas.push(<div key={"t" + t + "_" + i._k} className="tl-tempo"><span>{(nomeTempo || ((n) => (n === 1 ? "1º tempo" : "2º tempo")))(t)}</span></div>); }
+    linhas.push(
+      <div key={i._k} className={"tl-item tl-" + i.tipo + (i.anulado ? " anulado" : "")}>
+        <span className="tl-min">{i.min === null || i.min === undefined || i.min === "" ? "" : i.min + "'"}</span>
+        <span className="tl-ic"><IconeLance tipo={i.tipo} /></span>
+        <span className="tl-txt"><b>{i.titulo}</b>{(i.sub || i.anulado) && <small>{[i.sub, i.anulado ? "desfeito" + (i.anulado_min !== undefined && i.anulado_min !== null ? " aos " + i.anulado_min + "'" : "") : ""].filter(Boolean).join(" · ")}</small>}</span>
+        {i.placar && <span className="tl-placar">{i.placar}</span>}
+      </div>
+    );
+  });
+  return <div className="tl">{linhas}</div>;
+}
+/** Lances do pós-jogo ao vivo virando itens da linha do tempo, com o placar parcial em cada gol. */
+function itensLancesJogo(lances, nome, dur) {
+  const meio = Math.round((dur || 80) / 2);
+  const cron = (lances || []).map((l, k) => ({ ...l, _k: k })).sort((a, b) => ((a.t || (a.min > meio ? 2 : 1)) - (b.t || (b.min > meio ? 2 : 1))) || (a.min - b.min) || (a._k - b._k));
+  let nos = 0, eles = 0;
+  return cron.map((l) => {
+    const base = { min: l.min, t: l.t, tipo: l.tipo };
+    if (l.tipo === "gol") { nos++; return { ...base, titulo: "Gol de " + nome(l.atleta), placar: nos + " x " + eles }; }
+    if (l.tipo === "gol_adv") { eles++; return { ...base, titulo: "Gol do adversário", placar: nos + " x " + eles }; }
+    if (l.tipo === "assist") return { ...base, titulo: "Assistência", sub: nome(l.atleta) };
+    if (l.tipo === "ca") return { ...base, titulo: "Cartão amarelo", sub: nome(l.atleta) };
+    if (l.tipo === "cv") return { ...base, titulo: "Cartão vermelho", sub: nome(l.atleta) };
+    if (l.tipo === "sub") return { ...base, titulo: "Entra " + nome(l.entra), sub: "Sai " + nome(l.atleta) };
+    if (l.tipo === "lesao") return { ...base, titulo: "Saiu lesionado", sub: nome(l.atleta) };
+    return { ...base, titulo: l.tipo };
+  });
+}
+
 /* ---------- Pós-jogo ao vivo: cronômetro, camisetas, toques e salvamento automático ---------- */
 const LANCES_AO_VIVO = [
   { id: "gol", label: "Gol", campo: "gols", cor: "#16A34A" },
@@ -25367,9 +25626,10 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
     if (somenteLeitura) return;
     setPos((p) => {
       const n = fn(p);
-      const lances = lance ? [...(p.lances || []), { ...lance, min: minuto, em: new Date().toISOString() }] : (p.lances || []);
+      const lances = lance ? [...(p.lances || []), { ...lance, min: minuto, t: rel.fase === "2t" || rel.fase === "fim" ? 2 : 1, em: new Date().toISOString() }] : (p.lances || []);
       const final = { ...n, lances };
       if (lance && lance.tipo === "gol") setPlacar((pl) => ({ ...pl, nos: String(somaGols(final.atletas) + gc(final)) }));
+      if (lance && lance.tipo === "gol_adv") setPlacar((pl) => ({ ...pl, eles: String((Number(pl.eles) || 0) + 1), nos: pl.nos === "" ? "0" : pl.nos }));
       return final;
     });
     onMudou();
@@ -25405,6 +25665,7 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
         return { ...p, atletas, lances, substituicoes: (p.substituicoes || []).filter((s) => !(s.sai === l.atleta && s.entra === l.entra && s.min === l.min)) };
       }
       if (l.tipo === "lesao") { atletas[l.atleta] = { ...reg(p, l.atleta), saida: dur, lesao: false }; return { ...p, atletas, lances }; }
+      if (l.tipo === "gol_adv") { setPlacar((pl) => ({ ...pl, eles: String(Math.max(0, (Number(pl.eles) || 0) - 1)) })); return { ...p, lances }; }
       const campo = (LANCES_AO_VIVO.find((x) => x.id === l.tipo) || {}).campo;
       if (campo) atletas[l.atleta] = { ...reg(p, l.atleta), [campo]: Math.max(0, (Number(reg(p, l.atleta)[campo]) || 0) - 1) };
       const n = { ...p, atletas, lances };
@@ -25412,18 +25673,23 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
       return n;
     });
   }
+  /* Marcas embaixo da camiseta, no estilo das escalações dos apps de placar: bola, A, cartão, seta com o minuto. */
   const marcasDe = (id) => {
     const r = reg(pos, id);
-    return [
-      Number(r.gols) ? <i key="g" className="m-gol">{Array.from({ length: Math.min(3, Number(r.gols)) }, (_, k) => <Icone key={k} nome="m_bola" className="ico-em" />)}</i> : null,
-      Number(r.assist) ? <i key="a" className="m-ast">A{Number(r.assist) > 1 ? r.assist : ""}</i> : null,
-      Number(r.ca) ? <i key="ca" className="m-ca"></i> : null,
-      Number(r.cv) ? <i key="cv" className="m-cv"></i> : null,
-      r.lesao ? <i key="l" className="m-les">+</i> : null,
-    ].filter(Boolean);
+    const subs = pos.substituicoes || [];
+    const entrou = subs.find((x) => x.entra === id), saiu = subs.find((x) => x.sai === id);
+    const out = [];
+    if (Number(r.gols)) out.push(<i key="g" className="mk"><IconeLance tipo="gol" />{Number(r.gols) > 1 ? <em>{r.gols}</em> : null}</i>);
+    if (Number(r.assist)) out.push(<i key="a" className="mk"><IconeLance tipo="assist" />{Number(r.assist) > 1 ? <em>{r.assist}</em> : null}</i>);
+    if (Number(r.cv)) out.push(<i key="cv" className="mk"><IconeLance tipo="cv" /></i>);
+    else if (Number(r.ca)) out.push(<i key="ca" className="mk"><IconeLance tipo={Number(r.ca) > 1 ? "cv" : "ca"} /></i>);
+    if (entrou) out.push(<i key="e" className="mk"><IconeLance tipo="entra" /><em>{entrou.min}'</em></i>);
+    if (saiu) out.push(<i key="s" className="mk"><IconeLance tipo="sai" /><em>{saiu.min}'</em></i>);
+    if (r.lesao) out.push(<i key="l" className="mk"><IconeLance tipo="lesao" /></i>);
+    return out.length ? out : null;
   };
   const ultimo = (pos.lances || [])[(pos.lances || []).length - 1];
-  const textoLance = (l) => l.tipo === "sub" ? `${l.min}' Sai ${nome(l.atleta)}, entra ${nome(l.entra)}` : `${l.min}' ${({ gol: "Gol", assist: "Assistência", ca: "Amarelo", cv: "Vermelho", lesao: "Saiu lesionado" })[l.tipo]}: ${nome(l.atleta)}`;
+  const textoLance = (l) => l.tipo === "sub" ? `${l.min}' Sai ${nome(l.atleta)}, entra ${nome(l.entra)}` : l.tipo === "gol_adv" ? `${l.min}' Gol do adversário` : `${l.min}' ${({ gol: "Gol", assist: "Assistência", ca: "Amarelo", cv: "Vermelho", lesao: "Saiu lesionado" })[l.tipo]}: ${nome(l.atleta)}`;
 
   return (
     <div className="panel aovivo">
@@ -25437,6 +25703,7 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
           {rel.fase === "2t" && <button type="button" className="pill-btn" onClick={() => setRelogio({ fase: "fim" })}>Encerrar jogo</button>}
           <button type="button" className="pill-btn" onClick={() => setRelogio({ ajuste: (rel.ajuste || 0) - 1 })} aria-label="Menos um minuto">-1'</button>
           <button type="button" className="pill-btn" onClick={() => setRelogio({ ajuste: (rel.ajuste || 0) + 1 })} aria-label="Mais um minuto">+1'</button>
+          {rel.fase && rel.fase !== "pre" && <button type="button" className="pill-btn" onClick={() => aplicar((p) => p, { tipo: "gol_adv" })}><IconeLance tipo="gol_adv" /> Gol do adversário</button>}
           {ultimo && <button type="button" className="pill-btn perigo" onClick={desfazerUltimo} title={textoLance(ultimo)}>Desfazer último</button>}
         </div>
       </div>
@@ -25451,9 +25718,10 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
                 onClick={() => { if (trocando) return; setSel(sel === a.id ? null : a.id); }} />
               {sel === a.id && (
                 <div className="aovivo-menu" role="menu">
-                  {LANCES_AO_VIVO.map((l) => <button key={l.id} type="button" style={{ "--cor-lance": l.cor }} onClick={() => marcar(a.id, l.id)}>{l.label}</button>)}
-                  <button type="button" className="m-sub" onClick={() => { setTrocando(a.id); setSel(null); }}>Substituir</button>
-                  <button type="button" className="m-lesao" onClick={() => saiuLesionado(a.id)}>Saiu lesionado</button>
+                  <div className="aovivo-menu-nome">{nome(a.id)} · {minuto}'</div>
+                  {LANCES_AO_VIVO.map((l) => <button key={l.id} type="button" onClick={() => marcar(a.id, l.id)}><IconeLance tipo={l.id} />{l.label}</button>)}
+                  <button type="button" onClick={() => { setTrocando(a.id); setSel(null); }}><IconeLance tipo="sub" />Substituir</button>
+                  <button type="button" className="m-lesao" onClick={() => saiuLesionado(a.id)}><IconeLance tipo="lesao" />Saiu lesionado</button>
                   <button type="button" className="m-fechar" onClick={() => setSel(null)}>Fechar</button>
                 </div>
               )}
@@ -25470,7 +25738,7 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
         {sairam.length > 0 && (<React.Fragment><b>Saíram</b><div className="aovivo-banco-lista">{sairam.map((j) => <Camiseta key={j.id} numero={j.numero} nome={nome(j.id)} estado="saiu" marcas={marcasDe(j.id)} />)}</div></React.Fragment>)}
       </div>
       {(pos.lances || []).length > 0 && (
-        <ol className="aovivo-lances">{(pos.lances || []).slice().reverse().map((l, i) => <li key={i} className={"l-" + l.tipo}>{textoLance(l)}</li>)}</ol>
+        <div className="aovivo-tl"><div className="aovivo-tl-titulo">Lance a lance</div><LinhaDoTempo itens={itensLancesJogo(pos.lances, nome, dur)} dur={dur} /></div>
       )}
     </div>
   );
@@ -25633,6 +25901,43 @@ function EditorPosJogo({ jogadores, pos, setPos, placar, setPlacar, porId, mudou
   );
 }
 
+/** Tabela "lance a lance" do PDF com os ícones desenhados (bola, cartão, setas, cruz). */
+function pdfTabelaLances(doc, ctx, itens, nomeTempo, estilos, cab) {
+  const meio = 1e9;
+  const tempoDe = (i) => i.t || 1;
+  const ord = itens.map((i, k) => ({ ...i, _k: k })).sort((a, b) => (tempoDe(a) - tempoDe(b)) || ((Number(a.min) || 0) - (Number(b.min) || 0)) || (a._k - b._k));
+  const body = [], tipos = [];
+  let atual = null;
+  ord.forEach((i) => {
+    const t = tempoDe(i);
+    if (t !== atual) { atual = t; body.push([{ content: textoPdf(nomeTempo(t)).toUpperCase(), colSpan: 4, styles: { fontStyle: "bold", fontSize: 7.5, textColor: [100, 116, 139], fillColor: [244, 246, 249] } }]); tipos.push(null); }
+    body.push([i.min === null || i.min === undefined || i.min === "" ? "" : i.min + "'", "", textoPdf(i.titulo + (i.sub ? " · " + i.sub : "") + (i.anulado ? " (desfeito" + (i.anulado_min !== undefined && i.anulado_min !== null ? " aos " + i.anulado_min + "'" : "") + ")" : "")), i.placar || ""]);
+    tipos.push(i);
+  });
+  void meio;
+  doc.autoTable({
+    startY: ctx.y, margin: pdfMargensTabela(ctx), head: [["Min", "", "Lance", "Placar"]], body,
+    theme: "plain", styles: estilos, headStyles: cab, rowPageBreak: "avoid",
+    columnStyles: { 0: { cellWidth: 14, halign: "center", fontStyle: "bold" }, 1: { cellWidth: 9 }, 3: { cellWidth: 18, halign: "center", fontStyle: "bold" } },
+    didParseCell(d) { const it = d.section === "body" ? tipos[d.row.index] : null; if (it && it.anulado) { d.cell.styles.textColor = [148, 163, 184]; } },
+    didDrawCell(d) {
+      if (d.section !== "body" || d.column.index !== 1) return;
+      const it = tipos[d.row.index]; if (!it) return;
+      const cx = d.cell.x + d.cell.width / 2, cy = d.cell.y + d.cell.height / 2;
+      doc.setLineWidth(0.35);
+      if (it.tipo === "ca" || it.tipo === "cv") { doc.setFillColor(...(it.tipo === "ca" ? [242, 194, 0] : [215, 38, 61])); doc.roundedRect(cx - 1.3, cy - 1.8, 2.6, 3.6, 0.3, 0.3, "F"); }
+      else if (it.tipo === "gol" || it.tipo === "gol_adv" || it.tipo === "gol_sofrido") { doc.setDrawColor(15, 23, 42); doc.setFillColor(...(it.tipo === "gol" ? [15, 23, 42] : [255, 255, 255])); doc.circle(cx, cy, 1.6, it.tipo === "gol" ? "FD" : "S"); }
+      else if (it.tipo === "sub" || it.tipo === "troca") { doc.setFillColor(22, 163, 74); doc.triangle(cx - 2.2, cy - 0.2, cx - 0.4, cy - 0.2, cx - 1.3, cy - 2, "F"); doc.setFillColor(220, 38, 38); doc.triangle(cx + 0.4, cy + 0.2, cx + 2.2, cy + 0.2, cx + 1.3, cy + 2, "F"); }
+      else if (it.tipo === "lesao") { doc.setFillColor(220, 38, 38); doc.rect(cx - 0.5, cy - 1.7, 1, 3.4, "F"); doc.rect(cx - 1.7, cy - 0.5, 3.4, 1, "F"); }
+      else if (it.tipo === "certo") { doc.setDrawColor(22, 128, 61); doc.setLineWidth(0.6); doc.line(cx - 1.4, cy, cx - 0.4, cy + 1); doc.line(cx - 0.4, cy + 1, cx + 1.5, cy - 1.1); }
+      else if (it.tipo === "errado") { doc.setDrawColor(185, 28, 28); doc.setLineWidth(0.6); doc.line(cx - 1.1, cy - 1.1, cx + 1.1, cy + 1.1); doc.line(cx + 1.1, cy - 1.1, cx - 1.1, cy + 1.1); }
+      else if (it.tipo === "assist") { doc.setFont("helvetica", "bold"); doc.setFontSize(7); doc.setTextColor(15, 23, 42); doc.text("A", cx, cy + 1.2, { align: "center" }); }
+      else { doc.setFillColor(148, 163, 184); doc.circle(cx, cy, 0.8, "F"); }
+    },
+  });
+  ctx.y = doc.lastAutoTable.finalY + 5;
+}
+
 /** Relatório completo de um jogo (pré e pós-jogo) em PDF. */
 async function baixarRelatorioJogoPdf(evento, porId, usuario) {
   try { await carregarBiblioteca("pdf"); } catch (e) { avisoApp(e.message); return; }
@@ -25682,6 +25987,13 @@ async function baixarRelatorioJogoPdf(evento, porId, usuario) {
   if (!r.preenchido) {
     doc.setFont("helvetica", "italic"); doc.setFontSize(10); doc.setTextColor(...PDF_COR.cinza);
     doc.text("Pós-jogo ainda não preenchido: minutos, gols e cartões aparecem depois de lançados.", ctx.x0, ctx.y); ctx.y += 7;
+  }
+  const lancesPj = ((evento.pos_jogo || {}).lances) || [];
+  if (lancesPj.length) {
+    const nomeL = (id) => (porId[id] ? nomeExibicao(porId[id]) : "-");
+    const itensL = itensLancesJogo(lancesPj, nomeL, r.duracao);
+    pdfSecao(ctx, "Lance a lance", { reservar: 18 });
+    pdfTabelaLances(doc, ctx, itensL, (t) => (t === 1 ? "1º tempo" : "2º tempo"), estilos, cab);
   }
   if (r.substituicoes.length) {
     pdfSecao(ctx, "Substituições", { reservar: 18 });
@@ -26424,7 +26736,7 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
       </div>
       {!podeEditarJogo && <div className="access-note so-leitura-aviso"><span><b>Somente leitura.</b> Só a Comissão técnica (treinadores) e o Desempenho alteram o jogo.</span></div>}
       <fieldset className="so-leitura" disabled={!podeEditarJogo}>
-      {secao === "goleiro" && <ScoutGoleiroDoJogo evento={evento} atletas={atletas} usuario={usuario} />}
+      {secao === "goleiro" && <ScoutGoleiroDoJogo evento={evento} atletas={atletas} usuario={usuario} relogioJogo={pos.relogio} durJogo={Number(pos.duracao) || duracaoPadrao(evento)} />}
       {secao === "pos" && mensagem && <div className="access-note" style={{ borderLeftColor: mensagem.tipo === "ok" ? "var(--st-good)" : "var(--st-crit)" }}><span>{mensagem.texto}</span></div>}
       {secao === "pos" && <EditorPosJogo jogadores={jogadoresPos} pos={pos} setPos={setPos} placar={placarEd} setPlacar={setPlacarEd} porId={porId} mudou={mudouPos} somenteLeitura={!podeEditarJogo} onAuto={() => setAutoTick((t) => t + 1)} onLesao={avisarLesao} />}
 
