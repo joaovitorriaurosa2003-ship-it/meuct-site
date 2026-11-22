@@ -14942,6 +14942,13 @@ function ViewFisioterapia({ usuario }) {
               </div>
             </div>
 
+            <PainelLesoesMedicina atletas={atletas} usuario={usuario} registrosFisio={registros} acoes={(a, ep) => (
+              <React.Fragment>
+                {(ep.registros || []).length > 0 && <button type="button" className="pill-btn" onClick={() => det.abrir(a.id, ep.registros[ep.registros.length - 1])}>Abrir acompanhamento</button>}
+                {podeLancar("fisioterapia") && <AvancarFaseRtp atletaId={a.id} episodio={ep} usuario={usuario} onSalvar={adicionar} />}
+              </React.Fragment>
+            )} />
+
             {kpis.lesoesAtivas > 0 && (
               <div className="charts-row">
                 <GraficoComparativo
@@ -22282,15 +22289,16 @@ function ViewEncaminhamentos({ usuario }) {
 
 /* ---------- Medicina: boneco com as lesões do elenco ---------- */
 const FASES_RTP_ATIVAS = ["repouso", "mobilidade", "carga_progressiva", "transicao"];
-function PainelLesoesMedicina({ atletas, usuario }) {
+function PainelLesoesMedicina({ atletas, usuario, acoes, registrosFisio }) {
   const { useState, useEffect } = React;
-  const [fisio, setFisio] = useState(null);
+  const [fisioCarregado, setFisio] = useState(null);
+  const fisio = registrosFisio || fisioCarregado;
   const [cat, setCat] = useState("");
   const [local, setLocal] = useState(null);
   const [estado, setEstado] = useState(""); // "" | "vermelho" | "amarelo" | "reincidente"
   const [sobre, setSobre] = useState(null);
   const vm = useVerMais(8);
-  useEffect(() => { carregarTodosRegistros("fisio").then(setFisio).catch(() => setFisio({})); }, []);
+  useEffect(() => { if (registrosFisio) return; carregarTodosRegistros("fisio").then(setFisio).catch(() => setFisio({})); }, [!!registrosFisio]);
   if (!fisio || !atletas) return null;
   const todas = [];
   atletas.filter((a) => !cat || atletaNaCategoria(a, cat)).forEach((a) => calcularEpisodiosLesao(fisio[a.id] || []).filter((ep) => ep.ativo).forEach((ep) => todas.push({ a, ep, cor: corEpisodioMapa(ep) })));
@@ -22367,7 +22375,7 @@ function PainelLesoesMedicina({ atletas, usuario }) {
                 </div>
                 <div className="enc-acoes">
                   <button type="button" className="pill-btn" onClick={() => abrirGavetaAtleta(a.id)}>Ver atleta</button>
-                  <button type="button" className="pill-btn primary" onClick={() => abrirEncaminhar({ atleta_id: a.id, de_setor: "medicina", para_setor: "fisioterapia", regiao: ep.regiao, lado: ep.lado || "" })}>Encaminhar à Fisio</button>
+                  {acoes ? acoes(a, ep) : <button type="button" className="pill-btn primary" onClick={() => abrirEncaminhar({ atleta_id: a.id, de_setor: "medicina", para_setor: "fisioterapia", regiao: ep.regiao, lado: ep.lado || "" })}>Encaminhar à Fisio</button>}
                 </div>
               </div>
             );
