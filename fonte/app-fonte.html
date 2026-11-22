@@ -2760,6 +2760,51 @@ th.num, td.num{text-align:right;}
 .enc-mapa{margin-top:10px;}
 .enc-filtro-setor{margin-left:auto; padding:7px 10px; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff;}
 .enc-setor .panel-head{gap:10px; flex-wrap:wrap;}
+/* Encaminhamentos: cartão enxuto (nome, assunto, um status, trilho de etapas, só o próximo passo) */
+.enc-lista{gap:8px;}
+.enc-item{gap:6px; border-left-width:3px; border-left-color:transparent; padding:12px 14px; border-radius:10px; transition:box-shadow .15s;}
+.enc-item:hover{box-shadow:0 2px 10px rgba(15,23,42,.06);}
+.enc-item.urgente, .enc-item.atrasado{border-left-color:#B42318; background:#fff;}
+.enc-item.concluido{opacity:.85;}
+.enc-linha1{display:flex; align-items:center; gap:10px; min-width:0;}
+.enc-avatar{flex:0 0 34px; width:34px; height:34px; border-radius:50%; background:#0F1B33; color:#F5C451; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;}
+.enc-cab{display:flex; flex-direction:column; min-width:0; flex:1;}
+.enc-nome{font-size:14px; color:#0F172A; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.enc-cab .enc-assunto{font-size:13px; color:#334155; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500;}
+.enc-estado{display:flex; flex-direction:column; align-items:flex-end; gap:2px; flex:0 0 auto;}
+.enc-status{font-size:11.5px; font-weight:700; color:#334155; background:#F1F5F9; border-radius:6px; padding:3px 8px; white-space:nowrap;}
+.enc-status.s-atendido{color:#1E7446; background:#EEF7F1;}
+.enc-status.atrasado{color:#B42318; background:#FEF3F2;}
+.enc-urgente{font-size:10.5px; font-weight:800; color:#B42318; text-transform:uppercase; letter-spacing:.06em;}
+.enc-mais{flex:0 0 30px; width:30px; height:30px; border:none; background:transparent; border-radius:8px; color:#475569; cursor:pointer; display:flex; align-items:center; justify-content:center;}
+.enc-mais:hover{background:#F1F5F9;} .enc-mais .ico{width:18px; height:18px;}
+.enc-trilho{display:grid; grid-template-columns:repeat(5,1fr); gap:3px; margin:2px 0 0 44px;}
+.enc-trilho i{height:4px; border-radius:2px; background:#E2E8F0;}
+.enc-trilho i.feito{background:#1E7446;} .enc-trilho i.atual{background:#0F172A;}
+.enc-item.atrasado .enc-trilho i.atual{background:#B42318;}
+.enc-item .enc-de{margin-left:44px; font-size:12px; color:#64748B;}
+.enc-item .enc-texto{margin:2px 0 0 44px; font-size:13px; color:#1F2937; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; cursor:pointer;}
+.enc-item .enc-texto.aberto{-webkit-line-clamp:unset; display:block;}
+.enc-item .enc-conduta, .enc-item .enc-agenda, .enc-item .enc-resposta{margin-left:44px; background:#F8FAFC; border-left:3px solid #CBD5E1; border-radius:6px;}
+.enc-item .enc-resposta{border-left-color:#1E7446;}
+.enc-item .enc-acoes, .enc-item .enc-responder, .enc-item .form-erro, .enc-item .enc-hist{margin-left:44px;}
+.enc-item .enc-acoes{margin-top:2px; gap:12px;}
+.enc-grupo{display:flex; align-items:center; gap:8px; margin:6px 0 0; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#64748B;}
+.enc-grupo:first-child{margin-top:0;}
+.enc-grupo b{font-size:11px; background:#F1F5F9; border-radius:999px; padding:1px 7px; color:#334155;}
+.enc-grupo.g-0{color:#B42318;} .enc-grupo.g-0 b{background:#FEF3F2; color:#B42318;}
+.enc-busca{display:flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:0 12px; margin:0 0 12px;}
+.enc-busca .ico{width:16px; height:16px; color:#64748B;}
+.enc-busca input{flex:1; border:none; outline:none; font:inherit; padding:10px 0; background:transparent; min-width:0;}
+@media (max-width: 720px){
+  .enc-lista{padding:10px;}
+  .enc-item{padding:10px 10px;}
+  .enc-trilho, .enc-item .enc-de, .enc-item .enc-texto, .enc-item .enc-conduta, .enc-item .enc-agenda, .enc-item .enc-resposta, .enc-item .enc-acoes, .enc-item .enc-responder, .enc-item .form-erro, .enc-item .enc-hist{margin-left:0;}
+  .enc-avatar{flex-basis:30px; width:30px; height:30px; font-size:11px;}
+  .enc-item .enc-acoes .pill-btn{flex:1;}
+  .barra-abas{gap:8px;} .barra-abas > .tab-select.abas{flex:1 1 100%;}
+  .enc-filtro-setor{margin-left:0; flex:1 1 auto; min-width:0;}
+}
 .gaveta-botoes{display:flex; gap:8px; flex-wrap:wrap;} .gaveta-botoes .pill-btn{flex:1;}
 .med-lesoes{display:grid; grid-template-columns:minmax(300px,520px) 1fr; gap:18px; padding:6px 16px 16px; align-items:start;}
 .med-mapa{position:sticky; top:76px; padding:12px 8px 10px; border:1px solid var(--line-soft); border-radius:16px; background:linear-gradient(180deg,#F8FBFF,#FFFFFF);}
@@ -2949,6 +2994,14 @@ th.num, td.num{text-align:right;}
 .jogo-info{font-size:12.5px; color:var(--mn-text-2); text-align:center;}
 .jogo-card-rodape{display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08);}
 .jogo-card-rodape .pill-btn{margin-left:auto;}
+.jogo-dado{font-size:12px; font-weight:600; color:#CBD5E1; display:inline-flex; align-items:center; gap:6px;}
+.jogador-num{position:absolute; left:-10px; bottom:-6px; min-width:20px; height:20px; padding:0 4px; border-radius:6px; background:#0F172A; color:#fff; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 2px #fff; font-variant-numeric:tabular-nums;}
+.pitch-camp{font:inherit; font-size:12.5px; font-weight:600; padding:7px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); color:#fff; max-width:220px;}
+.pitch-camp option{color:#0F172A;}
+.jogo-dado.fora::before{content:""; width:6px; height:6px; border-radius:50%; background:#F87171;}
+.jogo-dado + .jogo-dado{padding-left:10px; border-left:1px solid rgba(255,255,255,.12);}
+.jogo-falta{background:transparent !important; padding:0 !important; border-radius:0 !important; font-size:11px !important; letter-spacing:.08em; text-transform:uppercase; color:#94A3B8 !important; font-weight:700 !important;}
+.jogo-falta.perto{color:#E8C468 !important;}
 .jogo-card .badge.verde{background:rgba(43,209,126,0.16); color:#8BF2BD;}
 .jogo-card .badge.amarelo{background:rgba(250,178,25,0.16); color:#FFD27A;}
 .jogo-card .badge.vermelho{background:rgba(208,59,59,0.2); color:#FFA3A3;}
@@ -3520,6 +3573,64 @@ tr.linha-qr td{background:var(--surface-2);}
 .mctx-marca .ico-menu{width:16px; height:16px; stroke-width:1.9;}
 .mctx-item.perigo .mctx-marca{color:#0B1220;}
 .ico-em{width:1em; height:1em; vertical-align:-0.14em; stroke-width:2;}
+/* Perfil do atleta: abas e blocos vazios compactos */
+.perfil-abas{display:flex; justify-content:flex-start; gap:4px; margin:4px 0 16px; border-bottom:1px solid #E2E8F0; overflow-x:auto; scrollbar-width:none; position:sticky; top:64px; z-index:5; background:var(--bg, #EEF1F5); padding-top:6px;}
+.perfil-abas::-webkit-scrollbar{display:none;}
+.perfil-aba{flex:0 0 auto !important; width:auto !important; min-width:0 !important; border:none; background:transparent; font:inherit; font-weight:700; font-size:14px; color:#64748B; padding:10px 14px 12px; border-bottom:2.5px solid transparent; margin-bottom:-1px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;}
+.perfil-aba:hover{color:#0F172A;}
+.perfil-aba.on{color:#0F172A; border-bottom-color:#0F172A;}
+.perfil-aba b{font-size:11px; background:#FEF3F2; color:#B42318; border-radius:999px; padding:1px 7px;}
+.perfil-vazio{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; background:#fff; border:1px solid #E2E8F0; border-radius:10px; padding:11px 16px; margin-bottom:12px; font-size:13px;}
+.perfil-vazio b{color:#0F172A; font-size:13.5px;} .perfil-vazio span{color:#64748B;}
+.perfil-alerta{margin:0 0 12px; padding:10px 14px; font-size:13px;}
+.cad-acoes{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
+@media (max-width: 720px){
+  .topbar-trilha{flex:1 1 auto; overflow:hidden;}
+  .topbar-trilha .atual{display:block !important; overflow:hidden; text-overflow:ellipsis; font-size:18px !important; min-width:0;}
+  .cad-acoes{justify-content:flex-start; width:100%;}
+  .cad-acoes .pill-btn{font-size:12.5px; padding:7px 12px; white-space:nowrap;}
+  .panel-head h3{min-width:0;}
+}
+/* Calendário e relógio do app */
+@media (pointer: fine){ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator{display:none;} input[type="date"], input[type="time"]{cursor:pointer;} }
+.dth-caixa{position:fixed; z-index:3000; background:#fff; border:1px solid #E2E8F0; border-radius:12px; box-shadow:0 16px 40px rgba(15,23,42,.22); padding:10px; font-size:13px; color:#0F172A;}
+.dth-topo{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;}
+.dth-topo b{font-size:14px;}
+.dth-topo button{border:none; background:transparent; width:30px; height:30px; border-radius:8px; cursor:pointer; color:#334155; display:flex; align-items:center; justify-content:center;}
+.dth-topo button:hover{background:#F1F5F9;} .dth-topo button .ico{width:16px; height:16px;} .dth-topo .prox .ico{transform:rotate(180deg);}
+.dth-semana, .dth-dias{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; text-align:center;}
+.dth-semana span{font-size:11px; font-weight:700; color:#94A3B8; padding:4px 0;}
+.dth-dias button{border:none; background:transparent; height:32px; border-radius:8px; cursor:pointer; font:inherit; font-variant-numeric:tabular-nums; color:#0F172A;}
+.dth-dias button:hover{background:#F1F5F9;}
+.dth-dias button.hoje{box-shadow:inset 0 0 0 1px #0F172A; font-weight:700;}
+.dth-dias button.sel{background:#0F172A; color:#fff; font-weight:700;}
+.dth-dias button:disabled{color:#CBD5E1; cursor:default; background:transparent;}
+.dth-rodape{display:flex; justify-content:space-between; padding:8px 4px 0; border-top:1px solid #F1F5F9; margin-top:6px;}
+.dth-horas{display:grid; grid-template-columns:1fr 1fr; gap:6px; max-height:240px;}
+.dth-col{display:flex; flex-direction:column; gap:2px; overflow:auto; max-height:240px; padding-right:2px;}
+.dth-col small{font-size:10.5px; font-weight:700; color:#94A3B8; text-transform:uppercase; letter-spacing:.08em; padding:2px 6px; position:sticky; top:0; background:#fff;}
+.dth-col button{border:none; background:transparent; padding:6px 8px; border-radius:7px; cursor:pointer; font:inherit; font-variant-numeric:tabular-nums; text-align:left;}
+.dth-col button:hover{background:#F1F5F9;} .dth-col button.sel{background:#0F172A; color:#fff; font-weight:700;}
+.pal-atleta-resumo{display:flex; flex-wrap:wrap; gap:8px; padding:12px 18px 4px;}
+.pal-st{display:inline-flex; align-items:baseline; gap:6px; font-size:12.5px; color:#475569; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:6px 10px;}
+.pal-st b{font-size:15px; color:#0F172A;} .pal-st.faltou b{color:#B42318;} .pal-st.presente b{color:#1E7446;}
+.pal-st.taxa{margin-left:auto;}
+.pal-atleta-lista{padding:6px 18px 14px;}
+.pal-atleta-item{display:grid; grid-template-columns:48px 1fr auto; gap:10px; align-items:center; padding:9px 0; border-bottom:1px solid #F1F5F9; font-size:13px;}
+.pal-atleta-item:last-child{border-bottom:none;}
+.pal-data{font-variant-numeric:tabular-nums; color:#64748B; font-weight:700;}
+.pal-tit{display:flex; flex-direction:column; min-width:0;} .pal-tit b{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;} .pal-tit small{color:#64748B;}
+.pal-st-item{font-size:11.5px; font-weight:700; border-radius:6px; padding:3px 8px; background:#F1F5F9; color:#334155;}
+.pal-st-item.presente{background:#EEF7F1; color:#1E7446;} .pal-st-item.faltou{background:#FEF3F2; color:#B42318;} .pal-st-item.vazio{color:#94A3B8;}
+@media (max-width: 720px){
+  .perfil-abas{top:56px; margin:0 -16px 12px; padding:6px 12px 0;}
+  .perfil-aba{font-size:13px; padding:9px 10px 11px;}
+  .perfil-hero{padding:18px 16px !important; gap:12px !important;}
+  .perfil-hero .profile-avatar{width:64px !important; height:64px !important; font-size:20px !important;}
+  .perfil-hero .profile-name{font-size:24px !important;}
+  .perfil-hero-acoes{flex-direction:row !important; flex-wrap:wrap; gap:8px;}
+  .perfil-hero-acoes .pill-btn{flex:1 1 auto; justify-content:center; font-size:12.5px;}
+}
 /* Lances: ícones e linha do tempo (referência: escalação e "lance a lance" do SofaScore e FotMob) */
 .ic-cartao{display:inline-block; width:9px; height:12px; border-radius:1.5px; background:#F2C200; box-shadow:0 0 0 1px rgba(0,0,0,.08); transform:rotate(8deg); flex:0 0 auto;}
 .ic-cartao.cv{background:#D7263D;}
@@ -3565,6 +3676,19 @@ tr.linha-qr td{background:var(--surface-2);}
 .aovivo-menu button:hover{background:#F1F5F9;}
 .aovivo-menu .m-lesao{color:#B91C1C;}
 .aovivo-botoes .pill-btn{display:inline-flex; align-items:center; gap:6px;}
+.mm{display:flex; flex-direction:column; gap:2px; font-size:12.5px;}
+.mm-escala, .mm-linha{display:grid; grid-template-columns:150px 1fr 40px; align-items:center; gap:10px;}
+.mm-escala > div{position:relative; height:14px;} .mm-escala i{position:absolute; transform:translateX(-50%); font-style:normal; font-size:10.5px; color:#94A3B8; font-variant-numeric:tabular-nums;}
+.mm-nome{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:600; color:#0F172A;}
+.mm-nome em{font-style:normal; display:inline-block; min-width:20px; color:#64748B; font-variant-numeric:tabular-nums; font-weight:700;}
+.mm-trilho{position:relative; height:22px;}
+.mm-trilho::before{content:""; position:absolute; left:0; right:0; top:10px; height:2px; background:#E2E8F0; border-radius:1px;}
+.mm-meio{position:absolute; top:5px; width:1px; height:12px; background:#CBD5E1;}
+.mm-barra{position:absolute; top:7px; height:8px; border-radius:4px; background:#1E7446;}
+.mm-marca{position:absolute; top:3px; transform:translateX(-50%); background:#fff; border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 1px #E2E8F0;}
+.mm-marca .ic-bola .ico{width:12px; height:12px;} .mm-marca .ic-cartao{width:7px; height:10px;} .mm-marca .ic-assist{width:12px; height:12px; font-size:7px;} .mm-marca .ic-lesao .ico{width:10px; height:10px;}
+.mm-min{text-align:right; font-variant-numeric:tabular-nums; color:#475569; font-weight:700;}
+@media (max-width: 720px){ .mm-escala, .mm-linha{grid-template-columns:96px 1fr 32px; gap:6px;} .aovivo-tl{margin:0 10px 12px;} }
 .scout-relogio{border-top:1px solid var(--line-soft);}
 .scout-emcampo{padding:8px 20px; font-size:12.5px; font-weight:600; color:#334155; border-bottom:1px solid var(--line-soft);}
 .scout-troca{display:flex; flex-direction:column; gap:8px; padding:10px 20px; background:#F8FAFC; border-left:3px solid #0F172A; font-size:13px;}
@@ -5461,6 +5585,7 @@ Object.assign(ICONES, {
   m_encaminhar: [["path", { d: "M14 5l6 6-6 6M20 11h-9a6 6 0 0 0-6 6v2" }]],
   m_trocar: [["path", { d: "M4 8h15M15 4l4 4-4 4M20 16H5M9 12l-4 4 4 4" }]],
   m_mais: [["path", { d: "M12 5v14M5 12h14" }]],
+  m_mais3: [["circle", { cx: 5.5, cy: 12, r: 1.3, fill: "currentColor" }], ["circle", { cx: 12, cy: 12, r: 1.3, fill: "currentColor" }], ["circle", { cx: 18.5, cy: 12, r: 1.3, fill: "currentColor" }]],
   m_alerta: [["path", { d: "M12 4 2.8 19.5h18.4zM12 10v4.5M12 17.2v.3" }]],
   rosto1: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M8 9.2l2.2.9M16 9.2l-2.2.9M9 16.5c.8-1.3 1.8-1.9 3-1.9s2.2.6 3 1.9" }]],
   rosto2: [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M9.3 10v.4M14.7 10v.4M9 16c.8-.9 1.8-1.3 3-1.3s2.2.4 3 1.3" }]],
@@ -6431,11 +6556,170 @@ function itensMenuAtleta(a, op) {
     gerenciar && { rotulo: "Editar cadastro", icone: "✎", acao: () => (o.onEditar ? o.onEditar(a.id) : editarAtletaRapido(a.id)) },
     ...(podeEditarProjecao(u) ? [{ sep: true }, { secao: "Projeção" }, ...[...PROJECOES, { id: "", label: "Sem avaliar", seta: "?" }].map((p) => ({ rotulo: p.seta + "  " + p.label, marcado: (a.projecao || "") === p.id, acao: () => mudarProjecaoAtleta(a.id, p.id) }))] : []),
     ...(o.extras || []),
+    ...itensLancarAtleta(a),
     gerenciar && { sep: true },
     gerenciar && !a.inativo && { rotulo: "Inativar atleta", icone: "⏸", perigo: true, acao: () => inativarAtletaMenu(a) },
     ...(o.extrasFim || []),
   ];
 }
+/* ---------- Calendário e relógio do próprio app (no lugar do seletor do navegador, no computador) ---------- */
+const MESES_CAL = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+function definirValorCampo(el, v) {
+  const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+  set.call(el, v);
+  el.dispatchEvent(new Event("input", { bubbles: true }));
+  el.dispatchEvent(new Event("change", { bubbles: true }));
+}
+function SeletorDataHoraRaiz() {
+  const { useState, useEffect, useRef } = React;
+  const [alvo, setAlvo] = useState(null); // { el, tipo, rect }
+  const [mes, setMes] = useState(null);
+  const caixa = useRef(null);
+  useEffect(() => {
+    let ponteiro = "mouse";
+    const marca = (e) => { ponteiro = e.pointerType || "mouse"; };
+    const abrir = (e) => {
+      const el = e.target;
+      if (!(el instanceof HTMLInputElement) || (el.type !== "date" && el.type !== "time") || el.disabled || el.readOnly) return;
+      if (ponteiro === "touch" || ponteiro === "pen") return; // no celular fica o seletor do aparelho
+      if (el.closest(".dth-caixa")) return;
+      e.preventDefault();
+      const v = el.value || (el.type === "date" ? hojeISO() : "");
+      setMes(el.type === "date" ? (v || hojeISO()).slice(0, 7) : null);
+      setAlvo({ el, tipo: el.type, rect: el.getBoundingClientRect() });
+    };
+    const fechar = (e) => { if (caixa.current && caixa.current.contains(e.target)) return; if (e.target instanceof HTMLInputElement && (e.target.type === "date" || e.target.type === "time")) return; setAlvo(null); };
+    const tecla = (e) => { if (e.key === "Escape") setAlvo(null); };
+    const rolar = (e) => { if (caixa.current && caixa.current.contains(e.target)) return; setAlvo(null); };
+    document.addEventListener("pointerdown", marca, true);
+    document.addEventListener("click", abrir, true);
+    document.addEventListener("mousedown", fechar, true);
+    document.addEventListener("keydown", tecla, true);
+    window.addEventListener("scroll", rolar, true);
+    window.addEventListener("resize", () => setAlvo(null));
+    return () => { document.removeEventListener("pointerdown", marca, true); document.removeEventListener("click", abrir, true); document.removeEventListener("mousedown", fechar, true); document.removeEventListener("keydown", tecla, true); window.removeEventListener("scroll", rolar, true); };
+  }, []);
+  if (!alvo) return null;
+  const { el, tipo, rect } = alvo;
+  const largura = tipo === "date" ? 280 : 200;
+  const left = Math.max(8, Math.min(rect.left, window.innerWidth - largura - 8));
+  const abaixo = rect.bottom + 330 < window.innerHeight;
+  const estilo = { left, width: largura, ...(abaixo ? { top: rect.bottom + 6 } : { bottom: window.innerHeight - rect.top + 6 }) };
+  const escolher = (v) => { definirValorCampo(el, v); if (tipo === "date") setAlvo(null); else setAlvo((a) => ({ ...a })); };
+  if (tipo === "date") {
+    const [ano, m] = mes.split("-").map(Number);
+    const primeiro = new Date(ano, m - 1, 1);
+    const ini = (primeiro.getDay() + 6) % 7; // semana começa na segunda
+    const nDias = new Date(ano, m, 0).getDate();
+    const cel = [];
+    for (let i = 0; i < ini; i++) cel.push(null);
+    for (let d = 1; d <= nDias; d++) cel.push(ano + "-" + String(m).padStart(2, "0") + "-" + String(d).padStart(2, "0"));
+    const navegar = (n) => { const d = new Date(ano, m - 1 + n, 1); setMes(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")); };
+    const fora = (iso) => (el.min && iso < el.min) || (el.max && iso > el.max);
+    return (
+      <div ref={caixa} className="dth-caixa" style={estilo} role="dialog" aria-label="Escolher data">
+        <div className="dth-topo">
+          <button type="button" onClick={() => navegar(-1)} aria-label="Mês anterior"><Icone nome="voltar" /></button>
+          <b>{MESES_CAL[m - 1]} {ano}</b>
+          <button type="button" className="prox" onClick={() => navegar(1)} aria-label="Próximo mês"><Icone nome="voltar" /></button>
+        </div>
+        <div className="dth-semana">{["S", "T", "Q", "Q", "S", "S", "D"].map((x, i) => <span key={i}>{x}</span>)}</div>
+        <div className="dth-dias">
+          {cel.map((iso, i) => iso ? <button key={i} type="button" disabled={fora(iso)} className={(iso === el.value ? "sel " : "") + (iso === hojeISO() ? "hoje" : "")} onClick={() => escolher(iso)}>{Number(iso.slice(8))}</button> : <span key={i} />)}
+        </div>
+        <div className="dth-rodape">
+          <button type="button" onClick={() => escolher("")} className="link-btn">Limpar</button>
+          <button type="button" onClick={() => { const h = hojeISO(); if (!fora(h)) escolher(h); }} className="link-btn">Hoje</button>
+        </div>
+      </div>
+    );
+  }
+  const [hh, mm] = (el.value || "").split(":");
+  const passo = Math.max(1, Math.round((Number(el.step) || 300) / 60));
+  const mins = []; for (let i = 0; i < 60; i += passo >= 5 ? passo : 5) mins.push(String(i).padStart(2, "0"));
+  return (
+    <div ref={caixa} className="dth-caixa hora" style={estilo} role="dialog" aria-label="Escolher horário">
+      <div className="dth-horas">
+        <div className="dth-col"><small>Hora</small>{Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0")).map((h) => <button key={h} type="button" className={h === hh ? "sel" : ""} onClick={() => escolher(h + ":" + (mm || "00"))}>{h}</button>)}</div>
+        <div className="dth-col"><small>Min</small>{mins.map((x) => <button key={x} type="button" className={x === mm ? "sel" : ""} onClick={() => { definirValorCampo(el, (hh || "00") + ":" + x); setAlvo(null); }}>{x}</button>)}</div>
+      </div>
+      <div className="dth-rodape"><button type="button" onClick={() => escolher("")} className="link-btn">Limpar</button><button type="button" className="link-btn" onClick={() => { const d = new Date(); definirValorCampo(el, String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0")); setAlvo(null); }}>Agora</button></div>
+    </div>
+  );
+}
+
+/* ---------- Lançar pelo menu do atleta (botão direito, ⋯ ou "+ Lançar" no perfil) ---------- */
+const LANCAMENTOS_RAPIDOS = [
+  { id: "atend_fisio", rotulo: "Atendimento da fisioterapia", grupo: "Fisioterapia", modulo: "fisioterapia", area: "fisio", icone: "✎" },
+  { id: "lesao", rotulo: "Lesão", grupo: "Fisioterapia", modulo: "fisioterapia", area: "fisio", icone: "+" },
+  { id: "medicina", rotulo: "Atendimento médico", grupo: "Medicina", modulo: "medicina", area: "medicina", icone: "✎" },
+  { id: "afastamento", rotulo: "Afastamento médico", grupo: "Medicina", modulo: "medicina", area: "medicina", icone: "⏸" },
+  { id: "psi", rotulo: "Acompanhamento psicológico", grupo: "Psicologia", modulo: "psicologia", area: "psi", icone: "✎" },
+  { id: "social", rotulo: "Registro do Serviço Social", grupo: "Serviço Social", modulo: "social", area: "social", icone: "✎" },
+  { id: "restricao", rotulo: "Restrição", grupo: "Equipe", equipe: true, icone: "⚠" },
+  { id: "encaminhar", rotulo: "Encaminhar para outro setor", grupo: "Equipe", equipe: true, icone: "➦" },
+];
+function lancamentosPermitidos(u) {
+  u = u || usuarioLogadoGlobal;
+  return LANCAMENTOS_RAPIDOS.filter((l) => (l.equipe ? usuarioEhEquipe(u) : temPermissao(u, l.modulo)));
+}
+function abrirLancamento(atletaId, tipo) {
+  if (tipo === "encaminhar") { abrirEncaminhar({ atleta_id: atletaId }); return; }
+  window.dispatchEvent(new CustomEvent("ct:lancar", { detail: { atletaId, tipo } }));
+}
+/** Itens "Lançar" para o menu do atleta. */
+function itensLancarAtleta(a) {
+  const l = lancamentosPermitidos();
+  if (!l.length) return [];
+  return [{ sep: true }, { secao: "Lançar" }, ...l.map((x) => ({ rotulo: x.rotulo, icone: x.icone, acao: () => abrirLancamento(a.id, x.id) }))];
+}
+/** Folha lateral que abre o formulário certo já com o atleta escolhido. */
+function LancarRapidoAtleta({ usuario }) {
+  const { useState, useEffect } = React;
+  const [alvo, setAlvo] = useState(null);
+  const [ok, setOk] = useState(null);
+  useVoltar(!!alvo, () => setAlvo(null));
+  useEffect(() => {
+    const ouvir = async (e) => {
+      const { atletaId, tipo } = e.detail || {};
+      let a = ATLETAS_INDICE.get(atletaId);
+      if (!a) { try { const d = await db.collection(COL_ATLETAS).doc(atletaId).get(); a = d.exists ? { id: d.id, ...d.data() } : null; } catch (err) { a = null; } }
+      if (a) { setOk(null); setAlvo({ a: { ...a, id: atletaId }, tipo }); }
+    };
+    window.addEventListener("ct:lancar", ouvir);
+    return () => window.removeEventListener("ct:lancar", ouvir);
+  }, []);
+  if (!alvo) return null;
+  const def = LANCAMENTOS_RAPIDOS.find((x) => x.id === alvo.tipo) || {};
+  const lista = [alvo.a];
+  const fechar = () => setAlvo(null);
+  const depois = (txt) => { avisarAtletaMudou(); limparCacheLeitura(); setOk(txt); setTimeout(() => setAlvo(null), 1200); };
+  const salvarArea = (area) => async (atletaIdOuLista, registro) => {
+    const ids = Array.isArray(atletaIdOuLista) ? atletaIdOuLista : [atletaIdOuLista];
+    for (const id of ids) await adicionarRegistro(id, area, registro);
+    depois("Lançado para " + nomeExibicao(alvo.a) + ".");
+  };
+  let corpo = null;
+  if (alvo.tipo === "atend_fisio") corpo = <FormNovoRegistro atletas={lista} tiposSugeridos={["Avaliação", "Tratamento", "Evolução", "Alta"]} chave={"fisio-rapido:" + alvo.a.id} onSalvar={salvarArea("fisio")} onCancelar={fechar} />;
+  else if (alvo.tipo === "lesao") corpo = <FormLesao atletas={lista} usuario={usuario} onSalvar={salvarArea("fisio")} onCancelar={fechar} />;
+  else if (alvo.tipo === "medicina") corpo = <FormMedicinaAtendimento atletas={lista} onSalvar={salvarArea("medicina")} onCancelar={fechar} />;
+  else if (alvo.tipo === "afastamento") corpo = <FormMedicinaAfastamento atletas={lista} onSalvar={salvarArea("medicina")} onCancelar={fechar} />;
+  else if (alvo.tipo === "psi") corpo = <FormAcompanhamentoPsi atletas={lista} onSalvar={salvarArea("psi")} onCancelar={fechar} />;
+  else if (alvo.tipo === "social") corpo = <FormNovoRegistroSocial atletas={lista} onSalvar={salvarArea("social")} onCancelar={fechar} />;
+  else if (alvo.tipo === "restricao") corpo = <FormRestricao atletas={lista} atletaFixo={alvo.a.id} usuario={usuario} onSalvo={() => depois("Restrição salva.")} onCancelar={fechar} />;
+  return (
+    <div className="lanc-fundo" onClick={fechar}>
+      <div className="lanc-folha" role="dialog" aria-modal="true" aria-label={(def.rotulo || "Lançamento") + " de " + nomeExibicao(alvo.a)} onClick={(e) => e.stopPropagation()}>
+        <div className="lanc-topo"><div className="lanc-quem"><b>{def.rotulo || "Lançamento"}</b><span>{nomeExibicao(alvo.a)}{alvo.a.categoria ? " · " + rotuloCategoriasAtleta(alvo.a) : ""}</span></div>
+          <button type="button" className="lanc-fechar" onClick={fechar} aria-label="Fechar"><Icone nome="fechar" /></button></div>
+        <div className="lanc-corpo">
+          {ok ? <div className="imq-ok">{ok}</div> : <div className="lanc-cartao">{corpo || <div className="empty-state">Lançamento indisponível.</div>}</div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** Edição do cadastro numa janela, aberta pelo menu do botão direito em qualquer tela. */
 function EditorAtletaRapido({ usuario }) {
   const { useState, useEffect } = React;
@@ -7101,6 +7385,13 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
   const ano = abasAno.includes(anoEscolhido) ? anoEscolhido : (abasAno.find((y) => y !== "sem") || abasAno[0] || "");
   const rotAno = (y) => (y === "sem" ? "Sem nascimento" : y);
 
+  /* Número da camisa: o do campeonato escolhido (cadastrado em Campeonatos › Inscritos). */
+  const [campsNum] = useCampeonatos();
+  const [campNumId, setCampNumEstado] = useState(() => { try { return localStorage.getItem("meuct:campNumCampo") || ""; } catch (e) { return ""; } });
+  const setCampNum = (v) => { setCampNumEstado(v); try { localStorage.setItem("meuct:campNumCampo", v); } catch (e) {} };
+  const campsComNum = (campsNum || []).filter((c) => c.camisas && Object.keys(c.camisas).length);
+  const campNum = campsComNum.find((c) => c.id === campNumId) || null;
+  const numeroCampo = (d) => (campNum ? (campNum.camisas || {})[d.id] || "" : "");
   const podeArrastar = podeEditarProjecao(usuarioLogadoGlobal);
   const doTime = atletasComSinal.filter((a) => anoNascCampo(a) === ano);
   const { linhas, semPosicao } = montarLinhasCampo(doTime, { vazios: podeArrastar });
@@ -7255,6 +7546,7 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
         <span className={"jogador-foto" + anelAtleta(d, sinalDe(d))}>
           {d.foto ? <img loading="lazy" decoding="async" src={d.foto} alt="" /> : iniciaisAtleta(d)}
           <IconesAtletaCampo a={d} />
+          {numeroCampo(d) ? <span className="jogador-num" title={"Camisa no " + campNum.nome}>{numeroCampo(d)}</span> : null}
         </span>
         <span className="jogador-nome">{nomeCurtoAtleta(d)}</span>
         {vista === "ficha" ? <TabelaFichaAtleta a={d} /> : d.data_nascimento ? <span className="jogador-nasc">{formatarData(d.data_nascimento)}</span> : null}
@@ -7282,6 +7574,12 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
             <button type="button" className={vista === "ficha" ? "active" : ""} aria-pressed={vista === "ficha"} onClick={() => setVista("ficha")}>Ficha</button>
             <button type="button" className={vista === "bolinha" ? "active" : ""} aria-pressed={vista === "bolinha"} onClick={() => setVista("bolinha")}>Bolinha</button>
           </div>
+          {campsComNum.length > 0 && (
+            <select className="pitch-camp" value={campNum ? campNum.id : ""} onChange={(e) => setCampNum(e.target.value)} aria-label="Mostrar o número da camisa de um campeonato">
+              <option value="">Nº da camisa: não mostrar</option>
+              {campsComNum.map((c) => <option key={c.id} value={c.id}>Nº no {c.nome}</option>)}
+            </select>
+          )}
           <button type="button" className={"pitch-chip pitch-filtro-btn" + (verFiltros || nFiltros ? " active" : "")} aria-expanded={verFiltros} onClick={() => setVerFiltros((v) => !v)}>
             Filtros{nFiltros ? <span className="qtd">{nFiltros}</span> : null}
           </button>
@@ -8115,7 +8413,7 @@ function ViewElenco({ usuario, cadastro }) {
       <div className="page-head">
         <div>
           <h1>{atletaAberto ? "Perfil do atleta" : cadastro ? "Cadastro de atletas" : "Elenco"}</h1>
-          <div className="crumb">MeuCT · EC Meia Noite SAF{cadastro ? " · o Serviço Social é a porta de entrada: todo atleta entra no MeuCT por aqui" : ""}</div>
+          <div className="crumb">MeuCT · EC Meia Noite SAF{cadastro && !atletaAberto ? " · o Serviço Social é a porta de entrada: todo atleta entra no MeuCT por aqui" : ""}</div>
         </div>
       </div>
 
@@ -8631,7 +8929,7 @@ function BlocoSetor({ dados, usuario, eventos, ir, onOpenAtleta }) {
    esconde, reordena e escolhe o tamanho dos blocos. Salvo no perfil (ct_perfis.layout_painel).
    ===================================================================== */
 const LAYOUT_PADRAO = {
-  ordem: ["kpis", "rapido", "bandeira", "meuqts", "avisos", "online", "disponibilidade", "voltam", "restricoes", "atualizacoes", "alerta", "jogo", "semana", "aniversarios", "lesoesTempo", "regioes", "alojamento", "contratos", "elenco", "vencimentos", "lembretes", "setor"],
+  ordem: ["kpis", "rapido", "bandeira", "meuqts", "avisos", "online", "disponibilidade", "voltam", "restricoes", "atualizacoes", "alerta", "jogo", "semana", "aniversarios", "lesoesElenco", "lesoesTempo", "regioes", "alojamento", "contratos", "elenco", "vencimentos", "lembretes", "setor"],
   tamanho: { kpis: "inteiro", setor: "inteiro", elenco: "inteiro" },
   ocultos: [],
 };
@@ -9031,6 +9329,7 @@ function Dashboard({ dados, usuario, onOpenAtleta, onNavigate }) {
     aniversarios: { label: "Aniversários da semana", el: <PainelAniversarios atletas={dados.atletas} /> },
     disponibilidade: { label: "Disponibilidade por categoria", el: <PainelDisponibilidadeCategorias dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
     voltam: { label: "Quem volta em breve", el: <PainelQuemVolta dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
+    lesoesElenco: { label: "Lesões do elenco (boneco)", el: <PainelLesoesMedicina atletas={dados.atletas} usuario={usuario} registrosFisio={dados.fisioData || {}} />, pode: podeVerSaudePainel(usuario) },
     lesoesTempo: { label: "Lesões ao longo do tempo", el: <PainelLesoesTempo dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
     regioes: { label: "Regiões e posições", el: <PainelRegioesPosicoes dados={dados} onOpenAtleta={onOpenAtleta} />, pode: podeVerSaudePainel(usuario) },
     alojamento: { label: "Ocupação do alojamento", el: <PainelOcupacaoAlojamento atletas={dados.atletas} onOpenAtleta={onOpenAtleta} />, pode: usuarioEhEquipe(usuario) },
@@ -9985,7 +10284,7 @@ function ListaAtletas({ dados, onOpenAtleta, onRecarregar, usuario }) {
         <div className="panel-head">
           <h3>Todos os atletas ({linha.length})</h3>
           {podeGerenciar && (
-            <div style={{display:"flex", gap:8}}>
+            <div className="cad-acoes">
               <button className={"pill-btn" + (modo === "relacao" ? " primary" : "")} onClick={() => setModo(modo === "relacao" ? null : "relacao")}>{modo === "relacao" ? "Fechar" : "Importar relação"}</button>
               <button className={"pill-btn" + (modo === "fpf" ? " primary" : "")} onClick={() => setModo(modo === "fpf" ? null : "fpf")}>{modo === "fpf" ? "Fechar" : "Importar FPF (PDF)"}</button>
               <button className={"pill-btn" + (modo === "fotos" ? " primary" : "")} onClick={() => setModo(modo === "fotos" ? null : "fotos")}>{modo === "fotos" ? "Fechar" : "Importar fotos"}</button>
@@ -10498,10 +10797,7 @@ function PainelAreaSimples({ titulo, registros, colunaExtra }) {
   const vm = useVerMais(LIMITE_LANCAMENTOS);
   if (!registros || registros.length === 0) {
     return (
-      <div className="panel">
-        <div className="panel-head"><h3>{titulo}</h3></div>
-        <div className="empty-state">Nenhum registro nesta área ainda.</div>
-      </div>
+      <div className="perfil-vazio"><b>{titulo}</b><span>Nenhum registro ainda.</span></div>
     );
   }
   return (
@@ -10715,6 +11011,8 @@ function PerfilAtleta({ atletaId, onBack, dados, onRecarregar, usuario }) {
   const [enviandoFoto, setEnviandoFoto] = useState(false);
   const [gerandoPdf, setGerandoPdf] = useState(false);
   const [erroFoto, setErroFoto] = useState(null);
+  const [aba, setAbaEstado] = useState(() => { try { return localStorage.getItem("meuct:abaPerfil") || "Resumo"; } catch (e) { return "Resumo"; } });
+  const setAba = (v) => { setAbaEstado(v); try { localStorage.setItem("meuct:abaPerfil", v); } catch (e) {} };
   const inputFotoRef = useRef(null);
   if (!atleta) return <div className="empty-state">Atleta não encontrado.</div>;
   const { risco, sinais: sinaisBandeira } = calcularSemaforo(atletaId, dados);
@@ -10786,7 +11084,7 @@ function PerfilAtleta({ atletaId, onBack, dados, onRecarregar, usuario }) {
           <div className="profile-name">{nomeExibicao(atleta)}</div>
           {atleta.apelido && <div className="profile-meta">{atleta.nome}</div>}
           <div className="perfil-hero-chips">
-            <span className={"hero-chip status " + risco}>{risco === "verde" ? "Liberado" : risco === "amarelo" ? "Atenção" : "Fora"}</span>
+            {(!dispAtleta || DISPONIBILIDADE[dispAtleta.status].label !== (risco === "verde" ? "Liberado" : risco === "amarelo" ? "Atenção" : "Fora")) && <span className={"hero-chip status " + risco} title="Bandeira">{risco === "verde" ? "Liberado" : risco === "amarelo" ? "Atenção" : "Fora"}</span>}
             {dispAtleta && <span className={"hero-chip status " + DISPONIBILIDADE[dispAtleta.status].sinal} title={dispAtleta.motivos.join("\n")}>{DISPONIBILIDADE[dispAtleta.status].label}</span>}
             {alertaMultiSetor(atletaId, dados) && <span className="hero-chip alerta" title={alertaMultiSetor(atletaId, dados).areas.map((x) => x.label).join(", ")}>Em alerta: {alertaMultiSetor(atletaId, dados).areas.length} setores</span>}
             {atleta.em_avaliacao && <span className="hero-chip avaliacao">Em avaliação{atleta.avaliacao_fim ? " até " + formatarData(atleta.avaliacao_fim) : ""}</span>}
@@ -10798,6 +11096,7 @@ function PerfilAtleta({ atletaId, onBack, dados, onRecarregar, usuario }) {
           </div>
         </div>
         <div className="perfil-hero-acoes">
+          {lancamentosPermitidos(usuario).length > 0 && <button className="pill-btn primary" onClick={(ev) => abrirMenuContexto(ev, [{ secao: "Lançar para " + nomeExibicao(atleta) }, ...lancamentosPermitidos(usuario).map((x) => ({ rotulo: x.rotulo, icone: x.icone, acao: () => abrirLancamento(atleta.id, x.id) }))])}><Icone nome="m_mais" />Lançar</button>}
           {usuarioEhEquipe(usuario) && <button className="pill-btn" onClick={() => { atletaParaConversaGlobal = atleta; VOLTAR.irParaPagina && VOLTAR.irParaPagina("conversas"); }}><Icone nome="conversas" />Conversar sobre ele</button>}
           {podeEditar && atleta.foto && <button className="pill-btn" onClick={removerFoto}>Tirar foto</button>}
           <button className="pill-btn" disabled={gerandoPdf} onClick={async () => { setGerandoPdf(true); try { await baixarPerfilAtletaPdf(atleta, dados, usuario); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } setGerandoPdf(false); }}><Icone nome="pdf" />{gerandoPdf ? "Gerando PDF..." : "Gerar relatório PDF"}</button>
@@ -10808,98 +11107,102 @@ function PerfilAtleta({ atletaId, onBack, dados, onRecarregar, usuario }) {
           <span><b>Erro ao enviar a foto:</b> {erroFoto}</span>
         </div>
       )}
-      <div className={"panel bandeira-painel bandeira-" + risco}>
-        <div className="panel-head"><h3>Bandeira: {risco === "verde" ? "Liberado" : risco === "amarelo" ? "Atenção" : "Fora"}</h3><small className="muted">o que pesa agora (últimos 30 dias, mais lesões e afastamentos em andamento)</small></div>
-        <div className="bandeira-corpo"><MotivosBandeira sinais={sinaisBandeira} risco={risco} /></div>
-      </div>
-      <FaixaRestricoesAtleta atleta={atleta} dados={dados} usuario={usuario} />
-      <PainelDisponibilidadeAtleta disp={dispAtleta} registrosFisio={dados.fisioData[atletaId]} />
-      {usuarioEhEquipe(usuario || usuarioLogadoGlobal) && <HistoricoEncaminhamentosAtleta atletaId={atletaId} usuario={usuario || usuarioLogadoGlobal} />}
-      <PainelRetornoAtleta atletaId={atletaId} registrosFisio={dados.fisioData[atletaId]} usuario={usuario} />
-      <div className="print-only" style={{marginBottom:16, color:"var(--navy)"}}>
-        <div style={{fontSize:12, color:"#667"}}>Relatório individual gerado em {formatarData(hojeISO())} · MeuCT · EC Meia Noite SAF</div>
-      </div>
-      {lesaoLongaAtiva && (
-        <div className="access-note" style={{background:"var(--vermelho-bg)", borderColor:"var(--vermelho)"}}>
-          <span><b>Afastamento prolongado:</b> lesão em {lesaoLongaAtiva.local.toLowerCase()} há {calcularDiasEntre(lesaoLongaAtiva.dataInicio)} dias, ainda na fase "{labelFaseRtp(lesaoLongaAtiva.faseAtual)}". Vale considerar acompanhamento psicológico durante o afastamento.</span>
-        </div>
-      )}
-      {episodioConcussaoAtivo && (
-        <div className="access-note" style={{background:"var(--vermelho-bg)", borderColor:"var(--vermelho)"}}>
-          <span><b>Concussão em acompanhamento:</b> fase atual "{labelFaseConcussao(episodioConcussaoAtivo.faseAtual)}", desde {formatarData(episodioConcussaoAtivo.dataInicio)}. Retorno ao jogo só após liberação médica.</span>
-        </div>
-      )}
-      {(statusPPE.status === "vencido" || statusPPE.status === "vencendo") && (
-        <div className="access-note" style={{background:"var(--amarelo-bg)", borderColor:"var(--amarelo)"}}>
-          <span><b>PPE {statusPPE.status === "vencido" ? "vencido" : "vencendo"}:</b> {statusPPE.status === "vencido" ? `venceu há ${-statusPPE.dias} dias` : `vence em ${statusPPE.dias} dias`}. Renovar o exame médico pré-participação antes de liberar o atleta pra próxima temporada/torneio.</span>
-        </div>
-      )}
-      {statusPPE.status === "nunca_realizado" && (
-        <div className="access-note">
-          <span><b>PPE não cadastrado:</b> este atleta ainda não tem exame médico pré-participação registrado.</span>
-        </div>
-      )}
-
-      {editando && podeEditar ? (
-        <div className="panel">
-          <div className="panel-head"><h3>Editar ficha</h3></div>
-          <FormAtleta atleta={atleta} onSalvar={salvarFicha} onCancelar={() => setEditando(false)} />
-        </div>
-      ) : (
-        <FichaAtleta atleta={atleta} onEditar={podeEditar ? () => setEditando(true) : null} />
-      )}
-
-      <div className="panel">
-        <div className="panel-head"><h3>Radar de atributos</h3></div>
-        <div className="panel-body" style={{padding:"16px 20px 20px"}}>
-          <RadarAtleta dados={dados} atletaId={atletaId} />
-        </div>
-      </div>
-
-      {temPsi && (
-        <div className="panel">
-          <div className="panel-head"><h3>Psicologia</h3></div>
-          <div className="panel-body" style={{padding:"16px 20px 20px"}}>
-            <EvolucaoPsiAtleta dados={dados} atletaId={atletaId} />
+      {(() => {
+        const ativasN = episodiosLesao.filter((ep) => ep.ativo).length;
+        const abas = [
+          { id: "Resumo" },
+          { id: "Saúde", n: ativasN || null },
+          { id: "Desempenho" },
+          { id: "Ficha e social" },
+          { id: "Linha do tempo" },
+        ];
+        return (
+          <div className="perfil-abas" role="tablist" aria-label="Partes do perfil">
+            {abas.map((x) => <button key={x.id} type="button" role="tab" aria-selected={aba === x.id} className={"perfil-aba" + (aba === x.id ? " on" : "")} onClick={() => setAba(x.id)}>{x.id}{x.n ? <b>{x.n}</b> : null}</button>)}
           </div>
-        </div>
-      )}
+        );
+      })()}
 
-      {temPerf && (
-        <div className="panel">
-          <div className="panel-head"><h3>Desempenho</h3></div>
-          <div className="panel-body" style={{padding:"16px 20px 20px"}}>
-            <PerformanceAtleta dados={dados} atletaId={atletaId} />
+      {aba === "Resumo" && (
+        <React.Fragment>
+          <div className={"panel bandeira-painel bandeira-" + risco}>
+            <div className="panel-head"><h3>Bandeira: {risco === "verde" ? "Liberado" : risco === "amarelo" ? "Atenção" : "Fora"}</h3><small className="muted">últimos 30 dias, mais lesões e afastamentos em andamento</small></div>
+            <div className="bandeira-corpo"><MotivosBandeira sinais={sinaisBandeira} risco={risco} /></div>
           </div>
-        </div>
+          {lesaoLongaAtiva && <div className="faixa-rascunho perfil-alerta"><b>Afastamento prolongado:</b> lesão em {lesaoLongaAtiva.local.toLowerCase()} há {calcularDiasEntre(lesaoLongaAtiva.dataInicio)} dias, ainda na fase "{labelFaseRtp(lesaoLongaAtiva.faseAtual)}". Vale considerar acompanhamento psicológico durante o afastamento.</div>}
+          {episodioConcussaoAtivo && <div className="qtsp-conflito perfil-alerta"><b>Concussão em acompanhamento:</b> fase atual "{labelFaseConcussao(episodioConcussaoAtivo.faseAtual)}", desde {formatarData(episodioConcussaoAtivo.dataInicio)}. Retorno ao jogo só após liberação médica.</div>}
+          {(statusPPE.status === "vencido" || statusPPE.status === "vencendo") && <div className="faixa-rascunho perfil-alerta"><b>PPE {statusPPE.status === "vencido" ? "vencido" : "vencendo"}:</b> {statusPPE.status === "vencido" ? `venceu há ${-statusPPE.dias} dias` : `vence em ${statusPPE.dias} dias`}. Renovar o exame médico pré-participação.</div>}
+          {statusPPE.status === "nunca_realizado" && <div className="perfil-vazio"><b>PPE</b><span>Exame médico pré-participação ainda não registrado.</span></div>}
+          <FaixaRestricoesAtleta atleta={atleta} dados={dados} usuario={usuario} />
+          {usuarioEhEquipe(usuario || usuarioLogadoGlobal) && <HistoricoEncaminhamentosAtleta atletaId={atletaId} usuario={usuario || usuarioLogadoGlobal} />}
+          <PainelRetornoAtleta atletaId={atletaId} registrosFisio={dados.fisioData[atletaId]} usuario={usuario} />
+          <PainelJogosAtleta atleta={atleta} dados={dados} />
+        </React.Fragment>
       )}
 
-      {temMedicina && (
-        <div className="panel">
-          <div className="panel-head"><h3>Medicina</h3></div>
-          <div className="panel-body" style={{padding:"16px 20px 20px"}}>
-            <MedicinaAtleta dados={dados} atletaId={atletaId} />
+      {aba === "Saúde" && (
+        <React.Fragment>
+          <PainelDisponibilidadeAtleta disp={dispAtleta} registrosFisio={dados.fisioData[atletaId]} />
+          <PainelMapaLesoes registros={dados.fisioData[atletaId]} />
+          <PainelAreaSimples titulo="Fisioterapia" registros={dados.fisioData[atletaId]} />
+          {temMedicina ? (
+            <div className="panel">
+              <div className="panel-head"><h3>Medicina</h3></div>
+              <div className="panel-body" style={{padding:"16px 20px 20px"}}><MedicinaAtleta dados={dados} atletaId={atletaId} /></div>
+            </div>
+          ) : <div className="perfil-vazio"><b>Medicina</b><span>Nenhum registro ainda.</span></div>}
+          {temPsi ? (
+            <div className="panel">
+              <div className="panel-head"><h3>Psicologia</h3></div>
+              <div className="panel-body" style={{padding:"16px 20px 20px"}}><EvolucaoPsiAtleta dados={dados} atletaId={atletaId} /></div>
+            </div>
+          ) : <div className="perfil-vazio"><b>Psicologia</b><span>Nenhum registro ainda.</span></div>}
+          {podeVerMonitoramento(usuario) && (
+            <div className="panel">
+              <div className="panel-head"><h3>Bem-estar e carga de treino</h3></div>
+              <PainelMonitoramentoAtleta atleta={atleta} />
+            </div>
+          )}
+        </React.Fragment>
+      )}
+
+      {aba === "Desempenho" && (
+        <React.Fragment>
+          <PainelJogosAtleta atleta={atleta} dados={dados} />
+          <div className="panel">
+            <div className="panel-head"><h3>Radar de atributos</h3></div>
+            <div className="panel-body" style={{padding:"16px 20px 20px"}}><RadarAtleta dados={dados} atletaId={atletaId} /></div>
           </div>
-        </div>
+          {temPerf ? (
+            <div className="panel">
+              <div className="panel-head"><h3>Desempenho</h3></div>
+              <div className="panel-body" style={{padding:"16px 20px 20px"}}><PerformanceAtleta dados={dados} atletaId={atletaId} /></div>
+            </div>
+          ) : <div className="perfil-vazio"><b>Avaliações de desempenho</b><span>Nenhuma ainda.</span></div>}
+        </React.Fragment>
       )}
 
-      {podeVerMonitoramento(usuario) && (
+      {aba === "Ficha e social" && (
+        <React.Fragment>
+          {editando && podeEditar ? (
+            <div className="panel">
+              <div className="panel-head"><h3>Editar ficha</h3></div>
+              <FormAtleta atleta={atleta} onSalvar={salvarFicha} onCancelar={() => setEditando(false)} />
+            </div>
+          ) : (
+            <FichaAtleta atleta={atleta} onEditar={podeEditar ? () => setEditando(true) : null} />
+          )}
+          <PainelAreaSimples titulo="Serviço social" registros={dados.socialData[atletaId]} colunaExtra="Detalhe" />
+          <PainelPalestrasAtleta atleta={atleta} />
+        </React.Fragment>
+      )}
+
+      {aba === "Linha do tempo" && (
         <div className="panel">
-          <div className="panel-head"><h3>Bem-estar e carga de treino</h3></div>
-          <PainelMonitoramentoAtleta atleta={atleta} />
+          <div className="panel-head"><h3>Linha do tempo · todas as áreas</h3></div>
+          <TimelineAtleta atletaId={atletaId} dados={dados} />
         </div>
       )}
-
-      <PainelJogosAtleta atleta={atleta} dados={dados} />
-
-      <PainelMapaLesoes registros={dados.fisioData[atletaId]} />
-      <PainelAreaSimples titulo="Fisioterapia" registros={dados.fisioData[atletaId]} />
-      <PainelAreaSimples titulo="Serviço social" registros={dados.socialData[atletaId]} colunaExtra="Detalhe" />
-
-      <div className="panel">
-        <div className="panel-head"><h3>Linha do tempo · todas as áreas</h3></div>
-        <TimelineAtleta atletaId={atletaId} dados={dados} />
-      </div>
     </div>
   );
 }
@@ -12647,7 +12950,7 @@ function EscolhaJogoScout({ scouts, onEscolher, onAvulso, onCancelar }) {
 }
 
 /** Aba "Goleiro ao vivo" da página do jogo: um scout por goleiro, salvo sozinho a cada toque. */
-function ScoutGoleiroDoJogo({ evento, atletas, usuario, relogioJogo, durJogo }) {
+function ScoutGoleiroDoJogo({ evento, atletas, usuario, relogioJogo, durJogo, onTrocaJogo }) {
   const { useState, useEffect } = React;
   const goleiros = goleirosDoJogo(evento, atletas);
   const [scouts, setScouts] = useState(null);
@@ -12676,6 +12979,7 @@ function ScoutGoleiroDoJogo({ evento, atletas, usuario, relogioJogo, durJogo }) 
         const base = { ...scoutGoleiroDoJogo(evento, para), ...extra, lances: [info.lance] };
         await db.collection(COL_GOLEIROS).add({ ...dadosScoutGoleiro(base), criado_por: usuario.id, criado_por_nome: usuario.nome || usuario.email || "", criado_em: firebase.firestore.FieldValue.serverTimestamp() });
       }
+      if (onTrocaJogo && info.lance && info.lance.sai) onTrocaJogo(info.lance.sai, para.id, info.min, info.lance.t || 1);
       escolhido.current = true; setScouts(null); setGid(para.id); setVersao((v) => v + 1);
     } catch (e) { setErro(msgErroScout(e)); }
   }
@@ -22069,8 +22373,8 @@ async function agendarNoCronogramaFisio(e, ag) {
 function PassosEncaminhamento({ status }) {
   const i = ORDEM_STATUS_ENC.indexOf(status || "pendente");
   return (
-    <div className="enc-passos" aria-label={"Etapa: " + STATUS_ENCAMINHAMENTO[status || "pendente"].label}>
-      {ORDEM_STATUS_ENC.map((s, k) => <span key={s} className={"enc-passo" + (k <= i ? " feito" : "") + (k === i ? " atual" : "")}><i />{STATUS_ENCAMINHAMENTO[s].label}</span>)}
+    <div className="enc-trilho" role="img" aria-label={"Etapa " + (i + 1) + " de " + ORDEM_STATUS_ENC.length + ": " + STATUS_ENCAMINHAMENTO[status || "pendente"].label}>
+      {ORDEM_STATUS_ENC.map((s, k) => <i key={s} className={k < i ? "feito" : k === i ? "atual" : ""} title={STATUS_ENCAMINHAMENTO[s].label} />)}
     </div>
   );
 }
@@ -22118,20 +22422,47 @@ function CartaoEncaminhamento({ e, usuario, podeResponder, onMudou, classe }) {
     }
   }
   const hist = (e.historico || []).slice().reverse();
+  const [abertoTexto, setAbertoTexto] = useState(false);
+  function abrirConcluir() { setModo("concluir"); setResposta(""); setDepois("so"); }
+  async function apagar() { if (!await confirmarApp("Apagar este encaminhamento?", { perigo: true, ok: "Apagar" })) return; try { await db.collection(COL_ENCAMINHAMENTOS).doc(e.id).delete(); onMudou && onMudou(); } catch (err) { setErro("Não consegui apagar: " + err.message); } }
+  /* Só o próximo passo vira botão; o resto fica no menu (⋯ ou botão direito). */
+  const proximo = st === "pendente" ? { id: "visto", rotulo: "Marcar como recebido", acao: () => passo("visto") }
+    : st === "visto" ? { id: "agendar", rotulo: "Agendar", acao: abrirAgendar }
+    : st === "agendado" ? { id: "iniciar", rotulo: "Iniciar atendimento", acao: () => passo("em_atendimento") }
+    : st === "em_atendimento" ? { id: "concluir", rotulo: "Concluir", acao: abrirConcluir } : null;
+  function menuCartao(ev) {
+    abrirMenuContexto(ev, [
+      { secao: (e.atleta_nome || "Encaminhamento") + " · " + STATUS_ENCAMINHAMENTO[st].label },
+      podeResponder && st === "pendente" && { rotulo: "Marcar como recebido", icone: "✓", acao: () => passo("visto") },
+      podeResponder && (st === "pendente" || st === "visto") && { rotulo: "Agendar", icone: "▦", acao: abrirAgendar },
+      podeResponder && ["pendente", "visto", "agendado"].includes(st) && { rotulo: "Iniciar atendimento", icone: "↗", acao: () => passo("em_atendimento") },
+      podeResponder && st !== "atendido" && { rotulo: "Concluir", icone: "✓", acao: abrirConcluir },
+      { sep: true },
+      e.atleta_id && { rotulo: "Ver atleta", icone: "👁", acao: () => abrirGavetaAtleta(e.atleta_id) },
+      e.atleta_id && { rotulo: "Encaminhar de novo", icone: "➦", acao: () => abrirEncaminhar({ atleta_id: e.atleta_id, origem_id: e.id, de_setor: e.para_setor }) },
+      hist.length > 0 && { rotulo: verHist ? "Esconder histórico" : "Ver histórico (" + hist.length + ")", icone: "▤", acao: () => setVerHist((v) => !v) },
+      { rotulo: "Copiar resumo", icone: "⧉", acao: () => copiarTextoMenu([e.atleta_nome, e.assunto, (e.de_setor ? labelSetor(e.de_setor) : e.de_nome) + " → " + labelSetor(e.para_setor), "Status: " + STATUS_ENCAMINHAMENTO[st].label, e.texto].filter(Boolean).join("\n")) },
+      (e.de_uid === usuario.id || podeApagar(usuario)) && st === "pendente" && { sep: true },
+      (e.de_uid === usuario.id || podeApagar(usuario)) && st === "pendente" && { rotulo: "Apagar", icone: "✕", perigo: true, acao: apagar },
+    ]);
+  }
   return (
-    <div className={"enc-item " + (e.prioridade === "urgente" && st !== "atendido" ? "urgente " : "") + (atrasado ? "atrasado " : "") + (classe || "")}>
-      <div className="enc-topo">
-        <span className={"badge " + STATUS_ENCAMINHAMENTO[st].cor}>{STATUS_ENCAMINHAMENTO[st].label}</span>
-        {e.prioridade === "urgente" && st !== "atendido" && <span className="badge vermelho">Urgente</span>}
-        {atrasado && <span className="badge vermelho">Atrasado</span>}
-        {e.motivo && <span className="enc-chip">{e.motivo}</span>}
-        <small>{dataCriacaoEnc(e) ? formatarData(dataCriacaoEnc(e)) : ""}</small>
+    <div className={"enc-item " + (e.prioridade === "urgente" && st !== "atendido" ? "urgente " : "") + (atrasado ? "atrasado " : "") + (st === "atendido" ? "concluido " : "") + (classe || "")} onContextMenu={menuCartao}>
+      <div className="enc-linha1">
+        <span className="enc-avatar" aria-hidden="true">{iniciaisNome(e.atleta_nome || labelSetor(e.para_setor))}</span>
+        <div className="enc-cab">
+          <b className="enc-nome">{e.atleta_nome || "Sem atleta"}</b>
+          <span className="enc-assunto">{e.assunto}{e.regiao && !(e.assunto || "").includes(rotuloLocalLesao(e.regiao, e.lado || null)) ? " · " + rotuloLocalLesao(e.regiao, e.lado || null) : ""}</span>
+        </div>
+        <div className="enc-estado">
+          <span className={"enc-status s-" + st + (atrasado ? " atrasado" : "")}>{atrasado ? "Atrasado" : STATUS_ENCAMINHAMENTO[st].label}</span>
+          {e.prioridade === "urgente" && st !== "atendido" && <span className="enc-urgente">Urgente</span>}
+        </div>
+        <button type="button" className="enc-mais" aria-label="Mais ações" onClick={menuCartao}><Icone nome="m_mais3" /></button>
       </div>
-      <b className="enc-assunto">{e.atleta_nome ? e.atleta_nome + " · " : ""}{e.assunto}</b>
-      <small className="enc-de">{(e.de_setor ? labelSetor(e.de_setor) : e.de_nome) + " → " + labelSetor(e.para_setor)} · {e.de_nome}
-        {e.regiao ? " · " + rotuloLocalLesao(e.regiao, e.lado || null) : ""}{e.prazo_data && st !== "atendido" ? " · prazo " + formatarData(e.prazo_data) : ""}</small>
       <PassosEncaminhamento status={st} />
-      {e.texto && <p className="enc-texto">{e.texto}</p>}
+      <small className="enc-de">{(e.de_setor ? labelSetor(e.de_setor) : e.de_nome) + " → " + labelSetor(e.para_setor)}{e.de_nome ? " · " + e.de_nome : ""}{dataCriacaoEnc(e) ? " · " + formatarData(dataCriacaoEnc(e)).slice(0, 5) : ""}{e.prazo_data && st !== "atendido" ? " · prazo " + formatarData(e.prazo_data).slice(0, 5) : ""}</small>
+      {e.texto && <p className={"enc-texto" + (abertoTexto ? " aberto" : "")} onClick={() => setAbertoTexto((v) => !v)}>{e.texto}</p>}
       {e.conduta && saude && <p className="enc-conduta"><b>Conduta sugerida:</b> {e.conduta}</p>}
       {e.agendamento && e.agendamento.data && <p className="enc-agenda"><b>Agendado:</b> {formatarData(e.agendamento.data)}{e.agendamento.hora ? " às " + e.agendamento.hora : ""}{e.agendamento.com ? " · " + e.agendamento.com : ""}{e.agendamento.no_cronograma ? " · no Cronograma do dia" : ""}</p>}
       {e.resposta && <p className="enc-resposta"><b>O que foi feito{e.respondido_por ? " (" + e.respondido_por + ")" : ""}:</b> {e.resposta}</p>}
@@ -22157,14 +22488,10 @@ function CartaoEncaminhamento({ e, usuario, podeResponder, onMudou, classe }) {
         </div>
       )}
       {erro && <div className="form-erro">{erro}</div>}
-      {!modo && (
+      {!modo && podeResponder && proximo && (
         <div className="enc-acoes">
-          {podeResponder && st === "pendente" && <button type="button" className="pill-btn" disabled={ocupado} onClick={() => passo("visto")}>Recebido</button>}
-          {podeResponder && (st === "pendente" || st === "visto") && <button type="button" className="pill-btn" disabled={ocupado} onClick={abrirAgendar}>Agendar</button>}
-          {podeResponder && ["pendente", "visto", "agendado"].includes(st) && <button type="button" className="pill-btn" disabled={ocupado} onClick={() => passo("em_atendimento")}>Iniciar atendimento</button>}
-          {podeResponder && st !== "atendido" && <button type="button" className="pill-btn primary" disabled={ocupado} onClick={() => { setModo("concluir"); setResposta(""); setDepois("so"); }}>Concluir</button>}
-          {hist.length > 0 && <button type="button" className="link-btn" onClick={() => setVerHist((v) => !v)}>{verHist ? "Esconder histórico" : "Histórico (" + hist.length + ")"}</button>}
-          {(e.de_uid === usuario.id || podeApagar(usuario)) && st === "pendente" && <button type="button" className="link-btn perigo" onClick={async () => { if (!await confirmarApp("Apagar este encaminhamento?")) return; try { await db.collection(COL_ENCAMINHAMENTOS).doc(e.id).delete(); onMudou && onMudou(); } catch (err) { setErro("Não consegui apagar: " + err.message); } }}>Apagar</button>}
+          <button type="button" className="pill-btn primary" disabled={ocupado} onClick={proximo.acao}>{proximo.rotulo}</button>
+          {st !== "atendido" && proximo.id !== "concluir" && <button type="button" className="link-btn" disabled={ocupado} onClick={abrirConcluir}>Concluir direto</button>}
         </div>
       )}
       {verHist && <ul className="capt-hist enc-hist">{hist.map((h, i) => <li key={i}><b>{(STATUS_ENCAMINHAMENTO[h.status] || {}).label || h.status}</b> · {h.em ? formatarData(h.em.slice(0, 10)) + (h.em.length > 10 ? " " + h.em.slice(11) : "") : ""}{h.por ? " · " + h.por : ""}{h.obs ? <div className="muted">{h.obs}</div> : null}</li>)}</ul>}
@@ -22243,6 +22570,7 @@ function ViewEncaminhamentos({ usuario }) {
   const [enviados, setEnviados] = useState(null);
   const [filtro, setFiltro] = useState("abertos");
   const [setorF, setSetorF] = useState("");
+  const [busca, setBusca] = useState("");
   const [erro, setErro] = useState(null);
   const vm = useVerMais(10);
   const todos = ehAdminOuDiretoria(usuario);
@@ -22255,7 +22583,14 @@ function ViewEncaminhamentos({ usuario }) {
   useEncaminhamentosAtualizam(carregar);
   if (!recebidos || !enviados) return <div className="page"><Carregando /></div>;
   const base = aba === "Recebidos" ? recebidos : enviados;
-  const lista = base.filter((e) => (filtro === "todos" || (filtro === "abertos" ? e.status !== "atendido" : e.status === "atendido")) && (!setorF || e.para_setor === setorF || e.de_setor === setorF));
+  const termo = normalizarBusca(busca);
+  const lista = base.filter((e) => (filtro === "todos" || (filtro === "abertos" ? e.status !== "atendido" : e.status === "atendido")) && (!setorF || e.para_setor === setorF || e.de_setor === setorF)
+    && (!termo || normalizarBusca([e.atleta_nome, e.assunto, e.motivo, e.de_nome, labelSetor(e.para_setor), labelSetor(e.de_setor || "")].join(" ")).includes(termo)));
+  /* Em aberto: agrupa por urgência do prazo (atrasados, vence hoje, próximos dias, sem prazo). */
+  const hoje = hojeISO(), em7 = isoMaisDias(hoje, 7);
+  const grupoDe = (e) => e.status === "atendido" ? "Concluídos" : encAtrasado(e) ? "Atrasados" : (e.prazo_data === hoje || e.prioridade === "urgente") ? "Vence hoje ou urgente" : e.prazo_data && e.prazo_data <= em7 ? "Próximos 7 dias" : "Sem prazo próximo";
+  const ORDEM_GRUPOS = ["Atrasados", "Vence hoje ou urgente", "Próximos 7 dias", "Sem prazo próximo", "Concluídos"];
+  const ordenada = lista.slice().sort((a, b) => (ORDEM_GRUPOS.indexOf(grupoDe(a)) - ORDEM_GRUPOS.indexOf(grupoDe(b))) || (a.prazo_data || "9").localeCompare(b.prazo_data || "9"));
   const setoresUsados = Array.from(new Set(base.flatMap((e) => [e.para_setor, e.de_setor]).filter(Boolean)));
   return (
     <div className="page">
@@ -22275,11 +22610,21 @@ function ViewEncaminhamentos({ usuario }) {
         <TabSelect opcoes={["Em aberto", "Concluídos", "Todos"]} valor={filtro === "abertos" ? "Em aberto" : filtro === "atendidos" ? "Concluídos" : "Todos"} onChange={(v) => setFiltro(v === "Em aberto" ? "abertos" : v === "Concluídos" ? "atendidos" : "todos")} tamanho="sm" />
         {setoresUsados.length > 1 && <select className="enc-filtro-setor" value={setorF} onChange={(e) => setSetorF(e.target.value)} aria-label="Filtrar por setor"><option value="">Todos os setores</option>{setoresUsados.map((s) => <option key={s} value={s}>{labelSetor(s)}</option>)}</select>}
       </div>
+      <div className="enc-busca"><Icone nome="m_buscar" /><input type="search" value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Buscar por atleta, assunto ou setor" aria-label="Buscar encaminhamento" /></div>
       <div className="panel">
-        {lista.length === 0 ? <div className="empty-state">Nada aqui.</div> : (
+        {ordenada.length === 0 ? <div className="empty-state">{busca ? "Nenhum encaminhamento com \"" + busca + "\"." : "Nada aqui."}</div> : (
           <div className="enc-lista">
-            {lista.map((e, i) => <CartaoEncaminhamento key={e.id + (e.status || "")} e={e} usuario={usuario} podeResponder={aba === "Recebidos" && (todos || meus.includes(e.para_setor))} onMudou={carregar} classe={vm.classe(i, lista.length)} />)}
-            {vm.botao(lista.length, "encaminhamentos")}
+            {ordenada.map((e, i) => {
+              const g = grupoDe(e), gAnt = i > 0 ? grupoDe(ordenada[i - 1]) : null;
+              const n = ordenada.filter((x) => grupoDe(x) === g).length;
+              return (
+                <React.Fragment key={e.id + (e.status || "")}>
+                  {g !== gAnt && !vm.classe(i, ordenada.length) && <div className={"enc-grupo g-" + ORDEM_GRUPOS.indexOf(g)}><span>{g}</span><b>{n}</b></div>}
+                  <CartaoEncaminhamento e={e} usuario={usuario} podeResponder={aba === "Recebidos" && (todos || meus.includes(e.para_setor))} onMudou={carregar} classe={vm.classe(i, ordenada.length)} />
+                </React.Fragment>
+              );
+            })}
+            {vm.botao(ordenada.length, "encaminhamentos")}
           </div>
         )}
       </div>
@@ -25550,6 +25895,35 @@ function LinhaDoTempo({ itens, dur, nomeTempo, crescente, vazio }) {
   });
   return <div className="tl">{linhas}</div>;
 }
+/** Mapa de minutos: uma barra por atleta, do minuto que entrou ao que saiu, com gols e cartões no minuto. */
+function linhasMapaMinutos(lista, lances, dur) {
+  return lista.filter((j) => j.entrada !== "" && j.entrada !== null && j.entrada !== undefined).map((j) => {
+    const e = Number(j.entrada) || 0, sa = j.saida === "" || j.saida === null || j.saida === undefined ? dur : Math.min(dur, Number(j.saida));
+    const marcas = (lances || []).filter((l) => (l.atleta === j.id && ["gol", "assist", "ca", "cv", "lesao"].includes(l.tipo))).map((l) => ({ tipo: l.tipo, min: Number(l.min) || 0 }));
+    return { ...j, ini: e, fim: Math.max(e, sa), marcas };
+  }).sort((a, b) => (a.ini - b.ini) || ((Number(a.numero) || 99) - (Number(b.numero) || 99)));
+}
+function MapaMinutos({ linhas, dur, nome }) {
+  if (!linhas.length) return null;
+  const pct = (m) => Math.max(0, Math.min(100, (m / dur) * 100)) + "%";
+  const meio = Math.round(dur / 2);
+  return (
+    <div className="mm">
+      <div className="mm-escala"><span></span><div><i style={{ left: "0%" }}>0'</i><i style={{ left: "50%" }}>{meio}'</i><i style={{ left: "100%" }}>{dur}'</i></div><span></span></div>
+      {linhas.map((l) => (
+        <div key={l.id} className="mm-linha">
+          <span className="mm-nome">{l.numero ? <em>{l.numero}</em> : null}{nome(l.id)}</span>
+          <div className="mm-trilho">
+            <i className="mm-meio" style={{ left: "50%" }} />
+            <b className="mm-barra" style={{ left: pct(l.ini), width: "calc(" + pct(l.fim) + " - " + pct(l.ini) + ")" }} />
+            {l.marcas.map((m, k) => <span key={k} className="mm-marca" style={{ left: pct(m.min) }} title={m.min + "'"}><IconeLance tipo={m.tipo} /></span>)}
+          </div>
+          <span className="mm-min">{l.fim - l.ini}'</span>
+        </div>
+      ))}
+    </div>
+  );
+}
 /** Lances do pós-jogo ao vivo virando itens da linha do tempo, com o placar parcial em cada gol. */
 function itensLancesJogo(lances, nome, dur) {
   const meio = Math.round((dur || 80) / 2);
@@ -25747,6 +26121,10 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
       </div>
       {(pos.lances || []).length > 0 && (
         <div className="aovivo-tl"><div className="aovivo-tl-titulo">Lance a lance</div><LinhaDoTempo itens={itensLancesJogo(pos.lances, nome, dur)} dur={dur} /></div>
+      )}
+      {rel.fase && rel.fase !== "pre" && (
+        <div className="aovivo-tl aovivo-mm"><div className="aovivo-tl-titulo">Minutos em campo</div>
+          <MapaMinutos dur={dur} nome={nome} linhas={linhasMapaMinutos(jogadores.map((j) => { const r = reg(pos, j.id); return { id: j.id, entrada: r.entrada, saida: r.saida, titular: j.titular }; }), pos.lances, dur)} /></div>
       )}
     </div>
   );
@@ -26002,6 +26380,35 @@ async function baixarRelatorioJogoPdf(evento, porId, usuario) {
     const itensL = itensLancesJogo(lancesPj, nomeL, r.duracao);
     pdfSecao(ctx, "Lance a lance", { reservar: 18 });
     pdfTabelaLances(doc, ctx, itensL, (t) => (t === 1 ? "1º tempo" : "2º tempo"), estilos, cab);
+  }
+  const linhasMM = linhasMapaMinutos(r.jogadores.map((j) => ({ id: j.id, numero: j.numero, entrada: j.entrada, saida: j.saida })), lancesPj, r.duracao);
+  if (r.preenchido && linhasMM.length) {
+    pdfSecao(ctx, "Minutos em campo", { reservar: 30 });
+    const x0 = ctx.x0 + 46, x1 = ctx.x1 - 12, w = x1 - x0, hL = 5.2;
+    const px = (m) => x0 + Math.max(0, Math.min(1, m / r.duracao)) * w;
+    doc.setFont("helvetica", "normal"); doc.setFontSize(6.5); doc.setTextColor(100, 116, 139);
+    [0, Math.round(r.duracao / 2), r.duracao].forEach((m) => doc.text(m + "'", px(m), ctx.y + 2, { align: "center" }));
+    ctx.y += 4;
+    linhasMM.forEach((l) => {
+      pdfGarantirEspaco(ctx, hL + 1);
+      const cy = ctx.y + hL / 2;
+      doc.setFontSize(7.5); doc.setTextColor(15, 23, 42); doc.setFont("helvetica", "bold");
+      doc.text(textoPdf((l.numero ? l.numero + "  " : "") + (porId[l.id] ? nomeCurtoAtleta(porId[l.id]) : "-")).slice(0, 26), ctx.x0, cy + 1.2);
+      doc.setFillColor(226, 232, 240); doc.rect(x0, cy - 0.6, w, 1.2, "F");
+      doc.setDrawColor(203, 213, 225); doc.setLineWidth(0.2); doc.line(px(r.duracao / 2), cy - 2, px(r.duracao / 2), cy + 2);
+      doc.setFillColor(30, 116, 70); doc.roundedRect(px(l.ini), cy - 1.3, Math.max(0.8, px(l.fim) - px(l.ini)), 2.6, 1.2, 1.2, "F");
+      l.marcas.forEach((m) => {
+        const mx = px(m.min);
+        if (m.tipo === "ca" || m.tipo === "cv") { doc.setFillColor(...(m.tipo === "ca" ? [242, 194, 0] : [215, 38, 61])); doc.rect(mx - 0.9, cy - 2.2, 1.8, 2.6, "F"); }
+        else if (m.tipo === "gol") { doc.setFillColor(15, 23, 42); doc.setDrawColor(255, 255, 255); doc.setLineWidth(0.3); doc.circle(mx, cy, 1.5, "FD"); }
+        else if (m.tipo === "assist") { doc.setFillColor(255, 255, 255); doc.setDrawColor(15, 23, 42); doc.setLineWidth(0.3); doc.circle(mx, cy, 1.3, "FD"); }
+        else if (m.tipo === "lesao") { doc.setFillColor(220, 38, 38); doc.rect(mx - 0.4, cy - 1.5, 0.8, 3, "F"); doc.rect(mx - 1.5, cy - 0.4, 3, 0.8, "F"); }
+      });
+      doc.setFont("helvetica", "normal"); doc.setFontSize(7); doc.setTextColor(71, 85, 105);
+      doc.text((l.fim - l.ini) + "'", ctx.x1, cy + 1.2, { align: "right" });
+      ctx.y += hL;
+    });
+    ctx.y += 4;
   }
   if (r.substituicoes.length) {
     pdfSecao(ctx, "Substituições", { reservar: 18 });
@@ -26744,7 +27151,23 @@ function EditorConvocacao({ evento, atletas, usuario, onVoltar, onSalvo, secaoIn
       </div>
       {!podeEditarJogo && <div className="access-note so-leitura-aviso"><span><b>Somente leitura.</b> Só a Comissão técnica (treinadores) e o Desempenho alteram o jogo.</span></div>}
       <fieldset className="so-leitura" disabled={!podeEditarJogo}>
-      {secao === "goleiro" && <ScoutGoleiroDoJogo evento={evento} atletas={atletas} usuario={usuario} relogioJogo={pos.relogio} durJogo={Number(pos.duracao) || duracaoPadrao(evento)} />}
+      {secao === "goleiro" && <ScoutGoleiroDoJogo evento={evento} atletas={atletas} usuario={usuario} relogioJogo={pos.relogio} durJogo={Number(pos.duracao) || duracaoPadrao(evento)}
+        onTrocaJogo={podeEditarJogo ? (sai, entra, min, t) => {
+          /* A troca feita no scout de goleiro vira também a substituição do pós-jogo. */
+          const durP = Number(pos.duracao) || duracaoPadrao(evento);
+          const tit = (id) => { const x = jogadoresPos.find((y) => y.id === id); return !!(x && x.titular); };
+          setPos((p) => {
+            if ((p.substituicoes || []).some((x) => x.sai === sai && x.entra === entra)) return p;
+            const r = (id) => ({ ...registroInicialPos(tit(id), durP), ...(p.atletas[id] || {}) });
+            return {
+              ...p,
+              atletas: { ...p.atletas, [sai]: { ...r(sai), saida: min }, [entra]: { ...r(entra), entrada: min, saida: durP } },
+              substituicoes: [...(p.substituicoes || []), { min, sai, entra }].sort((a, b) => a.min - b.min),
+              lances: [...(p.lances || []), { tipo: "sub", atleta: sai, entra, min, t, em: new Date().toISOString(), origem: "scout_goleiro" }],
+            };
+          });
+          mudouPos(); setAutoTick((x) => x + 1);
+        } : null} />}
       {secao === "pos" && mensagem && <div className="access-note" style={{ borderLeftColor: mensagem.tipo === "ok" ? "var(--st-good)" : "var(--st-crit)" }}><span>{mensagem.texto}</span></div>}
       {secao === "pos" && <EditorPosJogo jogadores={jogadoresPos} pos={pos} setPos={setPos} placar={placarEd} setPlacar={setPlacarEd} porId={porId} mudou={mudouPos} somenteLeitura={!podeEditarJogo} onAuto={() => setAutoTick((t) => t + 1)} onLesao={avisarLesao} />}
 
@@ -27921,8 +28344,8 @@ function ViewJogos({ usuario, onNavigate }) {
                       <ul className="jogo-pendencias" aria-label="Pendências do jogo">{pend.map((x) => <li key={x.tipo} className={x.tipo === "suspenso" ? "grave" : ""}>{x.texto}</li>)}</ul>
                     ) : <div className="jogo-pendencias ok">Tudo certo para o jogo</div>}
                     <div className="jogo-card-rodape">
-                      {titulares + reservas > 0 && <span className="badge verde">{titulares} titulares · {reservas} reservas</span>}
-                      {fora !== null && fora > 0 && <span className="badge vermelho">{fora} fora</span>}
+                      {titulares + reservas > 0 && <span className="jogo-dado">{titulares} titulares · {reservas} reservas</span>}
+                      {fora !== null && fora > 0 && <span className="jogo-dado fora">{fora} fora</span>}
                       <span className="pill-btn primary">{titulares + reservas ? "Abrir jogo" : "Convocar"}</span>
                     </div>
                   </div>
@@ -35027,6 +35450,41 @@ const STATUS_PALESTRA = [
   { id: "justificado", label: "Justificado", curto: "J" },
 ];
 const anoNascAtleta = (a) => String(a.data_nascimento || "").slice(0, 4);
+/** No perfil do atleta: palestras em que ele estava no público e a presença marcada. */
+function PainelPalestrasAtleta({ atleta }) {
+  const { useState, useEffect } = React;
+  const [lista, setLista] = useState(null);
+  const vm = useVerMais(5);
+  useEffect(() => {
+    carregarEventos().then((ev) => setLista(ev.filter((e) => e.tipo === "palestra" && (((e.presenca_palestra || {})[atleta.id]) || publicoDaPalestra(e, [atleta]).length)).sort((a, b) => (b.data || "").localeCompare(a.data || "")))).catch(() => setLista([]));
+  }, [atleta.id]);
+  if (!lista) return null;
+  if (!lista.length) return <div className="perfil-vazio"><b>Palestras</b><span>Nenhuma palestra para o público deste atleta ainda.</span></div>;
+  const st = (e) => (e.presenca_palestra || {})[atleta.id] || "";
+  const passadas = lista.filter((e) => e.data <= hojeISO());
+  const cont = (id) => passadas.filter((e) => st(e) === id).length;
+  const semMarcar = passadas.filter((e) => !st(e)).length;
+  return (
+    <div className="panel">
+      <div className="panel-head"><h3>Palestras ({lista.length})</h3></div>
+      <div className="pal-atleta-resumo">
+        {STATUS_PALESTRA.map((x) => <span key={x.id} className={"pal-st " + x.id}><b>{cont(x.id)}</b>{x.label}</span>)}
+        {semMarcar > 0 && <span className="pal-st"><b>{semMarcar}</b>Sem marcar</span>}
+        {passadas.length > 0 && <span className="pal-st taxa"><b>{Math.round((cont("presente") / passadas.length) * 100)}%</b>de presença</span>}
+      </div>
+      <div className="pal-atleta-lista">
+        {lista.map((e, i) => (
+          <div key={e.id} className={"pal-atleta-item" + vm.classe(i, lista.length)}>
+            <span className="pal-data">{formatarData(e.data).slice(0, 5)}</span>
+            <span className="pal-tit"><b>{e.titulo || "Palestra"}</b><small>{[e.palestrante, e.setor_palestra].filter(Boolean).join(" · ")}</small></span>
+            <span className={"pal-st-item " + (st(e) || (e.data > hojeISO() ? "futura" : "vazio"))}>{st(e) ? (STATUS_PALESTRA.find((x) => x.id === st(e)) || {}).label : e.data > hojeISO() ? "Agendada" : "Sem marcar"}</span>
+          </div>
+        ))}
+        {vm.botao(lista.length, "palestras")}
+      </div>
+    </div>
+  );
+}
 function publicoDaPalestra(p, atletas) {
   const cats = p.publico_categorias || [], anos = p.publico_anos || [];
   return atletas.filter((a) => !a.inativo && ((!cats.length && !anos.length) || cats.some((c) => atletaNaCategoria(a, c)) || anos.includes(anoNascAtleta(a))));
@@ -35588,7 +36046,8 @@ function AppLogado({ usuario }) {
         <GavetaAtletaGlobal usuario={usuario} />
         <DialogoAppRaiz />
         <MenuContextoRaiz />
-        <EditorAtletaRapido usuario={usuario} />
+        <SeletorDataHoraRaiz />
+        <EditorAtletaRapido usuario={usuario} /><LancarRapidoAtleta usuario={usuario} />
         <AvisoDoEventoGlobal usuario={usuario} />
         <EncaminharGlobal usuario={usuario} />
         {usuarioEhEquipe(usuario) && <LembretesDiarios usuario={usuario} onNavigate={navegar} />}
