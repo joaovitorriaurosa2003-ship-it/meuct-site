@@ -47,3 +47,51 @@ exports.avisosAgendados = functions
   .pubsub.schedule("every 5 minutes")
   .timeZone("America/Sao_Paulo")
   .onRun(() => rodadaAgendados(new Date()));
+
+// Lembrete de prazo dos encaminhamentos: todo dia às 7h30 (Brasília), avisa o setor que recebeu
+// cada encaminhamento em aberto que vence hoje ou já passou do prazo. Um lembrete por dia por encaminhamento.
+const NOMES_SETOR = { fisioterapia: "Fisioterapia", medicina: "Medicina", nutricao: "Nutrição", psicologia: "Psicologia", social: "Serviço Social", preparacao: "Preparação Física", treinador: "Comissão técnica", diretoria: "Diretoria" };
+function hojeSaoPaulo(agora) {
+  const p = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(agora || new Date());
+  return p; // AAAA-MM-DD
+}
+async function rodadaLembretesEncaminhamentos(agora) {
+  const hoje = hojeSaoPaulo(agora);
+  const s = await db.collection("ct_encaminhamentos").where("prazo_data", "<=", hoje).limit(300).get();
+  const abertos = s.docs.filter((d) => { const e = d.data() || {}; return e.prazo_data && e.status !== "atendido" && e.lembrete_prazo !== hoje; });
+  if (!abertos.length) return { enviados: 0 };
+  const dir = (await db.collection("ct_diretorio").get()).docs.map((d) => ({ id: d.id, ...d.data() }));
+  let enviados = 0;
+  for (const d of abertos) {
+    const e = d.data();
+    const dest = dir.filter((u) => (u.modulos || []).includes(e.para_setor)).map((u) => u.id).slice(0, 300);
+    try {
+      const atrasado = e.prazo_data < hoje;
+      if (dest.length) {
+        const nomes = {}; dest.forEach((u) => { nomes[u] = ""; });
+        const quem = e.atleta_nome ? e.atleta_nome + " · " : "";
+        await db.collection("ct_avisos").add({
+          remetente_uid: e.de_uid || "", remetente_nome: "MeuCT", destinatarios: dest, nomes,
+          alvo_texto: NOMES_SETOR[e.para_setor] || e.para_setor || "", nivel: atrasado ? "vermelho" : "amarelo",
+          titulo: ((atrasado ? "Encaminhamento atrasado: " : "Encaminhamento vence hoje: ") + quem + (e.assunto || "")).slice(0, 120),
+          mensagem: ((NOMES_SETOR[e.de_setor] || e.de_nome || "Outro setor") + " encaminhou para " + (NOMES_SETOR[e.para_setor] || e.para_setor) + ". Prazo: " + e.prazo_data.split("-").reverse().join("/") + ". Abra Encaminhamentos no MeuCT para dar o próximo passo.").slice(0, 900),
+          lidos: {}, criado_em: FieldValue.serverTimestamp(), origem: "lembrete_encaminhamento", encaminhamento_id: d.id,
+        });
+        enviados++;
+      }
+      await d.ref.update({ lembrete_prazo: hoje });
+    } catch (err) {
+      functions.logger.error("Lembrete de encaminhamento falhou", { id: d.id, erro: String((err && err.message) || err) });
+    }
+  }
+  functions.logger.info("Lembretes de encaminhamento", { enviados, abertos: abertos.length });
+  return { enviados };
+}
+if (process.env.MEUCT_TESTE) exports._rodadaLembretesEncaminhamentos = rodadaLembretesEncaminhamentos; // só no teste
+
+exports.lembretesEncaminhamentos = functions
+  .region("southamerica-east1")
+  .runWith({ maxInstances: 1, timeoutSeconds: 120, memory: "256MB" })
+  .pubsub.schedule("30 7 * * *")
+  .timeZone("America/Sao_Paulo")
+  .onRun(() => rodadaLembretesEncaminhamentos(new Date()));
