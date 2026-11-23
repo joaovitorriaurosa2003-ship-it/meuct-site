@@ -116,9 +116,10 @@ service cloud.firestore {
         && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
+    // A Medicina também grava lesões e mudanças de fase (Quadro do DM); o resto da Fisio continua só com a Fisio.
     match /ct_atletas/{atletaId}/ct_fisio_registros/{docId} {
       allow read: if ctTemAcesso('fisioterapia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if (ctTemAcesso('fisioterapia'))
+      allow create, update: if (ctTemAcesso('fisioterapia') || (ctTemAcesso('medicina') && request.resource.data.tipo == 'Lesão'))
         && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
@@ -157,7 +158,7 @@ service cloud.firestore {
     }
     match /{path=**}/ct_fisio_registros/{docId} {
       allow read: if ctTemAcesso('fisioterapia') || ctTemAcesso('treinador') || ctPodeCruzar() || ctEhEquipe();
-      allow create, update: if (ctTemAcesso('fisioterapia'))
+      allow create, update: if (ctTemAcesso('fisioterapia') || (ctTemAcesso('medicina') && request.resource.data.tipo == 'Lesão'))
         && ctAutoriaMantida();
       allow delete: if ctPodeApagar() || ctEhAutor();
     }
@@ -606,6 +607,15 @@ match /ct_captacao_privado/{id} {
         && resource.data.status == 'agendado' && request.resource.data.remetente_uid == request.auth.uid
         && request.resource.data.status in ['agendado', 'cancelado'];
       allow delete: if ctEstaLogado() && (resource.data.remetente_uid == request.auth.uid || ctEhAdmin());
+    }
+
+    // Personalização do app (um documento só, "app"): menu, painel, abas e listas por perfil.
+    // Toda a equipe lê; só o administrador grava.
+    match /ct_config/{id} {
+      allow read: if ctEhEquipe();
+      allow create, update: if ctEhAdmin() && id == 'app'
+        && request.resource.data.atualizado_por == request.auth.uid;
+      allow delete: if ctEhAdmin();
     }
 
     // Quartos e camas dos alojamentos (um documento só, "quartos"). A equipe lê; o Serviço Social e o admin editam.
