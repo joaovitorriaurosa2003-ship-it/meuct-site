@@ -2834,6 +2834,72 @@ th.num, td.num{text-align:right;}
 .med-lesao.amarelo{border-left-color:#F2B53A;}
 .med-lesao:hover{box-shadow:0 6px 18px rgba(15,23,42,.08); transform:translateY(-1px);}
 .med-lesao-topo{display:flex; align-items:center; gap:12px;}
+/* Quadro do DM */
+.dm-page .page-head{flex-wrap:wrap; gap:10px;}
+.dm-filtros{display:flex; flex-direction:column; gap:10px; margin:0 0 14px;}
+.dm-filtros-linha{display:flex; flex-wrap:wrap; align-items:center; gap:10px;}
+.dm-filtros-linha select,.dm-busca{padding:8px 11px; border:1px solid var(--line-soft); border-radius:10px; background:#fff; font:inherit; font-size:13px; color:var(--ink);}
+.dm-busca{min-width:200px; flex:0 1 260px;}
+.dm-dica{font-size:12.5px; color:var(--muted);}
+.dm-quadro{display:grid; grid-auto-flow:column; grid-auto-columns:minmax(226px,1fr); gap:12px; overflow-x:auto; padding:2px 2px 12px; align-items:start; scroll-snap-type:x proximity;}
+.dm-coluna{background:#EEF1F5; border:1px solid var(--line-soft); border-radius:14px; display:flex; flex-direction:column; min-height:220px; max-height:calc(100vh - 260px); scroll-snap-align:start; transition:background .15s, border-color .15s;}
+.dm-coluna.alvo{border-style:dashed; border-color:#9AA6B8;}
+.dm-coluna.sobre{background:#E3EAF3; border-color:#1B2A4A;}
+.dm-coluna-cab{display:flex; flex-wrap:wrap; align-items:center; gap:6px; padding:11px 12px 9px; border-bottom:1px solid var(--line-soft);}
+.dm-coluna-cab b{font-size:13.5px; color:#1B2A4A;}
+.dm-coluna-cab small{flex-basis:100%; font-size:11.5px; color:var(--muted);}
+.dm-cont{min-width:22px; padding:1px 7px; border-radius:999px; background:#fff; border:1px solid var(--line-soft); font-size:12px; font-weight:800; text-align:center; color:var(--ink-2);}
+.dm-coluna.c-aguardando .dm-coluna-cab{border-bottom-color:#1B2A4A;}
+.dm-coluna.c-liberado .dm-coluna-cab b{color:#1E7446;}
+.dm-coluna-corpo{padding:10px; display:flex; flex-direction:column; gap:9px; overflow-y:auto;}
+.dm-vazio{font-size:12.5px; color:var(--muted); text-align:center; padding:18px 8px;}
+.dm-cartao{background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 11px; display:flex; flex-direction:column; gap:7px; box-shadow:0 1px 2px rgba(14,26,49,.06); cursor:default;}
+.dm-cartao.movel{cursor:grab; touch-action:pan-x pan-y; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; transition:box-shadow .15s, transform .15s;}
+@media (hover:hover){ .dm-cartao.movel:hover{box-shadow:0 4px 12px rgba(14,26,49,.10); transform:translateY(-1px);} }
+.dm-cartao.arrastando{opacity:.35; border-style:dashed; box-shadow:none; transform:none;}
+.dm-cartao.pendente{border-color:#1B2A4A; box-shadow:0 0 0 2px rgba(27,42,74,.18);}
+.dm-cartao.chegou{animation:dmChegou .42s cubic-bezier(.2,.9,.3,1.25);}
+@keyframes dmChegou{0%{transform:scale(.92); opacity:.4;} 60%{transform:scale(1.03); opacity:1;} 100%{transform:scale(1);}}
+.dm-fantasma{position:fixed; left:0; top:0; z-index:3000; pointer-events:none; will-change:transform;}
+.dm-fantasma .dm-cartao{box-shadow:0 18px 40px rgba(14,26,49,.28), 0 2px 6px rgba(14,26,49,.12); border-color:#1B2A4A; cursor:grabbing;}
+body.dm-arrastando, body.dm-arrastando *{cursor:grabbing !important; user-select:none !important; -webkit-user-select:none !important;}
+.dm-coluna.proibido{opacity:.55;}
+@media (prefers-reduced-motion: reduce){ .dm-cartao.chegou{animation:none;} .dm-cartao.movel{transition:none;} }
+.dm-cartao.enc{border-left:3px solid #1B2A4A;}
+.dm-cartao-topo{display:flex; align-items:center; gap:9px;}
+.dm-foto{flex:0 0 auto; width:34px; height:34px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#1C2C4B; color:#F2D27A; font-size:11.5px; font-weight:800; box-shadow:0 0 0 2px #fff, 0 0 0 3.5px #C9D1DC;}
+.dm-foto.g-grave{box-shadow:0 0 0 2px #fff, 0 0 0 3.5px #D9463B;}
+.dm-foto.g-moderada{box-shadow:0 0 0 2px #fff, 0 0 0 3.5px #F2B53A;}
+.dm-foto.g-leve{box-shadow:0 0 0 2px #fff, 0 0 0 3.5px #9AA6B8;}
+.dm-foto img{width:100%; height:100%; object-fit:cover;}
+.dm-quem{flex:1; min-width:0; display:flex; flex-direction:column;}
+.dm-quem b{font-size:13.5px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.dm-quem small{font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.dm-mais{flex:0 0 auto; width:28px; height:28px; border:none; background:transparent; border-radius:8px; color:var(--ink-2); cursor:pointer; display:flex; align-items:center; justify-content:center;}
+.dm-mais:hover{background:#EEF1F5;}
+.dm-assunto{font-size:12.5px; font-weight:700; color:var(--ink-2);}
+.dm-tags{display:flex; flex-wrap:wrap; gap:5px;}
+.dm-tag{font-size:11px; font-weight:700; padding:2px 7px; border-radius:6px; background:#F1F3F6; color:var(--ink-2); border:1px solid var(--line-soft);}
+.dm-tag.forte{background:#1B2A4A; color:#fff; border-color:#1B2A4A;}
+.dm-tag.g-grave{border-color:#D9463B; color:#9E2A21; background:#fff;}
+.dm-tag.g-moderada{border-color:#F2B53A; color:#7A5410; background:#fff;}
+.dm-rodape{display:flex; align-items:center; gap:10px; font-size:11.5px; color:var(--muted); flex-wrap:wrap;}
+.dm-rodape b{color:var(--ink); font-size:12.5px;}
+.dm-rodape .parado{color:#9E2A21; font-weight:700;}
+.dm-mover{margin-left:auto; border:1px solid var(--line-soft); background:#fff; border-radius:8px; padding:4px 10px; font:inherit; font-size:11.5px; font-weight:700; color:var(--ink-2); cursor:pointer; display:none;}
+.dm-cartao.enc .dm-mover{align-self:flex-end;}
+.dm-opcoes{display:flex; flex-direction:column; gap:8px; margin:12px 0;}
+.dm-opcao{text-align:left; padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:#fff; font:inherit; font-size:14px; font-weight:700; color:var(--ink); cursor:pointer;}
+.dm-opcao:hover{border-color:#1B2A4A;}
+.dm-de-para{display:flex; align-items:center; gap:10px; margin:10px 0 12px; font-size:14px; color:var(--ink-2);}
+.dm-de-para svg{width:18px; height:18px;}
+.dm-toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:2900; background:#1B2A4A; color:#fff; padding:10px 16px; border-radius:10px; font-size:13px; box-shadow:0 8px 24px rgba(0,0,0,.2); max-width:calc(100% - 32px);}
+@media (pointer:coarse), (max-width:760px){
+  .dm-mover{display:inline-block;}
+  .dm-quadro{grid-auto-columns:minmax(78vw,1fr);}
+  .dm-coluna{max-height:none;}
+  .dm-busca{flex:1 1 100%;}
+}
 .med-lesao-foto{flex:0 0 auto; width:42px; height:42px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#1C2C4B; color:var(--gold-300,#F2D27A); font-size:13px; font-weight:800; box-shadow:0 0 0 3px #fff, 0 0 0 5px #D9463B;}
 .med-lesao-foto.amarelo{box-shadow:0 0 0 3px #fff, 0 0 0 5px #F2B53A;}
 .med-lesao-foto img{width:100%; height:100%; object-fit:cover;}
@@ -3584,6 +3650,35 @@ tr.linha-qr td{background:var(--surface-2);}
 .perfil-vazio b{color:#0F172A; font-size:13.5px;} .perfil-vazio span{color:#64748B;}
 .perfil-alerta{margin:0 0 12px; padding:10px 14px; font-size:13px;}
 .cad-acoes{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
+/* Personalizar o app */
+.cfg-perfis{display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin:0 0 6px;}
+.cfg-perfis > span{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#64748B; margin-right:4px;}
+.cfg-perfil{border:1px solid #E2E8F0; background:#fff; border-radius:999px; padding:7px 13px; font:inherit; font-size:13px; font-weight:600; color:#334155; cursor:pointer;}
+.cfg-perfil.on{background:#0F172A; color:#fff; border-color:#0F172A;}
+.cfg-corpo{padding:10px 18px 16px; display:flex; flex-direction:column; gap:2px;}
+.cfg-grupo{margin-bottom:10px;}
+.cfg-grupo-tit{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#64748B; padding:8px 0 4px;}
+.cfg-linha{display:flex; align-items:center; gap:12px; padding:7px 0; border-bottom:1px solid #F1F5F9;}
+.cfg-linha:last-child{border-bottom:none;}
+.cfg-linha input[type=text]{flex:1; min-width:0; border:1px solid transparent; background:transparent; font:inherit; font-size:14px; font-weight:600; color:#0F172A; padding:6px 8px; border-radius:8px;}
+.cfg-linha input[type=text]:hover, .cfg-linha input[type=text]:focus{border-color:#E2E8F0; background:#fff; outline:none;}
+.cfg-linha input[type=text]::placeholder{color:#0F172A; opacity:1;}
+.cfg-linha.desligada input[type=text]::placeholder, .cfg-linha.desligada .cfg-nome{color:#94A3B8;}
+.cfg-nome{flex:1; font-size:14px; font-weight:600; color:#0F172A; display:flex; flex-direction:column;}
+.cfg-nome small{font-size:12px; font-weight:500; color:#64748B;}
+.cfg-chave{flex:0 0 38px; width:38px; height:22px; border-radius:999px; border:none; background:#CBD5E1; position:relative; cursor:pointer; padding:0; transition:background .15s;}
+.cfg-chave i{position:absolute; top:3px; left:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:left .15s; box-shadow:0 1px 2px rgba(0,0,0,.2);}
+.cfg-chave.on{background:#0F172A;} .cfg-chave.on i{left:19px;}
+.cfg-chave:disabled{opacity:.45; cursor:default;}
+.cfg-mini{border:1px solid #E2E8F0; background:#fff; border-radius:8px; padding:5px 9px; font:inherit; font-size:12px; font-weight:600; color:#334155; cursor:pointer; display:inline-flex; align-items:center;}
+.cfg-mini .ico{width:14px; height:14px;} .cfg-mini:disabled{opacity:.35; cursor:default;}
+.cfg-listas .field{margin-bottom:12px;} .cfg-listas textarea{font:inherit; font-size:13.5px;}
+.cfg-salvar{position:sticky; bottom:12px; margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:12px; background:#0F172A; color:#E2E8F0; border-radius:12px; padding:10px 12px 10px 16px; font-size:13px; box-shadow:0 10px 30px rgba(15,23,42,.25); z-index:20;}
+.cfg-salvar .erro{color:#FCA5A5;} .cfg-salvar .ok{color:#A7F3D0;}
+.faixa-simulando{position:fixed; left:50%; transform:translateX(-50%); bottom:16px; z-index:2500; display:flex; align-items:center; gap:14px; width:max-content; max-width:calc(100vw - 32px); background:#F2C200; color:#1A1A1A; font-size:13px; padding:8px 8px 8px 16px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.25);}
+@media (max-width: 720px){ .faixa-simulando{bottom:84px; flex-wrap:wrap; font-size:12px;} }
+.faixa-simulando button{border:none; background:#1A1A1A; color:#fff; border-radius:999px; padding:6px 14px; font:inherit; font-weight:700; cursor:pointer;}
+@media (max-width: 720px){ .cfg-perfis{overflow-x:auto; flex-wrap:nowrap;} .cfg-perfil{flex:0 0 auto;} .cfg-salvar{bottom:84px;} .cfg-linha{gap:8px;} }
 @media (max-width: 720px){
   .topbar-trilha{flex:1 1 auto; overflow:hidden;}
   .topbar-trilha .atual{display:block !important; overflow:hidden; text-overflow:ellipsis; font-size:18px !important; min-width:0;}
@@ -5603,12 +5698,69 @@ ICONES.agenda_campo = ICONES.agenda_dm = ICONES.agenda_social = ICONES.agenda_sa
 ICONES.instalar = [["rect", { x: 7, y: 2.5, width: 10, height: 19, rx: 2.2 }], ["path", { d: "M12 7v7M9.2 11.4 12 14.2l2.8-2.8M10.5 18.5h3" }]];
 ICONES.diretoria = [["rect", { x: 3.5, y: 7.5, width: 17, height: 12.5, rx: 2.2 }], ["path", { d: "M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9M3.5 12.5h17M10.5 12.5v1.6h3v-1.6" }]];
 ICONES.cadastro_atletas = ICONES.elenco;
+ICONES.personalizar = [["path", { d: "M4 7h9M17 7h3M4 17h3M11 17h9" }], ["circle", { cx: 15, cy: 7, r: 2 }], ["circle", { cx: 9, cy: 17, r: 2 }]];
 ICONES.palestras = [["rect", { x: 3.5, y: 4, width: 17, height: 11, rx: 1.8 }], ["path", { d: "M12 15v3.5M8 21l4-2.5 4 2.5M7.5 8.5h6M7.5 11.5h9" }]];
+/* ---------- Personalização do app pelo Admin (ct_config/app) ----------
+ * menu[perfil].ocultas: páginas escondidas do menu daquele perfil.
+ * painel[perfil]: layout padrão do Painel geral (cada pessoa ainda pode ajustar o seu).
+ * perfil_abas[perfil]: abas do perfil do atleta escondidas.
+ * lancar[perfil]: lançamentos do botão direito desligados.
+ * textos.paginas: nomes das páginas. listas: motivos de encaminhamento, setores das palestras, tipos da fisio. */
+const COL_CONFIG = "ct_config";
+let CONFIG_APP = {};
+const TIPOS_REGISTRO_FISIO = ["Avaliação", "Tratamento", "Evolução", "Alta"];
+const PADROES_CONFIG = {};
+function guardarPadroesConfig() {
+  if (PADROES_CONFIG.pronto) return;
+  PADROES_CONFIG.rotulos = { ...ROTULO_PAGINA };
+  PADROES_CONFIG.motivos = JSON.parse(JSON.stringify(MOTIVOS_ENC));
+  PADROES_CONFIG.setoresPalestra = SETORES_PALESTRA.slice();
+  PADROES_CONFIG.tiposFisio = TIPOS_REGISTRO_FISIO.slice();
+  PADROES_CONFIG.pronto = true;
+}
+function trocarLista(arr, nova) { arr.splice(0, arr.length, ...nova); }
+function aplicarConfigApp(cfg) {
+  guardarPadroesConfig();
+  CONFIG_APP = cfg || {};
+  const t = (CONFIG_APP.textos || {}).paginas || {};
+  Object.keys(ROTULO_PAGINA).forEach((k) => { ROTULO_PAGINA[k] = t[k] || PADROES_CONFIG.rotulos[k]; });
+  const L = CONFIG_APP.listas || {};
+  Object.keys(MOTIVOS_ENC).forEach((k) => { delete MOTIVOS_ENC[k]; });
+  Object.assign(MOTIVOS_ENC, JSON.parse(JSON.stringify(PADROES_CONFIG.motivos)), L.motivos_enc || {});
+  trocarLista(SETORES_PALESTRA, (L.setores_palestra && L.setores_palestra.length) ? L.setores_palestra : PADROES_CONFIG.setoresPalestra);
+  trocarLista(TIPOS_REGISTRO_FISIO, (L.tipos_fisio && L.tipos_fisio.length) ? L.tipos_fisio : PADROES_CONFIG.tiposFisio);
+  window.dispatchEvent(new Event("ct:config"));
+}
+async function carregarConfigApp() {
+  try { const d = await db.collection(COL_CONFIG).doc("app").get(); aplicarConfigApp(d.exists ? d.data() : {}); }
+  catch (e) { aplicarConfigApp({}); }
+}
+/** Perfis que contam para a personalização (o admin de verdade vê tudo; simulando, vale o perfil simulado). */
+function perfisConfig(u) { if (!u || (u.role === "admin" && !u.simulando)) return []; return (u.modulos || []).filter(Boolean); }
+/** Algo fica escondido só se estiver escondido em TODOS os perfis da pessoa que têm configuração. */
+function ocultoNosPerfis(u, chave, id) {
+  const ps = perfisConfig(u).filter((p) => (CONFIG_APP[chave] || {})[p]);
+  if (!ps.length) return false;
+  return ps.every((p) => {
+    const c = CONFIG_APP[chave][p];
+    const lista = Array.isArray(c) ? c : (c.ocultas || []);
+    return lista.includes(id);
+  });
+}
+function paginaOculta(u, id) { return ocultoNosPerfis(u, "menu", id); }
+function rotuloPaginaCfg(id, padrao) { const t = ((CONFIG_APP.textos || {}).paginas || {})[id]; return t || padrao; }
+function abaPerfilOculta(u, id) { return id !== "Resumo" && ocultoNosPerfis(u, "perfil_abas", id); }
+function lancamentoDesligado(u, id) { return ocultoNosPerfis(u, "lancar", id); }
+function layoutPadraoDoPerfil(u) {
+  const p = perfisConfig(u).find((x) => (CONFIG_APP.painel || {})[x]);
+  return p ? CONFIG_APP.painel[p] : null;
+}
+
 const ROTULO_PAGINA = {
-  admin: "Painel geral", elenco: "Elenco", atualizacoes: "Atualizações", relatorios: "Relatórios", usuarios: "Usuários",
+  admin: "Painel geral", personalizar: "Personalizar o app", elenco: "Elenco", atualizacoes: "Atualizações", relatorios: "Relatórios", usuarios: "Usuários",
   psicologia: "Psicologia", fisioterapia: "Fisioterapia", fisiologia: "Fisiologia", medicina: "Medicina", nutricao: "Nutrição",
   social: "Serviço Social", desempenho: "Desempenho", treinador: "Campograma", preparacao: "Preparação Física", treinos: "Treinos", goleiros: "Goleiros", qts: "QTS",
-  agenda: "Agenda geral", minha_agenda: "Minha agenda", atas: "Atas de reunião", documentos: "Documentos", aniversariantes: "Aniversariantes", encaminhamentos: "Encaminhamentos", avaliacao: "Atletas em avaliação", captacao: "Captação", diretoria: "Diretoria", cadastro_atletas: "Cadastro de atletas", social_documentos: "Documentos dos atletas", social_viagens: "Viagens", social_quartos: "Quartos e alojamentos", social_fds: "Fim de semana", palestras_campo: "Palestras", palestras_saude: "Palestras", agenda_campo: "Agenda da Comissão técnica", agenda_dm: "Agenda de Saúde e performance", agenda_social: "Agenda de Saúde e performance", agenda_saude: "Agenda de Saúde e performance", meu_qts: "Meu QTS", jogos: "Jogos", monitoramento: "Monitoramento", avisos: "Avisos", conversas: "Conversas",
+  agenda: "Agenda geral", minha_agenda: "Minha agenda", atas: "Atas de reunião", documentos: "Documentos", aniversariantes: "Aniversariantes", encaminhamentos: "Encaminhamentos", quadro_dm: "Quadro do DM", avaliacao: "Atletas em avaliação", captacao: "Captação", diretoria: "Diretoria", cadastro_atletas: "Cadastro de atletas", social_documentos: "Documentos dos atletas", social_viagens: "Viagens", social_quartos: "Quartos e alojamentos", social_fds: "Fim de semana", palestras_campo: "Palestras", palestras_saude: "Palestras", agenda_campo: "Agenda da Comissão técnica", agenda_dm: "Agenda de Saúde e performance", agenda_social: "Agenda de Saúde e performance", agenda_saude: "Agenda de Saúde e performance", meu_qts: "Meu QTS", jogos: "Jogos", monitoramento: "Monitoramento", avisos: "Avisos", conversas: "Conversas",
 };
 
 /** Quantas atualizações o usuário ainda não viu (zera ao abrir a aba Atualizações). */
@@ -5671,6 +5823,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
     { id: "cadastro_atletas", label: "Cadastro de atletas", icone: "elenco" },
     { id: "fisioterapia", label: "Fisioterapia" },
     { id: "medicina", label: "Medicina" },
+    { id: "quadro_dm", label: "Quadro do DM", icone: "dm" },
     { id: "nutricao", label: "Nutrição" },
     { id: "psicologia", label: "Psicologia" },
     { id: "social", label: "Serviço Social" },
@@ -5685,7 +5838,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
 
   /* Comissão técnica em subgrupos: Atletas, Planejamento e Performance. */
   const porIdCampo = Object.fromEntries([...itensSetorAntes, ...itensSetorDepois].map((x) => [x.id, x]));
-  const sub = (id, label, icone, ids) => ({ id: "__sub_" + id, subgrupo: id, label, icone, itens: ids.map((x) => porIdCampo[x]).filter(Boolean) });
+  const sub = (id, label, icone, ids) => ({ id: "__sub_" + id, subgrupo: id, label, icone, itens: ids.map((x) => porIdCampo[x]).filter(Boolean).filter((x) => !paginaOculta(usuario, x.id)) });
   const itensCampo = equipe ? [
     sub("atletas", "Atletas", "elenco", ["treinador", "avaliacao", "captacao"]),
     sub("planejamento", "Planejamento", "agenda", ["agenda_campo", "qts", "palestras_campo", "treinos", "goleiros"]),
@@ -5695,9 +5848,9 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
   const porIdSaude = Object.fromEntries(itensSaude.map((x) => [x.id, x]));
   const idsSocial = ["social", "cadastro_atletas", "social_documentos", "social_viagens", "social_quartos", "social_fds"];
   const itensSaudeMenu = equipe ? [
-    ...itensSaude.filter((x) => !idsSocial.includes(x.id)),
-    { id: "__sub_social", subgrupo: "social", label: "Serviço Social", icone: "social", itens: idsSocial.map((id) => porIdSaude[id]).filter(Boolean).map((x) => x) },
-  ] : [];
+    ...itensSaude.filter((x) => !idsSocial.includes(x.id) && !paginaOculta(usuario, x.id)),
+    { id: "__sub_social", subgrupo: "social", label: "Serviço Social", icone: "social", itens: idsSocial.map((id) => porIdSaude[id]).filter(Boolean).filter((x) => !paginaOculta(usuario, x.id)) },
+  ].filter((x) => !x.subgrupo || x.itens.length) : [];
   const gruposMenu = GRUPOS_ACESSO
     .map((g) => ({
       ...g,
@@ -5726,7 +5879,9 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
     setFiltroAberto((prev) => (prev === id ? null : id));
   }
 
-  function renderAba({ id, label, icone, sub, nivel3, paiAtivo, semAtivo, cat }) {
+  function renderAba({ id, label: labelPadrao, icone, sub, nivel3, paiAtivo, semAtivo, cat }) {
+    if (!String(id).startsWith("__") && paginaOculta(usuario, id)) return null;
+    const label = rotuloPaginaCfg(id, labelPadrao);
     const ativo = current === id && !semAtivo && (!cat || cat === categoria);
     return (
       <button key={id + (cat || "")} type="button" onClick={() => navegar(id, cat)} className={"sidebar-tab" + (sub ? " sidebar-subtab" : "") + (nivel3 ? " sidebar-nivel3" : "") + (ativo ? " active" : "") + (paiAtivo ? " pai-ativo" : "")}>
@@ -5746,7 +5901,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
     { id: "minha_agenda", label: "Minha agenda" },
     { id: "avisos", label: "Avisos" },
     usuarioEhEquipe(usuario) ? { id: "conversas", label: "Conversas" } : { id: "atualizacoes", label: "Atualizações" },
-  ].filter((a, i, arr) => arr.findIndex((b) => b.id === a.id) === i);
+  ].filter((a, i, arr) => arr.findIndex((b) => b.id === a.id) === i).filter((a) => !paginaOculta(usuario, a.id));
 
   return (
     <React.Fragment>
@@ -5835,6 +5990,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
           <div className="sidebar-secao">Gestão</div>
           {podeRelatorios && renderAba({ id: "relatorios", label: "Relatórios" })}
           {renderAba({ id: "usuarios", label: "Usuários" })}
+          {usuario.role === "admin" && !usuario.simulando && renderAba({ id: "personalizar", label: "Personalizar o app", icone: "personalizar" })}
 
           <div className="sidebar-secao">Comunicação</div>
           {usuarioEhEquipe(usuario) && renderAba({ id: "conversas", label: "Conversas" })}
@@ -6562,6 +6718,157 @@ function itensMenuAtleta(a, op) {
     ...(o.extrasFim || []),
   ];
 }
+/* =====================================================================
+   Personalizar o app (só o administrador): menu, Painel geral, perfil do atleta,
+   lançamentos e textos, por perfil. Grava em ct_config/app.
+   ===================================================================== */
+const GRUPOS_PAGINAS_CFG = [
+  { titulo: "Principal", ids: ["admin", "agenda", "minha_agenda", "aniversariantes"] },
+  { titulo: "Comissão técnica", ids: ["treinador", "avaliacao", "captacao", "agenda_campo", "qts", "palestras_campo", "treinos", "goleiros", "preparacao", "monitoramento", "desempenho", "jogos"] },
+  { titulo: "Saúde e performance", ids: ["agenda_saude", "palestras_saude", "fisioterapia", "medicina", "quadro_dm", "nutricao", "psicologia", "social", "cadastro_atletas", "social_documentos", "social_viagens", "social_quartos", "social_fds"] },
+  { titulo: "Gestão e comunicação", ids: ["relatorios", "usuarios", "conversas", "atualizacoes", "avisos", "encaminhamentos", "atas", "documentos"] },
+];
+const BLOCOS_PAINEL_CFG = [["kpis", "Números do painel"], ["rapido", "Atalhos rápidos"], ["meuqts", "Minha agenda de hoje"], ["bandeira", "Atletas com bandeira"], ["online", "Online agora"], ["avisos", "Avisos não lidos"], ["restricoes", "Restrições de hoje"], ["alerta", "Atletas em alerta"], ["jogo", "Próximo jogo"], ["semana", "Próximos 7 dias"], ["aniversarios", "Aniversários da semana"], ["disponibilidade", "Disponibilidade por categoria"], ["voltam", "Quem volta em breve"], ["lesoesElenco", "Lesões do elenco (boneco)"], ["lesoesTempo", "Lesões ao longo do tempo"], ["regioes", "Regiões e posições"], ["alojamento", "Ocupação do alojamento"], ["elenco", "Elenco em números"], ["contratos", "Contratos vencendo"], ["vencimentos", "Vencimentos e alertas"], ["lembretes", "Lembretes"], ["atualizacoes", "Atualizações"], ["setor", "Seu setor"]];
+const ABAS_PERFIL_CFG = ["Saúde", "Desempenho", "Ficha e social", "Linha do tempo"];
+function ViewPersonalizar({ usuario }) {
+  const { useState } = React;
+  const [cfg, setCfg] = useState(() => JSON.parse(JSON.stringify(CONFIG_APP || {})));
+  const [perfil, setPerfil] = useState(() => { try { return localStorage.getItem("meuct:cfgPerfil") || "fisioterapia"; } catch (e) { return "fisioterapia"; } });
+  const [aba, setAba] = useState("Menu");
+  const [sujo, setSujo] = useState(false);
+  const [salvando, setSalvando] = useState(false);
+  const [msg, setMsg] = useState(null);
+  const escolherPerfil = (v) => { setPerfil(v); try { localStorage.setItem("meuct:cfgPerfil", v); } catch (e) {} };
+  const muda = (fn) => { setCfg((c) => { const n = JSON.parse(JSON.stringify(c)); fn(n); return n; }); setSujo(true); setMsg(null); };
+  const nomePerfil = labelSetor(perfil);
+  // ---- Menu
+  const ocultasMenu = ((cfg.menu || {})[perfil] || {}).ocultas || [];
+  const alternarPagina = (id) => muda((n) => { n.menu = n.menu || {}; const o = new Set((n.menu[perfil] || {}).ocultas || []); o.has(id) ? o.delete(id) : o.add(id); n.menu[perfil] = { ocultas: Array.from(o) }; });
+  const renomear = (id, v) => muda((n) => { n.textos = n.textos || {}; n.textos.paginas = n.textos.paginas || {}; if (v.trim() && v.trim() !== PADROES_CONFIG.rotulos[id]) n.textos.paginas[id] = v.slice(0, 40); else delete n.textos.paginas[id]; });
+  // ---- Painel
+  const layoutAtual = (() => { const l = (cfg.painel || {})[perfil]; const ids = BLOCOS_PAINEL_CFG.map((b) => b[0]); return normalizarLayout(l, ids); })();
+  const mudaLayout = (fn) => muda((n) => { n.painel = n.painel || {}; const l = JSON.parse(JSON.stringify(layoutAtual)); fn(l); n.painel[perfil] = l; });
+  const moverBloco = (id, d) => mudaLayout((l) => { const i = l.ordem.indexOf(id), j = i + d; if (j < 0 || j >= l.ordem.length) return; [l.ordem[i], l.ordem[j]] = [l.ordem[j], l.ordem[i]]; });
+  const alternarBloco = (id) => mudaLayout((l) => { l.ocultos = l.ocultos.includes(id) ? l.ocultos.filter((x) => x !== id) : [...l.ocultos, id]; });
+  const tamanhoBloco = (id) => mudaLayout((l) => { l.tamanho[id] = (l.tamanho[id] || "metade") === "inteiro" ? "metade" : "inteiro"; });
+  // ---- Abas do perfil / lançamentos
+  const abasOcultas = ((cfg.perfil_abas || {})[perfil]) || [];
+  const alternarAbaPerfil = (id) => muda((n) => { n.perfil_abas = n.perfil_abas || {}; const o = new Set(n.perfil_abas[perfil] || []); o.has(id) ? o.delete(id) : o.add(id); n.perfil_abas[perfil] = Array.from(o); });
+  const lancOff = ((cfg.lancar || {})[perfil]) || [];
+  const alternarLanc = (id) => muda((n) => { n.lancar = n.lancar || {}; const o = new Set(n.lancar[perfil] || []); o.has(id) ? o.delete(id) : o.add(id); n.lancar[perfil] = Array.from(o); });
+  const perfilTemModulo = (l) => l.equipe || perfil === "diretoria" || perfil === l.modulo;
+  // ---- Listas
+  const L = cfg.listas || {};
+  const linhas = (t) => t.split("\n").map((x) => x.trim()).filter(Boolean).slice(0, 40).map((x) => x.slice(0, 60));
+  const setLista = (chave, valor) => muda((n) => { n.listas = n.listas || {}; n.listas[chave] = valor; });
+  const motivos = { ...PADROES_CONFIG.motivos, ...(L.motivos_enc || {}) };
+
+  async function salvar() {
+    setSalvando(true); setMsg(null);
+    try {
+      const dados = { ...cfg, atualizado_por: usuario.id, atualizado_em: firebase.firestore.FieldValue.serverTimestamp() };
+      await db.collection(COL_CONFIG).doc("app").set(dados);
+      aplicarConfigApp(cfg); setSujo(false); setMsg({ tipo: "ok", texto: "Salvo. Vale para todo mundo na próxima vez que abrir o app (quem está com ele aberto vê ao recarregar)." });
+    } catch (e) { setMsg({ tipo: "erro", texto: /permission/i.test(e.message) ? "O banco ainda não liberou a gravação: publique as regras novas do Firestore (bloco ct_config)." : "Não consegui salvar: " + e.message }); }
+    setSalvando(false);
+  }
+  async function verComo() {
+    if (sujo && !(await confirmarApp("Tem alterações não salvas. Ver o app como " + nomePerfil + " assim mesmo? (elas se perdem)"))) return;
+    try { sessionStorage.setItem("meuct:simular", perfil); } catch (e) {}
+    location.reload();
+  }
+  const Chave = ({ on, onClick, rotulo, desab }) => <button type="button" role="switch" aria-checked={on} aria-label={rotulo} disabled={desab} className={"cfg-chave" + (on ? " on" : "")} onClick={onClick}><i /></button>;
+  return (
+    <div className="page cfg-page">
+      <div className="page-head">
+        <div><h1>Personalizar o app</h1><div className="crumb">Só o administrador vê esta página · o que você muda aqui vira o padrão de cada perfil</div></div>
+        <div className="page-head-acoes"><button type="button" className="pill-btn" onClick={verComo}><Icone nome="m_olho" />Ver o app como {nomePerfil}</button></div>
+      </div>
+      <div className="cfg-perfis" role="tablist" aria-label="Perfil">
+        <span>Perfil</span>
+        {SETORES_EQUIPE.map((x) => <button key={x.id} type="button" role="tab" aria-selected={perfil === x.id} className={"cfg-perfil" + (perfil === x.id ? " on" : "")} onClick={() => escolherPerfil(x.id)}>{x.label}</button>)}
+      </div>
+      <div className="perfil-abas cfg-abas" role="tablist">
+        {["Menu", "Painel geral", "Perfil do atleta", "Lançamentos", "Textos e listas"].map((x) => <button key={x} type="button" role="tab" aria-selected={aba === x} className={"perfil-aba" + (aba === x ? " on" : "")} onClick={() => setAba(x)}>{x}</button>)}
+      </div>
+
+      {aba === "Menu" && (
+        <div className="panel"><div className="panel-head"><h3>Menu de {nomePerfil}</h3><small className="muted">ligue o que aparece no menu; o nome vale para todos os perfis</small></div>
+          <div className="cfg-corpo">
+            {GRUPOS_PAGINAS_CFG.map((g) => (
+              <div key={g.titulo} className="cfg-grupo"><div className="cfg-grupo-tit">{g.titulo}</div>
+                {g.ids.map((id) => (
+                  <div key={id} className={"cfg-linha" + (ocultasMenu.includes(id) ? " desligada" : "")}>
+                    <Chave on={!ocultasMenu.includes(id)} onClick={() => alternarPagina(id)} rotulo={"Mostrar " + PADROES_CONFIG.rotulos[id]} />
+                    <input type="text" value={((cfg.textos || {}).paginas || {})[id] || ""} placeholder={PADROES_CONFIG.rotulos[id] || id} onChange={(e) => renomear(id, e.target.value)} aria-label={"Nome da página " + (PADROES_CONFIG.rotulos[id] || id)} />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {aba === "Painel geral" && (
+        <div className="panel"><div className="panel-head"><h3>Painel geral padrão de {nomePerfil}</h3><small className="muted">cada pessoa ainda pode ajustar o próprio painel; blocos sem permissão não aparecem</small></div>
+          <div className="cfg-corpo">
+            {layoutAtual.ordem.map((id, i) => { const b = BLOCOS_PAINEL_CFG.find((x) => x[0] === id); const off = layoutAtual.ocultos.includes(id); return (
+              <div key={id} className={"cfg-linha" + (off ? " desligada" : "")}>
+                <Chave on={!off} onClick={() => alternarBloco(id)} rotulo={"Mostrar " + (b ? b[1] : id)} />
+                <span className="cfg-nome">{b ? b[1] : id}</span>
+                <button type="button" className="cfg-mini" onClick={() => tamanhoBloco(id)}>{(layoutAtual.tamanho[id] || "metade") === "inteiro" ? "Largura toda" : "Meia largura"}</button>
+                <button type="button" className="cfg-mini" disabled={i === 0} onClick={() => moverBloco(id, -1)} aria-label="Subir"><Icone nome="ev_entra" /></button>
+                <button type="button" className="cfg-mini" disabled={i === layoutAtual.ordem.length - 1} onClick={() => moverBloco(id, 1)} aria-label="Descer"><Icone nome="ev_sai" /></button>
+              </div>); })}
+            <button type="button" className="link-btn" onClick={() => muda((n) => { if (n.painel) delete n.painel[perfil]; })}>Voltar ao padrão do MeuCT</button>
+          </div>
+        </div>
+      )}
+
+      {aba === "Perfil do atleta" && (
+        <div className="panel"><div className="panel-head"><h3>Abas do perfil do atleta para {nomePerfil}</h3><small className="muted">o Resumo sempre aparece</small></div>
+          <div className="cfg-corpo">
+            <div className="cfg-linha"><Chave on desab rotulo="Resumo" /><span className="cfg-nome">Resumo</span></div>
+            {ABAS_PERFIL_CFG.map((id) => <div key={id} className={"cfg-linha" + (abasOcultas.includes(id) ? " desligada" : "")}><Chave on={!abasOcultas.includes(id)} onClick={() => alternarAbaPerfil(id)} rotulo={"Mostrar " + id} /><span className="cfg-nome">{id}</span></div>)}
+          </div>
+        </div>
+      )}
+
+      {aba === "Lançamentos" && (
+        <div className="panel"><div className="panel-head"><h3>O que {nomePerfil} lança pelo botão direito</h3><small className="muted">só aparece o que o perfil já pode lançar na área</small></div>
+          <div className="cfg-corpo">
+            {LANCAMENTOS_RAPIDOS.map((l) => { const pode = perfilTemModulo(l); const on = pode && !lancOff.includes(l.id); return (
+              <div key={l.id} className={"cfg-linha" + (on ? "" : " desligada")}>
+                <Chave on={on} desab={!pode} onClick={() => alternarLanc(l.id)} rotulo={l.rotulo} />
+                <span className="cfg-nome">{l.rotulo}<small>{l.grupo}{pode ? "" : " · este perfil não lança nesta área"}</small></span>
+              </div>); })}
+          </div>
+        </div>
+      )}
+
+      {aba === "Textos e listas" && (
+        <div className="panel"><div className="panel-head"><h3>Listas usadas nos formulários</h3><small className="muted">um item por linha; vale para todos os perfis</small></div>
+          <div className="cfg-corpo cfg-listas">
+            <div className="field"><label>Tipos de registro da Fisioterapia</label><textarea rows={5} value={(L.tipos_fisio || PADROES_CONFIG.tiposFisio).join("\n")} onChange={(e) => setLista("tipos_fisio", e.target.value.split("\n"))} onBlur={(e) => setLista("tipos_fisio", linhas(e.target.value))} /></div>
+            <div className="field"><label>Setores das palestras</label><textarea rows={6} value={(L.setores_palestra || PADROES_CONFIG.setoresPalestra).join("\n")} onChange={(e) => setLista("setores_palestra", e.target.value.split("\n"))} onBlur={(e) => setLista("setores_palestra", linhas(e.target.value))} /></div>
+            {Object.keys(PADROES_CONFIG.motivos).map((k) => (
+              <div key={k} className="field"><label>Motivos de encaminhamento para {labelSetor(k)}</label>
+                <textarea rows={4} value={(motivos[k] || []).join("\n")} onChange={(e) => muda((n) => { n.listas = n.listas || {}; n.listas.motivos_enc = { ...(n.listas.motivos_enc || {}), [k]: e.target.value.split("\n") }; })} onBlur={(e) => muda((n) => { n.listas.motivos_enc[k] = linhas(e.target.value); })} />
+              </div>
+            ))}
+            <button type="button" className="link-btn" onClick={() => muda((n) => { delete n.listas; })}>Voltar todas as listas ao padrão</button>
+          </div>
+        </div>
+      )}
+
+      <div className={"cfg-salvar" + (sujo ? " sujo" : "")}>
+        {msg ? <span className={msg.tipo === "erro" ? "erro" : "ok"}>{msg.texto}</span> : <span>{sujo ? "Alterações ainda não salvas." : "Tudo salvo."}</span>}
+        <button type="button" className="pill-btn primary" disabled={!sujo || salvando} onClick={salvar}>{salvando ? "Salvando..." : "Salvar alterações"}</button>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Calendário e relógio do próprio app (no lugar do seletor do navegador, no computador) ---------- */
 const MESES_CAL = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 function definirValorCampo(el, v) {
@@ -6661,7 +6968,7 @@ const LANCAMENTOS_RAPIDOS = [
 ];
 function lancamentosPermitidos(u) {
   u = u || usuarioLogadoGlobal;
-  return LANCAMENTOS_RAPIDOS.filter((l) => (l.equipe ? usuarioEhEquipe(u) : temPermissao(u, l.modulo)));
+  return LANCAMENTOS_RAPIDOS.filter((l) => (l.equipe ? usuarioEhEquipe(u) : temPermissao(u, l.modulo)) && !lancamentoDesligado(u, l.id));
 }
 function abrirLancamento(atletaId, tipo) {
   if (tipo === "encaminhar") { abrirEncaminhar({ atleta_id: atletaId }); return; }
@@ -6700,7 +7007,7 @@ function LancarRapidoAtleta({ usuario }) {
     depois("Lançado para " + nomeExibicao(alvo.a) + ".");
   };
   let corpo = null;
-  if (alvo.tipo === "atend_fisio") corpo = <FormNovoRegistro atletas={lista} tiposSugeridos={["Avaliação", "Tratamento", "Evolução", "Alta"]} chave={"fisio-rapido:" + alvo.a.id} onSalvar={salvarArea("fisio")} onCancelar={fechar} />;
+  if (alvo.tipo === "atend_fisio") corpo = <FormNovoRegistro atletas={lista} tiposSugeridos={TIPOS_REGISTRO_FISIO} chave={"fisio-rapido:" + alvo.a.id} onSalvar={salvarArea("fisio")} onCancelar={fechar} />;
   else if (alvo.tipo === "lesao") corpo = <FormLesao atletas={lista} usuario={usuario} onSalvar={salvarArea("fisio")} onCancelar={fechar} />;
   else if (alvo.tipo === "medicina") corpo = <FormMedicinaAtendimento atletas={lista} onSalvar={salvarArea("medicina")} onCancelar={fechar} />;
   else if (alvo.tipo === "afastamento") corpo = <FormMedicinaAfastamento atletas={lista} onSalvar={salvarArea("medicina")} onCancelar={fechar} />;
@@ -8933,8 +9240,8 @@ const LAYOUT_PADRAO = {
   tamanho: { kpis: "inteiro", setor: "inteiro", elenco: "inteiro" },
   ocultos: [],
 };
-function normalizarLayout(salvo, ids) {
-  const l = salvo && Array.isArray(salvo.ordem) ? salvo : LAYOUT_PADRAO;
+function normalizarLayout(salvo, ids, padraoPerfil) {
+  const l = salvo && Array.isArray(salvo.ordem) ? salvo : (padraoPerfil && Array.isArray(padraoPerfil.ordem) ? padraoPerfil : LAYOUT_PADRAO);
   const ordem = l.ordem.filter((id) => ids.includes(id));
   ids.forEach((id) => { if (!ordem.includes(id)) ordem.push(id); }); // blocos novos entram no fim
   return { ordem, tamanho: { ...LAYOUT_PADRAO.tamanho, ...(l.tamanho || {}) }, ocultos: (l.ocultos || []).filter((id) => ids.includes(id)) };
@@ -8953,7 +9260,9 @@ function PainelPersonalizavel({ usuario, blocos }) {
   useEffect(() => { if (!window.matchMedia) return; const m = window.matchMedia("(max-width: 980px)"); const f = () => setEstreito(m.matches); m.addEventListener ? m.addEventListener("change", f) : m.addListener(f); return () => { m.removeEventListener ? m.removeEventListener("change", f) : m.removeListener(f); }; }, []);
   useEffect(() => {
     let vivo = true;
-    db.collection(COL_PERFIS).doc(usuario.id).get().then((d) => { if (vivo) setLayout(normalizarLayout(d.exists ? d.data().layout_painel : null, ids)); }).catch(() => { if (vivo) setLayout(normalizarLayout(null, ids)); });
+    const padraoP = layoutPadraoDoPerfil(usuario);
+    if (usuario.simulando) { setLayout(normalizarLayout(null, ids, padraoP)); return () => { vivo = false; }; }
+    db.collection(COL_PERFIS).doc(usuario.id).get().then((d) => { if (vivo) setLayout(normalizarLayout(d.exists ? d.data().layout_painel : null, ids, padraoP)); }).catch(() => { if (vivo) setLayout(normalizarLayout(null, ids, padraoP)); });
     return () => { vivo = false; };
   }, [usuario.id]);
   useVoltar(editando, () => { setEditando(false); setRascunho(null); });
@@ -11116,9 +11425,11 @@ function PerfilAtleta({ atletaId, onBack, dados, onRecarregar, usuario }) {
           { id: "Ficha e social" },
           { id: "Linha do tempo" },
         ];
+        const visiveisAbas = abas.filter((x) => !abaPerfilOculta(usuario || usuarioLogadoGlobal, x.id));
+        if (!visiveisAbas.some((x) => x.id === aba)) setTimeout(() => setAba("Resumo"), 0);
         return (
           <div className="perfil-abas" role="tablist" aria-label="Partes do perfil">
-            {abas.map((x) => <button key={x.id} type="button" role="tab" aria-selected={aba === x.id} className={"perfil-aba" + (aba === x.id ? " on" : "")} onClick={() => setAba(x.id)}>{x.id}{x.n ? <b>{x.n}</b> : null}</button>)}
+            {visiveisAbas.map((x) => <button key={x.id} type="button" role="tab" aria-selected={aba === x.id} className={"perfil-aba" + (aba === x.id ? " on" : "")} onClick={() => setAba(x.id)}>{x.id}{x.n ? <b>{x.n}</b> : null}</button>)}
           </div>
         );
       })()}
@@ -11339,20 +11650,21 @@ function FormNovoRegistroSocial({ atletas, onSalvar, onCancelar }) {
 }
 
 /** Formulário estruturado de lesão (fisioterapia): região, tipo, mecanismo, gravidade e fase de RTP. */
-function FormLesao({ atletas, usuario, onSalvar, onCancelar }) {
+function FormLesao({ atletas, usuario, onSalvar, onCancelar, inicial }) {
+  const ini = inicial || {};
   const [atletaId, setAtletaId] = useState(atletas[0] ? atletas[0].id : "");
   const [dataInicio, setDataInicio] = useState(hojeISO());
-  const [regiao, setRegiao] = useState("");
-  const [lado, setLado] = useState("direito");
+  const [regiao, setRegiao] = useState(ini.regiao || "");
+  const [lado, setLado] = useState(ini.lado || "direito");
   const [tipoLesao, setTipoLesao] = useState(TIPOS_LESAO[0]);
   const [mecanismo, setMecanismo] = useState(MECANISMOS_LESAO[0]);
   const [gravidade, setGravidade] = useState("leve");
   const [previsaoRetorno, setPrevisaoRetorno] = useState("");
-  const [faseRtp, setFaseRtp] = useState("repouso");
+  const [faseRtp, setFaseRtp] = useState(ini.faseRtp || "repouso");
   const [avaliador, setAvaliador] = useState(usuario ? (usuario.nome || usuario.email || "") : "");
-  const [nota, setNota] = useState("");
+  const [nota, setNota] = useState(ini.nota || "");
   const [salvando, setSalvando] = useState(false);
-  const rasc = useRascunhoCampos("lesao:novo", { atletaId: [atletaId, setAtletaId], dataInicio: [dataInicio, setDataInicio], regiao: [regiao, setRegiao], lado: [lado, setLado], tipoLesao: [tipoLesao, setTipoLesao], mecanismo: [mecanismo, setMecanismo], gravidade: [gravidade, setGravidade], previsaoRetorno: [previsaoRetorno, setPrevisaoRetorno], faseRtp: [faseRtp, setFaseRtp], nota: [nota, setNota] });
+  const rasc = useRascunhoCampos(inicial ? "lesao:quadro:" + (ini.chave || "") : "lesao:novo", { atletaId: [atletaId, setAtletaId], dataInicio: [dataInicio, setDataInicio], regiao: [regiao, setRegiao], lado: [lado, setLado], tipoLesao: [tipoLesao, setTipoLesao], mecanismo: [mecanismo, setMecanismo], gravidade: [gravidade, setGravidade], previsaoRetorno: [previsaoRetorno, setPrevisaoRetorno], faseRtp: [faseRtp, setFaseRtp], nota: [nota, setNota] });
 
   async function handleSubmit() {
     if (!atletaId || !regiao || salvando) return;
@@ -15311,7 +15623,7 @@ function ViewFisioterapia({ usuario }) {
               {formAberto && tipoForm === "Outro registro" && (
                 <FormNovoRegistro
                   atletas={atletas}
-                  tiposSugeridos={["Avaliação", "Tratamento", "Evolução", "Alta"]}
+                  tiposSugeridos={TIPOS_REGISTRO_FISIO}
                   chave="fisio"
                   onSalvar={adicionar}
                   onCancelar={() => setFormAberto(false)}
@@ -22727,6 +23039,465 @@ function PainelLesoesMedicina({ atletas, usuario, acoes, registrosFisio }) {
           })}
           {vm.botao(visiveis.length, "atletas")}
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Quadro do DM: kanban único da Fisioterapia e da Medicina ----------
+   Coluna 1: encaminhamentos abertos para Fisio ou Medicina. Depois, as fases de retorno da lesão.
+   Mover um cartão grava o mesmo registro de "Atualizar fase" (fica no histórico do atleta). */
+const COLUNAS_QUADRO_DM = [
+  { id: "aguardando", label: "Aguardando avaliação", dica: "Encaminhamentos para o DM" },
+  { id: "repouso", label: "Fase inicial" },
+  { id: "mobilidade", label: "Fase intermediária" },
+  { id: "carga_progressiva", label: "Fase final" },
+  { id: "transicao", label: "Transição" },
+  { id: "liberado", label: "Liberado", dica: "Últimos 7 dias" },
+];
+const SETORES_DM = ["fisioterapia", "medicina"];
+const DIAS_ALERTA_FASE = 14;
+function podeMoverQuadroDM(u) { return temPermissao(u, "fisioterapia") || temPermissao(u, "medicina"); }
+function rotuloColunaDM(id) { const c = COLUNAS_QUADRO_DM.find((x) => x.id === id); return c ? c.label : labelFaseRtp(id); }
+
+function ViewQuadroDM({ usuario, onNavigate }) {
+  const { useState, useEffect, useMemo, useRef } = React;
+  const [atletas, setAtletas] = useState(null);
+  const [fisio, setFisio] = useState(null);
+  const [encs, setEncs] = useState([]);
+  const [veEnc, setVeEnc] = useState(true);
+  const [jogos, setJogos] = useState([]);
+  const [erro, setErro] = useState(null);
+  const [cat, setCat] = useState("");
+  const [grav, setGrav] = useState("");
+  const [busca, setBusca] = useState("");
+  const [meus, setMeus] = useState(false);
+  const [arrastando, setArrastando] = useState(null); // cartão que está sendo arrastado (com mouse ou dedo)
+  const [sobre, setSobre] = useState(null);
+  const [pendente, setPendente] = useState(null); // { chave, para }: o cartão já aparece na coluna nova enquanto a confirmação está aberta
+  const [chegou, setChegou] = useState(null);
+  const quadroRef = useRef(null), fantasmaRef = useRef(null), drag = useRef(null), sobreRef = useRef(null);
+  const [acao, setAcao] = useState(null); // { tipo: "mover" | "lesao" | "concluir" | "escolher" | "checklist", card, para }
+  const [aviso, setAviso] = useState(null);
+  const pode = podeMoverQuadroDM(usuario);
+  useVoltar(!!acao, () => fecharAcao());
+  function fecharAcao() { setAcao(null); if (pendente) { setChegou(pendente.chave); setPendente(null); } }
+  useEffect(() => { if (!chegou) return; const t = setTimeout(() => setChegou(null), 450); return () => clearTimeout(t); }, [chegou]);
+
+  async function carregar(limpar) {
+    if (limpar) limparCacheLeitura(["registros:fisio", "atletas"]);
+    try {
+      const hoje = hojeISO();
+      const [lista, regs] = await Promise.all([carregarAtletas(), carregarTodosRegistros("fisio")]);
+      const setores = ehAdminOuDiretoria(usuario) ? SETORES_DM : SETORES_DM.filter((s) => setoresDoUsuarioEquipe(usuario).includes(s));
+      const lidos = (await Promise.all(setores.map((s) => db.collection(COL_ENCAMINHAMENTOS).where("para_setor", "==", s).get()
+        .then((q) => q.docs.map((d) => ({ id: d.id, ...d.data() }))).catch(() => [])))).flat();
+      setAtletas(lista); setFisio(regs); setVeEnc(setores.length > 0);
+      setEncs(lidos.filter((e) => e.status !== "atendido"));
+      db.collection(COL_EVENTOS).where("data", ">=", hoje).where("data", "<=", isoMaisDias(hoje, 7)).get()
+        .then((q) => setJogos(q.docs.map((d) => ({ id: d.id, ...d.data() })).filter((e) => e.tipo === "jogo").sort((x, y) => (x.data || "").localeCompare(y.data || ""))))
+        .catch(() => setJogos([]));
+    } catch (e) { setErro(e.message); }
+  }
+  useEffect(() => { carregar(); }, []);
+  useEncaminhamentosAtualizam(() => carregar());
+  useEffect(() => { const f = () => carregar(true); window.addEventListener("ct:atleta-mudou", f); return () => window.removeEventListener("ct:atleta-mudou", f); }, []);
+  useEffect(() => { if (!aviso) return; const t = setTimeout(() => setAviso(null), 3500); return () => clearTimeout(t); }, [aviso]);
+
+  const cartoes = useMemo(() => {
+    if (!atletas || !fisio) return [];
+    const limiteLib = isoMaisDias(hojeISO(), -7);
+    const out = [];
+    atletas.filter((a) => !a.inativo).forEach((a) => calcularEpisodiosLesao(fisio[a.id] || []).forEach((ep) => {
+      const ult = ep.registros[0] || {};
+      if (!ep.ativo && !((ult.data || "") >= limiteLib)) return;
+      const col = !ep.ativo ? "liberado" : COLUNAS_QUADRO_DM.some((c) => c.id === ep.faseAtual) ? ep.faseAtual : "repouso";
+      out.push({ tipo: "lesao", chave: "l_" + chaveEpisodioRetorno(a.id, ep), col, a, ep, dias: calcularDiasEntre(ep.dataInicio) || 0,
+        naFase: calcularDiasEntre(ult.data) || 0, meu: ep.registros.some((r) => r.autor_uid === usuario.id) });
+    }));
+    encs.forEach((e) => {
+      const a = e.atleta_id ? atletas.find((x) => x.id === e.atleta_id) || null : null;
+      out.push({ tipo: "enc", chave: "e_" + e.id, col: "aguardando", a, e, meu: e.de_uid === usuario.id || (e.historico || []).some((h) => h.por === nomeUsuario(usuario)) });
+    });
+    return out;
+  }, [atletas, fisio, encs]);
+
+  const termo = semAcentoNome(busca.trim().toLowerCase());
+  const passa = (c) => (!cat || (c.a && atletaNaCategoria(c.a, cat)))
+    && (!grav || (c.tipo === "lesao" ? c.ep.gravidade === grav : grav === "urgente" && c.e.prioridade === "urgente"))
+    && (!termo || semAcentoNome(((c.a ? nomeExibicao(c.a) : c.e.atleta_nome) || "").toLowerCase()).includes(termo))
+    && (!meus || c.meu);
+  const visiveis = cartoes.filter(passa);
+  const colDe = (c) => (pendente && pendente.chave === c.chave ? pendente.para : c.col);
+  const porColuna = (id) => visiveis.filter((c) => colDe(c) === id).sort((x, y) => {
+    if (x.tipo === "enc" && y.tipo === "enc") return (encAtrasado(y.e) - encAtrasado(x.e)) || ((y.e.prioridade === "urgente") - (x.e.prioridade === "urgente")) || (dataCriacaoEnc(x.e) || "").localeCompare(dataCriacaoEnc(y.e) || "");
+    if (x.tipo !== y.tipo) return x.tipo === "enc" ? -1 : 1;
+    return ({ grave: 0, moderada: 1, leve: 2 }[x.ep.gravidade] ?? 3) - ({ grave: 0, moderada: 1, leve: 2 }[y.ep.gravidade] ?? 3) || y.naFase - x.naFase;
+  });
+
+  function jogoDe(c) {
+    if (!c.a || c.col === "liberado") return null;
+    for (const j of jogos) {
+      const conv = j.convocacao || {};
+      const ids = [...(conv.titulares || []), ...(conv.reservas || [])];
+      if (ids.includes(c.a.id)) return { j, convocado: true };
+      if (!ids.length && j.categoria && atletaNaCategoria(c.a, j.categoria)) return { j, convocado: false };
+    }
+    return null;
+  }
+
+  /* Soltar um cartão numa coluna: decide o que pedir antes de gravar. */
+  /** Diz se o cartão pode ir para a coluna (e por quê não). */
+  function motivoBloqueio(c, para) {
+    if (!c || c.col === para) return "mesma";
+    if (!pode) return "Só a Fisioterapia e a Medicina mexem no quadro.";
+    if (c.tipo === "enc" && para !== "aguardando" && para !== "liberado" && !c.a) return "Esse encaminhamento não tem atleta. Conclua pelo menu do cartão.";
+    if (para === "aguardando") return c.tipo === "enc" ? "mesma" : "Uma lesão não volta para Aguardando. Para um caso novo, encaminhe o atleta ao DM.";
+    return null;
+  }
+  function soltar(c, para) {
+    setArrastando(null); setSobre(null);
+    const bloq = motivoBloqueio(c, para);
+    if (bloq) { if (bloq !== "mesma") setAviso(bloq); return false; }
+    setPendente({ chave: c.chave, para }); setChegou(c.chave);
+    if (c.tipo === "enc") setAcao(para === "liberado" ? { tipo: "concluir", card: c } : { tipo: "lesao", card: c, para });
+    else setAcao({ tipo: "mover", card: c, para });
+    return true;
+  }
+
+  /* Arrastar com o mouse ou com o dedo (no celular, segurar um instante antes de arrastar). */
+  function limparArraste() {
+    const d = drag.current; if (!d) return;
+    clearTimeout(d.timer); cancelAnimationFrame(d.raf);
+    const h = d.h || {};
+    window.removeEventListener("pointermove", h.mover); window.removeEventListener("pointerup", h.soltar); window.removeEventListener("pointercancel", h.cancelar);
+    window.removeEventListener("touchmove", h.travar);
+    document.body.classList.remove("dm-arrastando");
+    drag.current = null; sobreRef.current = null;
+  }
+  function travarRolagem(ev) { if (drag.current && drag.current.ativo && ev.cancelable) ev.preventDefault(); }
+  function posicionar() {
+    const d = drag.current, f = fantasmaRef.current; if (!d || !f) return;
+    f.style.transform = `translate(${d.x - d.dx}px, ${d.y - d.dy}px) rotate(${d.inclina}deg)`;
+  }
+  function colunaEm(x, y) {
+    const el = document.elementFromPoint(x, y);
+    const col = el && el.closest && el.closest(".dm-coluna");
+    return col ? col.getAttribute("data-col") : null;
+  }
+  function rolarBorda() {
+    const d = drag.current; if (!d || !d.ativo) return;
+    const q = quadroRef.current;
+    if (q) {
+      const r = q.getBoundingClientRect(), m = 60;
+      if (d.x < r.left + m) q.scrollLeft -= Math.ceil((r.left + m - d.x) / 4);
+      else if (d.x > r.right - m) q.scrollLeft += Math.ceil((d.x - (r.right - m)) / 4);
+    }
+    const mV = 70;
+    if (d.y < mV) window.scrollBy(0, -Math.ceil((mV - d.y) / 5));
+    else if (d.y > window.innerHeight - mV) window.scrollBy(0, Math.ceil((d.y - (window.innerHeight - mV)) / 5));
+    const col = colunaEm(d.x, d.y);
+    if (col !== sobreRef.current) { sobreRef.current = col; setSobre(col); }
+    d.raf = requestAnimationFrame(rolarBorda);
+  }
+  function comecarArraste() {
+    const d = drag.current; if (!d || d.ativo) return;
+    d.ativo = true;
+    document.body.classList.add("dm-arrastando");
+    window.addEventListener("touchmove", d.h.travar, { passive: false });
+    try { if (d.toque && navigator.vibrate) navigator.vibrate(12); } catch (err) { /* sem vibração */ }
+    setArrastando({ ...d.c, _w: d.w });
+    requestAnimationFrame(() => { posicionar(); d.raf = requestAnimationFrame(rolarBorda); });
+  }
+  function aoPressionar(ev, c) {
+    if (!pode || (ev.pointerType === "mouse" && ev.button !== 0)) return;
+    if (ev.target.closest("button, a, input, select, textarea, label")) return;
+    if (motivoBloqueio(c, "repouso") && motivoBloqueio(c, "liberado")) return;
+    limparArraste();
+    const r = ev.currentTarget.getBoundingClientRect();
+    const toque = ev.pointerType !== "mouse";
+    drag.current = { c, x0: ev.clientX, y0: ev.clientY, x: ev.clientX, y: ev.clientY, dx: ev.clientX - r.left, dy: ev.clientY - r.top, w: r.width,
+      origem: { x: r.left, y: r.top }, ativo: false, toque, inclina: 2.5, timer: null, raf: 0 };
+    const h = drag.current.h = { mover: aoMover, soltar: aoSoltar, cancelar: aoCancelar, travar: travarRolagem };
+    if (toque) drag.current.timer = setTimeout(comecarArraste, 280);
+    window.addEventListener("pointermove", h.mover, { passive: false });
+    window.addEventListener("pointerup", h.soltar);
+    window.addEventListener("pointercancel", h.cancelar);
+  }
+  function aoMover(ev) {
+    const d = drag.current; if (!d) return;
+    const dist = Math.hypot(ev.clientX - d.x0, ev.clientY - d.y0);
+    if (!d.ativo) {
+      if (d.toque) { if (dist > 10) limparArraste(); return; } // o dedo andou antes de segurar: é rolagem, não arraste
+      if (dist < 5) return;
+      comecarArraste();
+    }
+    ev.preventDefault();
+    d.inclina = Math.max(-4, Math.min(4, (ev.clientX - d.x) * 0.5)) || d.inclina * 0.9;
+    d.x = ev.clientX; d.y = ev.clientY;
+    posicionar();
+  }
+  function aoSoltar(ev) {
+    const d = drag.current; if (!d) return;
+    if (!d.ativo) { limparArraste(); return; }
+    const col = colunaEm(ev.clientX, ev.clientY) || sobreRef.current;
+    const c = d.c, f = fantasmaRef.current, origem = d.origem;
+    limparArraste();
+    const foi = col ? soltar(c, col) : false;
+    if (!foi && f) {
+      // volta deslizando para onde estava
+      f.style.transition = "transform .22s cubic-bezier(.2,.8,.3,1), opacity .22s";
+      f.style.transform = `translate(${origem.x}px, ${origem.y}px) rotate(0deg)`;
+      setTimeout(() => { setArrastando(null); setSobre(null); }, 220);
+    } else { setArrastando(null); setSobre(null); }
+    d.fim = true;
+  }
+  function aoCancelar() { limparArraste(); setArrastando(null); setSobre(null); }
+  useEffect(() => () => limparArraste(), []);
+
+  async function depoisDeGravar(txt) {
+    setAcao(null); setAviso(txt);
+    avisarAtletaMudou(); limparCacheLeitura(["registros:fisio"]);
+    window.dispatchEvent(new Event("ct:encaminhamentos"));
+    await carregar(true);
+    setPendente(null);
+  }
+  async function moverFase(c, para, nota) {
+    const ep = c.ep;
+    await adicionarRegistro(c.a.id, "fisio", {
+      tipo: "Lesão", evento: "atualizacao_fase", data: hojeISO(), regiao: ep.regiao, lado: ep.lado || null, gravidade: ep.gravidade,
+      fase_rtp: para, avaliador: nomeUsuario(usuario), origem: "quadro_dm",
+      nota: `Atualização de fase: ${ep.local}: ${labelFaseRtp(para)}.` + (nota && nota.trim() ? " " + nota.trim() : ""),
+      sinal: sinalPorGravidadeFase(ep.gravidade, para),
+    });
+    await depoisDeGravar(nomeExibicao(c.a) + " foi para " + rotuloColunaDM(para) + ".");
+  }
+
+  function menuCartao(ev, c) {
+    const outras = COLUNAS_QUADRO_DM.filter((x) => x.id !== c.col && x.id !== "aguardando");
+    if (c.tipo === "enc") {
+      const e = c.e, st = e.status || "pendente";
+      const passo = async (status) => { try { await avancarEncaminhamento(e, status, usuario); await depoisDeGravar("Encaminhamento: " + STATUS_ENCAMINHAMENTO[status].label.toLowerCase() + "."); } catch (err) { setAviso("Não consegui salvar: " + err.message); } };
+      return abrirMenuContexto(ev, [
+        { secao: (e.atleta_nome || "Encaminhamento") + " · " + STATUS_ENCAMINHAMENTO[st].label },
+        pode && st === "pendente" && { rotulo: "Marcar como recebido", icone: "✓", acao: () => passo("visto") },
+        pode && ["pendente", "visto", "agendado"].includes(st) && { rotulo: "Iniciar atendimento", icone: "↗", acao: () => passo("em_atendimento") },
+        pode && c.a && { rotulo: "Registrar lesão", icone: "✎", acao: () => setAcao({ tipo: "lesao", card: c, para: "repouso" }) },
+        pode && { rotulo: "Concluir sem lesão", icone: "✓", acao: () => setAcao({ tipo: "concluir", card: c }) },
+        { sep: true },
+        c.a && { rotulo: "Ver atleta", icone: "👁", acao: () => abrirGavetaAtleta(c.a.id) },
+        onNavigate && { rotulo: "Abrir em Encaminhamentos", icone: "➦", acao: () => onNavigate("encaminhamentos") },
+      ]);
+    }
+    return abrirMenuContexto(ev, [
+      { secao: nomeExibicao(c.a) + " · " + c.ep.local },
+      ...(pode ? [{ secao: "Mover para" }, ...outras.map((x) => ({ rotulo: x.label, icone: "⇄", acao: () => setAcao({ tipo: "mover", card: c, para: x.id }) }))] : []),
+      { sep: true },
+      temPermissao(usuario, "fisioterapia") && { rotulo: "Atendimento da Fisio", icone: "✎", acao: () => abrirLancamento(c.a.id, "atend_fisio") },
+      temPermissao(usuario, "medicina") && { rotulo: "Atendimento médico", icone: "✎", acao: () => abrirLancamento(c.a.id, "medicina") },
+      usuarioEhEquipe(usuario) && { rotulo: "Restrição", icone: "⚠", acao: () => abrirLancamento(c.a.id, "restricao") },
+      usuarioEhEquipe(usuario) && { rotulo: "Encaminhar para outro setor", icone: "➦", acao: () => abrirEncaminhar({ atleta_id: c.a.id, de_setor: setorPrincipalDe(usuario) || "fisioterapia", regiao: c.ep.regiao, lado: c.ep.lado || "" }) },
+      { rotulo: "Checklist de retorno ao jogo", icone: "▤", acao: () => setAcao({ tipo: "checklist", card: c }) },
+      { sep: true },
+      { rotulo: "Ver atleta", icone: "👁", acao: () => abrirGavetaAtleta(c.a.id) },
+    ]);
+  }
+
+  if (erro) return <div className="page"><div className="empty-state">Não consegui abrir o quadro: {erro}</div></div>;
+  const carregando = !atletas || !fisio;
+  const nAtivas = cartoes.filter((c) => c.tipo === "lesao" && c.col !== "liberado").length;
+  const nAguard = cartoes.filter((c) => c.tipo === "enc").length;
+  const filtrando = !!(cat || grav || termo || meus);
+
+  function cartao(c, fantasma) {
+    const j = jogoDe(c);
+    const a = c.a;
+    const nome = a ? nomeExibicao(a) : (c.e.atleta_nome || "Sem atleta");
+    const foto = a && a.foto ? <img loading="lazy" decoding="async" src={a.foto} alt="" /> : (a ? iniciaisAtleta(a) : iniciaisNome(nome));
+    const arrastavel = pode && !(c.tipo === "enc" && !c.a);
+    const comum = fantasma ? { className: "dm-cartao fantasma " + c.tipo } : {
+      className: "dm-cartao " + c.tipo + (arrastavel ? " movel" : "") + (arrastando && arrastando.chave === c.chave ? " arrastando" : "")
+        + (pendente && pendente.chave === c.chave ? " pendente" : "") + (chegou === c.chave ? " chegou" : ""),
+      onPointerDown: (ev) => aoPressionar(ev, c),
+      onContextMenu: (ev) => { if (drag.current) { ev.preventDefault(); return; } menuCartao(ev, c); },
+      onDoubleClick: () => a && abrirGavetaAtleta(a.id),
+    };
+    if (c.tipo === "enc") {
+      const e = c.e, st = e.status || "pendente", atras = encAtrasado(e);
+      return (
+        <div key={c.chave} {...comum}>
+          <div className="dm-cartao-topo">
+            <span className="dm-foto">{foto}</span>
+            <span className="dm-quem"><b>{nome}</b><small>{[a ? rotuloCategoriasAtleta(a) : "", "de " + (e.de_setor ? labelSetor(e.de_setor) : e.de_nome || "")].filter(Boolean).join(" · ")}</small></span>
+            <button type="button" className="dm-mais" aria-label="Ações" onClick={(ev) => menuCartao(ev, c)}><Icone nome="m_mais3" /></button>
+          </div>
+          <div className="dm-assunto">{e.assunto || e.motivo || "Encaminhamento"}{e.regiao ? " · " + rotuloLocalLesao(e.regiao, e.lado || null) : ""}</div>
+          <div className="dm-tags">
+            <span className="dm-tag">{labelSetor(e.para_setor)}</span>
+            <span className={"dm-tag st-" + st}>{STATUS_ENCAMINHAMENTO[st].label}</span>
+            {e.prioridade === "urgente" && <span className="dm-tag forte">Urgente</span>}
+            {atras && <span className="dm-tag forte">Prazo vencido</span>}
+            {!atras && e.prazo_data && <span className="dm-tag">Prazo {formatarData(e.prazo_data).slice(0, 5)}</span>}
+            {j && <span className={"dm-tag " + (j.convocado ? "forte" : "")}>{(j.convocado ? "Convocado · " : "Jogo da categoria · ") + formatarData(j.j.data).slice(0, 5)}</span>}
+          </div>
+          {pode && <button type="button" className="dm-mover" onClick={() => setAcao({ tipo: "escolher", card: c })}>Mover</button>}
+        </div>
+      );
+    }
+    const ep = c.ep, parado = c.col !== "liberado" && c.naFase >= DIAS_ALERTA_FASE;
+    return (
+      <div key={c.chave} {...comum}>
+        <div className="dm-cartao-topo">
+          <span className={"dm-foto g-" + (ep.gravidade || "leve")}>{foto}</span>
+          <span className="dm-quem"><b>{nome}</b><small>{[rotuloCategoriasAtleta(a), SIGLA_POSICAO[a.posicao] || a.posicao].filter(Boolean).join(" · ")}</small></span>
+          <button type="button" className="dm-mais" aria-label="Ações" onClick={(ev) => menuCartao(ev, c)}><Icone nome="m_mais3" /></button>
+        </div>
+        <div className="dm-assunto">{ep.local}</div>
+        <div className="dm-tags">
+          <span className={"dm-tag g-" + (ep.gravidade || "leve")}>{({ leve: "Leve", moderada: "Moderada", grave: "Grave" })[ep.gravidade] || "Sem gravidade"}</span>
+          {ep.reincidente && <span className="dm-tag">Reincidente</span>}
+          {j && <span className={"dm-tag " + (j.convocado ? "forte" : "")}>{(j.convocado ? "Convocado · " : "Jogo da categoria · ") + formatarData(j.j.data).slice(0, 5)}</span>}
+        </div>
+        <div className="dm-rodape">
+          <span title="Desde o início da lesão"><b>{c.dias}</b> dias</span>
+          <span className={parado ? "parado" : ""} title="Desde a última mudança de fase">{c.col === "liberado" ? "liberado há " + c.naFase + (c.naFase === 1 ? " dia" : " dias") : (parado ? "parado há " : "nesta fase há ") + c.naFase + (c.naFase === 1 ? " dia" : " dias")}</span>
+          {pode && <button type="button" className="dm-mover" onClick={() => setAcao({ tipo: "escolher", card: c })}>Mover</button>}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page dm-page">
+      <div className="page-head">
+        <div><h1>Quadro do DM</h1><div className="crumb">Fisioterapia e Medicina · {nAtivas} lesão(ões) ativa(s) · {nAguard} aguardando avaliação</div></div>
+        <div className="enc-acoes" style={{ margin: 0 }}>
+          <button type="button" className="pill-btn" onClick={() => abrirEncaminhar({ para_setor: "fisioterapia" })}>+ Encaminhar ao DM</button>
+          <button type="button" className="pill-btn" onClick={() => carregar(true)}>Atualizar</button>
+        </div>
+      </div>
+      <div className="dm-filtros">
+        <ChipsCategoriaPainel valor={cat} onChange={setCat} />
+        <div className="dm-filtros-linha">
+          <input type="search" className="dm-busca" placeholder="Buscar atleta" value={busca} onChange={(e) => setBusca(e.target.value)} aria-label="Buscar atleta" />
+          <select value={grav} onChange={(e) => setGrav(e.target.value)} aria-label="Gravidade">
+            <option value="">Toda gravidade</option><option value="grave">Grave</option><option value="moderada">Moderada</option><option value="leve">Leve</option><option value="urgente">Encaminhamento urgente</option>
+          </select>
+          <label className="check-linha"><input type="checkbox" checked={meus} onChange={(e) => setMeus(e.target.checked)} /> Só os meus</label>
+          {filtrando && <button type="button" className="link-btn" onClick={() => { setCat(""); setGrav(""); setBusca(""); setMeus(false); }}>Limpar filtros</button>}
+        </div>
+        {pode ? <div className="dm-dica">Arraste o cartão com o mouse para outra coluna. No celular, segure o cartão um instante e arraste, ou use o botão Mover. O botão direito abre as outras ações.</div>
+          : <div className="dm-dica">Só a Fisioterapia e a Medicina mudam os cartões. Você pode ver o quadro e abrir os atletas.</div>}
+      </div>
+      {carregando ? <div className="empty-state">Carregando o quadro...</div> : (
+        <div className="dm-quadro" role="list" ref={quadroRef}>
+          {COLUNAS_QUADRO_DM.map((col) => {
+            const lista = porColuna(col.id);
+            const alvo = arrastando && !motivoBloqueio(arrastando, col.id);
+            const proibido = arrastando && arrastando.col !== col.id && !alvo;
+            return (
+              <section key={col.id} role="listitem" aria-label={col.label} data-col={col.id}
+                className={"dm-coluna c-" + col.id + (alvo ? " alvo" : "") + (proibido ? " proibido" : "") + (sobre === col.id && alvo ? " sobre" : "")}>
+                <header className="dm-coluna-cab"><b>{col.label}</b><span className="dm-cont">{lista.length}</span>{col.dica && <small>{col.dica}</small>}</header>
+                <div className="dm-coluna-corpo">
+                  {col.id === "aguardando" && !veEnc ? <div className="dm-vazio">Os encaminhamentos aparecem só para a Fisioterapia, a Medicina e a Diretoria.</div>
+                    : lista.length === 0 ? <div className="dm-vazio">{filtrando ? "Nada com esse filtro." : col.id === "aguardando" ? "Nenhum encaminhamento aberto." : "Ninguém nesta coluna."}</div>
+                    : lista.map((c) => cartao(c))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      )}
+      {arrastando && <div className="dm-fantasma" ref={fantasmaRef} style={{ width: arrastando._w }} aria-hidden="true">{cartao(arrastando, true)}</div>}
+      {aviso && <div className="dm-toast" role="status">{aviso}</div>}
+      {acao && <FolhaAcaoDM acao={acao} usuario={usuario} onFechar={fecharAcao} onEscolher={(para) => { setPendente(null); soltar(acao.card, para); }} onMover={moverFase} onPronto={depoisDeGravar} />}
+    </div>
+  );
+}
+
+/** Folha lateral do Quadro do DM: escolher coluna, confirmar a fase, registrar a lesão ou concluir o encaminhamento. */
+function FolhaAcaoDM({ acao, usuario, onFechar, onEscolher, onMover, onPronto }) {
+  const { useState } = React;
+  const [nota, setNota] = useState("");
+  const [ocupado, setOcupado] = useState(false);
+  const [erro, setErro] = useState(null);
+  const c = acao.card, a = c.a;
+  const nome = a ? nomeExibicao(a) : (c.e && c.e.atleta_nome) || "Encaminhamento";
+  async function rodar(fn) {
+    setOcupado(true); setErro(null);
+    try { await fn(); } catch (err) { setErro(/permission/i.test(err.message || "") ? "Sem permissão para gravar. Se você é da Medicina, o admin precisa publicar as regras novas." : "Não consegui salvar: " + err.message); }
+    setOcupado(false);
+  }
+  let titulo = "", corpo = null;
+  if (acao.tipo === "escolher") {
+    titulo = "Mover para outra coluna";
+    const opcoes = COLUNAS_QUADRO_DM.filter((x) => x.id !== c.col && !(x.id === "aguardando"));
+    corpo = (
+      <div className="lanc-cartao">
+        <div className="lanc-meta">Hoje em: <b>{rotuloColunaDM(c.col)}</b></div>
+        <div className="dm-opcoes">
+          {opcoes.map((x) => <button key={x.id} type="button" className="dm-opcao" onClick={() => onEscolher(x.id)}>{c.tipo === "enc" && x.id === "liberado" ? "Concluir sem lesão" : x.label}</button>)}
+        </div>
+        {c.tipo === "enc" && <div className="lanc-meta">Escolher uma fase abre o registro da lesão. O encaminhamento é concluído quando a lesão for salva.</div>}
+      </div>
+    );
+  } else if (acao.tipo === "mover") {
+    titulo = "Mudar fase";
+    const lib = acao.para === "liberado";
+    corpo = (
+      <div className="lanc-cartao">
+        <div className="lanc-titulo">{c.ep.local}</div>
+        <div className="dm-de-para"><span>{rotuloColunaDM(c.col)}</span><Icone nome="seta" /><b>{rotuloColunaDM(acao.para)}</b></div>
+        {lib && <div className="lanc-meta">Liberar encerra a lesão. Confira o checklist de retorno ao jogo antes, se ele estiver em uso.</div>}
+        <div className="field"><label>Nota (opcional)</label><textarea rows={3} maxLength={500} value={nota} onChange={(e) => setNota(e.target.value)} placeholder={lib ? "Ex.: sem dor, testes de campo ok" : "Ex.: evoluiu bem, sem dor na corrida"} /></div>
+        {erro && <div className="form-erro">{erro}</div>}
+        <div className="form-actions">
+          <button type="button" className="pill-btn" onClick={onFechar} disabled={ocupado}>Cancelar</button>
+          <button type="button" className="pill-btn primary" disabled={ocupado} onClick={() => rodar(() => onMover(c, acao.para, nota))}>{ocupado ? "Salvando..." : lib ? "Liberar" : "Mudar fase"}</button>
+        </div>
+      </div>
+    );
+  } else if (acao.tipo === "lesao") {
+    titulo = "Registrar lesão";
+    const e = c.e;
+    const salvar = async (atletaId, reg) => {
+      await adicionarRegistro(atletaId, "fisio", { ...reg, origem: "quadro_dm", encaminhamento_id: e.id });
+      let txt = "Lesão registrada para " + nome + ".";
+      try { await avancarEncaminhamento(e, "atendido", usuario, { resposta: `Avaliado no Quadro do DM: lesão em ${rotuloLocalLesao(reg.regiao, reg.lado).toLowerCase()}, ${labelFaseRtp(reg.fase_rtp).toLowerCase()}.` }); }
+      catch (err) { txt += " O encaminhamento continua aberto (sem permissão para concluir)."; }
+      await onPronto(txt);
+    };
+    corpo = (
+      <>
+        <div className="lanc-cartao"><div className="lanc-meta">Encaminhado por {e.de_setor ? labelSetor(e.de_setor) : e.de_nome}{e.de_nome && e.de_setor ? " (" + e.de_nome + ")" : ""}: <b>{e.assunto || e.motivo}</b></div>{e.texto && <p className="lanc-nota">{e.texto}</p>}</div>
+        <div className="lanc-cartao"><FormLesao atletas={[a]} usuario={usuario} inicial={{ regiao: e.regiao || "", lado: e.lado || "direito", faseRtp: acao.para || "repouso", chave: e.id }} onSalvar={salvar} onCancelar={onFechar} /></div>
+      </>
+    );
+  } else if (acao.tipo === "concluir") {
+    titulo = "Concluir sem lesão";
+    const e = c.e;
+    corpo = (
+      <div className="lanc-cartao">
+        <div className="lanc-meta">{e.assunto || e.motivo}</div>
+        <div className="field"><label>O que foi feito</label><textarea rows={4} maxLength={2000} value={nota} onChange={(x) => setNota(x.target.value)} placeholder="Ex.: avaliado, sem lesão. Liberado com gelo e alongamento." /></div>
+        {erro && <div className="form-erro">{erro}</div>}
+        <div className="form-actions">
+          <button type="button" className="pill-btn" onClick={onFechar} disabled={ocupado}>Cancelar</button>
+          <button type="button" className="pill-btn primary" disabled={ocupado || !nota.trim()} onClick={() => rodar(async () => { await avancarEncaminhamento(e, "atendido", usuario, { resposta: nota.trim() }); await onPronto("Encaminhamento concluído."); })}>{ocupado ? "Salvando..." : "Concluir"}</button>
+        </div>
+      </div>
+    );
+  } else if (acao.tipo === "checklist") {
+    titulo = "Retorno ao jogo";
+    corpo = <div className="lanc-cartao"><PainelRetornoJogo atletaId={a.id} episodio={c.ep} usuario={usuario} /></div>;
+  }
+  return (
+    <div className="lanc-fundo" onClick={onFechar}>
+      <div className="lanc-folha" role="dialog" aria-modal="true" aria-label={titulo + ": " + nome} onClick={(e) => e.stopPropagation()}>
+        <div className="lanc-topo"><div className="lanc-quem"><b>{titulo}</b><span>{nome}{a && a.categoria ? " · " + rotuloCategoriasAtleta(a) : ""}</span></div>
+          <button type="button" className="lanc-fechar" onClick={onFechar} aria-label="Fechar"><Icone nome="fechar" /></button></div>
+        <div className="lanc-corpo">{corpo}</div>
       </div>
     </div>
   );
@@ -35932,6 +36703,8 @@ function AppLogado({ usuario }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [buscaAberta, setBuscaAberta] = useState(false);
   const naoLidas = useNaoLidas(usuario, pagina);
+  const [versaoConfig, setVersaoConfig] = useState(0);
+  useEffect(() => { const f = () => setVersaoConfig((v) => v + 1); window.addEventListener("ct:config", f); return () => window.removeEventListener("ct:config", f); }, []);
 
   const paginaRef = React.useRef(pagina);
   paginaRef.current = pagina;
@@ -35988,6 +36761,7 @@ function AppLogado({ usuario }) {
     psicologia: <ViewPsicologia />,
     fisioterapia: <ViewFisioterapia usuario={usuario} />,
     medicina: <ViewMedicina />,
+    quadro_dm: <ViewQuadroDM usuario={usuario} onNavigate={navegar} />,
     nutricao: <ViewNutricao usuario={usuario} />,
     social: <ViewSocial key="social" />,
     social_documentos: <ViewSocial key="social_documentos" abaInicial="Documentos" />,
@@ -36020,6 +36794,7 @@ function AppLogado({ usuario }) {
     monitoramento: <ViewMonitoramento usuario={usuario} />,
     avisos: <PainelAvisos usuario={usuario} />,
     conversas: <ViewConversas usuario={usuario} onNavigate={navegar} />,
+    personalizar: usuario.role === "admin" && !usuario.simulando ? <ViewPersonalizar usuario={usuario} /> : null,
   };
 
   // Toda a equipe abre todas as áreas; o que cada um pode lançar/editar é decidido dentro de cada tela.
@@ -36029,14 +36804,15 @@ function AppLogado({ usuario }) {
   const ALIAS_PAGINA = { diretoria: "admin", agenda_dm: "agenda_saude", agenda_social: "agenda_saude", elenco: "cadastro_atletas" };
   const el = paginasComponente[ALIAS_PAGINA[pagina] || pagina];
   return podeVerPagina ? (el ? (PAGINAS_POR_CATEGORIA.includes(pagina) ? React.cloneElement(el, { key: pagina + "-" + catCampo }) : el) : <ViewElenco usuario={usuario} />) : <SemPermissao />;
-  }, [pagina, usuario, catCampo]);
+  }, [pagina, usuario, catCampo, versaoConfig]);
   const abrirMenu = React.useCallback(() => setMenuAberto(true), []);
   const abrirBusca = React.useCallback(() => setBuscaAberta(true), []);
   const fecharBusca = React.useCallback(() => setBuscaAberta(false), []);
 
   return (
-    <div className="app-shell">
-      <HubBar current={pagina} categoria={catCampo} onNavigate={navegar} usuario={usuario} onSair={sair} naoLidas={naoLidas} avisosNovos={avisosNovos} conversasNovas={conversasNovas} menuAberto={menuAberto} setMenuAberto={setMenuAberto} />
+    <div className={"app-shell" + (usuario.simulando ? " simulando" : "")}>
+      {usuario.simulando && <div className="faixa-simulando" role="status"><span>Você está vendo o app como <b>{labelSetor(usuario.simulando)}</b>. O que você salvar aqui é gravado de verdade, com o seu acesso de administrador.</span><button type="button" onClick={() => { try { sessionStorage.removeItem("meuct:simular"); } catch (e) {} location.reload(); }}>Voltar a ser admin</button></div>}
+      <HubBar key={"menu-" + versaoConfig} current={pagina} categoria={catCampo} onNavigate={navegar} usuario={usuario} onSair={sair} naoLidas={naoLidas} avisosNovos={avisosNovos} conversasNovas={conversasNovas} menuAberto={menuAberto} setMenuAberto={setMenuAberto} />
       <div className="main-content">
         <Topbar pagina={pagina} categoria={catCampo} usuario={usuario} naoLidas={naoLidas} avisosNovos={avisosNovos} conversasNovas={conversasNovas} onNavigate={navegar} onAbrirMenu={abrirMenu} onAbrirBusca={abrirBusca} />
         <React.Fragment key={"dados-" + revisaoDados}>{conteudoPagina}</React.Fragment>
@@ -36073,6 +36849,9 @@ function App() {
         setCarregandoPerm(true);
         let perm = null;
         try { perm = await buscarPermissoes(u.uid); } catch (e) {}
+        if (perm) await carregarConfigApp();
+        let sim = ""; try { sim = sessionStorage.getItem("meuct:simular") || ""; } catch (e) {}
+        if (perm && perm.role === "admin" && sim) perm = { ...perm, role: "equipe", modulos: [sim], simulando: sim };
         usuarioLogadoGlobal = perm;
         setUsuario(perm);
         setCarregandoPerm(false);
