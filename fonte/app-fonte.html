@@ -726,6 +726,18 @@ fieldset.so-leitura:disabled .pill-btn.primary, fieldset.so-leitura:disabled .pi
 .tg-notas{display:flex; gap:6px;}
 .tg-nota{width:46px; height:46px; border-radius:12px; border:1.5px solid var(--line); background:#fff; font:inherit; font-size:18px; font-weight:800; color:var(--navy,#1B2A4A); cursor:pointer;}
 .tg-nota.on.n1, .tg-nota.on.n2{background:#D9463B; border-color:#D9463B; color:#fff;} .tg-nota.on.n3{background:#E8B93E; border-color:#E8B93E; color:#1B2A4A;} .tg-nota.on.n4, .tg-nota.on.n5{background:#1E7446; border-color:#1E7446; color:#fff;}
+/* Treino de goleiros (modelo novo) */
+.tg2-ativs{display:flex; flex-direction:column; gap:6px; padding:0 20px 14px;}
+.tg2-ativ{display:flex; align-items:flex-start; gap:10px;} .tg2-ativ div{display:flex; flex-direction:column; min-width:0;} .tg2-ativ b{font-size:13.5px;} .tg2-ativ small{font-size:12px; color:var(--muted);}
+.tg2-gols{display:flex; gap:8px; padding:4px 16px 10px; overflow-x:auto;}
+.tg2-gol{display:flex; flex-direction:column; align-items:flex-start; gap:1px; border:1.5px solid var(--line); background:#fff; border-radius:12px; padding:8px 12px; font:inherit; cursor:pointer; min-width:120px; text-align:left;}
+.tg2-gol b{font-size:13.5px; color:var(--ink);} .tg2-gol small{font-size:11.5px; color:var(--muted);}
+.tg2-gol.on{border-color:#1B2A4A; background:#1B2A4A;} .tg2-gol.on b{color:#fff;} .tg2-gol.on small{color:#C9D3E2;}
+.tg2-grupo{padding:2px 16px 6px;}
+.tg2-grupo-tit{font-size:11.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#1E7446; padding:10px 0 4px;}
+.tg2 .tg-nota-nome{font-weight:600; flex:1 1 200px; min-width:0;}
+.tg2-tab-grupo td{background:#F4F6F9; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#1E7446; padding-top:8px; padding-bottom:6px;}
+@media (max-width:640px){ .tg2 .tg-nota{width:42px; height:42px; font-size:16px;} .tg2 .tg-notas{gap:5px;} .tg2-ativs{padding:0 14px 12px;} }
 @media (max-width: 420px){ .tg-nota{width:42px; height:42px;} }
 .setor-painel{margin-top:16px;}
 .setor-grade{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding:14px 18px 18px;}
@@ -5709,6 +5721,12 @@ ICONES.palestras = [["rect", { x: 3.5, y: 4, width: 17, height: 11, rx: 1.8 }], 
 const COL_CONFIG = "ct_config";
 let CONFIG_APP = {};
 const TIPOS_REGISTRO_FISIO = ["Avaliação", "Tratamento", "Evolução", "Alta"];
+/* Conteúdos do treino de goleiros (técnica, tática individual, comportamental); editáveis em Personalizar o app. */
+const CONTEUDOS_GOLEIRO = {
+  tecnica: ["Posição base", "Empunhadura e encaixe", "Deslocamentos", "Queda baixa", "Queda média", "Queda alta", "Defesa com os pés", "1x1 (bloqueio e abafa)", "Saída em cruzamento (soco e encaixe)", "Reposição com as mãos", "Reposição com os pés", "Tiro de meta", "Domínio e passe"],
+  tatica: ["Posicionamento (ângulo e distância do gol)", "Leitura e cobertura de bola nas costas", "Desmarque de apoio na construção", "Orientação corporal ao receber", "Decisão de sair ou ficar", "Organização da barreira", "Controle da área na bola parada", "Reposição rápida na transição"],
+  comportamental: ["Liderança", "Comunicação verbal (comando da defesa)", "Comunicação corporal", "Concentração e foco", "Controle emocional depois do erro", "Coragem e atitude", "Confiança", "Tomada de decisão"],
+};
 const PADROES_CONFIG = {};
 function guardarPadroesConfig() {
   if (PADROES_CONFIG.pronto) return;
@@ -5716,6 +5734,9 @@ function guardarPadroesConfig() {
   PADROES_CONFIG.motivos = JSON.parse(JSON.stringify(MOTIVOS_ENC));
   PADROES_CONFIG.setoresPalestra = SETORES_PALESTRA.slice();
   PADROES_CONFIG.tiposFisio = TIPOS_REGISTRO_FISIO.slice();
+  PADROES_CONFIG.golTecnica = CONTEUDOS_GOLEIRO.tecnica.slice();
+  PADROES_CONFIG.golTatica = CONTEUDOS_GOLEIRO.tatica.slice();
+  PADROES_CONFIG.golComportamental = CONTEUDOS_GOLEIRO.comportamental.slice();
   PADROES_CONFIG.pronto = true;
 }
 function trocarLista(arr, nova) { arr.splice(0, arr.length, ...nova); }
@@ -5729,6 +5750,9 @@ function aplicarConfigApp(cfg) {
   Object.assign(MOTIVOS_ENC, JSON.parse(JSON.stringify(PADROES_CONFIG.motivos)), L.motivos_enc || {});
   trocarLista(SETORES_PALESTRA, (L.setores_palestra && L.setores_palestra.length) ? L.setores_palestra : PADROES_CONFIG.setoresPalestra);
   trocarLista(TIPOS_REGISTRO_FISIO, (L.tipos_fisio && L.tipos_fisio.length) ? L.tipos_fisio : PADROES_CONFIG.tiposFisio);
+  trocarLista(CONTEUDOS_GOLEIRO.tecnica, (L.gol_tecnica && L.gol_tecnica.length) ? L.gol_tecnica : PADROES_CONFIG.golTecnica);
+  trocarLista(CONTEUDOS_GOLEIRO.tatica, (L.gol_tatica && L.gol_tatica.length) ? L.gol_tatica : PADROES_CONFIG.golTatica);
+  trocarLista(CONTEUDOS_GOLEIRO.comportamental, (L.gol_comportamental && L.gol_comportamental.length) ? L.gol_comportamental : PADROES_CONFIG.golComportamental);
   window.dispatchEvent(new Event("ct:config"));
 }
 async function carregarConfigApp() {
@@ -6851,6 +6875,9 @@ function ViewPersonalizar({ usuario }) {
           <div className="cfg-corpo cfg-listas">
             <div className="field"><label>Tipos de registro da Fisioterapia</label><textarea rows={5} value={(L.tipos_fisio || PADROES_CONFIG.tiposFisio).join("\n")} onChange={(e) => setLista("tipos_fisio", e.target.value.split("\n"))} onBlur={(e) => setLista("tipos_fisio", linhas(e.target.value))} /></div>
             <div className="field"><label>Setores das palestras</label><textarea rows={6} value={(L.setores_palestra || PADROES_CONFIG.setoresPalestra).join("\n")} onChange={(e) => setLista("setores_palestra", e.target.value.split("\n"))} onBlur={(e) => setLista("setores_palestra", linhas(e.target.value))} /></div>
+            <div className="field"><label>Treino de goleiros: técnica</label><textarea rows={6} value={(L.gol_tecnica || PADROES_CONFIG.golTecnica).join("\n")} onChange={(e) => setLista("gol_tecnica", e.target.value.split("\n"))} onBlur={(e) => setLista("gol_tecnica", linhas(e.target.value))} /></div>
+            <div className="field"><label>Treino de goleiros: tática individual</label><textarea rows={6} value={(L.gol_tatica || PADROES_CONFIG.golTatica).join("\n")} onChange={(e) => setLista("gol_tatica", e.target.value.split("\n"))} onBlur={(e) => setLista("gol_tatica", linhas(e.target.value))} /></div>
+            <div className="field"><label>Treino de goleiros: comportamental</label><textarea rows={6} value={(L.gol_comportamental || PADROES_CONFIG.golComportamental).join("\n")} onChange={(e) => setLista("gol_comportamental", e.target.value.split("\n"))} onBlur={(e) => setLista("gol_comportamental", linhas(e.target.value))} /></div>
             {Object.keys(PADROES_CONFIG.motivos).map((k) => (
               <div key={k} className="field"><label>Motivos de encaminhamento para {labelSetor(k)}</label>
                 <textarea rows={4} value={(motivos[k] || []).join("\n")} onChange={(e) => muda((n) => { n.listas = n.listas || {}; n.listas.motivos_enc = { ...(n.listas.motivos_enc || {}), [k]: e.target.value.split("\n") }; })} onBlur={(e) => muda((n) => { n.listas.motivos_enc[k] = linhas(e.target.value); })} />
@@ -13320,178 +13347,377 @@ function ScoutGoleiroDoJogo({ evento, atletas, usuario, relogioJogo, durJogo, on
    Como os exercícios são sempre os mesmos, as notas viram a evolução de cada goleiro.
    ===================================================================== */
 const COL_TREINOS_GOLEIRO = "ct_treinos_goleiro";
-const BIBLIOTECA_GOLEIRO = [
-  { id: "manejo", nome: "Manejo de bola e empunhadura", fundamento: "defesa_pe", desc: "Bolas de mão em mão, encaixe no peito e na altura do rosto, troca rápida." },
-  { id: "desloc_lateral", nome: "Deslocamento lateral com defesa", fundamento: "defesa_pe", desc: "Passos laterais entre cones e defesa frontal ao final de cada deslocamento." },
-  { id: "frontal_pe", nome: "Defesa frontal em pé (encaixe)", fundamento: "defesa_pe", desc: "Chutes rasteiros e na altura do peito, encaixe sem rebote." },
-  { id: "queda_baixa", nome: "Queda lateral baixa", fundamento: "defesa_queda", desc: "Bola rasteira nos cantos, queda com mão de apoio e encaixe." },
-  { id: "queda_media", nome: "Queda lateral meia altura", fundamento: "defesa_queda", desc: "Bola na meia altura, empurrão de perna e queda lateral." },
-  { id: "salto_alto", nome: "Defesa alta com salto", fundamento: "defesa_queda", desc: "Bolas no ângulo, impulsão e espalmada para fora." },
-  { id: "reacao", nome: "Reação: finalizações em sequência", fundamento: "defesa_queda", desc: "Série de finalizações rápidas, recuperação de posição entre uma e outra." },
-  { id: "rebote", nome: "Rebote e segunda bola", fundamento: "defesa_queda", desc: "Primeira defesa e reação imediata ao rebote." },
-  { id: "um_contra_um", nome: "1x1 com saída aos pés", fundamento: "entrada_completa", desc: "Atacante vem conduzindo; tempo de saída, bloqueio e abafa." },
-  { id: "cruzamento", nome: "Saída em cruzamento com contato", fundamento: "saida_cruzamento", desc: "Cruzamentos dos dois lados com oposição, decisão de sair ou ficar." },
-  { id: "escanteio", nome: "Escanteio e falta lateral", fundamento: "saida_escanteio_falta", desc: "Bolas paradas com área cheia, comunicação e ataque à bola." },
-  { id: "cobertura", nome: "Cobertura em bola longa", fundamento: "cobertura", desc: "Bola nas costas da defesa; leitura, saída fora da área e domínio." },
-  { id: "repos_maos", nome: "Reposição com as mãos em alvos", fundamento: "reposicao_maos", desc: "Rolar e arremessar para alvos a 15 e 30 m." },
-  { id: "repos_pes", nome: "Reposição com os pés (bola parada e de volta)", fundamento: "reposicao_pes", desc: "Chute de volta e bola no chão para alvos definidos." },
-  { id: "recuada", nome: "Bola recuada sob pressão", fundamento: "passe_recuado", desc: "Recuo com atacante pressionando; domínio orientado e passe." },
-  { id: "passe_alvos", nome: "Passe curto e longo para alvos", fundamento: "passe_curto_longo", desc: "Passes para laterais e meio-campo em alvos marcados." },
-  { id: "tiro_meta", nome: "Tiro de meta (curto e longo)", fundamento: "tiro_meta", desc: "Saída curta para zagueiros e tiro longo na zona combinada." },
-  { id: "jogo_reduzido", nome: "Jogo reduzido com goleiro", fundamento: "geral", desc: "Situação de jogo aplicando o que foi treinado." },
+/* Treino de goleiros no mesmo esqueleto do plano de treino da comissão:
+   cabeçalho, objetivos da sessão por conteúdo (técnica, tática individual, comportamental),
+   atividades (método, volume, espaço, conteúdos, demanda física) e avaliação de cada goleiro
+   por conteúdo, de 1 a 5. Tudo por opções; as listas de conteúdo ficam em Personalizar o app. */
+const GRUPOS_CONTEUDO_GOL = [
+  { id: "tecnica", label: "Técnica", campoObj: "obj_tecnica" },
+  { id: "tatica", label: "Tática individual", campoObj: "obj_tatica" },
+  { id: "comportamental", label: "Comportamental", campoObj: "obj_comportamental" },
 ];
+const ESPACOS_GOLEIRO = ["Pequena área", "Grande área", "Entrada da área", "Meio-campo", "Campo inteiro", "Fora do campo"];
+const OPOSICAO_GOLEIRO = ["Sem oposição", "Oposição passiva", "Oposição ativa"];
+const BIBLIOTECA_GOLEIRO = [
+  { id: "manejo", nome: "Manejo de bola e empunhadura", grupo: "defesa", desc: "Bolas de mão em mão, encaixe no peito e na altura do rosto, troca rápida.", tecnica: ["Empunhadura e encaixe"] },
+  { id: "desloc_lateral", nome: "Deslocamento lateral com defesa", grupo: "defesa", desc: "Passos laterais entre cones e defesa frontal ao final de cada deslocamento.", tecnica: ["Deslocamentos", "Posição base"] },
+  { id: "frontal_pe", nome: "Defesa frontal em pé (encaixe)", grupo: "defesa", desc: "Chutes rasteiros e na altura do peito, encaixe sem rebote.", tecnica: ["Empunhadura e encaixe"] },
+  { id: "queda_baixa", nome: "Queda lateral baixa", grupo: "defesa", desc: "Bola rasteira nos cantos, queda com mão de apoio e encaixe.", tecnica: ["Queda baixa"] },
+  { id: "queda_media", nome: "Queda lateral meia altura", grupo: "defesa", desc: "Bola na meia altura, empurrão de perna e queda lateral.", tecnica: ["Queda média"] },
+  { id: "salto_alto", nome: "Defesa alta com salto", grupo: "defesa", desc: "Bolas no ângulo, impulsão e espalmada para fora.", tecnica: ["Queda alta"] },
+  { id: "reacao", nome: "Reação: finalizações em sequência", grupo: "defesa", desc: "Série de finalizações rápidas, recuperação de posição entre uma e outra.", tecnica: ["Queda baixa", "Queda média"], tatica: ["Posicionamento (ângulo e distância do gol)"], comportamental: ["Concentração e foco"] },
+  { id: "rebote", nome: "Rebote e segunda bola", grupo: "defesa", desc: "Primeira defesa e reação imediata ao rebote.", tecnica: ["Queda baixa"], comportamental: ["Concentração e foco"] },
+  { id: "um_contra_um", nome: "1x1 com saída aos pés", grupo: "saida", desc: "Atacante vem conduzindo; tempo de saída, bloqueio e abafa.", tecnica: ["1x1 (bloqueio e abafa)"], tatica: ["Decisão de sair ou ficar"], comportamental: ["Coragem e atitude"] },
+  { id: "cruzamento", nome: "Saída em cruzamento com contato", grupo: "saida", desc: "Cruzamentos dos dois lados com oposição, decisão de sair ou ficar.", tecnica: ["Saída em cruzamento (soco e encaixe)"], tatica: ["Decisão de sair ou ficar"], comportamental: ["Comunicação verbal (comando da defesa)"] },
+  { id: "escanteio", nome: "Escanteio e falta lateral", grupo: "saida", desc: "Bolas paradas com área cheia, comunicação e ataque à bola.", tecnica: ["Saída em cruzamento (soco e encaixe)"], tatica: ["Controle da área na bola parada", "Organização da barreira"], comportamental: ["Comunicação verbal (comando da defesa)", "Liderança"] },
+  { id: "cobertura", nome: "Cobertura em bola longa", grupo: "saida", desc: "Bola nas costas da defesa; leitura, saída fora da área e domínio.", tecnica: ["Domínio e passe"], tatica: ["Leitura e cobertura de bola nas costas"], comportamental: ["Tomada de decisão"] },
+  { id: "repos_maos", nome: "Reposição com as mãos em alvos", grupo: "reposicao", desc: "Rolar e arremessar para alvos a 15 e 30 m.", tecnica: ["Reposição com as mãos"], tatica: ["Reposição rápida na transição"] },
+  { id: "repos_pes", nome: "Reposição com os pés", grupo: "reposicao", desc: "Chute de volta e bola no chão para alvos definidos.", tecnica: ["Reposição com os pés"] },
+  { id: "recuada", nome: "Bola recuada sob pressão", grupo: "reposicao", desc: "Recuo com atacante pressionando; domínio orientado e passe.", tecnica: ["Domínio e passe"], tatica: ["Orientação corporal ao receber", "Desmarque de apoio na construção"], comportamental: ["Tomada de decisão"] },
+  { id: "passe_alvos", nome: "Passe curto e longo para alvos", grupo: "reposicao", desc: "Passes para laterais e meio-campo em alvos marcados.", tecnica: ["Domínio e passe"] },
+  { id: "tiro_meta", nome: "Tiro de meta (curto e longo)", grupo: "reposicao", desc: "Saída curta para zagueiros e tiro longo na zona combinada.", tecnica: ["Tiro de meta"], tatica: ["Desmarque de apoio na construção"] },
+  { id: "jogo_reduzido", nome: "Jogo reduzido com goleiro", grupo: "geral", desc: "Situação de jogo aplicando o que foi treinado.", tatica: ["Posicionamento (ângulo e distância do gol)", "Desmarque de apoio na construção"], comportamental: ["Comunicação verbal (comando da defesa)", "Liderança"], oposicao: "Oposição ativa" },
+];
+/* Treinos antigos (nota por exercício): o fundamento vira o conteúdo de técnica equivalente. */
+const CONTEUDO_DO_FUNDAMENTO_GOL = {
+  defesa_pe: "Empunhadura e encaixe", defesa_queda: "Queda média", entrada_completa: "1x1 (bloqueio e abafa)",
+  saida_escanteio_falta: "Saída em cruzamento (soco e encaixe)", saida_cruzamento: "Saída em cruzamento (soco e encaixe)",
+  cobertura: "Leitura e cobertura de bola nas costas", reposicao_maos: "Reposição com as mãos", reposicao_pes: "Reposição com os pés",
+  passe_recuado: "Domínio e passe", passe_curto_longo: "Domínio e passe", tiro_meta: "Tiro de meta",
+};
 const NOTAS_EXECUCAO = [
   { v: 1, label: "Muito abaixo" }, { v: 2, label: "Abaixo" }, { v: 3, label: "Na média" }, { v: 4, label: "Bom" }, { v: 5, label: "Excelente" },
 ];
 function labelFundamentoGol(id) { if (id === "geral") return "Situação de jogo"; const f = FUNDAMENTOS_GOLEIRO.find((x) => x.id === id); return f ? f.label : "Outro"; }
-function grupoFundamentoGol(id) { const f = FUNDAMENTOS_GOLEIRO.find((x) => x.id === id); return f ? f.grupo : "geral"; }
 function podeTreinoGoleiro(u) { return !!u && (u.role === "admin" || ["treinador", "diretoria"].some((m) => (u.modulos || []).includes(m))); }
-function treinoGolVazio(goleiros) { return { data: hojeISO(), hora: "", categoria: "", goleiros: (goleiros || []).map((g) => g.id), objetivo: "", exercicios: [], notas: {}, obs: "", status: "planejado" }; }
+function grupoDoConteudoGol(c) {
+  const g = GRUPOS_CONTEUDO_GOL.find((x) => (CONTEUDOS_GOLEIRO[x.id] || []).includes(c));
+  return g ? g.id : "tecnica";
+}
+function atividadeGolVazia(base) {
+  const b = base || {};
+  return { uid: idCurto(), ex_id: b.id || "", nome: b.nome || "", metodo: b.metodo || "", series: "", repeticoes: "", duracao: "", pausa: "", transicao: "",
+    espaco: b.espaco || "", oposicao: b.oposicao || "", tecnica: (b.tecnica || []).slice(), tatica: (b.tatica || []).slice(), comportamental: (b.comportamental || []).slice(), demanda_fisica: "" };
+}
+function treinoGolVazio(goleiros, usuario) {
+  return { modelo: "v2", data: hojeISO(), hora: "", local: "", categoria: "", goleiros: (goleiros || []).map((g) => g.id), responsavel: usuario ? nomeUsuario(usuario) : "",
+    objetivo: "", obj_tecnica: [], obj_tatica: [], obj_comportamental: [], demanda_esperada: "", atividades: [], notas_conteudo: {}, obs: "", status: "planejado" };
+}
+/** Lê qualquer treino (o antigo, com exercícios e nota por exercício, ou o novo) no formato novo. */
+function normalizarTreinoGol(t) {
+  if (!t) return t;
+  if (t.modelo === "v2" || Array.isArray(t.atividades)) return { obj_tecnica: [], obj_tatica: [], obj_comportamental: [], atividades: [], notas_conteudo: {}, ...t, modelo: "v2" };
+  const atividades = (t.exercicios || []).map((e) => {
+    const bib = BIBLIOTECA_GOLEIRO.find((b) => b.id === e.ex_id);
+    const a = atividadeGolVazia(bib || { nome: e.nome, tecnica: CONTEUDO_DO_FUNDAMENTO_GOL[e.fundamento] ? [CONTEUDO_DO_FUNDAMENTO_GOL[e.fundamento]] : [] });
+    return { ...a, uid: e.uid || a.uid, nome: e.nome || a.nome, duracao: String(parseFloat(e.duracao) || "") , volume_texto: e.volume || "", obs: e.obs || "" };
+  });
+  return { ...t, modelo: "antigo", obj_tecnica: [], obj_tatica: [], obj_comportamental: [], atividades, notas_conteudo: {}, notas_antigas: t.notas || {} };
+}
+/** Conteúdos trabalhados na sessão (objetivos + atividades), na ordem dos grupos. */
+function conteudosDoTreinoGol(t) {
+  return GRUPOS_CONTEUDO_GOL.map((g) => {
+    const itens = [];
+    const add = (c) => { if (c && !itens.includes(c)) itens.push(c); };
+    (t[g.campoObj] || []).forEach(add);
+    (t.atividades || []).forEach((a) => (a[g.id] || []).forEach(add));
+    return { ...g, itens };
+  }).filter((g) => g.itens.length);
+}
+/** Notas por conteúdo de um goleiro, juntando as notas antigas (por exercício) no conteúdo equivalente. */
+function notasConteudoGol(t, gid) {
+  const n = { ...(((t.notas_conteudo || {})[gid]) || {}) };
+  const antigas = (t.notas_antigas || (t.modelo !== "v2" && !Array.isArray(t.atividades) ? t.notas : null) || {})[gid] || {};
+  const exs = t.exercicios || [];
+  const soma = {};
+  Object.entries(antigas).forEach(([uid, v]) => {
+    const e = exs.find((x) => x.uid === uid); if (!e || !v) return;
+    const bib = BIBLIOTECA_GOLEIRO.find((b) => b.id === e.ex_id);
+    const c = (bib && (bib.tecnica || [])[0]) || CONTEUDO_DO_FUNDAMENTO_GOL[e.fundamento] || labelFundamentoGol(e.fundamento);
+    (soma[c] = soma[c] || []).push(Number(v));
+  });
+  Object.entries(soma).forEach(([c, vs]) => { if (n[c] === undefined) n[c] = Math.round((vs.reduce((a, b) => a + b, 0) / vs.length) * 10) / 10; });
+  return n;
+}
 function mediaNotasTreino(t, gid) {
+  const tn = normalizarTreinoGol(t);
   const vals = [];
-  Object.entries(t.notas || {}).forEach(([g, porEx]) => { if (gid && g !== gid) return; Object.values(porEx || {}).forEach((v) => { if (v) vals.push(Number(v)); }); });
+  (gid ? [gid] : (tn.goleiros || [])).forEach((g) => Object.values(notasConteudoGol(tn, g)).forEach((v) => { if (v) vals.push(Number(v)); }));
   return vals.length ? Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10) / 10 : null;
 }
 function fmtNota(v) { return v === null || v === undefined ? "-" : String(v).replace(".", ","); }
 function corNota(v) { return v === null || v === undefined ? "" : v >= 4 ? "verde" : v >= 3 ? "amarelo" : "vermelho"; }
+function duracaoAtividadeGol(a) {
+  const s = num(a.series), d = num(a.duracao), p = num(a.pausa);
+  if (s && d) return +(s * d + (s > 1 && p ? ((s - 1) * p) / 60 : 0)).toFixed(1);
+  return d || 0;
+}
+function duracaoTreinoGol(t) { return Math.round((t.atividades || []).reduce((s, a) => s + duracaoAtividadeGol(a) + (num(a.transicao) || 0), 0)); }
+function volumeTextoGol(a) {
+  const s = num(a.series), r = num(a.repeticoes), d = num(a.duracao), p = num(a.pausa);
+  const partes = [];
+  if (s && r) partes.push(`${a.series} x ${a.repeticoes} rep.`); else if (s) partes.push(`${a.series} séries`); else if (r) partes.push(`${a.repeticoes} rep.`);
+  if (d) partes.push((s ? a.duracao + " min cada" : a.duracao + " min"));
+  if (p) partes.push("pausa " + a.pausa + " s");
+  return partes.join(" · ") || a.volume_texto || "";
+}
+const _lim = (l, n, m) => (l || []).slice(0, n).map((x) => String(x).slice(0, m || 120));
 async function salvarTreinoGol(t, usuario) {
-  const dados = { data: t.data, hora: t.hora || "", categoria: t.categoria || "", goleiros: (t.goleiros || []).slice(0, 10), objetivo: String(t.objetivo || "").slice(0, 300),
-    exercicios: (t.exercicios || []).slice(0, 20).map((e) => ({ uid: e.uid, ex_id: e.ex_id || "", nome: String(e.nome || "").slice(0, 80), fundamento: e.fundamento || "geral", duracao: String(e.duracao || "").slice(0, 10), volume: String(e.volume || "").slice(0, 60), obs: String(e.obs || "").slice(0, 300) })),
-    notas: t.notas || {}, obs: String(t.obs || "").slice(0, 2000), status: t.status === "realizado" ? "realizado" : "planejado", atualizado_em: firebase.firestore.FieldValue.serverTimestamp() };
-  if (t.id) { await db.collection(COL_TREINOS_GOLEIRO).doc(t.id).update(dados); return t.id; }
+  const notas = {};
+  Object.entries(t.notas_conteudo || {}).forEach(([g, porC]) => { notas[g] = {}; Object.entries(porC || {}).forEach(([c, v]) => { if (v >= 1 && v <= 5) notas[g][c] = v; }); });
+  const dados = { modelo: "v2", data: t.data, hora: t.hora || "", local: String(t.local || "").slice(0, 80), categoria: t.categoria || "", goleiros: (t.goleiros || []).slice(0, 10),
+    responsavel: String(t.responsavel || "").slice(0, 80), objetivo: String(t.objetivo || "").slice(0, 140),
+    obj_tecnica: _lim(t.obj_tecnica, 20), obj_tatica: _lim(t.obj_tatica, 20), obj_comportamental: _lim(t.obj_comportamental, 20), demanda_esperada: t.demanda_esperada || "",
+    atividades: (t.atividades || []).slice(0, 20).map((a) => ({ uid: a.uid, ex_id: a.ex_id || "", nome: String(a.nome || "").slice(0, 80), metodo: a.metodo || "",
+      series: String(a.series || "").slice(0, 4), repeticoes: String(a.repeticoes || "").slice(0, 4), duracao: String(a.duracao || "").slice(0, 5), pausa: String(a.pausa || "").slice(0, 5), transicao: String(a.transicao || "").slice(0, 4),
+      espaco: a.espaco || "", oposicao: a.oposicao || "", tecnica: _lim(a.tecnica, 15), tatica: _lim(a.tatica, 15), comportamental: _lim(a.comportamental, 15), demanda_fisica: a.demanda_fisica || "",
+      ...(a.volume_texto ? { volume_texto: String(a.volume_texto).slice(0, 60) } : {}), ...(a.obs ? { obs: String(a.obs).slice(0, 300) } : {}) })),
+    notas_conteudo: notas, obs: String(t.obs || "").slice(0, 2000), status: t.status === "realizado" ? "realizado" : "planejado", atualizado_em: firebase.firestore.FieldValue.serverTimestamp() };
+  if (t.id) {
+    // treino antigo passa para o modelo novo: as notas por exercício viram notas por conteúdo
+    if (t.notas_antigas && Object.keys(t.notas_antigas).length) {
+      (t.goleiros || []).forEach((g) => { const n = notasConteudoGol(t, g); if (Object.keys(n).length) dados.notas_conteudo[g] = { ...n, ...(dados.notas_conteudo[g] || {}) }; });
+    }
+    await db.collection(COL_TREINOS_GOLEIRO).doc(t.id).update({ ...dados, exercicios: firebase.firestore.FieldValue.delete(), notas: firebase.firestore.FieldValue.delete() });
+    return t.id;
+  }
   const ref = await db.collection(COL_TREINOS_GOLEIRO).add({ ...dados, criado_por: usuario.id, criado_por_nome: nomeUsuario(usuario), criado_em: firebase.firestore.FieldValue.serverTimestamp() });
   return ref.id;
 }
 function msgErroTreinoGol(e) { return /permission/i.test(e.message) ? "Os treinos de goleiros ainda não estão liberados no banco. O admin precisa publicar as regras novas." : "Não consegui salvar: " + e.message; }
 
-/** Montar a ficha: data, goleiros, objetivo e exercícios da biblioteca (ou próprios). */
+function ChipsOpcaoGol({ opcoes, valor, onChange }) {
+  return <div className="chips-linha">{opcoes.map((f) => <button key={f} type="button" className={"chip-filtro" + (valor === f ? " on" : "")} onClick={() => onChange(valor === f ? "" : f)}>{f}</button>)}</div>;
+}
+function CampoNumGol({ rotulo, valor, onChange, modo }) {
+  return <div className="field"><label>{rotulo}</label><input type="text" inputMode={modo || "numeric"} maxLength={5} value={valor || ""} onChange={(e) => onChange(e.target.value.replace(/[^0-9.,]/g, ""))} /></div>;
+}
+
+/** Montar o treino: cabeçalho, objetivos da sessão e atividades, no mesmo esqueleto do plano da comissão. */
 function EditorTreinoGoleiro({ inicial, goleiros, usuario, onFechar }) {
   const { useState } = React;
-  const [t, setT] = useState({ ...inicial, exercicios: (inicial.exercicios || []).map((e) => ({ ...e })) });
-  const [grupo, setGrupo] = useState("defesa");
-  const [proprio, setProprio] = useState({ nome: "", fundamento: "defesa_pe" });
+  const [t, setT] = useState(() => { const n = normalizarTreinoGol(inicial); return { ...n, atividades: (n.atividades || []).map((a) => ({ ...a })) }; });
+  const [aberta, setAberta] = useState(() => ((normalizarTreinoGol(inicial).atividades || [])[0] || {}).uid || null);
+  const [bib, setBib] = useState(false);
+  const [grupoBib, setGrupoBib] = useState("defesa");
   const [erro, setErro] = useState(null);
   const [salvando, setSalvando] = useState(false);
-  const rasc = useRascunho("treino-gol:" + (inicial.id || "novo"), t, setT);
-  const set = (k) => (e) => setT((x) => ({ ...x, [k]: e.target.value }));
-  const add = (ex) => setT((x) => ({ ...x, exercicios: [...x.exercicios, { uid: idCurto(), ex_id: ex.id || "", nome: ex.nome, fundamento: ex.fundamento, duracao: "", volume: "", obs: "" }].slice(0, 20) }));
-  const setEx = (i, k, v) => setT((x) => ({ ...x, exercicios: x.exercicios.map((e, j) => (j === i ? { ...e, [k]: v } : e)) }));
-  const mover = (i, d) => setT((x) => { const l = [...x.exercicios]; const j = i + d; if (j < 0 || j >= l.length) return x; [l[i], l[j]] = [l[j], l[i]]; return { ...x, exercicios: l }; });
+  const rasc = useRascunho("treino-gol2:" + (inicial.id || "novo"), t, setT);
+  const L = LISTAS_PLANO;
+  const set = (k, v) => setT((x) => ({ ...x, [k]: v }));
+  const setA = (uid, mud) => setT((x) => ({ ...x, atividades: x.atividades.map((a) => (a.uid === uid ? { ...a, ...mud } : a)) }));
+  const addAtividade = (base) => { const a = atividadeGolVazia(base); setT((x) => ({ ...x, atividades: [...x.atividades, a].slice(0, 20) })); setAberta(a.uid); setBib(false); };
+  const mover = (i, d) => setT((x) => { const l = [...x.atividades]; const j = i + d; if (j < 0 || j >= l.length) return x; [l[i], l[j]] = [l[j], l[i]]; return { ...x, atividades: l }; });
   const togGol = (id) => setT((x) => ({ ...x, goleiros: x.goleiros.includes(id) ? x.goleiros.filter((g) => g !== id) : [...x.goleiros, id] }));
   async function salvar(irCampo) {
     if (!t.data) { setErro("Escolha a data."); return; }
     if (!t.goleiros.length) { setErro("Escolha pelo menos um goleiro."); return; }
-    if (!t.exercicios.length) { setErro("Adicione pelo menos um exercício."); return; }
+    if (!t.atividades.length) { setErro("Adicione pelo menos uma atividade."); return; }
     setSalvando(true); setErro(null);
     try { const id = await rasc.apos(salvarTreinoGol(t, usuario)); onFechar(true, id, irCampo); }
     catch (e) { setErro(msgErroTreinoGol(e)); setSalvando(false); }
   }
-  const daBib = BIBLIOTECA_GOLEIRO.filter((b) => (grupo === "geral" ? b.fundamento === "geral" : grupoFundamentoGol(b.fundamento) === grupo));
+  const dur = duracaoTreinoGol(t);
+  const daBib = BIBLIOTECA_GOLEIRO.filter((b) => b.grupo === grupoBib);
+  const C = CONTEUDOS_GOLEIRO;
   return (
-    <div className="panel">
+    <div className="treino-editor tg2">
       {rasc.faixa}
-      <div className="panel-head"><h3>{t.id ? "Editar treino de goleiros" : "Novo treino de goleiros"}</h3></div>
-      <div className="caixa-form">
-        <div className="grid-campos">
-          <div className="field"><label>Data</label><input type="date" value={t.data} onChange={set("data")} /></div>
-          <div className="field"><label>Horário</label><input type="time" value={t.hora} onChange={set("hora")} /></div>
-          <div className="field"><label>Categoria</label><select value={t.categoria} onChange={set("categoria")}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
+      <div className="panel">
+        <div className="panel-head"><h3>{t.id ? "Editar treino de goleiros" : "Novo treino de goleiros"}</h3>
+          <div className="treino-bloco-acoes"><button className="pill-btn" onClick={() => onFechar(false)} disabled={salvando}>Voltar</button></div></div>
+        <div className="form-panel" style={{ borderTop: "none" }}>
+          <div className="form-grid plano-grid-4">
+            <div className="field"><label>Data</label><input type="date" value={t.data} onChange={(e) => set("data", e.target.value)} /></div>
+            <div className="field"><label>Dia da semana</label><div className="treino-total" style={{ fontSize: 16 }}>{diaSemanaExtenso(t.data) || "-"}</div></div>
+            <div className="field"><label>Horário</label><input type="time" value={t.hora} onChange={(e) => set("hora", e.target.value)} /></div>
+            <div className="field"><label>Local</label><input type="text" maxLength={80} value={t.local || ""} onChange={(e) => set("local", e.target.value)} /></div>
+          </div>
+          <div className="form-grid">
+            <div className="field"><label>Categoria</label><select value={t.categoria} onChange={(e) => set("categoria", e.target.value)}><option value="">Todas</option>{CATEGORIAS_TIME.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}</select></div>
+            <div className="field"><label>Responsável</label><input type="text" maxLength={80} value={t.responsavel || ""} onChange={(e) => set("responsavel", e.target.value)} /></div>
+          </div>
+          <div className="field"><label>Goleiros</label><div className="chips-sugestao">{goleiros.map((g) => <button key={g.id} type="button" className={"chip-escolha" + (t.goleiros.includes(g.id) ? " ativo" : "")} onClick={() => togGol(g.id)}>{nomeExibicao(g)}{g.categoria ? " · " + g.categoria : ""}</button>)}</div></div>
+          <div className="field"><label>Tema da sessão (opcional)</label><input type="text" maxLength={140} value={t.objetivo || ""} onChange={(e) => set("objetivo", e.target.value)} placeholder="Ex.: quedas laterais e reposição rápida" /></div>
         </div>
-        <div className="field"><label>Goleiros</label><div className="chips-sugestao">{goleiros.map((g) => <button key={g.id} type="button" className={"chip-escolha" + (t.goleiros.includes(g.id) ? " ativo" : "")} onClick={() => togGol(g.id)}>{nomeExibicao(g)}{g.categoria ? " · " + g.categoria : ""}</button>)}</div></div>
-        <div className="field"><label>Objetivo da sessão</label><input type="text" maxLength={300} value={t.objetivo} onChange={set("objetivo")} placeholder="Ex.: quedas laterais e reposição rápida" /></div>
-        <div className="field">
-          <label>Exercícios ({t.exercicios.length})</label>
-          {t.exercicios.length === 0 ? <div className="muted" style={{ fontSize: 13 }}>Toque nos exercícios abaixo para montar a sessão.</div> : (
-            <div className="tg-ex-lista">
-              {t.exercicios.map((e, i) => (
-                <div key={e.uid} className="tg-ex">
-                  <div className="tg-ex-topo"><span className="tg-ordem">{i + 1}</span><b>{e.nome}</b><small>{labelFundamentoGol(e.fundamento)}</small>
-                    <span className="tg-ex-acoes"><button type="button" onClick={() => mover(i, -1)} disabled={i === 0} aria-label="Subir">↑</button><button type="button" onClick={() => mover(i, 1)} disabled={i === t.exercicios.length - 1} aria-label="Descer">↓</button><button type="button" className="tg-x" onClick={() => setT((x) => ({ ...x, exercicios: x.exercicios.filter((_, j) => j !== i) }))} aria-label="Tirar">×</button></span></div>
-                  <div className="tg-ex-campos">
-                    <input type="text" maxLength={10} value={e.duracao} onChange={(ev) => setEx(i, "duracao", ev.target.value)} placeholder="Tempo (ex.: 10 min)" />
-                    <input type="text" maxLength={60} value={e.volume} onChange={(ev) => setEx(i, "volume", ev.target.value)} placeholder="Volume (ex.: 3 x 8 cada lado)" />
-                    <input type="text" maxLength={300} value={e.obs} onChange={(ev) => setEx(i, "obs", ev.target.value)} placeholder="Observação" />
-                  </div>
-                </div>
+      </div>
+
+      <div className="panel">
+        <div className="panel-head"><h3>Objetivos da sessão</h3></div>
+        <div className="form-panel" style={{ borderTop: "none" }}>
+          <div className="form-grid">
+            <SeletorConteudos rotulo="Técnica" opcoes={C.tecnica} valor={t.obj_tecnica} onChange={(v) => set("obj_tecnica", v)} />
+            <SeletorConteudos rotulo="Tática individual" opcoes={C.tatica} valor={t.obj_tatica} onChange={(v) => set("obj_tatica", v)} />
+          </div>
+          <div className="form-grid">
+            <SeletorConteudos rotulo="Comportamental" opcoes={C.comportamental} valor={t.obj_comportamental} onChange={(v) => set("obj_comportamental", v)} />
+            <div className="field"><label>Demanda física esperada</label><ChipsOpcaoGol opcoes={L.fisicos} valor={t.demanda_esperada} onChange={(v) => set("demanda_esperada", v)} /></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="panel">
+        <div className="panel-head"><h3>Atividades ({t.atividades.length}){dur ? <small className="muted" style={{ marginLeft: 8, fontWeight: 600 }}>{dur} min no total</small> : null}</h3>
+          <div className="treino-bloco-acoes"><button className="pill-btn" onClick={() => addAtividade()}>+ Atividade em branco</button><button className="pill-btn primary" onClick={() => setBib(!bib)}>{bib ? "Fechar biblioteca" : "+ Da biblioteca"}</button></div></div>
+        {bib && (
+          <div className="tg-bib" style={{ padding: "10px 16px 14px" }}>
+            <div className="chips-sugestao">{[...GRUPOS_GOLEIRO, { id: "geral", label: "Situação de jogo" }].map((g) => <button key={g.id} type="button" className={"chip-escolha" + (grupoBib === g.id ? " ativo" : "")} onClick={() => setGrupoBib(g.id)}>{g.label}</button>)}</div>
+            <div className="tg-bib-grade">
+              {daBib.map((b) => (
+                <button key={b.id} type="button" className="tg-bib-item" onClick={() => addAtividade(b)} title={b.desc}>
+                  <b>+ {b.nome}</b><small>{[...(b.tecnica || []), ...(b.tatica || [])].slice(0, 2).join(" · ")}</small><span>{b.desc}</span>
+                </button>
               ))}
             </div>
-          )}
-        </div>
-        <div className="tg-bib">
-          <div className="tg-bib-topo"><b>Biblioteca de exercícios</b>
-            <div className="chips-sugestao">{[...GRUPOS_GOLEIRO, { id: "geral", label: "Situação de jogo" }].map((g) => <button key={g.id} type="button" className={"chip-escolha" + (grupo === g.id ? " ativo" : "")} onClick={() => setGrupo(g.id)}>{g.label}</button>)}</div>
           </div>
-          <div className="tg-bib-grade">
-            {daBib.map((b) => (
-              <button key={b.id} type="button" className="tg-bib-item" onClick={() => add(b)} title={b.desc}>
-                <b>+ {b.nome}</b><small>{labelFundamentoGol(b.fundamento)}</small><span>{b.desc}</span>
-              </button>
-            ))}
+        )}
+        {t.atividades.length === 0 && !bib && <div className="empty-state">Nenhuma atividade ainda. Escolha da biblioteca ou comece uma em branco.</div>}
+      </div>
+
+      {t.atividades.map((a, i) => {
+        const fechado = aberta !== a.uid;
+        const d = duracaoAtividadeGol(a);
+        const resumo = [a.metodo, d ? fmtNum(d) + " min" : "", a.espaco, a.demanda_fisica].filter(Boolean).join(" · ");
+        return (
+          <div key={a.uid} className={"panel treino-bloco" + (fechado ? " fechado" : "")}>
+            <div className="panel-head" onClick={() => setAberta(fechado ? a.uid : null)} style={{ cursor: "pointer" }}>
+              <h3><span className="treino-num">{i + 1}</span>{i + 1}ª atividade{a.nome ? " · " + a.nome : ""}{fechado && resumo ? <small className="plano-resumo-bloco"> {resumo}</small> : null}</h3>
+              <div className="treino-bloco-acoes" onClick={(e) => e.stopPropagation()}>
+                <button className="pill-btn" onClick={() => mover(i, -1)} disabled={i === 0} aria-label="Subir atividade">↑</button>
+                <button className="pill-btn" onClick={() => mover(i, 1)} disabled={i === t.atividades.length - 1} aria-label="Descer atividade">↓</button>
+                <button className="pill-btn" onClick={() => { const c = { ...a, uid: idCurto() }; setT((x) => { const l = [...x.atividades]; l.splice(i + 1, 0, c); return { ...x, atividades: l.slice(0, 20) }; }); setAberta(c.uid); }}>Duplicar</button>
+                <button className="pill-btn perigo" onClick={() => setT((x) => ({ ...x, atividades: x.atividades.filter((y) => y.uid !== a.uid) }))}>Remover</button>
+              </div>
+            </div>
+            {!fechado && (
+              <div className="form-panel" style={{ borderTop: "none" }}>
+                <div className="form-grid">
+                  <div className="field"><label>Nome da atividade</label><input type="text" maxLength={80} value={a.nome} onChange={(e) => setA(a.uid, { nome: e.target.value })} placeholder="Ex.: Queda lateral baixa" /></div>
+                  <div className="field"><label>Método</label><select value={a.metodo} onChange={(e) => setA(a.uid, { metodo: e.target.value })}><option value="">Escolha</option>{L.metodos.filter((m) => m !== "Outros").map((m) => <option key={m}>{m}</option>)}</select></div>
+                </div>
+                <div className="plano-subtitulo">Volume</div>
+                <div className="form-grid plano-grid-4">
+                  <CampoNumGol rotulo="Séries" valor={a.series} onChange={(v) => setA(a.uid, { series: v })} />
+                  <CampoNumGol rotulo="Repetições por série" valor={a.repeticoes} onChange={(v) => setA(a.uid, { repeticoes: v })} />
+                  <CampoNumGol rotulo={num(a.series) ? "Duração da série (min)" : "Duração (min)"} valor={a.duracao} onChange={(v) => setA(a.uid, { duracao: v })} modo="decimal" />
+                  <CampoNumGol rotulo="Pausa (s)" valor={a.pausa} onChange={(v) => setA(a.uid, { pausa: v })} />
+                </div>
+                {a.volume_texto && <div className="plano-calc">Volume anotado no modelo antigo: <b>{a.volume_texto}</b></div>}
+                <div className="form-grid plano-grid-4">
+                  <CampoNumGol rotulo="Transição (min)" valor={a.transicao} onChange={(v) => setA(a.uid, { transicao: v })} />
+                  <div className="field" style={{ gridColumn: "span 3" }}><label>Duração da atividade</label><div className="treino-total">{fmtNum(d) || "-"} <span>min{num(a.transicao) ? " + " + a.transicao + " de transição" : ""}</span></div></div>
+                </div>
+                <div className="plano-subtitulo">Espaço</div>
+                <div className="field"><label>Onde</label><ChipsOpcaoGol opcoes={ESPACOS_GOLEIRO} valor={a.espaco} onChange={(v) => setA(a.uid, { espaco: v })} /></div>
+                <div className="field"><label>Oposição</label><ChipsOpcaoGol opcoes={OPOSICAO_GOLEIRO} valor={a.oposicao} onChange={(v) => setA(a.uid, { oposicao: v })} /></div>
+                <div className="plano-subtitulo">Conteúdos</div>
+                <div className="form-grid">
+                  <SeletorConteudos rotulo="Técnica" opcoes={C.tecnica} valor={a.tecnica} onChange={(v) => setA(a.uid, { tecnica: v })} />
+                  <SeletorConteudos rotulo="Tática individual" opcoes={C.tatica} valor={a.tatica} onChange={(v) => setA(a.uid, { tatica: v })} />
+                </div>
+                <div className="form-grid">
+                  <SeletorConteudos rotulo="Comportamental" opcoes={C.comportamental} valor={a.comportamental} onChange={(v) => setA(a.uid, { comportamental: v })} />
+                  <div className="field"><label>Demanda física</label><ChipsOpcaoGol opcoes={L.fisicos} valor={a.demanda_fisica} onChange={(v) => setA(a.uid, { demanda_fisica: v })} /></div>
+                </div>
+                {a.obs && <div className="plano-calc">Observação do modelo antigo: {a.obs}</div>}
+              </div>
+            )}
           </div>
-          <div className="comissao-linha" style={{ gridTemplateColumns: "1fr 200px auto", marginTop: 8 }}>
-            <input type="text" maxLength={80} value={proprio.nome} onChange={(e) => setProprio((p) => ({ ...p, nome: e.target.value }))} placeholder="Exercício próprio" />
-            <select value={proprio.fundamento} onChange={(e) => setProprio((p) => ({ ...p, fundamento: e.target.value }))}>{FUNDAMENTOS_GOLEIRO.map((f) => <option key={f.id} value={f.id}>{f.label}</option>)}<option value="geral">Situação de jogo</option></select>
-            <button type="button" className="pill-btn" onClick={() => { if (proprio.nome.trim()) { add({ nome: proprio.nome.trim(), fundamento: proprio.fundamento }); setProprio((p) => ({ ...p, nome: "" })); } }}>Adicionar</button>
-          </div>
-        </div>
-        {erro && <div className="form-erro">{erro}</div>}
-        <div className="form-acoes">
-          <button type="button" className="pill-btn" onClick={() => onFechar(false)} disabled={salvando}>Cancelar</button>
-          <button type="button" className="pill-btn" onClick={() => salvar(false)} disabled={salvando}>Salvar</button>
-          <button type="button" className="pill-btn primary" onClick={() => salvar(true)} disabled={salvando}>{salvando ? "Salvando..." : "Salvar e ir para o campo"}</button>
-        </div>
+        );
+      })}
+
+      {erro && <div className="access-note" style={{ background: "var(--vermelho-bg)", borderColor: "var(--vermelho)" }}><span>{erro}</span></div>}
+      <div className="form-actions treino-acoes-fim">
+        <button type="button" className="pill-btn" onClick={() => onFechar(false)} disabled={salvando}>Cancelar</button>
+        <button type="button" className="pill-btn" onClick={() => salvar(false)} disabled={salvando}>Salvar</button>
+        <button type="button" className="pill-btn primary" onClick={() => salvar(true)} disabled={salvando}>{salvando ? "Salvando..." : "Salvar e ir para o campo"}</button>
       </div>
     </div>
   );
 }
 
-/** No campo (celular): nota de execução 1 a 5 por goleiro em cada exercício, salva a cada toque. */
+/** No campo (celular): nota de 1 a 5 de cada goleiro em cada conteúdo trabalhado, salva a cada toque. */
 function CampoTreinoGoleiro({ treino, goleiros, usuario, onVoltar, onEditar }) {
   const { useState, useRef } = React;
-  const [t, setT] = useState({ ...treino, notas: JSON.parse(JSON.stringify(treino.notas || {})) });
+  const [t, setT] = useState(() => { const n = normalizarTreinoGol(treino); const nc = {}; (n.goleiros || []).forEach((g) => { nc[g] = notasConteudoGol(n, g); }); return { ...n, notas_conteudo: nc }; });
   const [estado, setEstado] = useState(null);
+  const [baixando, setBaixando] = useState(false);
   const fila = useRef(Promise.resolve());
   const nomes = {}; goleiros.forEach((g) => { nomes[g.id] = nomeExibicao(g); });
   const gs = (t.goleiros || []).filter((id) => nomes[id]);
-  function gravar(novo, campos) {
+  const [gol, setGol] = useState(gs[0] || "");
+  const grupos = conteudosDoTreinoGol(t);
+  const total = grupos.reduce((s, g) => s + g.itens.length, 0);
+  const antigo = t.modelo === "antigo";
+  function gravar(campos) {
+    if (antigo) { setEstado("Este treino é do modelo antigo. Abra em Editar e salve para avaliar por conteúdo."); return; }
     setEstado("Salvando...");
-    const dados = campos || { status: novo.status, obs: novo.obs || "" };
-    fila.current = fila.current.then(() => db.collection(COL_TREINOS_GOLEIRO).doc(novo.id).update({ ...dados, atualizado_em: firebase.firestore.FieldValue.serverTimestamp() }))
-      .then(() => setEstado("Salvo " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }))).catch((e) => setEstado(msgErroTreinoGol(e)));
+    fila.current = fila.current.then(() => {
+      const ref = db.collection(COL_TREINOS_GOLEIRO).doc(t.id);
+      if (campos.caminho) return ref.update(new firebase.firestore.FieldPath(...campos.caminho), campos.valor, "atualizado_em", firebase.firestore.FieldValue.serverTimestamp());
+      return ref.update({ ...campos, atualizado_em: firebase.firestore.FieldValue.serverTimestamp() });
+    }).then(() => setEstado("Salvo " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }))).catch((e) => setEstado(msgErroTreinoGol(e)));
   }
-  function dar(gid, uid, v) {
-    setT((x) => { const notas = { ...x.notas, [gid]: { ...(x.notas[gid] || {}) } }; const tirar = notas[gid][uid] === v; if (tirar) delete notas[gid][uid]; else notas[gid][uid] = v; const novo = { ...x, notas };
-      gravar(novo, { ["notas." + gid + "." + uid]: tirar ? firebase.firestore.FieldValue.delete() : v }); return novo; });
+  function dar(gid, c, v) {
+    setT((x) => {
+      const nc = { ...x.notas_conteudo, [gid]: { ...(x.notas_conteudo[gid] || {}) } };
+      const tirar = nc[gid][c] === v;
+      if (tirar) delete nc[gid][c]; else nc[gid][c] = v;
+      gravar({ caminho: ["notas_conteudo", gid, c], valor: tirar ? firebase.firestore.FieldValue.delete() : v });
+      return { ...x, notas_conteudo: nc };
+    });
   }
-  const feitos = (t.exercicios || []).filter((e) => gs.every((g) => (t.notas[g] || {})[e.uid])).length;
+  const feitosDe = (gid) => grupos.reduce((s, g) => s + g.itens.filter((c) => (t.notas_conteudo[gid] || {})[c]).length, 0);
+  async function pdf() { setBaixando(true); try { await carregarBiblioteca("pdf"); await baixarTreinoGoleiroPdf(t, goleiros, usuario); } catch (e) { setEstado("Não consegui gerar o PDF: " + e.message); } setBaixando(false); }
+  const notasGol = t.notas_conteudo[gol] || {};
   return (
-    <div className="tg-campo">
+    <div className="tg-campo tg2">
       <button className="back-link" onClick={onVoltar}><Icone nome="voltar" />Voltar</button>
       <div className="panel">
-        <div className="panel-head"><h3>Treino de goleiros · {formatarData(t.data)}{t.hora ? " · " + t.hora : ""}</h3></div>
+        <div className="panel-head"><h3>Treino de goleiros · {formatarData(t.data)}{t.hora ? " · " + t.hora : ""}</h3>
+          <button type="button" className="pill-btn" onClick={pdf} disabled={baixando}><Icone nome="pdf" />{baixando ? "Gerando..." : "Relatório em PDF"}</button></div>
         <div className="tg-campo-topo">
-          <span><span className={"badge " + (t.status === "realizado" ? "verde" : "amarelo")} style={{ marginRight: 8 }}>{t.status === "realizado" ? "Realizado" : "Em andamento"}</span>{t.objetivo || "Sem objetivo definido"}</span>
-          <small>{feitos} de {(t.exercicios || []).length} exercícios avaliados · {estado || "As notas salvam sozinhas"}</small>
+          <span><span className={"badge " + (t.status === "realizado" ? "verde" : "amarelo")} style={{ marginRight: 8 }}>{t.status === "realizado" ? "Realizado" : "Em andamento"}</span>{t.objetivo || (t.atividades || []).map((a) => a.nome).filter(Boolean).slice(0, 3).join(" · ") || "Treino de goleiros"}</span>
+          <small>{(t.atividades || []).length} atividade{(t.atividades || []).length === 1 ? "" : "s"}{duracaoTreinoGol(t) ? " · " + duracaoTreinoGol(t) + " min" : ""} · {estado || "As notas salvam sozinhas"}</small>
         </div>
-      </div>
-      {(t.exercicios || []).map((e, i) => (
-        <div key={e.uid} className="panel tg-campo-ex">
-          <div className="tg-campo-ex-topo"><span className="tg-ordem">{i + 1}</span><div><b>{e.nome}</b><small>{[labelFundamentoGol(e.fundamento), e.duracao, e.volume].filter(Boolean).join(" · ")}</small>{e.obs && <small className="tg-obs">{e.obs}</small>}</div></div>
-          {gs.map((gid) => (
-            <div key={gid} className="tg-nota-linha" data-linha-teclado>
-              <span className="tg-nota-nome">{nomes[gid]}</span>
-              <div className="tg-notas">{NOTAS_EXECUCAO.map((n) => <button key={n.v} type="button" data-tecla={n.v} className={"tg-nota n" + n.v + ((t.notas[gid] || {})[e.uid] === n.v ? " on" : "")} onClick={() => dar(gid, e.uid, n.v)} title={n.label} aria-label={nomes[gid] + ": " + n.label}>{n.v}</button>)}</div>
-            </div>
+        <div className="tg2-ativs">
+          {(t.atividades || []).map((a, i) => (
+            <div key={a.uid} className="tg2-ativ"><span className="tg-ordem">{i + 1}</span><div><b>{a.nome || "Atividade"}</b><small>{[a.metodo, volumeTextoGol(a), a.espaco, a.oposicao].filter(Boolean).join(" · ")}</small></div></div>
           ))}
         </div>
-      ))}
+      </div>
+      {antigo && <div className="access-note" style={{ background: "var(--amarelo-bg)", borderColor: "var(--amarelo)" }}><span>Este treino foi montado no modelo antigo (nota por exercício). As notas aparecem no conteúdo equivalente. Para avaliar por conteúdo, abra em Editar e salve.</span></div>}
+      {!gs.length ? <div className="panel"><div className="empty-state">Nenhum goleiro deste treino está no elenco.</div></div> : !total ? (
+        <div className="panel"><div className="empty-state">As atividades ainda não têm conteúdos. Abra em Editar e escolha técnica, tática individual ou comportamental para poder avaliar.</div></div>
+      ) : (
+        <div className="panel">
+          <div className="panel-head"><h3>Avaliação por conteúdo</h3><small className="muted">{feitosDe(gol)} de {total} avaliados</small></div>
+          <div className="tg2-gols" role="tablist">
+            {gs.map((gid) => { const f = feitosDe(gid); const m = mediaNotasTreino({ ...t, goleiros: [gid] }, gid); return (
+              <button key={gid} type="button" role="tab" aria-selected={gol === gid} className={"tg2-gol" + (gol === gid ? " on" : "")} onClick={() => setGol(gid)}>
+                <b>{nomes[gid]}</b><small>{f}/{total}{m !== null ? " · média " + fmtNota(m) : ""}</small>
+              </button>); })}
+          </div>
+          {grupos.map((g) => (
+            <div key={g.id} className="tg2-grupo">
+              <div className="tg2-grupo-tit">{g.label}</div>
+              {g.itens.map((c) => (
+                <div key={c} className="tg-nota-linha" data-linha-teclado>
+                  <span className="tg-nota-nome">{c}</span>
+                  <div className="tg-notas">{NOTAS_EXECUCAO.map((n) => <button key={n.v} type="button" data-tecla={n.v} disabled={antigo} className={"tg-nota n" + n.v + (Math.round(notasGol[c] || 0) === n.v ? " on" : "")} onClick={() => dar(gol, c, n.v)} title={n.label} aria-label={nomes[gol] + ", " + c + ": " + n.label}>{n.v}</button>)}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+          <div className="seg-linha" style={{ padding: "8px 16px 12px" }}>1 muito abaixo · 2 abaixo · 3 na média · 4 bom · 5 excelente. Toque de novo na nota para apagar.</div>
+        </div>
+      )}
       <div className="panel">
         <div className="caixa-form" style={{ borderTop: 0 }}>
-          <div className="field"><label>Observações do treino</label><textarea rows={3} maxLength={2000} value={t.obs || ""} onChange={(e) => setT((x) => ({ ...x, obs: e.target.value }))} onBlur={() => gravar(t)} placeholder="Como foi a sessão, ajustes para a próxima" /></div>
-          <div className="seg-linha">1 muito abaixo · 2 abaixo · 3 na média · 4 bom · 5 excelente. Toque de novo na nota para apagar.</div>
+          <div className="field"><label>Observações do treino</label><textarea rows={3} maxLength={2000} value={t.obs || ""} onChange={(e) => setT((x) => ({ ...x, obs: e.target.value }))} onBlur={() => gravar({ obs: t.obs || "" })} placeholder="Como foi a sessão, ajustes para a próxima" /></div>
           <div className="form-acoes">
-            {onEditar && <button type="button" className="pill-btn" onClick={onEditar}>Editar exercícios</button>}
-            <button type="button" className="pill-btn primary" onClick={() => { const novo = { ...t, status: t.status === "realizado" ? "planejado" : "realizado" }; setT(novo); gravar(novo); }}>{t.status === "realizado" ? "Reabrir treino" : "Finalizar treino"}</button>
+            {onEditar && <button type="button" className="pill-btn" onClick={onEditar}>Editar treino</button>}
+            <button type="button" className="pill-btn primary" onClick={() => { const st = t.status === "realizado" ? "planejado" : "realizado"; setT((x) => ({ ...x, status: st })); gravar({ status: st, obs: t.obs || "" }); }}>{t.status === "realizado" ? "Reabrir treino" : "Finalizar treino"}</button>
           </div>
         </div>
       </div>
@@ -13499,23 +13725,24 @@ function CampoTreinoGoleiro({ treino, goleiros, usuario, onVoltar, onEditar }) {
   );
 }
 
-/** Evolução: média das notas por fundamento ao longo dos treinos, por goleiro. */
+/** Evolução: média das notas por conteúdo ao longo dos treinos, por goleiro (técnica, tática individual, comportamental). */
 function EvolucaoTreinoGoleiro({ treinos, goleiros }) {
   const { useState } = React;
   const [gid, setGid] = useState((goleiros[0] || {}).id || "");
-  const dele = treinos.filter((t) => (t.goleiros || []).includes(gid) && Object.keys((t.notas || {})[gid] || {}).length).sort((a, b) => (a.data || "").localeCompare(b.data || ""));
-  const porFund = {};
-  dele.forEach((t) => (t.exercicios || []).forEach((e) => { const v = ((t.notas || {})[gid] || {})[e.uid]; if (!v) return; const k = e.fundamento || "geral"; (porFund[k] = porFund[k] || []).push({ data: t.data, v: Number(v) }); }));
-  const linhas = Object.entries(porFund).map(([k, l]) => {
-    const porData = {}; l.forEach((x) => { (porData[x.data] = porData[x.data] || []).push(x.v); });
-    const serie = Object.entries(porData).sort((a, b) => a[0].localeCompare(b[0])).map(([d, vs]) => ({ d, v: vs.reduce((a, b) => a + b, 0) / vs.length }));
+  const norm = treinos.map(normalizarTreinoGol);
+  const dele = norm.filter((t) => (t.goleiros || []).includes(gid) && Object.keys(notasConteudoGol(t, gid)).length).sort((a, b) => (a.data || "").localeCompare(b.data || ""));
+  const porC = {};
+  dele.forEach((t) => Object.entries(notasConteudoGol(t, gid)).forEach(([c, v]) => { if (v) (porC[c] = porC[c] || []).push({ data: t.data, v: Number(v) }); }));
+  const linhas = Object.entries(porC).map(([c, l]) => {
+    const serie = l.map((x) => ({ d: x.data, v: x.v }));
     const media = l.reduce((a, b) => a + b.v, 0) / l.length;
     const ult = serie.slice(-3), ant = serie.slice(-6, -3);
     const m = (s) => (s.length ? s.reduce((a, b) => a + b.v, 0) / s.length : null);
     const tend = m(ult) !== null && m(ant) !== null ? m(ult) - m(ant) : null;
-    return { k, serie, media: Math.round(media * 10) / 10, n: l.length, tend };
-  }).sort((a, b) => FUNDAMENTOS_GOLEIRO.findIndex((f) => f.id === a.k) - FUNDAMENTOS_GOLEIRO.findIndex((f) => f.id === b.k));
+    return { c, grupo: grupoDoConteudoGol(c), serie, media: Math.round(media * 10) / 10, n: l.length, tend };
+  });
   const geral = dele.map((t) => ({ d: t.data, v: mediaNotasTreino(t, gid) }));
+  const mediaGeral = geral.length ? Math.round((geral.reduce((a, b) => a + (b.v || 0), 0) / geral.length) * 10) / 10 : null;
   const spark = (serie) => {
     if (serie.length < 2) return <span className="muted" style={{ fontSize: 12 }}>poucos treinos</span>;
     const w = 120, h = 30, x = (i) => (i / (serie.length - 1)) * (w - 6) + 3, y = (v) => h - 3 - ((v - 1) / 4) * (h - 6);
@@ -13528,17 +13755,23 @@ function EvolucaoTreinoGoleiro({ treinos, goleiros }) {
       {!dele.length ? <div className="empty-state">Nenhum treino avaliado deste goleiro ainda.</div> : (
         <div className="panel-body">
           <div className="goleiro-kpis" style={{ padding: "0 20px 12px" }}>
-            <div className={"goleiro-kpi " + corNota(geral.length ? Math.round((geral.reduce((a, b) => a + (b.v || 0), 0) / geral.length) * 10) / 10 : null)}><span>Média geral</span><b>{fmtNota(geral.length ? Math.round((geral.reduce((a, b) => a + (b.v || 0), 0) / geral.length) * 10) / 10 : null)}</b><small>{dele.length} treino{dele.length === 1 ? "" : "s"}</small></div>
+            <div className={"goleiro-kpi " + corNota(mediaGeral)}><span>Média geral</span><b>{fmtNota(mediaGeral)}</b><small>{dele.length} treino{dele.length === 1 ? "" : "s"}</small></div>
+            {GRUPOS_CONTEUDO_GOL.map((g) => { const ls = linhas.filter((l) => l.grupo === g.id); if (!ls.length) return null; const vs = ls.flatMap((l) => porC[l.c].map((x) => x.v)); const m = Math.round((vs.reduce((a, b) => a + b, 0) / vs.length) * 10) / 10;
+              return <div key={g.id} className={"goleiro-kpi " + corNota(m)}><span>{g.label}</span><b>{fmtNota(m)}</b><small>{ls.length} conteúdo{ls.length === 1 ? "" : "s"}</small></div>; })}
             <div className="goleiro-kpi navy"><span>Último treino</span><b>{fmtNota(geral[geral.length - 1].v)}</b><small>{formatarData(geral[geral.length - 1].d)}</small></div>
           </div>
           <table>
-            <thead><tr><th>Fundamento</th><th>Média</th><th>Avaliações</th><th>Tendência</th><th>Evolução</th></tr></thead>
-            <tbody>{linhas.map((l) => (
-              <tr key={l.k}><td><b>{labelFundamentoGol(l.k)}</b></td><td><span className={"badge " + corNota(l.media)}>{fmtNota(l.media)}</span></td><td>{l.n}</td>
-                <td className={l.tend === null ? "muted" : l.tend > 0.2 ? "txt-verde" : l.tend < -0.2 ? "txt-vermelho" : "muted"}>{l.tend === null ? "-" : l.tend > 0.2 ? "Subindo" : l.tend < -0.2 ? "Caindo" : "Estável"}</td><td>{spark(l.serie)}</td></tr>
-            ))}</tbody>
+            <thead><tr><th>Conteúdo</th><th>Média</th><th>Avaliações</th><th>Tendência</th><th>Evolução</th></tr></thead>
+            {GRUPOS_CONTEUDO_GOL.map((g) => { const ls = linhas.filter((l) => l.grupo === g.id).sort((a, b) => (CONTEUDOS_GOLEIRO[g.id] || []).indexOf(a.c) - (CONTEUDOS_GOLEIRO[g.id] || []).indexOf(b.c)); if (!ls.length) return null; return (
+              <tbody key={g.id}>
+                <tr className="tg2-tab-grupo"><td colSpan={5}>{g.label}</td></tr>
+                {ls.map((l) => (
+                  <tr key={l.c}><td><b>{l.c}</b></td><td><span className={"badge " + corNota(l.media)}>{fmtNota(l.media)}</span></td><td>{l.n}</td>
+                    <td className={l.tend === null ? "muted" : l.tend > 0.2 ? "txt-verde" : l.tend < -0.2 ? "txt-vermelho" : "muted"}>{l.tend === null ? "-" : l.tend > 0.2 ? "Subindo" : l.tend < -0.2 ? "Caindo" : "Estável"}</td><td>{spark(l.serie)}</td></tr>
+                ))}
+              </tbody>); })}
           </table>
-          <div className="seg-linha" style={{ padding: "8px 20px 0" }}>Tendência compara a média dos 3 últimos treinos com os 3 anteriores.</div>
+          <div className="seg-linha" style={{ padding: "8px 20px 0" }}>Tendência compara a média dos 3 últimos treinos com os 3 anteriores. Treinos do modelo antigo entram pelo conteúdo equivalente ao fundamento.</div>
         </div>
       )}
     </div>
@@ -13552,6 +13785,7 @@ function TreinosGoleiro({ usuario, goleiros }) {
   const [editando, setEditando] = useState(null);
   const [campo, setCampo] = useState(null);
   const [erro, setErro] = useState(null);
+  const [baixando, setBaixando] = useState(null);
   const vm = useVerMais(10);
   const pode = podeTreinoGoleiro(usuario);
   useVoltar(editando || campo, () => { setEditando(null); setCampo(null); carregar(); });
@@ -13566,25 +13800,34 @@ function TreinosGoleiro({ usuario, goleiros }) {
   if (atual) return <CampoTreinoGoleiro treino={atual} goleiros={goleiros} usuario={usuario} onVoltar={() => { setCampo(null); carregar(); }} onEditar={pode ? () => { setCampo(null); setEditando(atual); } : null} />;
   const nomes = {}; goleiros.forEach((g) => { nomes[g.id] = nomeExibicao(g); });
   async function apagar(t) { if (!await confirmarApp("Apagar o treino de " + formatarData(t.data) + "?")) return; try { await db.collection(COL_TREINOS_GOLEIRO).doc(t.id).delete(); carregar(); } catch (e) { avisoApp("Não consegui apagar: " + e.message); } }
-  function reutilizar(t) { setEditando({ ...treinoGolVazio(goleiros.filter((g) => (t.goleiros || []).includes(g.id))), categoria: t.categoria || "", objetivo: t.objetivo || "", exercicios: (t.exercicios || []).map((e) => ({ ...e, uid: idCurto() })) }); }
+  function reutilizar(t) {
+    const n = normalizarTreinoGol(t);
+    setEditando({ ...treinoGolVazio(goleiros.filter((g) => (n.goleiros || []).includes(g.id)), usuario), categoria: n.categoria || "", local: n.local || "", objetivo: n.objetivo || "",
+      obj_tecnica: (n.obj_tecnica || []).slice(), obj_tatica: (n.obj_tatica || []).slice(), obj_comportamental: (n.obj_comportamental || []).slice(), demanda_esperada: n.demanda_esperada || "",
+      atividades: (n.atividades || []).map((a) => ({ ...a, uid: idCurto() })) });
+  }
+  async function pdf(t) { setBaixando(t.id); try { await carregarBiblioteca("pdf"); await baixarTreinoGoleiroPdf(t, goleiros, usuario); } catch (e) { avisoApp("Não consegui gerar o PDF: " + e.message); } setBaixando(null); }
   return (
     <React.Fragment>
       {erro && <div className="access-note" style={{ background: "var(--amarelo-bg)", borderColor: "var(--amarelo)" }}><span>{erro}</span></div>}
       <div className="panel">
-        <div className="panel-head"><h3>Treinos de goleiros ({treinos.length})</h3>{pode && <button type="button" className="pill-btn primary" onClick={() => setEditando(treinoGolVazio(goleiros))} disabled={!goleiros.length}>+ Novo treino</button>}</div>
-        {treinos.length === 0 ? <div className="empty-state">Nenhum treino de goleiros ainda. Monte o primeiro com os exercícios da biblioteca.</div> : (
+        <div className="panel-head"><h3>Treinos de goleiros ({treinos.length})</h3>{pode && <button type="button" className="pill-btn primary" onClick={() => setEditando(treinoGolVazio(goleiros, usuario))} disabled={!goleiros.length}>+ Novo treino</button>}</div>
+        {treinos.length === 0 ? <div className="empty-state">Nenhum treino de goleiros ainda. Monte o primeiro com as atividades da biblioteca.</div> : (
           <div className="enc-lista">
-            {treinos.map((t, i) => {
-              const m = mediaNotasTreino(t);
+            {treinos.map((t0, i) => {
+              const t = normalizarTreinoGol(t0);
+              const m = mediaNotasTreino(t0);
+              const temas = conteudosDoTreinoGol(t).flatMap((g) => g.itens).slice(0, 4);
               return (
                 <div key={t.id} className={"enc-item" + vm.classe(i, treinos.length)}>
                   <div className="enc-topo"><span className={"badge " + (t.status === "realizado" ? "verde" : "amarelo")}>{t.status === "realizado" ? "Realizado" : "Planejado"}</span>{m !== null && <span className={"badge " + corNota(m)}>Média {fmtNota(m)}</span>}<small>{formatarData(t.data)}{t.hora ? " · " + t.hora : ""}</small></div>
-                  <b className="enc-assunto">{t.objetivo || "Treino de goleiros"}</b>
-                  <small className="enc-de">{[(t.goleiros || []).map((g) => nomes[g] || "Goleiro").join(", "), (t.exercicios || []).length + " exercícios", t.categoria ? labelCategoria(t.categoria) : ""].filter(Boolean).join(" · ")}</small>
+                  <b className="enc-assunto">{t.objetivo || temas.slice(0, 2).join(" · ") || "Treino de goleiros"}</b>
+                  <small className="enc-de">{[(t.goleiros || []).map((g) => nomes[g] || "Goleiro").join(", "), (t.atividades || []).length + " atividade" + ((t.atividades || []).length === 1 ? "" : "s"), duracaoTreinoGol(t) ? duracaoTreinoGol(t) + " min" : "", t.categoria ? labelCategoria(t.categoria) : ""].filter(Boolean).join(" · ")}</small>
                   <div className="enc-acoes">
                     <button type="button" className="pill-btn primary" onClick={() => setCampo(t.id)}>{t.status === "realizado" ? "Ver notas" : "Abrir no campo"}</button>
-                    {pode && <button type="button" className="pill-btn" onClick={() => setEditando(t)}>Editar</button>}
-                    {pode && <button type="button" className="pill-btn" onClick={() => reutilizar(t)}>Reutilizar</button>}
+                    <button type="button" className="pill-btn" onClick={() => pdf(t0)} disabled={baixando === t.id}><Icone nome="pdf" />{baixando === t.id ? "Gerando..." : "PDF"}</button>
+                    {pode && <button type="button" className="pill-btn" onClick={() => setEditando(t0)}>Editar</button>}
+                    {pode && <button type="button" className="pill-btn" onClick={() => reutilizar(t0)}>Reutilizar</button>}
                     {podeApagarItem(t) && <button type="button" className="link-btn perigo" onClick={() => apagar(t)}>Apagar</button>}
                   </div>
                 </div>
@@ -14728,7 +14971,7 @@ function PainelTreinador({ usuario, aba, categoria }) {
       <div className="page-head">
         <div>
           <h1>{atletaAberto ? "Perfil do atleta" : (abaTec === "Elenco" ? "Campograma" : abaTec === "QTS" ? "QTS · Quadro de trabalho semanal" : abaTec) + (categoria ? " · " + labelCategoria(categoria) : "")}</h1>
-          <div className="crumb">MeuCT · EC Meia Noite SAF · {abaTec === "QTS" ? "quadro de trabalho semanal: horários, atividades e locais de cada categoria" : abaTec === "Treinos" ? "planejamento e relatórios de treino" : abaTec === "Goleiros" ? "ficha de treino com nota de execução e scout de jogo dos goleiros" : "visão completa de cada atleta, com todas as áreas"}</div>
+          <div className="crumb">MeuCT · EC Meia Noite SAF · {abaTec === "QTS" ? "quadro de trabalho semanal: horários, atividades e locais de cada categoria" : abaTec === "Treinos" ? "planejamento e relatórios de treino" : abaTec === "Goleiros" ? "treino por conteúdo (técnica, tática individual e comportamental) e scout de jogo dos goleiros" : "visão completa de cada atleta, com todas as áreas"}</div>
         </div>
       </div>
 
@@ -32526,7 +32769,6 @@ async function fotoResponsavelTreino(nome, usuario) {
 async function baixarPlanoEcmnPdf(evento, atletas, usuario) {
   const p = { ...planoEcmnVazio(), ...(evento.plano_treino || {}) };
   const responsavel = (p.responsavel || (usuario && usuario.nome) || "").trim();
-  const fotoResp = await fotoResponsavelTreino(responsavel, usuario);
   const doc = novoDocPdf();
   const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
   const ctx = { doc, W, H, x0: PDF_LAYOUT.margemX, x1: W - PDF_LAYOUT.margemX, y: 0 };
@@ -32574,32 +32816,9 @@ async function baixarPlanoEcmnPdf(evento, atletas, usuario) {
     ctx.y += 6.4;
   }
 
-  /* ---- cabeçalho em grade ---- */
-  ctx.y = 12;
-  const hL = 5.6, hCab = hL * 5, wImg = 28;
-  const xA = ctx.x0 + wImg, wLab1 = 22, wLab2 = 20, wVal2 = 34;
-  const wVal1 = larg - 2 * wImg - wLab1 - wLab2 - wVal2;
-  celula(ctx.x0, ctx.y, wImg, hCab, "");
-  try { doc.addImage(ESCUDO_MEIA_NOITE, "PNG", ctx.x0 + (wImg - 23) / 2, ctx.y + (hCab - 23) / 2, 23, 23, "escudo-meia-noite", "FAST"); } catch (e) { /* sem escudo */ }
-  celula(ctx.x1 - wImg, ctx.y, wImg, hCab, "");
-  if (fotoResp) { try { doc.addImage(fotoResp, "JPEG", ctx.x1 - wImg + (wImg - 23) / 2, ctx.y + (hCab - 23) / 2, 23, 23); } catch (e) { /* sem foto */ } }
-  else { r2Texto(doc, 6.5, "normal", R2.muted); doc.text("PLANO DE", ctx.x1 - wImg / 2, ctx.y + hCab / 2 - 1, { align: "center" }); doc.text("TREINO", ctx.x1 - wImg / 2, ctx.y + hCab / 2 + 2.4, { align: "center" }); }
-  const ano = String(evento.data || hojeISO()).slice(0, 4);
-  const linhasCab = [
-    ["Treinador", responsavel || "-", "Data", formatarData(evento.data)],
-    ["Treino", (evento.titulo || "").trim() || "Treino", "Dia", textoPdf(diaSemanaCurto(evento.data)) + (evento.hora ? " · " + evento.hora : "")],
-    ["Temporada", ano, "Local", evento.local || "-"],
-    ["Clube", "EC Meia Noite SAF", "Nº sessão", p.sessao_numero || "-"],
-    ["Categoria", labelCategoriaEvento(evento.categoria), "Duração", duracaoPlanoEcmn(p) + " min"],
-  ];
-  linhasCab.forEach((l, i) => {
-    const y = ctx.y + i * hL;
-    celula(xA, y, wLab1, hL, l[0], { fundo: CLARO, negrito: true, cor: R2.navy });
-    celula(xA + wLab1, y, wVal1, hL, r2Cortar(doc, l[1], wVal1 - 3));
-    celula(xA + wLab1 + wVal1, y, wLab2, hL, l[2], { fundo: CLARO, negrito: true, cor: R2.navy });
-    celula(xA + wLab1 + wVal1 + wLab2, y, wVal2, hL, r2Cortar(doc, l[3], wVal2 - 3));
-  });
-  ctx.y += hCab + 3;
+  /* ---- cabeçalho no padrão dos relatórios do app ---- */
+  r2Cabecalho(ctx, { ...rel, subtitulo: [rel.subtitulo, responsavel].filter(Boolean).join(" · ") });
+  r2FaixaInfo(ctx, { faixaInfo: [["Data", formatarData(evento.data)], ["Dia", textoPdf(diaSemanaCurto(evento.data)) + (evento.hora ? " · " + evento.hora : "")], ["Local", evento.local || "-"], ["Categoria", labelCategoriaEvento(evento.categoria)], ["Duração", duracaoPlanoEcmn(p) + " min"]] });
 
   /* ---- objetivos da sessão (só o que foi preenchido) ---- */
   const objs = [
@@ -33398,8 +33617,18 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
   const p = { ...planoEcmnVazio(), ...(evento.plano_treino || {}) };
   const doc = novoDocPdf();
   const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
-  const M = 6, larg = W - 2 * M;
-  const CINZA = [217, 217, 217], CINZA2 = [191, 191, 191], ESCURO = [64, 64, 64], TXT = [30, 30, 30], LINHA = [90, 90, 90];
+  /* Mesmo desenho da ficha impressa da comissão, com o cabeçalho e as cores dos relatórios do app:
+     títulos em azul-marinho, rótulos em azul claro e linhas suaves no lugar da grade cinza. */
+  const M = 10, larg = W - 2 * M;
+  const ctx = { doc, W, H, x0: M, x1: W - M, y: 0 };
+  const CINZA = [232, 237, 244], CINZA2 = R2.fundo, ESCURO = R2.navy, TXT = R2.texto, LINHA = [200, 209, 220];
+  const responsavel = (p.responsavel || (usuario && usuario.nome) || "").trim();
+  const rel = {
+    departamento: "Comissão Técnica", clube: "EC Meia Noite SAF", titulo: "PLANO DE TREINO",
+    subtitulo: [tituloEvento(evento), p.sessao_numero ? "sessão " + p.sessao_numero : "", p.md ? rotuloDiaJogo(p.md, true) : "", responsavel].filter(Boolean).join(" · "),
+    faixaInfo: [["Data", formatarData(evento.data)], ["Horário", evento.hora || "-"], ["Dia da semana", evento.data ? diaSemanaExtenso(evento.data).replace("-feira", "") : "-"], ["Local", evento.local || "-"], ["Categoria", labelCategoriaEvento(evento.categoria)]],
+    rodape: "Comissão Técnica · EC Meia Noite SAF · " + tituloEvento(evento),
+  };
   const nomeDe = (id) => { const a = (atletas || []).find((x) => x.id === id); return a ? nomeExibicao(a) : ""; };
   const T = (t) => textoPdf(String(t === undefined || t === null ? "" : t));
   doc.setProperties({ title: T("Plano de treino · " + tituloEvento(evento)), creator: "MeuCT · EC Meia Noite SAF" });
@@ -33407,10 +33636,8 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
   function caixa(x, y, w, h, o) {
     o = o || {};
     if (o.fundo) { doc.setFillColor(...o.fundo); doc.rect(x, y, w, h, "F"); }
-    doc.setDrawColor(...LINHA); doc.setLineWidth(o.grossa ? 0.45 : 0.2);
-    if (o.tracejada && doc.setLineDashPattern) doc.setLineDashPattern([0.6, 0.6], 0);
+    doc.setDrawColor(...(o.tracejada ? [226, 232, 240] : LINHA)); doc.setLineWidth(o.grossa ? 0.4 : 0.2);
     doc.rect(x, y, w, h, "S");
-    if (o.tracejada && doc.setLineDashPattern) doc.setLineDashPattern([], 0);
   }
   /* texto dentro da caixa: quebra, diminui a fonte se preciso e centraliza */
   function texto(x, y, w, h, t, o) {
@@ -33427,34 +33654,21 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     linhas.forEach((l) => { doc.text(l, o.esq ? x + 0.9 : x + w / 2, yy, o.esq ? undefined : { align: "center" }); yy += lh; });
   }
   const cel = (x, y, w, h, t, o) => { caixa(x, y, w, h, o); texto(x, y, w, h, t, o); };
-  const titulo = (x, y, w, h, t, o) => cel(x, y, w, h, t, { fundo: CINZA, negrito: true, tam: 7.4, ...(o || {}) });
+  const titulo = (x, y, w, h, t, o) => cel(x, y, w, h, t, { fundo: CINZA, negrito: true, tam: 7.4, cor: R2.navy, ...(o || {}) });
+  /* faixa de título forte (azul-marinho, letra branca) */
+  const faixa = (x, y, w, h, t, o) => cel(x, y, w, h, t, { fundo: R2.navy, negrito: true, tam: 7.6, cor: R2.branco, ...(o || {}) });
 
   /* ---------- cabeçalho ---------- */
   function cabecalho(completo) {
-    let y = 5;
-    doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(...TXT);
-    doc.text("PLANO DE TREINO", W / 2, y + 4, { align: "center" });
-    y += 6;
-    const d = String(evento.data || "").split("-");
-    const h = String(evento.hora || "").split(":");
-    const hC = 11;
-    // DATA | HORÁRIO | escudo | LOCAL | DIA | CATEGORIA
-    const wData = 42, wHora = 34, wEsc = 14, wDia = 28, wCat = 26, wLocal = larg - wData - wHora - wEsc - wDia - wCat;
-    let x = M;
-    titulo(x, y, wData, 5, "DATA"); [d[2] || "", d[1] || "", d[0] || ""].forEach((v, i) => cel(x + i * wData / 3, y + 5, wData / 3, hC - 5, v, { tam: 8 })); x += wData;
-    titulo(x, y, wHora, 5, "HORÁRIO"); [h[0] || "", h[1] || ""].forEach((v, i) => cel(x + i * wHora / 2, y + 5, wHora / 2, hC - 5, v, { tam: 8 })); x += wHora;
-    try { doc.addImage(ESCUDO_MEIA_NOITE, "PNG", x + 1.5, y + 0.2, wEsc - 3, wEsc - 3, "escudo-meia-noite", "FAST"); } catch (e) { /* sem escudo */ }
-    x += wEsc;
-    titulo(x, y, wLocal, 5, "LOCAL"); cel(x, y + 5, wLocal, hC - 5, evento.local || "", { tam: 8 }); x += wLocal;
-    titulo(x, y, wDia, 5, "DIA DA SEMANA"); cel(x, y + 5, wDia, hC - 5, evento.data ? diaSemanaExtenso(evento.data).replace("-feira", "") : "", { tam: 8 }); x += wDia;
-    titulo(x, y, wCat, 5, "CATEGORIA"); cel(x, y + 5, wCat, hC - 5, labelCategoriaEvento(evento.categoria).toUpperCase(), { tam: 8 });
-    y += hC + 1.5;
-    if (!completo) return y;
+    if (!completo) return PDF_LAYOUT.topoContinuacao;
+    r2Cabecalho(ctx, rel);
+    r2FaixaInfo(ctx, rel);
+    let y = ctx.y - 1.5;
 
     // OBJETIVOS (SEMANAL) à esquerda, OBJETIVOS (SESSÃO) à direita
     const wE = larg * 0.44, gap = 2, wD = larg - wE - gap, xD = M + wE + gap;
     const hObj = 48;
-    titulo(M, y, wE, 5, "OBJETIVOS (SEMANAL)");
+    faixa(M, y, wE, 5, "OBJETIVOS (SEMANAL)");
     titulo(M, y + 5, wE, 4.5, "DESCRIÇÃO DOS OBJETIVOS SEMANAIS", { fundo: [236, 236, 236], tam: 6.6 });
     cel(M, y + 9.5, wE, hObj - 9.5 - 10, p.objetivos_semana || "", { tam: 7.6 });
     const yAv = y + hObj - 10, wAv = wE * 0.45;
@@ -33462,7 +33676,7 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     cel(M, yAv + 4.5, wAv, 5.5, p.aval_anterior || "", { fundo: CINZA2, tam: 7 });
     cel(M + wAv, yAv + 4.5, wE - wAv, 5.5, (p.destaques_anteriores || []).join(" · "), { tam: 6.8 });
 
-    titulo(xD, y, wD, 5, "OBJETIVOS (SESSÃO)");
+    faixa(xD, y, wD, 5, "OBJETIVOS (SESSÃO)");
     const wCtx = wD * 0.52, wTT = wD - wCtx - 1.5, xTT = xD + wCtx + 1.5;
     const nL = 5, hL = (hObj - 5 - 4.5 - 10) / nL;
     titulo(xD, y + 5, wCtx * 0.4, 4.5, "CONTEXTOS", { tam: 6.6 }); titulo(xD + wCtx * 0.4, y + 5, wCtx * 0.6, 4.5, "OBJ COLETIVOS", { tam: 6.6 });
@@ -33494,7 +33708,7 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     const lab = (t) => ({ fundo: CINZA, negrito: true, tam: 6.4 });
     // 1ª linha: Nª ATIVIDADE | MÉTODO | valor
     const w1 = w * 0.26;
-    titulo(x, y, w1, 5.5, n + "ª ATIVIDADE", { tam: 7.4 }); titulo(x + w1, y, w * 0.3, 5.5, "MÉTODO", { tam: 7.4 });
+    faixa(x, y, w1, 5.5, n + "ª ATIVIDADE", { fundo: R2.verde }); faixa(x + w1, y, w * 0.3, 5.5, "MÉTODO");
     cel(x + w1 + w * 0.3, y, w - w1 - w * 0.3, 5.5, b.metodo || "", { tam: 6.4 });
     y += 5.5;
     const linha6 = (rot, pares) => {
@@ -33548,7 +33762,8 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     }
     // campo
     y += 1;
-    const hDesc = 16, hGrupos = 4 + 10 * 3.1;
+    const nMaxGrupo = Math.max(3, ...(b.grupos || []).slice(0, 4).map((g) => (g.atletas || []).length));
+    const hDesc = 16, hGrupos = 7 + Math.min(10, nMaxGrupo) * 3.1;
     const hCampo = Math.max(28, Math.min(64, yFim - y - hGrupos - hDesc - 6));
     caixa(x, y, w, hCampo + 2);
     const qd = b.quadro && (b.quadro.itens || []).length ? b.quadro : { ...(b.quadro || {}), campo: "inteiro", itens: [] };
@@ -33558,22 +33773,22 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     const grupos = (b.grupos || []).slice(0, 4);
     const wG = w / 4;
     doc.setFont("helvetica", "bold"); doc.setFontSize(6.4); doc.setTextColor(...TXT);
-    doc.text("DISTRIBUIÇÃO DE GRUPOS", x + w / 2, y + 2.2, { align: "center" });
+    doc.setTextColor(...R2.navy); doc.text("DISTRIBUIÇÃO DE GRUPOS", x + w / 2, y + 2.2, { align: "center" });
     for (let i = 0; i < 4; i++) {
       const g = grupos[i];
       const xg = x + i * wG;
       doc.setFont("helvetica", "bold"); doc.setFontSize(6.2); doc.setTextColor(...TXT);
       doc.text(T(g && g.nome ? g.nome : "Grupo " + (i + 1)), xg + wG / 2, y + 5, { align: "center", maxWidth: wG - 1 });
-      doc.setDrawColor(...LINHA); doc.setLineWidth(0.15); if (doc.setLineDashPattern) doc.setLineDashPattern([0.6, 0.6], 0);
-      doc.line(xg + 1, y + 5.8, xg + wG - 1, y + 5.8); if (doc.setLineDashPattern) doc.setLineDashPattern([], 0);
+      doc.setDrawColor(...LINHA); doc.setLineWidth(0.2);
+      doc.line(xg + 1.5, y + 5.8, xg + wG - 1.5, y + 5.8);
       const nomes = g ? (g.atletas || []).map(nomeDe).filter(Boolean) : [];
       doc.setFont("helvetica", "normal"); doc.setFontSize(6.2);
       nomes.slice(0, 10).forEach((nm, k) => doc.text(T(nm), xg + wG / 2, y + 8.4 + k * 2.9, { align: "center", maxWidth: wG - 1 }));
     }
     y += hGrupos;
     // anotações
-    titulo(x, y, w, 4.5, "DESCRIÇÕES / OBSERVAÇÕES / ANOTAÇÕES", { fundo: [255, 255, 255], tam: 7 });
-    const hD = Math.max(hDesc, yFim - y); // o quadro de anotações ocupa o que sobrar da folha
+    titulo(x, y, w, 4.5, "DESCRIÇÕES / OBSERVAÇÕES / ANOTAÇÕES", { tam: 7 });
+    const hD = Math.max(Math.min(hDesc, yFim - y), yFim - y); // o quadro de anotações ocupa o que sobrar da folha
     cel(x, y + 4.5, w, hD - 4.5, linhasTexto(b.descricao).join(" ") || "", { tam: 6.8 });
     return y + hD;
   }
@@ -33583,17 +33798,17 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
   for (let i = 0; i < blocos.length; i += 2) {
     if (i > 0) doc.addPage();
     let y = cabecalho(i === 0);
-    titulo(M, y, larg, 4.6, "ATIVIDADES", { fundo: [236, 236, 236], tam: 7.6 }); y += 4.6;
+    faixa(M, y, larg, 5.2, "ATIVIDADES", { tam: 8 }); y += 5.2 + 1.5;
     const wT = 7, wA = (larg - wT) / 2;
-    const yFim = H - 9;
+    const yFim = H - 15;
     const b1 = blocos[i], b2 = blocos[i + 1] || atividadeEcmnVazia(i + 2);
     // as duas colunas usam o mesmo número de linhas, para o campo e os quadros ficarem alinhados
     const nF = (b) => (b.funcoes || []).filter((f) => f.membro || f.funcao).length;
     const nFbk = (b) => (b.feedbacks || []).filter((f) => f.conteudo || (f.atletas || []).length).length;
     const L = {
       nItens: Math.max(4, ...[b1, b2].flatMap((b) => [b.tatica_coletiva, b.tatica_grupo, b.tecnico_individual].map((l) => (l || []).length))),
-      nFunc: Math.min(8, Math.max(6, nF(b1), nF(b2))),
-      nFb: Math.min(4, Math.max(2, nFbk(b1), nFbk(b2))),
+      nFunc: Math.min(8, Math.max(3, nF(b1), nF(b2))),
+      nFb: Math.min(4, Math.max(1, nFbk(b1), nFbk(b2))),
     };
     atividade(b1, i + 1, M, y, wA, yFim, L);
     // transição entre as duas
@@ -33601,13 +33816,163 @@ async function baixarPlanoFichaPdf(evento, atletas, usuario) {
     doc.setFont("helvetica", "bold"); doc.setFontSize(4.6); doc.setTextColor(...TXT); doc.text("TRANS.", M + wA + wT / 2, y + 3, { align: "center" }); doc.setFont("helvetica", "normal"); doc.text("(min)", M + wA + wT / 2, y + 14.6, { align: "center" }); doc.setFont("helvetica", "bold");
     doc.setFontSize(8); doc.text(T(blocos[i].transicao || ""), M + wA + wT / 2, y + 10, { align: "center" });
     atividade(b2, i + 2, M + wA + wT, y, wA, yFim, L);
-    // rodapé
-    doc.setFont("helvetica", "normal"); doc.setFontSize(6.4); doc.setTextColor(120, 120, 120);
-    doc.text(T("EC Meia Noite SAF · Comissão Técnica · " + tituloEvento(evento)), M, H - 4);
-    doc.text(T("Página " + (i / 2 + 1) + " de " + Math.ceil(blocos.length / 2)), W - M, H - 4, { align: "right" });
   }
+  const fimPg = doc.getNumberOfPages();
+  for (let pg = 1; pg <= fimPg; pg++) { doc.setPage(pg); if (pg > 1) r2CabecalhoContinuacao(ctx, rel); r2Rodape(ctx, rel, pg, fimPg); }
   doc.save(`Plano_de_treino_${fatiaArquivo(labelCategoriaEvento(evento.categoria))}_${dataArquivo(evento.data || hojeISO())}.pdf`);
 }
+
+/** PDF do treino de goleiros: o mesmo desenho da ficha do plano de treino da comissão
+ *  (cabeçalho do app, objetivos em colunas, atividades lado a lado) e a avaliação de cada goleiro por conteúdo. */
+async function baixarTreinoGoleiroPdf(t0, goleiros, usuario) {
+  const t = normalizarTreinoGol(t0);
+  const doc = novoDocPdf();
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  const M = 10, larg = W - 2 * M;
+  const ctx = { doc, W, H, x0: M, x1: W - M, y: 0 };
+  const CLARO = [232, 237, 244], TXT = R2.texto, LINHA = [200, 209, 220], SUAVE = [226, 232, 240];
+  const T = (v) => textoPdf(String(v === undefined || v === null ? "" : v));
+  const nomes = {}; (goleiros || []).forEach((g) => { nomes[g.id] = nomeExibicao(g); });
+  const gs = (t.goleiros || []).filter((g) => nomes[g]);
+  const dur = duracaoTreinoGol(t);
+  const responsavel = (t.responsavel || t.criado_por_nome || (usuario && nomeUsuario(usuario)) || "").trim();
+  const rel = {
+    departamento: "Comissão Técnica", clube: "EC Meia Noite SAF",
+    titulo: "TREINO DE GOLEIROS", subtitulo: [t.objetivo || "Preparação de goleiros", responsavel].filter(Boolean).join(" · "),
+    faixaInfo: [["Data", formatarData(t.data)], ["Horário", t.hora || "-"], ["Dia da semana", t.data ? diaSemanaExtenso(t.data).replace("-feira", "") : "-"], ["Local", t.local || "-"], ["Categoria", t.categoria ? labelCategoria(t.categoria) : "Todas"], ["Duração", dur ? dur + " min" : "-"]],
+    rodape: "Treino de goleiros · EC Meia Noite SAF", local: "Patrocínio Paulista", dataAssinatura: dataAssinaturaRelatorio(hojeISO()),
+    responsavelNome: responsavel, responsavelRegistro: "", cargoLinha: "Preparação de goleiros · EC Meia Noite SAF",
+  };
+  doc.setProperties({ title: T("Treino de goleiros · " + formatarData(t.data)), creator: "MeuCT · EC Meia Noite SAF" });
+
+  function caixa(x, y, w, h, o) {
+    o = o || {};
+    if (o.fundo) { doc.setFillColor(...o.fundo); doc.rect(x, y, w, h, "F"); }
+    doc.setDrawColor(...(o.suave ? SUAVE : LINHA)); doc.setLineWidth(0.2); doc.rect(x, y, w, h, "S");
+  }
+  function texto(x, y, w, h, t1, o) {
+    o = o || {};
+    const tx = T(t1); if (!tx) return;
+    let tam = o.tam || 7;
+    doc.setFont("helvetica", o.negrito ? "bold" : "normal"); doc.setTextColor(...(o.cor || TXT));
+    let linhas;
+    for (;;) { doc.setFontSize(tam); linhas = doc.splitTextToSize(tx, w - 1.8); if (linhas.length * tam * 0.36 <= h - 0.6 || tam <= 4.8) break; tam -= 0.4; }
+    const lh = tam * 0.36;
+    linhas = linhas.slice(0, Math.max(1, Math.floor((h - 0.4) / lh)));
+    let yy = y + h / 2 - ((linhas.length - 1) * lh) / 2 + tam * 0.12;
+    linhas.forEach((l) => { doc.text(l, o.esq ? x + 1.2 : x + w / 2, yy, o.esq ? undefined : { align: "center" }); yy += lh; });
+  }
+  const cel = (x, y, w, h, t1, o) => { caixa(x, y, w, h, o); texto(x, y, w, h, t1, o); };
+  const titulo = (x, y, w, h, t1, o) => cel(x, y, w, h, t1, { fundo: CLARO, negrito: true, tam: 7, cor: R2.navy, ...(o || {}) });
+  const faixa = (x, y, w, h, t1, o) => cel(x, y, w, h, t1, { fundo: R2.navy, negrito: true, tam: 7.6, cor: R2.branco, ...(o || {}) });
+  const quebra = (h) => { if (ctx.y + h <= H - 15) return false; doc.addPage(); ctx.y = PDF_LAYOUT.topoContinuacao; return true; };
+
+  r2Cabecalho(ctx, rel);
+  r2FaixaInfo(ctx, rel);
+  ctx.y -= 1.5;
+
+  /* ---------- objetivos da sessão: técnica | tática individual | comportamental | goleiros ---------- */
+  faixa(M, ctx.y, larg, 5, "OBJETIVOS DA SESSÃO"); ctx.y += 5;
+  const colsObj = [["TÉCNICA", t.obj_tecnica || []], ["TÁTICA INDIVIDUAL", t.obj_tatica || []], ["COMPORTAMENTAL", t.obj_comportamental || []], ["GOLEIROS", gs.map((g) => nomes[g])]];
+  const wO = larg / 4, nO = Math.max(3, ...colsObj.map((c) => c[1].length)), hO = 5.2;
+  colsObj.forEach((c, i) => titulo(M + i * wO, ctx.y, wO, 4.6, c[0], { tam: 6.6 }));
+  ctx.y += 4.6;
+  for (let r = 0; r < nO; r++) colsObj.forEach((c, i) => cel(M + i * wO, ctx.y + r * hO, wO, hO, c[1][r] || "", { tam: 6.6, suave: true }));
+  ctx.y += nO * hO;
+  titulo(M, ctx.y, wO * 3, 5, "DEMANDA FÍSICA ESPERADA", { tam: 6.6 }); cel(M + wO * 3, ctx.y, wO, 5, t.demanda_esperada || "-", { fundo: R2.fundo, negrito: true, tam: 7.2 });
+  ctx.y += 8;
+
+  /* ---------- atividades, duas por linha ---------- */
+  const ats = t.atividades || [];
+  function medirAtividade(a) { return 5.5 + 5 + 5 + 5 + 4.6 + Math.max(3, (a.tecnica || []).length, (a.tatica || []).length, (a.comportamental || []).length) * 5 + 5; }
+  function atividade(a, n, x, y, w, hFix) {
+    const d = duracaoAtividadeGol(a);
+    const w1 = w * 0.24;
+    faixa(x, y, w1, 5.5, n + "ª ATIVIDADE", { fundo: R2.verde, tam: 7 });
+    cel(x + w1, y, w - w1 - 18, 5.5, a.nome || "", { negrito: true, tam: 7.2, cor: R2.navy });
+    faixa(x + w - 18, y, 18, 5.5, d ? fmtNum(d) + " min" : "-", { tam: 7 });
+    y += 5.5;
+    titulo(x, y, w1, 5, "MÉTODO", { tam: 6.4 }); cel(x + w1, y, w - w1, 5, a.metodo || "-", { tam: 6.6 }); y += 5;
+    const pares = [["SÉRIES", a.series], ["REPET.", a.repeticoes], [num(a.series) ? "MIN/SÉRIE" : "MINUTOS", a.duracao], ["PAUSA (S)", a.pausa]];
+    titulo(x, y, w1, 5, "VOLUME", { tam: 6.4 });
+    const wR = (w - w1) / pares.length;
+    pares.forEach((pp, i) => { cel(x + w1 + i * wR, y, wR * 0.5, 5, pp[0], { tam: 5.2, cor: R2.muted }); cel(x + w1 + i * wR + wR * 0.5, y, wR * 0.5, 5, pp[1] || "-", { tam: 6.6, negrito: true }); });
+    y += 5;
+    titulo(x, y, w1, 5, "ESPAÇO", { tam: 6.4 });
+    cel(x + w1, y, (w - w1) / 2, 5, a.espaco || "-", { tam: 6.6 }); cel(x + w1 + (w - w1) / 2, y, (w - w1) / 2, 5, a.oposicao || "-", { tam: 6.6 });
+    y += 5;
+    const wC = w / 3;
+    ["TÉCNICA", "TÁTICA INDIVIDUAL", "COMPORTAMENTAL"].forEach((tt, i) => titulo(x + i * wC, y, wC, 4.6, tt, { tam: 6 }));
+    y += 4.6;
+    const listas = [a.tecnica || [], a.tatica || [], a.comportamental || []];
+    const nL = Math.round((hFix - (5.5 + 5 + 5 + 5 + 4.6 + 5)) / 5);
+    for (let r = 0; r < nL; r++) listas.forEach((l, i) => cel(x + i * wC, y + r * 5, wC, 5, l[r] || "", { tam: 6.2, suave: true }));
+    y += nL * 5;
+    titulo(x, y, w * 0.5, 5, "DEMANDA FÍSICA", { tam: 6.4 }); cel(x + w * 0.5, y, w * 0.5, 5, a.demanda_fisica || "-", { fundo: R2.fundo, negrito: true, tam: 6.8 });
+  }
+  if (ats.length) {
+    quebra(5.2 + 1.5 + medirAtividade(ats[0]));
+    faixa(M, ctx.y, larg, 5.2, "ATIVIDADES" + (dur ? " · " + dur + " MIN" : ""), { tam: 8 }); ctx.y += 5.2 + 1.5;
+    const gap = 4, wA = (larg - gap) / 2;
+    for (let i = 0; i < ats.length; i += 2) {
+      const par = ats.slice(i, i + 2);
+      const h = Math.max(...par.map(medirAtividade));
+      quebra(h + 2);
+      par.forEach((a, j) => atividade(a, i + j + 1, M + j * (wA + gap), ctx.y, wA, h));
+      ctx.y += h + 4;
+    }
+  }
+
+  /* ---------- avaliação dos goleiros, por conteúdo ---------- */
+  const conts = conteudosDoTreinoGol(t);
+  const notas = {}; gs.forEach((g) => { notas[g] = notasConteudoGol(t, g); });
+  if (gs.some((g) => Object.keys(notas[g]).length) && conts.length) {
+    const gv = gs.slice(0, 5);
+    const wCol = Math.min(30, (larg * 0.5) / gv.length), wNome = larg - wCol * gv.length, hL = 5.2;
+    const cab = () => {
+      faixa(M, ctx.y, larg, 5, "AVALIAÇÃO DOS GOLEIROS (1 A 5)"); ctx.y += 5;
+      titulo(M, ctx.y, wNome, 5, "CONTEÚDO", { tam: 6.6 });
+      gv.forEach((g, j) => titulo(M + wNome + j * wCol, ctx.y, wCol, 5, nomes[g], { tam: 6.4 }));
+      ctx.y += 5;
+    };
+    quebra(10 + 3 * hL); cab();
+    conts.forEach((g) => {
+      if (quebra(2 * hL)) cab();
+      cel(M, ctx.y, larg, 4.6, g.label.toLocaleUpperCase("pt-BR"), { fundo: R2.fundo, negrito: true, tam: 6.4, cor: R2.verde, esq: true });
+      ctx.y += 4.6;
+      g.itens.forEach((c) => {
+        if (quebra(hL)) cab();
+        cel(M, ctx.y, wNome, hL, c, { tam: 6.8, esq: true, suave: true });
+        gv.forEach((gid, j) => {
+          const v = notas[gid][c];
+          const cor = !v ? null : v >= 4 ? "verde" : v >= 3 ? "amarelo" : "vermelho";
+          cel(M + wNome + j * wCol, ctx.y, wCol, hL, v ? fmtNum(v, Number.isInteger(v) ? 0 : 1) : "-", cor ? { fundo: R2_FUNDO_SINAL[cor], negrito: true, cor: R2_TXT_SINAL[cor], tam: 7.4, suave: true } : { cor: R2.muted, suave: true });
+        });
+        ctx.y += hL;
+      });
+    });
+    quebra(hL);
+    titulo(M, ctx.y, wNome, hL, "MÉDIA DO TREINO", { tam: 6.6 });
+    gv.forEach((gid, j) => { const m = mediaNotasTreino(t, gid); cel(M + wNome + j * wCol, ctx.y, wCol, hL, fmtNota(m), { fundo: CLARO, negrito: true, tam: 7.6, cor: R2.navy }); });
+    ctx.y += hL + 4;
+  }
+
+  /* ---------- observações ---------- */
+  if ((t.obs || "").trim()) {
+    doc.setFont("helvetica", "normal"); doc.setFontSize(7.4);
+    const ls = doc.splitTextToSize(T(t.obs), larg - 4);
+    const h = Math.max(10, ls.length * 3.4 + 3);
+    quebra(4.6 + h);
+    titulo(M, ctx.y, larg, 4.6, "OBSERVAÇÕES DO TREINO", { tam: 7 }); ctx.y += 4.6;
+    caixa(M, ctx.y, larg, h); doc.setFont("helvetica", "normal"); doc.setFontSize(7.4); doc.setTextColor(...TXT); ls.forEach((l, i) => doc.text(l, M + 2, ctx.y + 4 + i * 3.4));
+    ctx.y += h + 2;
+  }
+  r2Assinatura(ctx, rel);
+  const fim = doc.getNumberOfPages();
+  for (let pg = 1; pg <= fim; pg++) { doc.setPage(pg); if (pg > 1) r2CabecalhoContinuacao(ctx, rel); r2Rodape(ctx, rel, pg, fim); }
+  doc.save(`Treino_de_goleiros_${dataArquivo(t.data || hojeISO())}.pdf`);
+}
+
 
 function baixarFichaTreinoPdf(evento, atletas, usuario) {
   if (evento.area !== "fisico") return baixarPlanoFichaPdf(evento, atletas, usuario);
