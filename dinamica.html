@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dinâmica do Presente · Sorteio de mensagens</title>
+<style>
+  :root { --green:#1F7345; --navy:#1C294A; --badge:#2E9E5C; --strip:#F5F7FA; --line:#DDE3EC; --gray:#6B7686; --text:#222; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; }
+  body { font-family: Arial, Helvetica, sans-serif; color:var(--text); background:#fff; -webkit-text-size-adjust:100%; }
+  .band { background:var(--green); color:#fff; padding:18px 22px; display:flex; align-items:center; gap:16px; border-bottom:5px solid var(--navy); }
+  .band img { width:64px; height:64px; flex:none; }
+  .band h1 { margin:0; font-size:1.35rem; letter-spacing:.02em; }
+  .band p { margin:3px 0 0; font-size:.85rem; color:#BFE0CD; }
+  .band .right { margin-left:auto; text-align:right; font-size:.75rem; color:#BFE0CD; line-height:1.4; }
+  .band .right b { color:#fff; letter-spacing:.06em; }
+  main { max-width:920px; margin:0 auto; padding:20px 18px 40px; }
+  .status { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+  .kpi { flex:1 1 150px; border:1px solid var(--line); border-top:5px solid var(--navy); padding:10px 14px; }
+  .kpi:nth-child(2) { border-top-color:var(--badge); } .kpi:nth-child(3) { border-top-color:#E8A824; }
+  .kpi small { display:block; font-size:.65rem; font-weight:bold; letter-spacing:.06em; color:var(--gray); }
+  .kpi strong { font-size:1.7rem; color:var(--navy); }
+  .bar { height:6px; background:var(--line); margin:0 0 18px; } .bar > i { display:block; height:100%; width:0; background:var(--green); transition:width .25s; }
+  .card { border:1px solid var(--line); border-left:8px solid var(--green); background:var(--strip); padding:22px 24px; min-height:240px; display:flex; flex-direction:column; justify-content:center; }
+  .chip { align-self:flex-start; font-size:.7rem; font-weight:bold; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:var(--navy); padding:4px 9px; margin-bottom:14px; }
+  .msg { font-size:clamp(1.3rem, 3.4vw, 2rem); line-height:1.45; margin:0; color:var(--navy); }
+  .msg .q { color:var(--green); font-weight:bold; }
+  .placeholder { color:var(--gray); font-size:1.1rem; line-height:1.5; margin:0; }
+  .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+  button { font-family:inherit; font-size:.95rem; cursor:pointer; border:1px solid var(--navy); background:#fff; color:var(--navy); padding:12px 16px; display:inline-flex; align-items:center; gap:8px; }
+  button svg { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  button:hover:not(:disabled) { background:var(--strip); }
+  button:disabled { opacity:.4; cursor:not-allowed; }
+  button.primary { background:var(--green); color:#fff; border-color:var(--green); font-size:1.15rem; font-weight:bold; padding:16px 26px; flex:1 1 100%; justify-content:center; }
+  button.primary:hover:not(:disabled) { background:#18603a; }
+  button.danger.armed { background:#000; color:#fff; border-color:#000; }
+  h2 { font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; color:#fff; background:var(--navy); padding:9px 12px; margin:28px 0 10px; }
+  ol.hist { margin:0; padding:0; list-style:none; }
+  ol.hist li { display:flex; gap:10px; padding:9px 4px; border-bottom:1px solid var(--line); font-size:.9rem; line-height:1.4; }
+  ol.hist li .n { flex:none; width:2.2em; font-weight:bold; color:var(--green); }
+  ol.hist li .t { color:var(--gray); font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; display:block; }
+  .empty { color:var(--gray); font-size:.9rem; padding:8px 4px; }
+  .more { margin-top:10px; }
+  footer { text-align:center; color:var(--gray); font-size:.75rem; padding:0 18px 28px; }
+  .note { color:var(--gray); font-size:.8rem; margin:10px 0 0; line-height:1.4; }
+  @media (max-width:560px){ .band .right{display:none} }
+</style>
+</head>
+<body>
+<div class="band">
+  <img src="data:image/png;base64,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" alt="Brasão do EC Meia Noite SAF">
+  <div><h1>DINÂMICA DO PRESENTE</h1><p>Sorteio de mensagens · Sub-15 e Sub-17</p></div>
+  <div class="right"><b>PSICOLOGIA ESPORTIVA</b><br>EC Meia Noite SAF</div>
+</div>
+<main>
+  <div class="status">
+    <div class="kpi"><small>RESTAM</small><strong id="kRest">0</strong></div>
+    <div class="kpi"><small>JÁ LIDAS</small><strong id="kUsed">0</strong></div>
+    <div class="kpi"><small>TOTAL</small><strong id="kTotal">0</strong></div>
+  </div>
+  <div class="bar"><i id="prog"></i></div>
+
+  <section class="card" id="card" aria-live="polite">
+    <p class="placeholder">Comece pela <b>mensagem de abertura</b>, que vai para o primeiro portador. Depois toque em <b>Sortear próxima mensagem</b> a cada troca. Cada mensagem sorteada sai da lista e não se repete.</p>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="bDraw"><svg viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>Sortear próxima mensagem</button>
+    <button id="bOpen">Abertura <span id="cOpen"></span></button>
+    <button id="bIncl">Inclusão <span id="cIncl"></span></button>
+    <button id="bFinal">Final <span id="cFinal"></span></button>
+    <button id="bUndo"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Desfazer última</button>
+    <button id="bReset" class="danger"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span id="tReset">Reiniciar</span></button>
+  </div>
+  <p class="note"><b>Inclusão:</b> use nas últimas trocas, para quem ainda não recebeu a caixa. <b>Final:</b> use só para o último portador. <b>Desfazer última:</b> devolve a mensagem à lista, caso tenha tocado sem querer. O progresso fica salvo neste aparelho.</p>
+
+  <h2>Já lidas</h2>
+  <ol class="hist" id="hist"></ol>
+  <button class="more" id="bMore" hidden>ver mais</button>
+</main>
+<footer>João Vitor Riau Rosa · CRP 06/227336 · EC Meia Noite SAF</footer>
+
+<script>
+const MESSAGES = [
+ {
+  "id": "m1",
+  "tipo": "abertura",
+  "grupo": "Abertura (primeiro portador)",
+  "texto": "Esta caixa representa o grupo inteiro e não é de ninguém. Você foi o primeiro a segurá-la porque o grupo confia em você. Passe para quem você considera o mais ORGANIZADO, que sempre sabe onde está tudo, do material ao horário."
+ },
+ {
+  "id": "m2",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Quem alegra o vestiário muda o clima de um dia ruim, e isso também é jogar em equipe. Passe para quem mais ALEGRA o vestiário."
+ },
+ {
+  "id": "m3",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Coragem não é não sentir medo, é seguir mesmo sentindo. Passe para quem você acha mais CORAJOSO, que pede a bola quando o jogo está pesado."
+ },
+ {
+  "id": "m4",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Liderar é cuidar do coletivo mesmo quando ninguém está olhando. Passe para quem você considera mais LÍDER, que puxa o grupo."
+ },
+ {
+  "id": "m5",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Parceria é o que transforma vestiário em time. Passe para o mais PARCEIRO, o primeiro a ajudar um colega."
+ },
+ {
+  "id": "m6",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Persistir é uma decisão diária. Passe para quem você considera mais PERSISTENTE, que não desiste quando o treino é duro."
+ },
+ {
+  "id": "m7",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "A dedicação aparece nos detalhes que quase ninguém vê. Passe para quem você acha mais DEDICADO, que leva o treino a sério."
+ },
+ {
+  "id": "m8",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Solidariedade é rara e vale ouro, dentro e fora de campo. Passe para a pessoa mais SOLIDÁRIA, que cuida de quem está mal."
+ },
+ {
+  "id": "m9",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Criatividade deixa o jogo e a vida mais interessantes. Passe para quem você considera mais CRIATIVO, que inventa jogadas, ideias ou brincadeiras."
+ },
+ {
+  "id": "m10",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Sinceridade com respeito é uma forma de cuidado. Passe para quem você acha mais SINCERO, que fala o que precisa ser dito com respeito."
+ },
+ {
+  "id": "m11",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Quem mantém a calma ajuda todo mundo a pensar melhor. Passe para quem traz mais CALMA ao grupo em momentos de pressão."
+ },
+ {
+  "id": "m12",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Respeito é a base de um vestiário forte. Passe para quem você considera mais RESPEITOSO, com colegas, comissão e adversários."
+ },
+ {
+  "id": "m13",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Conciliar escola e esporte é um treino à parte, que poucos veem. Passe para quem equilibrou melhor a escola e o treino, o mais ESFORÇADO nessa dupla jornada."
+ },
+ {
+  "id": "m14",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Evoluir é sair de onde se estava e chegar mais longe. Passe para quem mais EVOLUIU neste ano."
+ },
+ {
+  "id": "m15",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Ter um amigo de verdade no grupo faz o ano valer a pena. Passe para o AMIGO de verdade do grupo, em quem se pode confiar."
+ },
+ {
+  "id": "m16",
+  "tipo": "principal",
+  "grupo": "Principais",
+  "texto": "Tratar todos com igualdade mantém o grupo de pé. Passe para quem você considera mais JUSTO, que procura tratar todos com igualdade."
+ },
+ {
+  "id": "m17",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Quem escuta de verdade ajuda mais do que parece. Passe para quem você acha mais ATENTO aos colegas."
+ },
+ {
+  "id": "m18",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Humildade é saber o quanto já se avançou sem precisar mostrar. Passe para quem você considera mais HUMILDE."
+ },
+ {
+  "id": "m19",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Pontualidade é respeito com todo mundo. Passe para quem você acha mais RESPONSÁVEL."
+ },
+ {
+  "id": "m20",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Disciplina é o que sustenta o talento. Passe para quem você considera mais DISCIPLINADO."
+ },
+ {
+  "id": "m21",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Quem faz o grupo sorrir também faz o grupo ficar. Passe para quem você acha mais BRINCALHÃO, sem machucar ninguém."
+ },
+ {
+  "id": "m22",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Acolher quem chegou depois é um jeito de liderar. Passe para quem mais ACOLHEU colegas novos."
+ },
+ {
+  "id": "m23",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Saber perder com dignidade ensina mais do que ganhar. Passe para quem você acha que lida melhor com a DERROTA."
+ },
+ {
+  "id": "m24",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Competir com respeito eleva todos ao redor. Passe para quem você considera o melhor COMPETIDOR do grupo."
+ },
+ {
+  "id": "m25",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Nem todo reconhecimento chega no jogo. Passe para quem você acha que trabalha muito sem aparecer."
+ },
+ {
+  "id": "m26",
+  "tipo": "principal",
+  "grupo": "Qualidades gerais",
+  "texto": "Confiança se constrói com atitudes pequenas. Passe para quem você considera mais CONFIÁVEL."
+ },
+ {
+  "id": "m27",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Tem quem jogue pelo placar e tem quem jogue pelo time. Passe para quem você acha mais GENEROSO com a bola, que pensa no colega antes de pensar em si."
+ },
+ {
+  "id": "m28",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Fazer o trabalho que ninguém vê também ganha jogo. Passe para quem você considera mais ABNEGADO, que corre pelo grupo e cobre o colega."
+ },
+ {
+  "id": "m29",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Ler o jogo antes dos outros é inteligência em campo. Passe para quem você acha mais ATENTO e esperto dentro das quatro linhas."
+ },
+ {
+  "id": "m30",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Quem se levanta depois de um erro mostra o tamanho que tem. Passe para quem você considera mais RESILIENTE depois de uma derrota."
+ },
+ {
+  "id": "m31",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "O treino começa antes do apito, na atitude. Passe para quem você acha mais INTENSO nos treinos e puxa o ritmo de todos."
+ },
+ {
+  "id": "m32",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Aplaudir o colega que joga na sua posição é coisa de gente grande. Passe para quem mais TORCE pelos companheiros."
+ },
+ {
+  "id": "m33",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Pedir desculpa depois de uma discussão em campo fortalece o grupo. Passe para quem sabe RECOMEÇAR depois de um conflito."
+ },
+ {
+  "id": "m34",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Ter foco quando o jogo aperta é um dom que se treina. Passe para quem você considera mais CONCENTRADO nos jogos importantes."
+ },
+ {
+  "id": "m35",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Quem dá segurança lá atrás deixa o time jogar mais leve. Passe para quem você acha mais SEGURO nos momentos de pressão."
+ },
+ {
+  "id": "m36",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Entrar no segundo tempo e mudar o jogo é um jeito de fazer diferença. Passe para quem você considera mais DECISIVO quando entra para ajudar o time."
+ },
+ {
+  "id": "m37",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Quem joga com alegria contagia o time inteiro. Passe para quem você acha que joga com mais PRAZER."
+ },
+ {
+  "id": "m38",
+  "tipo": "principal",
+  "grupo": "Em campo",
+  "texto": "Treinar firme sem esperar aplauso é exemplo para todos. Passe para quem você considera mais EXEMPLAR nos treinos."
+ },
+ {
+  "id": "m39",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "O vestiário é onde o time se constrói. Passe para quem você acha mais ZELOSO com o ambiente do grupo, que deixa tudo em ordem para todos."
+ },
+ {
+  "id": "m40",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Quem puxa o grito do grupo antes do jogo dá coragem aos outros. Passe para quem você considera mais MOTIVADOR."
+ },
+ {
+  "id": "m41",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Uma boa história no ônibus faz a viagem parecer mais curta. Passe para quem você acha mais DIVERTIDO, sem machucar ninguém."
+ },
+ {
+  "id": "m42",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Guardar um segredo é uma forma de lealdade. Passe para quem você considera mais LEAL."
+ },
+ {
+  "id": "m43",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Dividir o lanche, o carregador ou a chuteira diz muito sobre alguém. Passe para quem mais COMPARTILHA com o grupo."
+ },
+ {
+  "id": "m44",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Chamar para o meio da roda quem está isolado muda o dia de alguém. Passe para quem você acha que mais INCLUI os outros."
+ },
+ {
+  "id": "m45",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Defender um colega que não está presente é um ato de respeito. Passe para quem você considera mais RESPEITOSO com quem não está na conversa."
+ },
+ {
+  "id": "m46",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Ouvir sem interromper é uma forma rara de cuidado. Passe para quem você acha o melhor OUVINTE do grupo."
+ },
+ {
+  "id": "m47",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Quem pede ajuda abre espaço para o grupo cuidar dele. Passe para quem você considera mais CORAJOSO para pedir ajuda."
+ },
+ {
+  "id": "m48",
+  "tipo": "principal",
+  "grupo": "Vestiário e grupo",
+  "texto": "Um conselho sincero, dito com carinho, vale mais que mil elogios vazios. Passe para quem você acha o melhor CONSELHEIRO do grupo."
+ },
+ {
+  "id": "m49",
+  "tipo": "principal",
+  "grupo": "Escola, casa e rotina",
+  "texto": "Chegar cansado do treino e ainda abrir o caderno é uma vitória diária. Passe para quem mais se ESFORÇA na escola."
+ },
+ {
+  "id": "m50",
+  "tipo": "principal",
+  "grupo": "Escola, casa e rotina",
+  "texto": "Acordar cedo e não faltar é um compromisso consigo mesmo. Passe para quem você considera mais ASSÍDUO."
+ },
+ {
+  "id": "m51",
+  "tipo": "principal",
+  "grupo": "Escola, casa e rotina",
+  "texto": "Cuidar do que acontece fora de campo também é ser atleta. Passe para quem você admira por ser RESPONSÁVEL com a rotina, a escola e a família."
+ },
+ {
+  "id": "m52",
+  "tipo": "principal",
+  "grupo": "Escola, casa e rotina",
+  "texto": "Vencer a saudade de casa é treino de coragem. Passe para quem você acha mais FORTE diante da distância e da saudade."
+ },
+ {
+  "id": "m53",
+  "tipo": "principal",
+  "grupo": "Escola, casa e rotina",
+  "texto": "Ter um sonho e trabalhar por ele todo dia merece respeito. Passe para quem você considera mais DETERMINADO."
+ },
+ {
+  "id": "m54",
+  "tipo": "principal",
+  "grupo": "Escola, casa e rotina",
+  "texto": "Saber agradecer é uma qualidade que se vê pouco. Passe para quem você acha mais GRATO."
+ },
+ {
+  "id": "m55",
+  "tipo": "principal",
+  "grupo": "Superação e crescimento",
+  "texto": "Voltar de uma lesão exige mais cabeça do que perna. Passe para quem você acha que mais SUPEROU dificuldades neste ano."
+ },
+ {
+  "id": "m56",
+  "tipo": "principal",
+  "grupo": "Superação e crescimento",
+  "texto": "Quem fica ao lado do colega machucado ajuda na recuperação. Passe para quem mais APOIOU os companheiros em momentos difíceis."
+ },
+ {
+  "id": "m57",
+  "tipo": "principal",
+  "grupo": "Superação e crescimento",
+  "texto": "Errar faz parte, aprender com o erro faz a diferença. Passe para quem você considera que mais APRENDEU neste ano."
+ },
+ {
+  "id": "m58",
+  "tipo": "principal",
+  "grupo": "Superação e crescimento",
+  "texto": "Mudar de posição, de categoria ou de função sem reclamar é maturidade. Passe para quem se ADAPTOU melhor às mudanças."
+ },
+ {
+  "id": "m59",
+  "tipo": "principal",
+  "grupo": "Superação e crescimento",
+  "texto": "Respeitar o próprio tempo também é força. Passe para quem você acha mais PACIENTE com o próprio processo."
+ },
+ {
+  "id": "m60",
+  "tipo": "principal",
+  "grupo": "Superação e crescimento",
+  "texto": "Transformar decepção em motivação é uma habilidade de poucos. Passe para quem você considera mais PERSEVERANTE."
+ },
+ {
+  "id": "m61",
+  "tipo": "inclusao",
+  "grupo": "Inclusão",
+  "texto": "Agora vamos reconhecer quem ainda não teve a caixa nas mãos. Passe para um colega que ainda não recebeu, dizendo o que você admira nele."
+ },
+ {
+  "id": "m62",
+  "tipo": "inclusao",
+  "grupo": "Inclusão",
+  "texto": "Falta pouco para a caixa fechar a volta. Passe para alguém que ainda não a segurou e diga uma qualidade que você viu nele neste ano."
+ },
+ {
+  "id": "m63",
+  "tipo": "inclusao",
+  "grupo": "Inclusão",
+  "texto": "Toda roda tem quem espera com paciência. Passe para quem ainda não recebeu e conte ao grupo um momento em que ele fez diferença."
+ },
+ {
+  "id": "m64",
+  "tipo": "final",
+  "grupo": "Mensagem final",
+  "texto": "Chegar ao fim desta roda significa que o grupo viu algo em você. A caixa é de todos. Abra, reparta, e que cada bombom lembre um momento deste ano."
+ },
+ {
+  "id": "m65",
+  "tipo": "final",
+  "grupo": "Mensagem final",
+  "texto": "Esta caixa passou por muitas mãos e cada uma deixou algo nela. Agora ela volta para o grupo: abra, reparta e agradeça a quem esteve com você neste ano."
+ },
+ {
+  "id": "m66",
+  "tipo": "final",
+  "grupo": "Mensagem final",
+  "texto": "Você chegou até aqui porque o grupo reconheceu algo em você. Mas esta caixa nunca foi sua nem de ninguém, é de todos. Abra e reparta com cada um, e que o que vocês viveram este ano seja lembrado com orgulho."
+ }
+];
+const KEY = 'presente_msgs_v1';
+const SHOW = 5;
+let used = [];            // ids na ordem em que foram lidas
+let expanded = false;
+let armed = false, armTimer = null;
+
+const $ = (id) => document.getElementById(id);
+const byId = {}; MESSAGES.forEach((m) => { byId[m.id] = m; });
+
+function load() { try { const v = JSON.parse(localStorage.getItem(KEY) || '[]'); if (Array.isArray(v)) used = v.filter((id) => byId[id]); } catch (e) { used = []; } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(used)); } catch (e) {} }
+
+function pool(tipo) { return MESSAGES.filter((m) => m.tipo === tipo && !used.includes(m.id)); }
+function total(tipo) { return MESSAGES.filter((m) => m.tipo === tipo).length; }
+
+function esc(s) { return s.replace(/[&<>]/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c])); }
+function fmt(s) { return esc(s).replace(/(?<![A-Za-zÀ-ÿ])[A-ZÁÉÍÓÚÂÊÔÃÕÇ]{3,}(?![A-Za-zÀ-ÿ])/g, '<span class="q">$&</span>'); }
+
+function draw(tipo) {
+  const p = pool(tipo);
+  if (!p.length) { render(tipo); return; }
+  const m = p[Math.floor(Math.random() * p.length)];
+  used.push(m.id); save(); render();
+}
+
+function render(emptyTipo) {
+  const last = used.length ? byId[used[used.length - 1]] : null;
+  const card = $('card');
+  if (emptyTipo) {
+    const nome = { principal: 'principais', abertura: 'de abertura', inclusao: 'de inclusão', final: 'finais' }[emptyTipo];
+    card.innerHTML = '<p class="placeholder">Acabaram as mensagens ' + nome + '. Toque em <b>Reiniciar</b> para começar de novo.</p>';
+  } else if (last) {
+    card.innerHTML = '<span class="chip">' + esc(last.grupo) + '</span><p class="msg">' + fmt(last.texto) + '</p>';
+  } else {
+    card.innerHTML = '<p class="placeholder">Comece pela <b>mensagem de abertura</b>, que vai para o primeiro portador. Depois toque em <b>Sortear próxima mensagem</b> a cada troca. Cada mensagem sorteada sai da lista e não se repete.</p>';
+  }
+  const t = MESSAGES.length;
+  $('kRest').textContent = MESSAGES.length - used.length;
+  $('kUsed').textContent = used.length;
+  $('kTotal').textContent = t;
+  $('prog').style.width = (used.length / t * 100) + '%';
+  $('bDraw').disabled = !pool('principal').length;
+  [['bOpen','cOpen','abertura'],['bIncl','cIncl','inclusao'],['bFinal','cFinal','final']].forEach(([b,c,tipo]) => {
+    const n = pool(tipo).length; $(c).textContent = '(' + n + ')'; $(b).disabled = !n;
+  });
+  $('bUndo').disabled = !used.length;
+  // histórico: mais recente primeiro
+  const items = used.slice().reverse();
+  const list = expanded ? items : items.slice(0, SHOW);
+  $('hist').innerHTML = items.length ? list.map((id, i) => {
+    const m = byId[id]; const n = used.length - i;
+    return '<li><span class="n">' + n + '</span><span><span class="t">' + esc(m.grupo) + '</span>' + fmt(m.texto) + '</span></li>';
+  }).join('') : '<li class="empty">Nenhuma mensagem lida ainda.</li>';
+  const hidden = items.length - SHOW;
+  $('bMore').hidden = hidden <= 0;
+  $('bMore').textContent = expanded ? 'ver menos' : 'ver mais (' + hidden + ')';
+}
+
+$('bDraw').onclick = () => draw('principal');
+$('bOpen').onclick = () => draw('abertura');
+$('bIncl').onclick = () => draw('inclusao');
+$('bFinal').onclick = () => draw('final');
+$('bUndo').onclick = () => { used.pop(); save(); render(); };
+$('bMore').onclick = () => { expanded = !expanded; render(); };
+$('bReset').onclick = () => {
+  if (!armed) {
+    armed = true; $('bReset').classList.add('armed'); $('tReset').textContent = 'Confirmar reinício';
+    armTimer = setTimeout(disarm, 4000); return;
+  }
+  disarm(); used = []; expanded = false; save(); render();
+};
+function disarm() { armed = false; clearTimeout(armTimer); $('bReset').classList.remove('armed'); $('tReset').textContent = 'Reiniciar'; }
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && e.target === document.body && !$('bDraw').disabled) { e.preventDefault(); draw('principal'); }
+});
+
+load(); render();
+</script>
+</body>
+</html>
