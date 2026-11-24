@@ -1893,6 +1893,12 @@ body.caixa-aberta{overflow:hidden;}
 .auth-instalar .ico{width:18px; height:18px;}
 .auth-instalar-msg{margin-top:8px; font-size:12.5px; color:#9BE3B8; text-align:center;}
 .sidebar-instalar{margin-top:8px;}
+.botao-dicas .dicas-chave{margin-left:auto; width:26px; height:15px; border-radius:999px; background:rgba(255,255,255,.18); position:relative; flex-shrink:0; transition:background .15s;}
+.botao-dicas .dicas-chave i{position:absolute; top:2px; left:2px; width:11px; height:11px; border-radius:50%; background:#fff; transition:transform .15s;}
+.botao-dicas.on .dicas-chave{background:#2E9E5B;} .botao-dicas.on .dicas-chave i{transform:translateX(11px);}
+body.sem-dicas .dica-app, body.sem-dicas .scout-dica, body.sem-dicas .aviso-dica, body.sem-dicas .pg-dica, body.sem-dicas .mapa-corpo-dica, body.sem-dicas .dm-dica,
+body.sem-dicas .aovivo-dica:not(.fixa), body.sem-dicas .quadro-dica, body.sem-dicas .painel-dica, body.sem-dicas .jogo-obs-dica, body.sem-dicas .crono-dica,
+body.sem-dicas .import-hint, body.sem-dicas .obj-semana-nota, body.sem-dicas .profile-avatar-hint{display:none !important;}
 .sidebar-instalar-celular{display:none !important;}
 .instalar-passos{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:var(--ink);}
 .instalar-passos b{color:var(--ink);}
@@ -5710,6 +5716,26 @@ ICONES.agenda_campo = ICONES.agenda_dm = ICONES.agenda_social = ICONES.agenda_sa
 ICONES.instalar = [["rect", { x: 7, y: 2.5, width: 10, height: 19, rx: 2.2 }], ["path", { d: "M12 7v7M9.2 11.4 12 14.2l2.8-2.8M10.5 18.5h3" }]];
 ICONES.diretoria = [["rect", { x: 3.5, y: 7.5, width: 17, height: 12.5, rx: 2.2 }], ["path", { d: "M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9M3.5 12.5h17M10.5 12.5v1.6h3v-1.6" }]];
 ICONES.cadastro_atletas = ICONES.elenco;
+ICONES.dica = [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M12 11v5M12 8h.01" }]];
+/* ---------- Dicas da tela (textos de ajuda): cada pessoa liga ou desliga, vale neste aparelho ---------- */
+const CHAVE_DICAS = "meuct:dicas";
+function dicasLigadas() { try { return localStorage.getItem(CHAVE_DICAS) !== "off"; } catch (e) { return true; } }
+function aplicarDicas(ligadas) {
+  try { localStorage.setItem(CHAVE_DICAS, ligadas ? "on" : "off"); } catch (e) { /* sem armazenamento: vale só nesta sessão */ }
+  try { document.body.classList.toggle("sem-dicas", !ligadas); } catch (e) { /* sem página */ }
+  window.dispatchEvent(new Event("ct:dicas"));
+}
+try { if (!dicasLigadas()) { if (document.body) document.body.classList.add("sem-dicas"); else document.addEventListener("DOMContentLoaded", () => document.body.classList.add("sem-dicas")); } } catch (e) { /* nada */ }
+function BotaoDicas({ className }) {
+  const [on, setOn] = React.useState(dicasLigadas);
+  React.useEffect(() => { const f = () => setOn(dicasLigadas()); window.addEventListener("ct:dicas", f); return () => window.removeEventListener("ct:dicas", f); }, []);
+  return (
+    <button type="button" className={(className || "sidebar-sair") + " botao-dicas" + (on ? " on" : "")} aria-pressed={on} onClick={() => aplicarDicas(!on)}
+      title={on ? "Esconder os textos de ajuda das telas" : "Mostrar os textos de ajuda das telas"}>
+      <Icone nome="dica" />Dicas da tela<span className="dicas-chave" aria-hidden="true"><i></i></span>
+    </button>
+  );
+}
 ICONES.personalizar = [["path", { d: "M4 7h9M17 7h3M4 17h3M11 17h9" }], ["circle", { cx: 15, cy: 7, r: 2 }], ["circle", { cx: 9, cy: 17, r: 2 }]];
 ICONES.palestras = [["rect", { x: 3.5, y: 4, width: 17, height: 11, rx: 1.8 }], ["path", { d: "M12 15v3.5M8 21l4-2.5 4 2.5M7.5 8.5h6M7.5 11.5h9" }]];
 /* ---------- Personalização do app pelo Admin (ct_config/app) ----------
@@ -5949,6 +5975,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
             <button type="button" className="sidebar-sair" onClick={onSair}><Icone nome="sair" />Sair</button>
           </div>
           <BotaoInstalarApp className="sidebar-sair sidebar-instalar-celular" classeMsg="sidebar-instalar-celular auth-instalar-msg" />
+          <BotaoDicas className="sidebar-sair sidebar-instalar-celular" />
 
           <div className="sidebar-secao">Principal</div>
           {renderAba({ id: "admin", label: "Painel geral" })}
@@ -6031,6 +6058,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
             <span className="label"><b>{usuario.nome || usuario.email}</b>{ehAdmin ? "Administrador" : "Colaborador"}</span>
           </div>
           <BotaoInstalarApp className="sidebar-sair sidebar-instalar" />
+          <BotaoDicas className="sidebar-sair sidebar-instalar" />
           <button type="button" className="sidebar-sair" onClick={onSair}><Icone nome="sair" />Sair</button>
         </div>
       </aside>
@@ -13709,7 +13737,7 @@ function CampoTreinoGoleiro({ treino, goleiros, usuario, onVoltar, onEditar, onA
               ))}
             </div>
           ))}
-          <div className="seg-linha" style={{ padding: "8px 16px 12px" }}>1 muito abaixo · 2 abaixo · 3 na média · 4 bom · 5 excelente. Toque de novo na nota para apagar.</div>
+          <div className="seg-linha dica-app" style={{ padding: "8px 16px 12px" }}>1 muito abaixo · 2 abaixo · 3 na média · 4 bom · 5 excelente. Toque de novo na nota para apagar.</div>
         </div>
       )}
       <div className="panel">
@@ -27112,7 +27140,7 @@ function AoVivoPosJogo({ jogadores, pos, setPos, setPlacar, porId, dur, onMudou,
           {ultimo && <button type="button" className="pill-btn perigo" onClick={desfazerUltimo} title={textoLance(ultimo)}>Desfazer último</button>}
         </div>
       </div>
-      {trocando && <div className="aovivo-dica">Saindo: <b>{nome(trocando)}</b>. Toque no reserva que entra. <button type="button" className="link-btn" onClick={() => setTrocando(null)}>Cancelar</button></div>}
+      {trocando && <div className="aovivo-dica fixa">Saindo: <b>{nome(trocando)}</b>. Toque no reserva que entra. <button type="button" className="link-btn" onClick={() => setTrocando(null)}>Cancelar</button></div>}
       {!trocando && !sel && <div className="aovivo-dica">Toque na camiseta de quem está em campo para marcar gol, assistência, cartão, lesão ou substituição.</div>}
       <div className="aovivo-campo">
         {ordenarPorPosicao(emCampo.map((j) => porId[j.id]).filter(Boolean)).map((a) => {
