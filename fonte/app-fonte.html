@@ -1893,6 +1893,24 @@ body.caixa-aberta{overflow:hidden;}
 .auth-instalar .ico{width:18px; height:18px;}
 .auth-instalar-msg{margin-top:8px; font-size:12.5px; color:#9BE3B8; text-align:center;}
 .sidebar-instalar{margin-top:8px;}
+.cfg2-conta{display:flex; align-items:center; gap:14px; padding:18px 20px;}
+.cfg2-conta > div{display:flex; flex-direction:column; gap:2px; min-width:0;} .cfg2-conta b{font-size:17px; color:var(--ink);} .cfg2-conta small{font-size:13px; color:var(--muted);}
+.cfg2-avatar{width:56px; height:56px; border-radius:50%; overflow:hidden; background:#1C2C4B; color:#F2D27A; font-weight:800; font-size:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0;} .cfg2-avatar img{width:100%; height:100%; object-fit:cover;}
+.cfg2-areas{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;} .cfg2-area{font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; background:#EEF3F8; color:#1B2A4A; border:1px solid var(--line-soft);}
+.cfg2-editor{margin-top:4px;}
+.cfg2-linha{display:flex; align-items:center; gap:16px; padding:14px 20px; border-top:1px solid var(--line-soft);}
+.cfg2-linha:first-of-type{border-top:0;}
+.cfg2-txt{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;} .cfg2-txt b{font-size:14.5px; color:var(--ink);} .cfg2-txt small{font-size:12.5px; color:var(--muted); line-height:1.4;}
+.cfg2-acao{flex-shrink:0; display:flex; align-items:center; gap:8px;} .cfg2-acao select{padding:8px 10px; border:1px solid var(--line); border-radius:10px; font:inherit; font-size:13.5px; background:#fff;}
+.cfg2-chave{width:46px; height:26px; border-radius:999px; border:0; background:#CBD5E1; position:relative; cursor:pointer; transition:background .15s;}
+.cfg2-chave i{position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.2); transition:transform .15s;}
+.cfg2-chave.on{background:#1E7446;} .cfg2-chave.on i{transform:translateX(20px);}
+.cfg2-msg{font-size:12.5px; color:var(--muted); max-width:260px;}
+.cfg2-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px;}
+.cfg2-card{display:flex; flex-direction:column; align-items:flex-start; gap:6px; text-align:left; font:inherit; background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px; cursor:pointer;}
+.cfg2-card svg{width:22px; height:22px; color:#1B2A4A;} .cfg2-card b{font-size:15px; color:var(--ink);} .cfg2-card small{font-size:12.5px; color:var(--muted); line-height:1.4;}
+.cfg2-card:hover{border-color:#1B2A4A;}
+@media (max-width:640px){ .cfg2-linha{flex-direction:column; align-items:stretch; gap:10px; padding:14px 16px;} .cfg2-acao{justify-content:flex-start;} .cfg2-conta{padding:16px;} }
 .botao-dicas .dicas-chave{margin-left:auto; width:26px; height:15px; border-radius:999px; background:rgba(255,255,255,.18); position:relative; flex-shrink:0; transition:background .15s;}
 .botao-dicas .dicas-chave i{position:absolute; top:2px; left:2px; width:11px; height:11px; border-radius:50%; background:#fff; transition:transform .15s;}
 .botao-dicas.on .dicas-chave{background:#2E9E5B;} .botao-dicas.on .dicas-chave i{transform:translateX(11px);}
@@ -5716,6 +5734,7 @@ ICONES.agenda_campo = ICONES.agenda_dm = ICONES.agenda_social = ICONES.agenda_sa
 ICONES.instalar = [["rect", { x: 7, y: 2.5, width: 10, height: 19, rx: 2.2 }], ["path", { d: "M12 7v7M9.2 11.4 12 14.2l2.8-2.8M10.5 18.5h3" }]];
 ICONES.diretoria = [["rect", { x: 3.5, y: 7.5, width: 17, height: 12.5, rx: 2.2 }], ["path", { d: "M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9M3.5 12.5h17M10.5 12.5v1.6h3v-1.6" }]];
 ICONES.cadastro_atletas = ICONES.elenco;
+ICONES.configuracoes = ICONES.config = [["circle", { cx: 12, cy: 12, r: 3 }], ["path", { d: "M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" }]];
 ICONES.dica = [["circle", { cx: 12, cy: 12, r: 8.5 }], ["path", { d: "M12 11v5M12 8h.01" }]];
 /* ---------- Dicas da tela (textos de ajuda): cada pessoa liga ou desliga, vale neste aparelho ---------- */
 const CHAVE_DICAS = "meuct:dicas";
@@ -5807,7 +5826,7 @@ function layoutPadraoDoPerfil(u) {
 }
 
 const ROTULO_PAGINA = {
-  admin: "Painel geral", personalizar: "Personalizar o app", elenco: "Elenco", atualizacoes: "Atualizações", relatorios: "Relatórios", usuarios: "Usuários",
+  admin: "Painel geral", personalizar: "Personalizar o app", configuracoes: "Configurações", elenco: "Elenco", atualizacoes: "Atualizações", relatorios: "Relatórios", usuarios: "Usuários",
   psicologia: "Psicologia", fisioterapia: "Fisioterapia", fisiologia: "Fisiologia", medicina: "Medicina", nutricao: "Nutrição",
   social: "Serviço Social", desempenho: "Desempenho", treinador: "Campograma", preparacao: "Preparação Física", treinos: "Treinos", goleiros: "Goleiros", qts: "QTS",
   agenda: "Agenda geral", minha_agenda: "Minha agenda", atas: "Atas de reunião", documentos: "Documentos", aniversariantes: "Aniversariantes", encaminhamentos: "Encaminhamentos", quadro_dm: "Quadro do DM", avaliacao: "Atletas em avaliação", captacao: "Captação", diretoria: "Diretoria", cadastro_atletas: "Cadastro de atletas", social_documentos: "Documentos dos atletas", social_viagens: "Viagens", social_quartos: "Quartos e alojamentos", social_fds: "Fim de semana", palestras_campo: "Palestras", palestras_saude: "Palestras", agenda_campo: "Agenda da Comissão técnica", agenda_dm: "Agenda de Saúde e performance", agenda_social: "Agenda de Saúde e performance", agenda_saude: "Agenda de Saúde e performance", meu_qts: "Meu QTS", jogos: "Jogos", monitoramento: "Monitoramento", avisos: "Avisos", conversas: "Conversas",
@@ -5974,8 +5993,6 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
             <div className="quem"><b>{usuario.nome || usuario.email}</b>{ehAdmin ? "Administrador" : "Colaborador"}</div>
             <button type="button" className="sidebar-sair" onClick={onSair}><Icone nome="sair" />Sair</button>
           </div>
-          <BotaoInstalarApp className="sidebar-sair sidebar-instalar-celular" classeMsg="sidebar-instalar-celular auth-instalar-msg" />
-          <BotaoDicas className="sidebar-sair sidebar-instalar-celular" />
 
           <div className="sidebar-secao">Principal</div>
           {renderAba({ id: "admin", label: "Painel geral" })}
@@ -6042,6 +6059,7 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
           {podeRelatorios && renderAba({ id: "relatorios", label: "Relatórios" })}
           {renderAba({ id: "usuarios", label: "Usuários" })}
           {usuario.role === "admin" && !usuario.simulando && renderAba({ id: "personalizar", label: "Personalizar o app", icone: "personalizar" })}
+          {renderAba({ id: "configuracoes", label: "Configurações", icone: "configuracoes" })}
 
           <div className="sidebar-secao">Comunicação</div>
           {usuarioEhEquipe(usuario) && renderAba({ id: "conversas", label: "Conversas" })}
@@ -6057,8 +6075,6 @@ function HubBar({ current, categoria, onNavigate, usuario, onSair, naoLidas, avi
             <div className="avatar">{iniciais}</div>
             <span className="label"><b>{usuario.nome || usuario.email}</b>{ehAdmin ? "Administrador" : "Colaborador"}</span>
           </div>
-          <BotaoInstalarApp className="sidebar-sair sidebar-instalar" />
-          <BotaoDicas className="sidebar-sair sidebar-instalar" />
           <button type="button" className="sidebar-sair" onClick={onSair}><Icone nome="sair" />Sair</button>
         </div>
       </aside>
@@ -6782,6 +6798,110 @@ const GRUPOS_PAGINAS_CFG = [
 ];
 const BLOCOS_PAINEL_CFG = [["kpis", "Números do painel"], ["rapido", "Atalhos rápidos"], ["meuqts", "Minha agenda de hoje"], ["bandeira", "Atletas com bandeira"], ["online", "Online agora"], ["avisos", "Avisos não lidos"], ["restricoes", "Restrições de hoje"], ["alerta", "Atletas em alerta"], ["jogo", "Próximo jogo"], ["semana", "Próximos 7 dias"], ["aniversarios", "Aniversários da semana"], ["disponibilidade", "Disponibilidade por categoria"], ["voltam", "Quem volta em breve"], ["lesoesElenco", "Lesões do elenco (boneco)"], ["lesoesTempo", "Lesões ao longo do tempo"], ["regioes", "Regiões e posições"], ["alojamento", "Ocupação do alojamento"], ["elenco", "Elenco em números"], ["contratos", "Contratos vencendo"], ["vencimentos", "Vencimentos e alertas"], ["lembretes", "Lembretes"], ["atualizacoes", "Atualizações"], ["setor", "Seu setor"]];
 const ABAS_PERFIL_CFG = ["Saúde", "Desempenho", "Ficha e social", "Linha do tempo"];
+/* ---------- Configurações: tudo o que é da pessoa e deste aparelho num lugar só ---------- */
+const ABAS_PERFIL_ATLETA_CFG = ["Resumo", "Saúde", "Desempenho", "Ficha e social", "Linha do tempo"];
+function LinhaConfig({ titulo, texto, children }) {
+  return (
+    <div className="cfg2-linha">
+      <div className="cfg2-txt"><b>{titulo}</b>{texto && <small>{texto}</small>}</div>
+      <div className="cfg2-acao">{children}</div>
+    </div>
+  );
+}
+function ViewConfiguracoes({ usuario }) {
+  const { useState, useEffect } = React;
+  const ehAdmin = usuario.role === "admin" && !usuario.simulando;
+  const abas = ["Minha conta", "Notificações", "Tela e aparelho", ...(ehAdmin ? ["Administração"] : [])];
+  const [aba, setAbaEstado] = useState(() => { try { const a = sessionStorage.getItem("meuct:abaConfig"); return abas.includes(a) ? a : "Minha conta"; } catch (e) { return "Minha conta"; } });
+  const setAba = (v) => { setAbaEstado(v); try { sessionStorage.setItem("meuct:abaConfig", v); } catch (e) { /* nada */ } };
+  const [perfil, setPerfil] = useState(null);
+  const [versaoEditor, setVersaoEditor] = useState(1);
+  const [dicas, setDicas] = useState(dicasLigadas);
+  const [abaPerfil, setAbaPerfilEstado] = useState(() => { try { return localStorage.getItem("meuct:abaPerfil") || "Resumo"; } catch (e) { return "Resumo"; } });
+  const [msg, setMsg] = useState(null);
+  useEffect(() => {
+    db.collection(COL_PERFIS).doc(usuario.id).get().then((d) => setPerfil(d.exists ? { id: d.id, ...d.data() } : { id: usuario.id, nome: usuario.nome || "", email: usuario.email || "" }))
+      .catch(() => setPerfil({ id: usuario.id, nome: usuario.nome || "", email: usuario.email || "" }));
+  }, []);
+  useEffect(() => { const f = () => setDicas(dicasLigadas()); window.addEventListener("ct:dicas", f); return () => window.removeEventListener("ct:dicas", f); }, []);
+  useEffect(() => { if (!msg) return; const t = setTimeout(() => setMsg(null), 4000); return () => clearTimeout(t); }, [msg]);
+  const ir = (id) => { if (VOLTAR.irParaPagina) VOLTAR.irParaPagina(id); };
+  const areas = ehAdmin ? ["Acesso total (administrador)"] : (usuario.modulos || []).map((m) => (MODULOS.find((x) => x.id === m) || {}).label || m);
+  async function painelPadrao() {
+    if (!await confirmarApp("Voltar o seu Painel geral ao padrão do seu perfil? A ordem e os blocos que você escondeu voltam ao normal.")) return;
+    try { await db.collection(COL_PERFIS).doc(usuario.id).set({ layout_painel: firebase.firestore.FieldValue.delete(), atualizado_em: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }); setMsg({ tipo: "ok", texto: "Pronto. O Painel geral voltou ao padrão." }); }
+    catch (e) { setMsg({ tipo: "erro", texto: "Não consegui salvar: " + e.message }); }
+  }
+  function limparAparelho() {
+    let n = 0;
+    try { Object.keys(localStorage).filter((k) => k.startsWith(RASC_PREFIXO)).forEach((k) => { localStorage.removeItem(k); n++; }); } catch (e) { /* nada */ }
+    limparCacheLeitura();
+    setMsg({ tipo: "ok", texto: n ? `Apaguei ${n} rascunho${n === 1 ? "" : "s"} guardado${n === 1 ? "" : "s"} neste aparelho e a cópia dos dados.` : "Não havia rascunhos guardados. A cópia dos dados foi limpa." });
+  }
+  return (
+    <div className="page cfg2">
+      <div className="page-head"><div><h1>Configurações</h1><div className="crumb">Sua conta, suas notificações e as preferências deste aparelho</div></div></div>
+      <div className="barra-abas"><TabSelect abas opcoes={abas} valor={aba} onChange={setAba} /></div>
+      {msg && <div className="access-note" style={msg.tipo === "erro" ? { background: "var(--vermelho-bg)", borderColor: "var(--vermelho)" } : {}}><span>{msg.texto}</span></div>}
+
+      {aba === "Minha conta" && (
+        <React.Fragment>
+          <div className="panel">
+            <div className="cfg2-conta">
+              <span className="cfg2-avatar">{perfil && perfil.foto ? <img src={perfil.foto} alt="" /> : iniciaisUsuario(usuario)}</span>
+              <div><b>{(perfil && perfil.nome) || usuario.nome || usuario.email}</b><small>{usuario.email}</small>
+                <div className="cfg2-areas">{areas.map((a) => <span key={a} className="cfg2-area">{a}</span>)}</div></div>
+            </div>
+          </div>
+          {!perfil ? <SkeletonPanel /> : (
+            <div className="cfg2-editor">
+              <EditorPerfil key={versaoEditor} uid={usuario.id} inicial={{ ...perfil, email: perfil.email || usuario.email }}
+                onCancelar={() => setVersaoEditor((v) => v + 1)}
+                onSalvo={(novo) => { setPerfil((p) => ({ ...p, ...novo })); setVersaoEditor((v) => v + 1); setMsg({ tipo: "ok", texto: "Perfil salvo." }); }} />
+            </div>
+          )}
+        </React.Fragment>
+      )}
+
+      {aba === "Notificações" && <CartaoNotificacoes usuario={usuario} />}
+
+      {aba === "Tela e aparelho" && (
+        <div className="panel">
+          <div className="panel-head"><h3>Tela e aparelho</h3><small className="muted">vale só para você, neste aparelho</small></div>
+          <LinhaConfig titulo="Dicas da tela" texto="Os textos de ajuda das telas, como “arraste o cartão” ou “toque no desenho”. Os avisos que fazem parte da ação continuam aparecendo.">
+            <button type="button" className={"cfg2-chave" + (dicas ? " on" : "")} role="switch" aria-checked={dicas} aria-label="Dicas da tela" onClick={() => aplicarDicas(!dicas)}><i></i></button>
+          </LinhaConfig>
+          <LinhaConfig titulo="Aba que abre no perfil do atleta" texto="A primeira aba que aparece quando você abre um atleta.">
+            <select value={abaPerfil} onChange={(e) => { setAbaPerfilEstado(e.target.value); try { localStorage.setItem("meuct:abaPerfil", e.target.value); } catch (x) { /* nada */ } }}>
+              {ABAS_PERFIL_ATLETA_CFG.map((a) => <option key={a}>{a}</option>)}
+            </select>
+          </LinhaConfig>
+          <LinhaConfig titulo="Painel geral" texto="Você monta o seu no próprio Painel geral (Personalizar). Aqui dá para voltar ao padrão do seu perfil.">
+            <button type="button" className="pill-btn" onClick={painelPadrao}>Voltar ao padrão</button>
+          </LinhaConfig>
+          <LinhaConfig titulo="Instalar o app" texto="Coloca o MeuCT na tela inicial do celular ou do computador, como um aplicativo.">
+            <BotaoInstalarApp className="pill-btn" classeMsg="cfg2-msg" />
+          </LinhaConfig>
+          <LinhaConfig titulo="Rascunhos e cópia dos dados" texto="Apaga os rascunhos de formulários guardados neste aparelho e a cópia dos dados que deixa o app mais rápido. Nada do banco é apagado.">
+            <button type="button" className="pill-btn" onClick={limparAparelho}>Limpar</button>
+          </LinhaConfig>
+          <LinhaConfig titulo="Sessão" texto="Por segurança, a sessão termina sozinha depois de 12 horas sem uso.">
+            <button type="button" className="pill-btn perigo" onClick={sair}><Icone nome="sair" />Sair</button>
+          </LinhaConfig>
+        </div>
+      )}
+
+      {aba === "Administração" && ehAdmin && (
+        <div className="cfg2-cards">
+          {[["personalizar", "Personalizar o app", "Menu, painel, abas do atleta, lançamentos e listas de cada perfil."], ["usuarios", "Usuários e acessos", "Convites, áreas liberadas, quem pode apagar e relatórios cruzados."], ["atualizacoes", "Atualizações", "Novidades publicadas para a equipe."]].map(([id, t, d]) => (
+            <button key={id} type="button" className="cfg2-card" onClick={() => ir(id)}><Icone nome={id} /><b>{t}</b><small>{d}</small></button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ViewPersonalizar({ usuario }) {
   const { useState } = React;
   const [cfg, setCfg] = useState(() => JSON.parse(JSON.stringify(CONFIG_APP || {})));
@@ -21274,7 +21394,7 @@ function EscolhaPeriodoLembrete({ dados, onChange, rotuloFim }) {
           </div>
           <div className="repetir-add"><span style={{ fontSize: 13 }}>Lembrar até</span><input type="date" value={dados.lembrete_ate || ""} min={dados.data || undefined} onChange={(e) => set({ lembrete_ate: e.target.value })} aria-label="Lembrar até" />{dados.lembrete_ate ? <button type="button" className="link-btn" onClick={() => set({ lembrete_ate: "" })}>Sem fim</button> : <small className="muted">sem data para acabar</small>}</div>
           <small className="muted">{textoLembrete(dados) || "Escolha pelo menos um horário."}{dados.data ? ", a partir de " + formatarData(dados.data) : ""}.</small>
-          {typeof estadoPush === "function" && estadoPush() !== "ativo" && <small className="muted">Para o lembrete chegar também com o MeuCT fechado, ative as notificações neste aparelho na página Avisos.</small>}
+          {typeof estadoPush === "function" && estadoPush() !== "ativo" && <small className="muted">Para o lembrete chegar também com o MeuCT fechado, ative as notificações deste aparelho em Configurações.</small>}
         </React.Fragment>
       )}
     </div>
@@ -37058,7 +37178,7 @@ function PainelAvisos({ usuario }) {
           </span>
         </div>
       )}
-      <CartaoNotificacoes usuario={usuario} />
+      {typeof estadoPush === "function" && estadoPush() !== "ativo" && <div className="access-note"><span>Para receber os avisos no celular com o MeuCT fechado, ative as notificações deste aparelho em <button type="button" className="link-btn" onClick={() => VOLTAR.irParaPagina && VOLTAR.irParaPagina("configuracoes")}>Configurações</button>.</span></div>}
       <ProximosEventosAvisos usuario={usuario} />
       <div style={{ margin: "14px 0" }}>
         <TabSelect opcoes={[novos > 0 ? `Recebidos (${novos})` : "Recebidos", "Enviados", ...(agendados.length ? [`Agendados (${agendados.length})`] : []), "Novo aviso"]} valor={aba === "Recebidos" && novos > 0 ? `Recebidos (${novos})` : aba === "Agendados" ? `Agendados (${agendados.length})` : aba}
@@ -37197,6 +37317,7 @@ function AppLogado({ usuario }) {
     avisos: <PainelAvisos usuario={usuario} />,
     conversas: <ViewConversas usuario={usuario} onNavigate={navegar} />,
     personalizar: usuario.role === "admin" && !usuario.simulando ? <ViewPersonalizar usuario={usuario} /> : null,
+    configuracoes: <ViewConfiguracoes usuario={usuario} />,
   };
 
   // Toda a equipe abre todas as áreas; o que cada um pode lançar/editar é decidido dentro de cada tela.
