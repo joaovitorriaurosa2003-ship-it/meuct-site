@@ -13637,7 +13637,7 @@ function EditorTreinoGoleiro({ inicial, goleiros, usuario, onFechar }) {
 }
 
 /** No campo (celular): nota de 1 a 5 de cada goleiro em cada conteúdo trabalhado, salva a cada toque. */
-function CampoTreinoGoleiro({ treino, goleiros, usuario, onVoltar, onEditar }) {
+function CampoTreinoGoleiro({ treino, goleiros, usuario, onVoltar, onEditar, onApagar }) {
   const { useState, useRef } = React;
   const [t, setT] = useState(() => { const n = normalizarTreinoGol(treino); const nc = {}; (n.goleiros || []).forEach((g) => { nc[g] = notasConteudoGol(n, g); }); return { ...n, notas_conteudo: nc }; });
   const [estado, setEstado] = useState(null);
@@ -13716,6 +13716,7 @@ function CampoTreinoGoleiro({ treino, goleiros, usuario, onVoltar, onEditar }) {
         <div className="caixa-form" style={{ borderTop: 0 }}>
           <div className="field"><label>Observações do treino</label><textarea rows={3} maxLength={2000} value={t.obs || ""} onChange={(e) => setT((x) => ({ ...x, obs: e.target.value }))} onBlur={() => gravar({ obs: t.obs || "" })} placeholder="Como foi a sessão, ajustes para a próxima" /></div>
           <div className="form-acoes">
+            {onApagar && <button type="button" className="link-btn perigo" onClick={onApagar} style={{ marginRight: "auto" }}>Apagar treino</button>}
             {onEditar && <button type="button" className="pill-btn" onClick={onEditar}>Editar treino</button>}
             <button type="button" className="pill-btn primary" onClick={() => { const st = t.status === "realizado" ? "planejado" : "realizado"; setT((x) => ({ ...x, status: st })); gravar({ status: st, obs: t.obs || "" }); }}>{t.status === "realizado" ? "Reabrir treino" : "Finalizar treino"}</button>
           </div>
@@ -13797,9 +13798,10 @@ function TreinosGoleiro({ usuario, goleiros }) {
   if (!treinos) return <SkeletonPanel />;
   if (editando) return <EditorTreinoGoleiro inicial={editando} goleiros={goleiros} usuario={usuario} onFechar={(salvo, id, irCampo) => { setEditando(null); carregar().then(() => { if (salvo && irCampo && id) setCampo(id); }); }} />;
   const atual = campo && treinos.find((t) => t.id === campo);
-  if (atual) return <CampoTreinoGoleiro treino={atual} goleiros={goleiros} usuario={usuario} onVoltar={() => { setCampo(null); carregar(); }} onEditar={pode ? () => { setCampo(null); setEditando(atual); } : null} />;
+  if (atual) return <CampoTreinoGoleiro treino={atual} goleiros={goleiros} usuario={usuario} onVoltar={() => { setCampo(null); carregar(); }} onEditar={pode ? () => { setCampo(null); setEditando(atual); } : null}
+    onApagar={podeApagarItem(atual) ? async () => { if (await apagar(atual)) setCampo(null); } : null} />;
   const nomes = {}; goleiros.forEach((g) => { nomes[g.id] = nomeExibicao(g); });
-  async function apagar(t) { if (!await confirmarApp("Apagar o treino de " + formatarData(t.data) + "?")) return; try { await db.collection(COL_TREINOS_GOLEIRO).doc(t.id).delete(); carregar(); } catch (e) { avisoApp("Não consegui apagar: " + e.message); } }
+  async function apagar(t) { if (!await confirmarApp("Apagar o treino de " + formatarData(t.data) + "?")) return false; try { await db.collection(COL_TREINOS_GOLEIRO).doc(t.id).delete(); carregar(); return true; } catch (e) { avisoApp("Não consegui apagar: " + e.message); return false; } }
   function reutilizar(t) {
     const n = normalizarTreinoGol(t);
     setEditando({ ...treinoGolVazio(goleiros.filter((g) => (n.goleiros || []).includes(g.id)), usuario), categoria: n.categoria || "", local: n.local || "", objetivo: n.objetivo || "",
@@ -13813,22 +13815,29 @@ function TreinosGoleiro({ usuario, goleiros }) {
       <div className="panel">
         <div className="panel-head"><h3>Treinos de goleiros ({treinos.length})</h3>{pode && <button type="button" className="pill-btn primary" onClick={() => setEditando(treinoGolVazio(goleiros, usuario))} disabled={!goleiros.length}>+ Novo treino</button>}</div>
         {treinos.length === 0 ? <div className="empty-state">Nenhum treino de goleiros ainda. Monte o primeiro com as atividades da biblioteca.</div> : (
-          <div className="enc-lista">
+          <div className="treino-lista">
             {treinos.map((t0, i) => {
               const t = normalizarTreinoGol(t0);
               const m = mediaNotasTreino(t0);
               const temas = conteudosDoTreinoGol(t).flatMap((g) => g.itens).slice(0, 4);
+              const nAt = (t.atividades || []).length;
               return (
-                <div key={t.id} className={"enc-item" + vm.classe(i, treinos.length)}>
-                  <div className="enc-topo"><span className={"badge " + (t.status === "realizado" ? "verde" : "amarelo")}>{t.status === "realizado" ? "Realizado" : "Planejado"}</span>{m !== null && <span className={"badge " + corNota(m)}>Média {fmtNota(m)}</span>}<small>{formatarData(t.data)}{t.hora ? " · " + t.hora : ""}</small></div>
-                  <b className="enc-assunto">{t.objetivo || temas.slice(0, 2).join(" · ") || "Treino de goleiros"}</b>
-                  <small className="enc-de">{[(t.goleiros || []).map((g) => nomes[g] || "Goleiro").join(", "), (t.atividades || []).length + " atividade" + ((t.atividades || []).length === 1 ? "" : "s"), duracaoTreinoGol(t) ? duracaoTreinoGol(t) + " min" : "", t.categoria ? labelCategoria(t.categoria) : ""].filter(Boolean).join(" · ")}</small>
-                  <div className="enc-acoes">
-                    <button type="button" className="pill-btn primary" onClick={() => setCampo(t.id)}>{t.status === "realizado" ? "Ver notas" : "Abrir no campo"}</button>
-                    <button type="button" className="pill-btn" onClick={() => pdf(t0)} disabled={baixando === t.id}><Icone nome="pdf" />{baixando === t.id ? "Gerando..." : "PDF"}</button>
-                    {pode && <button type="button" className="pill-btn" onClick={() => setEditando(t0)}>Editar</button>}
-                    {pode && <button type="button" className="pill-btn" onClick={() => reutilizar(t0)}>Reutilizar</button>}
-                    {podeApagarItem(t) && <button type="button" className="link-btn perigo" onClick={() => apagar(t)}>Apagar</button>}
+                <div key={t.id} className={"treino-item" + vm.classe(i, treinos.length)}>
+                  <div className="treino-data"><b>{(t.data || "").slice(8, 10)}/{(t.data || "").slice(5, 7)}</b><span>{diaSemanaCurto(t.data)} {t.hora || ""}</span></div>
+                  <div className="treino-info">
+                    <b>{t.objetivo || temas.slice(0, 2).join(" · ") || "Treino de goleiros"}</b>
+                    {t.categoria && <span className="treino-cats"><i className="treino-cat">{labelCategoria(t.categoria)}</i></span>}
+                    <span>{duracaoTreinoGol(t) || "-"} min{t.local ? " · " + t.local : ""} · {(t.goleiros || []).map((g) => nomes[g] || "Goleiro").join(", ")}</span>
+                    {(t.criado_por || t.criado_por_nome) && <span className="treino-autor">Por <b>{t.criado_por === usuario.id ? "você" : (t.criado_por_nome || "treinador")}</b></span>}
+                    <span className="treino-selos">
+                      {nAt ? <i className="badge verde">{nAt} atividade{nAt === 1 ? "" : "s"}</i> : <i className="badge neutro">Sem atividades</i>}
+                      {m !== null ? <i className={"badge " + corNota(m)}>Avaliado · {fmtNota(m)}</i> : t.status === "realizado" ? <i className="badge verde">Realizado</i> : (t.data || "") < hojeISO() ? <i className="badge amarelo">Sem avaliação</i> : null}
+                    </span>
+                  </div>
+                  <div className="treino-botoes">
+                    <button className="pill-btn" onClick={() => pdf(t0)} disabled={baixando === t.id}>{baixando === t.id ? "Gerando..." : "PDF"}</button>
+                    {pode && <button className="pill-btn" onClick={() => reutilizar(t0)} title="Novo treino com as mesmas atividades">Reutilizar</button>}
+                    <button className="pill-btn primary" onClick={() => setCampo(t.id)}>Abrir</button>
                   </div>
                 </div>
               );
