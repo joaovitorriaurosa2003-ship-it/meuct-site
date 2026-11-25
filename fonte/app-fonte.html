@@ -2307,9 +2307,13 @@ tr.linha-clicavel td:first-child{text-decoration:underline; text-decoration-colo
 .crono-atleta span:last-child{display:flex; flex-direction:column; min-width:0;} .crono-atleta b{font-size:13px;} .crono-atleta small{font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 .lanc-foto.mini{width:28px; height:28px; font-size:10.5px; border-width:1px;}
 .crono-dica{margin-top:8px; line-height:1.4;}
-.crono-grade-wrap{overflow-x:auto; background:#fff; border:1px solid var(--line-soft); border-radius:14px;}
-.crono-grade{width:100%; border-collapse:collapse; min-width:520px;}
-.crono-grade th{position:sticky; top:0; background:#0E1A31; color:#fff; font-size:12.5px; padding:8px; text-align:left; z-index:1;}
+.crono-grade-wrap{overflow:hidden; background:#fff; border:1px solid var(--line-soft); border-radius:14px;}
+.crono-grade-rolo{overflow:auto; max-height:max(320px, calc(100vh - 170px));}
+@media (max-width:700px){ .crono-grade-rolo{max-height:max(300px, calc(100dvh - 240px));} }
+.crono-grade{width:100%; border-collapse:separate; border-spacing:0; min-width:520px;}
+.crono-grade th{position:sticky; top:0; background:#0E1A31; color:#fff; font-size:12.5px; padding:8px; text-align:left; z-index:2;}
+.crono-grade td.crono-hora{position:sticky; left:0; z-index:1; box-shadow:1px 0 0 var(--line-soft);}
+.crono-grade th.crono-hora{left:0; z-index:3; background:#0E1A31; color:#fff; text-align:left;}
 .crono-grade th .crono-col-nome{background:transparent; border:1px dashed rgba(255,255,255,.25); color:#fff; font:inherit; font-weight:700; width:calc(100% - 22px); border-radius:6px; padding:3px 6px;}
 .crono-col-x{background:transparent; border:none; color:rgba(255,255,255,.6); cursor:pointer; font-size:16px;}
 .crono-add .link-btn{color:#F6D47A;}
@@ -15882,6 +15886,7 @@ function CronogramaFisio({ usuario, atletas, registros }) {
           </aside>
         )}
         <div className="crono-grade-wrap">
+          <div className="crono-grade-rolo">
           <table className="crono-grade">
             <thead><tr><th className="crono-hora">Horário</th>{c.colunas.map((col, i) => (
               <th key={col.id}>{pode ? <input className="crono-col-nome" value={col.nome} aria-label="Nome da coluna" onChange={(e) => setCrono({ ...c, colunas: c.colunas.map((x) => x.id === col.id ? { ...x, nome: e.target.value } : x) })} onBlur={(e) => mudarColunas(c.colunas.map((x) => x.id === col.id ? { ...x, nome: e.target.value.trim() || x.nome } : x))} list="crono-fisios" /> : col.nome}
@@ -15908,6 +15913,7 @@ function CronogramaFisio({ usuario, atletas, registros }) {
               })}{pode && <td></td>}</tr>
             ))}</tbody>
           </table>
+          </div>
           <datalist id="crono-fisios">{fisios.map((p) => <option key={p.id} value={p.nome || p.email} />)}{LOCAIS_FISIO.map((l) => <option key={l} value={l} />)}</datalist>
           {pode && (
             <div className="crono-config">
