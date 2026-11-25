@@ -3098,6 +3098,20 @@ body.dm-arrastando, body.dm-arrastando *{cursor:grabbing !important; user-select
 .jogo-card-rodape .pill-btn{margin-left:auto;}
 .jogo-dado{font-size:12px; font-weight:600; color:#CBD5E1; display:inline-flex; align-items:center; gap:6px;}
 .jogador-num{position:absolute; left:-10px; top:-6px; z-index:2; min-width:20px; height:20px; padding:0 4px; border-radius:6px; background:#0F172A; color:#fff; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 2px #fff; font-variant-numeric:tabular-nums;}
+.pitch-camp.on{background:var(--pitch); border-color:var(--pitch); color:var(--pitch-ink); font-weight:800;}
+.pitch-tc-btn svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;}
+.pitch-aba-ano.todas{border-style:dashed;}
+.jogador-ano{font-style:normal; font-size:9.5px; font-weight:800; margin-left:5px; padding:0 5px; border-radius:6px; background:rgba(0,0,0,.28); color:#F2D27A; vertical-align:1px;}
+.pitch-tc-info{font-size:11px; letter-spacing:.04em; text-transform:none; font-weight:700; color:var(--mn-text-2); margin-left:6px;}
+body.campo-tela-cheia{overflow:hidden;}
+.pitch-panel.tela-cheia{position:fixed; inset:0; z-index:2500; margin:0; border-radius:0; border:0; display:flex; flex-direction:column; overflow:hidden;}
+.pitch-panel.tela-cheia .pitch-head{padding:10px 16px; flex-shrink:0; background:rgba(8,15,29,.92); border-bottom:1px solid rgba(255,255,255,.08); position:relative; z-index:5;}
+.pitch-panel.tela-cheia .pitch-head .sub{display:none;}
+.pitch-panel.tela-cheia .pitch-filtros{position:absolute; top:var(--tc-topo, 58px); right:16px; width:min(560px, calc(100% - 32px)); max-height:calc(100% - 90px); overflow:auto; margin:0; z-index:6; background:#101C33; box-shadow:0 20px 50px rgba(0,0,0,.45);}
+.pitch-panel.tela-cheia .pitch-filtros-ativos{margin:8px 16px 0; flex-shrink:0;}
+.pitch-panel.tela-cheia .pitch-campo{flex:1; overflow:auto; margin:10px 14px 0;}
+.pitch-panel.tela-cheia .pitch-rodape{flex-shrink:0; padding-top:8px; padding-bottom:10px;}
+@media (max-width:760px){ .pitch-panel.tela-cheia .pitch-head{padding:8px 10px;} .pitch-panel.tela-cheia .pitch-controles{gap:6px;} .pitch-panel.tela-cheia .pitch-campo{margin:8px 6px 0;} .pitch-panel.tela-cheia .pitch-filtros{right:8px; width:calc(100% - 16px);} }
 .pitch-camp{font:inherit; font-size:12.5px; font-weight:600; padding:7px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); color:#fff; max-width:220px;}
 .pitch-camp option{color:#0F172A;}
 .jogo-dado.fora::before{content:""; width:6px; height:6px; border-radius:50%; background:#F87171;}
@@ -7864,8 +7878,35 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
   const abasAno = [...new Set(todosComSinal.map(anoNascCampo))].sort((x, y) => (x === "sem" ? 1 : y === "sem" ? -1 : y.localeCompare(x)));
   const [anoEscolhido, setAnoEstado] = useState(() => { try { return localStorage.getItem("meuct:anoCampo") || ""; } catch (e) { return ""; } });
   const setAno = (v) => { setAnoEstado(v); try { localStorage.setItem("meuct:anoCampo", v); } catch (e) { /* sem armazenamento */ } };
-  const ano = abasAno.includes(anoEscolhido) ? anoEscolhido : (abasAno.find((y) => y !== "sem") || abasAno[0] || "");
-  const rotAno = (y) => (y === "sem" ? "Sem nascimento" : y);
+  const ano = anoEscolhido === "todos" || abasAno.includes(anoEscolhido) ? anoEscolhido : (abasAno.find((y) => y !== "sem") || abasAno[0] || "");
+  const todasIdades = ano === "todos";
+  const rotAno = (y) => (y === "todos" ? "Todas as idades" : y === "sem" ? "Sem nascimento" : y);
+  /* Avaliar uma posição: liga o filtro da posição e mostra todas as idades de uma vez. */
+  const posAvaliada = filtros.pos.length === 1 ? filtros.pos[0] : "";
+  const avaliarPosicao = (p) => { setFiltros((x) => ({ ...x, pos: p ? [p] : [] })); if (p) setAno("todos"); };
+  /* Tela cheia: o campo ocupa a tela e os controles ficam numa barra em cima. */
+  const [telaCheia, setTelaCheia] = useState(false);
+  const painelRef = useRef(null);
+  useVoltar(telaCheia, () => sairTelaCheia());
+  function entrarTelaCheia() {
+    setTelaCheia(true); setVerFiltros(false);
+    try { const el = document.documentElement; if (el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().catch(() => {}); } catch (e) { /* sem tela cheia do navegador */ }
+  }
+  function sairTelaCheia() {
+    setTelaCheia(false);
+    try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {}); } catch (e) { /* nada */ }
+  }
+  React.useEffect(() => {
+    if (!telaCheia) return undefined;
+    document.body.classList.add("campo-tela-cheia");
+    const fs = () => { if (!document.fullscreenElement) setTelaCheia(false); };
+    const esc = (e) => { if (e.key === "Escape" && !document.fullscreenElement && !arr.current.ativo) { e.preventDefault(); setTelaCheia(false); } };
+    // os filtros abrem logo abaixo da barra de cima, que muda de altura conforme a largura da tela
+    const medir = () => { const el = painelRef.current; const h = el && el.querySelector(".pitch-head"); if (el && h) el.style.setProperty("--tc-topo", h.offsetHeight + 6 + "px"); };
+    medir(); const t = setTimeout(medir, 300);
+    document.addEventListener("fullscreenchange", fs); window.addEventListener("keydown", esc); window.addEventListener("resize", medir);
+    return () => { clearTimeout(t); document.body.classList.remove("campo-tela-cheia"); document.removeEventListener("fullscreenchange", fs); window.removeEventListener("keydown", esc); window.removeEventListener("resize", medir); };
+  }, [telaCheia]);
 
   /* Número da camisa: o do campeonato escolhido (cadastrado em Campeonatos › Inscritos). */
   const [campsNum] = useCampeonatos();
@@ -7875,12 +7916,12 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
   const campNum = campsComNum.find((c) => c.id === campNumId) || null;
   const numeroCampo = (d) => (campNum ? (campNum.camisas || {})[d.id] || "" : "");
   const podeArrastar = podeEditarProjecao(usuarioLogadoGlobal);
-  const doTime = atletasComSinal.filter((a) => anoNascCampo(a) === ano);
-  const { linhas, semPosicao } = montarLinhasCampo(doTime, { vazios: podeArrastar });
+  const doTime = todasIdades ? atletasComSinal : atletasComSinal.filter((a) => anoNascCampo(a) === ano);
+  const { linhas, semPosicao } = montarLinhasCampo(doTime, { vazios: podeArrastar, porIdade: todasIdades });
   const banco = semPosicao;
   const contagemDisp = { disponivel: 0, restricao: 0, fora: 0 };
   doTime.forEach((a) => { if (a.disp) contagemDisp[a.disp.status]++; });
-  const temArranjo = doTime.some((a) => a.campo_bloco);
+  const temArranjo = !todasIdades && doTime.some((a) => a.campo_bloco);
 
   /* ---- Arrastar os cards (mouse: arrasta direto; toque: segura um instante e arrasta) ---- */
   const linhasRef = useRef(linhas); linhasRef.current = linhas;
@@ -8009,13 +8050,13 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
     const dica = `${d.nome}${d.posicao ? " · " + d.posicao : ""}${outras ? " (também joga: " + outras + ")" : ""} · ${situacao}`;
     return (
       <button key={d.id} type="button" data-id={d.id}
-        className={"jogador" + (vista === "ficha" ? " ficha" : "") + (podeArrastar && linhaId ? " arrastavel" : "") + (verDisp && d.disp && d.disp.status === "fora" ? " fora" : "")}
-        onPointerDown={podeArrastar && linhaId ? (e) => iniciarArraste(e, d, linhaId) : undefined}
+        className={"jogador" + (vista === "ficha" ? " ficha" : "") + (podeArrastar && linhaId && !todasIdades ? " arrastavel" : "") + (verDisp && d.disp && d.disp.status === "fora" ? " fora" : "")}
+        onPointerDown={podeArrastar && linhaId && !todasIdades ? (e) => iniciarArraste(e, d, linhaId) : undefined}
         onClick={() => { if (arr.current.recemArrastou) return; onOpenAtleta(d.id); }}
         onContextMenu={(e) => {
           if (arr.current && (arr.current.toque || arr.current.ativo)) { e.preventDefault(); return; } // no celular, segurar é arrastar
           const l = linhasRef.current.find((x) => x.id === linhaId);
-          const outros = podeArrastar && l ? l.blocos.filter((b) => !b.atletas.some((x) => x.id === d.id)) : [];
+          const outros = podeArrastar && l && !todasIdades ? l.blocos.filter((b) => !b.atletas.some((x) => x.id === d.id)) : [];
           abrirMenuContexto(e, itensMenuAtleta(d, {
             onResumo: (id) => onOpenAtleta(id),
             extras: outros.length || d.campo_bloco ? [{ sep: true }, { secao: "Mover no campo" },
@@ -8030,7 +8071,7 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
           <IconesAtletaCampo a={d} />
           {numeroCampo(d) ? <span className="jogador-num" title={"Camisa no " + campNum.nome}>{numeroCampo(d)}</span> : null}
         </span>
-        <span className="jogador-nome">{nomeCurtoAtleta(d)}</span>
+        <span className="jogador-nome">{nomeCurtoAtleta(d)}{todasIdades && anoNascCampo(d) !== "sem" ? <i className="jogador-ano">{anoNascCampo(d)}</i> : null}</span>
         {vista === "ficha" ? <TabelaFichaAtleta a={d} /> : d.data_nascimento ? <span className="jogador-nasc">{formatarData(d.data_nascimento)}</span> : null}
         <span className="jogador-pos">{SIGLA_POSICAO[d.posicao] || ""}{outras ? " +" : ""}{d.em_avaliacao ? <SeloAvaliacao atleta={d} curto /> : null}{d.alerta ? <SeloAlerta alerta={d.alerta} curto /> : null}{d.nRestr ? <span className="selo-restr" title={d.nRestr + " restrição(ões) hoje"}>R</span> : null}</span>
         {verDisp && <PillDisponibilidade disp={d.disp} />}
@@ -8038,11 +8079,17 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
     );
   }
 
+  const opcoesAno = (
+    <select className="pitch-camp pitch-ano-sel" value={ano} onChange={(e) => setAno(e.target.value)} aria-label="Ano de nascimento">
+      <option value="todos">Todas as idades ({atletasComSinal.length})</option>
+      {abasAno.map((y) => <option key={y} value={y}>{rotAno(y)} ({atletasComSinal.filter((a) => anoNascCampo(a) === y).length})</option>)}
+    </select>
+  );
   return (
-    <div className="pitch-panel">
+    <div className={"pitch-panel" + (telaCheia ? " tela-cheia" : "")} ref={painelRef}>
       <div className="pitch-head">
-        <div>
-          <h3>Campograma</h3>
+        <div className="pitch-head-txt">
+          <h3>Campograma{telaCheia ? <span className="pitch-tc-info">{rotAno(ano)}{posAvaliada ? " · " + posAvaliada : ""} · {doTime.length} atleta{doTime.length === 1 ? "" : "s"}</span> : null}</h3>
           <div className="sub">{verDisp ? "Disponibilidade pro jogo, pela Medicina, pela Fisioterapia e pelas bandeiras dos setores" : podeArrastar ? "Toque no atleta para ver o resumo. Arraste o card para mudar o lugar dele no campo (no celular, segure um instante antes de arrastar)." : "Toque em um jogador para ver o resumo ao lado"}</div>
         </div>
         <div className="pitch-controles">
@@ -8056,6 +8103,11 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
             <button type="button" className={vista === "ficha" ? "active" : ""} aria-pressed={vista === "ficha"} onClick={() => setVista("ficha")}>Ficha</button>
             <button type="button" className={vista === "bolinha" ? "active" : ""} aria-pressed={vista === "bolinha"} onClick={() => setVista("bolinha")}>Bolinha</button>
           </div>
+          {telaCheia && opcoesAno}
+          <select className={"pitch-camp" + (posAvaliada ? " on" : "")} value={posAvaliada} onChange={(e) => avaliarPosicao(e.target.value)} aria-label="Avaliar uma posição em todas as idades" title="Mostra só essa posição, com todas as idades juntas">
+            <option value="">Avaliar posição: todas</option>
+            {POSICOES_FILTRO.map((p) => <option key={p} value={p}>Avaliar: {p}</option>)}
+          </select>
           {campsComNum.length > 0 && (
             <select className="pitch-camp" value={campNum ? campNum.id : ""} onChange={(e) => setCampNum(e.target.value)} aria-label="Mostrar o número da camisa de um campeonato">
               <option value="">Nº da camisa: não mostrar</option>
@@ -8065,10 +8117,17 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
           <button type="button" className={"pitch-chip pitch-filtro-btn" + (verFiltros || nFiltros ? " active" : "")} aria-expanded={verFiltros} onClick={() => setVerFiltros((v) => !v)}>
             Filtros{nFiltros ? <span className="qtd">{nFiltros}</span> : null}
           </button>
+          <button type="button" className="pitch-chip pitch-tc-btn" onClick={telaCheia ? sairTelaCheia : entrarTelaCheia} aria-pressed={telaCheia} title={telaCheia ? "Sair da tela cheia (Esc)" : "Campo em tela cheia"}>
+            <svg viewBox="0 0 24 24" aria-hidden="true">{telaCheia ? <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" /> : <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />}</svg>
+            {telaCheia ? "Sair" : "Tela cheia"}
+          </button>
         </div>
       </div>
-      <div className="pitch-abas-ano" role="tablist" aria-label="Ano de nascimento">
+      {!telaCheia && <div className="pitch-abas-ano" role="tablist" aria-label="Ano de nascimento">
         <span className="pitch-abas-rot">Nascidos em</span>
+        <button type="button" role="tab" aria-selected={todasIdades} className={"pitch-aba-ano todas" + (todasIdades ? " active" : "")} onClick={() => setAno("todos")} title="Todos os anos juntos, para avaliar uma posição">
+          Todas as idades<span className="qtd">{atletasComSinal.length}</span>
+        </button>
         {abasAno.map((y) => {
           const qtd = atletasComSinal.filter((a) => anoNascCampo(a) === y).length;
           return (
@@ -8079,8 +8138,9 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
         })}
         {podeArrastar && temArranjo && <button type="button" className="pitch-auto" disabled={salvandoLugar} onClick={voltarAutomatico} title="Tira os lugares escolhidos à mão deste ano">Voltar ao automático</button>}
         {salvandoLugar && <span className="pitch-salvando">Salvando...</span>}
-      </div>
-      <PainelCampograma atletas={doTime} verDisp={verDisp} />
+      </div>}
+      {todasIdades && podeArrastar && !telaCheia && <div className="pitch-filtros-ativos dica-app"><span>Em Todas as idades os atletas ficam do mais velho para o mais novo. Para mudar o lugar de alguém no campo, abra o ano dele.</span></div>}
+      {!telaCheia && <PainelCampograma atletas={doTime} verDisp={verDisp} />}
 
       {verFiltros && (
         <div className="pitch-filtros" role="region" aria-label="Filtros do elenco">
@@ -20941,7 +21001,9 @@ function ladoZagueiro(a) {
 function montarLinhasCampo(doTime, opcoes) {
   const vazios = !!(opcoes && opcoes.vazios);
   const porPos = (pos) => doTime.filter((a) => posicaoBase(a.posicao) === pos);
-  const nome = (x, y) => nomeExibicao(x).localeCompare(nomeExibicao(y), "pt-BR");
+  const porNome = (x, y) => nomeExibicao(x).localeCompare(nomeExibicao(y), "pt-BR");
+  // "Todas as idades": dentro de cada lugar, do mais velho para o mais novo
+  const nome = opcoes && opcoes.porIdade ? (x, y) => String(x.data_nascimento || "9999").localeCompare(String(y.data_nascimento || "9999")) || porNome(x, y) : porNome;
   const ordC = (l) => l.slice().sort((x, y) => ((ORDEM_CENTRO_CAMPO[x.posicao] ?? 1) - (ORDEM_CENTRO_CAMPO[y.posicao] ?? 1)) || nome(x, y));
   const menor = (l1, l2) => (l1.length <= l2.length ? l1 : l2);
   // Lugar escolhido à mão no campograma (arrastando o card): campo_bloco = "linha:bloco", campo_ordem = posição no bloco.
