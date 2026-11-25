@@ -3098,6 +3098,14 @@ body.dm-arrastando, body.dm-arrastando *{cursor:grabbing !important; user-select
 .jogo-card-rodape .pill-btn{margin-left:auto;}
 .jogo-dado{font-size:12px; font-weight:600; color:#CBD5E1; display:inline-flex; align-items:center; gap:6px;}
 .jogador-num{position:absolute; left:-10px; top:-6px; z-index:2; min-width:20px; height:20px; padding:0 4px; border-radius:6px; background:#0F172A; color:#fff; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 2px #fff; font-variant-numeric:tabular-nums;}
+.pitch-campo.avaliando{display:flex; flex-direction:column; justify-content:center; min-height:420px;}
+.pitch-avaliacao-linha{padding:18px 0;}
+.pitch-avaliacao-dir{display:flex; align-items:center; gap:10px; margin:0 14px 14px; font-size:10.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.75);}
+.pitch-avaliacao-dir i{flex:1; height:2px; background:linear-gradient(90deg, rgba(255,255,255,.55), rgba(255,255,255,.15)); position:relative;}
+.pitch-avaliacao-dir i::after{content:""; position:absolute; right:-1px; top:-4px; border:5px solid transparent; border-left:7px solid rgba(255,255,255,.4); border-right:0;}
+.pitch-avaliacao{display:grid; grid-template-columns:repeat(var(--cols), minmax(118px, 1fr)); gap:22px 10px; justify-items:center; overflow-x:auto; padding:4px 8px 8px;}
+.pitch-panel.tela-cheia .pitch-campo.avaliando{min-height:0;}
+@media (max-width:760px){ .pitch-avaliacao{grid-template-columns:repeat(var(--cols), 112px); justify-content:start;} }
 .pitch-camp.on{background:var(--pitch); border-color:var(--pitch); color:var(--pitch-ink); font-weight:800;}
 .pitch-tc-btn svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;}
 .pitch-aba-ano.todas{border-style:dashed;}
@@ -7900,12 +7908,18 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
     if (!telaCheia) return undefined;
     document.body.classList.add("campo-tela-cheia");
     const fs = () => { if (!document.fullscreenElement) setTelaCheia(false); };
-    const esc = (e) => { if (e.key === "Escape" && !document.fullscreenElement && !arr.current.ativo) { e.preventDefault(); setTelaCheia(false); } };
+    // Esc sai só da tela cheia (sem deixar o atalho geral do app voltar de página)
+    const esc = (e) => {
+      if (e.key !== "Escape" || arr.current.ativo || document.querySelector(".mctx, .lanc-fundo, .dialogo-fundo")) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      setTelaCheia(false);
+      try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {}); } catch (x) { /* nada */ }
+    };
     // os filtros abrem logo abaixo da barra de cima, que muda de altura conforme a largura da tela
     const medir = () => { const el = painelRef.current; const h = el && el.querySelector(".pitch-head"); if (el && h) el.style.setProperty("--tc-topo", h.offsetHeight + 6 + "px"); };
     medir(); const t = setTimeout(medir, 300);
-    document.addEventListener("fullscreenchange", fs); window.addEventListener("keydown", esc); window.addEventListener("resize", medir);
-    return () => { clearTimeout(t); document.body.classList.remove("campo-tela-cheia"); document.removeEventListener("fullscreenchange", fs); window.removeEventListener("keydown", esc); window.removeEventListener("resize", medir); };
+    document.addEventListener("fullscreenchange", fs); window.addEventListener("keydown", esc, true); window.addEventListener("resize", medir);
+    return () => { clearTimeout(t); document.body.classList.remove("campo-tela-cheia"); document.removeEventListener("fullscreenchange", fs); window.removeEventListener("keydown", esc, true); window.removeEventListener("resize", medir); };
   }, [telaCheia]);
 
   /* Número da camisa: o do campeonato escolhido (cadastrado em Campeonatos › Inscritos). */
@@ -8172,13 +8186,26 @@ function ElencoPorPosicao({ atletasComSinal: todosComSinal, onOpenAtleta, modoIn
         <div className="pitch-filtros-ativos"><span>{nFiltros} filtro{nFiltros === 1 ? "" : "s"} ligado{nFiltros === 1 ? "" : "s"} · mostrando {atletasComSinal.length} de {todosComSinal.length} atletas</span><button type="button" className="pf-limpar" onClick={() => setFiltros(FILTROS_ELENCO_VAZIO)}>Limpar</button></div>
       )}
 
-      <div className="pitch-campo">
+      <div className={"pitch-campo" + (posAvaliada ? " avaliando" : "")}>
         <div className="pitch-marcas" aria-hidden="true">
           <div className="area topo"></div><div className="pequena topo"></div>
           <div className="meio"></div><div className="circulo"></div>
           <div className="area base"></div><div className="pequena base"></div>
         </div>
-        {linhas.length === 0 ? (
+        {posAvaliada ? (() => {
+          /* Avaliação de uma posição: todos lado a lado, do mais velho (à esquerda) para o mais novo (à direita); duas linhas se não couberem. */
+          const fila = doTime.slice().sort((x, y) => String(x.data_nascimento || "9999").localeCompare(String(y.data_nascimento || "9999")) || nomeExibicao(x).localeCompare(nomeExibicao(y), "pt-BR"));
+          const porLinha = fila.length <= 9 ? Math.max(fila.length, 1) : Math.ceil(fila.length / 2);
+          return fila.length === 0 ? (
+            <div className="empty-state" style={{ color: "rgba(255,255,255,0.8)", position: "relative" }}>Nenhum atleta nessa posição{todasIdades ? "" : " neste ano"} com esses filtros.</div>
+          ) : (
+            <div className="pitch-linha pitch-avaliacao-linha">
+              <div className="pitch-linha-rotulo">{posAvaliada}{todasIdades ? " · todas as idades" : " · " + rotAno(ano)}<span>{fila.length}</span></div>
+              <div className="pitch-avaliacao-dir" aria-hidden="true"><span>Mais velho</span><i></i><span>Mais novo</span></div>
+              <div className="pitch-avaliacao" style={{ "--cols": porLinha }}>{fila.map((d) => Jogador(d, null))}</div>
+            </div>
+          );
+        })() : linhas.length === 0 ? (
           <div className="empty-state" style={{ color: "rgba(255,255,255,0.8)", position: "relative" }}>{nFiltros ? "Nenhum atleta deste ano com esses filtros." : "Nenhum atleta com posição definida neste ano ainda."}</div>
         ) : linhas.map((l) => (
           <div className="pitch-linha" key={l.id}>
