@@ -2291,6 +2291,23 @@ tr.linha-clicavel td:first-child{text-decoration:underline; text-decoration-colo
 .ata-assin{display:flex; flex-direction:column; align-items:center; gap:2px; border:1px solid var(--line-soft); border-radius:10px; padding:6px 10px; background:#fff;}
 .ata-assin img{max-height:42px; max-width:150px;} .ata-assin small{font-size:11px; color:var(--muted);}
 .psi-sigilo{border-left-color:#4A3AA7;}
+.lib-kpis{margin-bottom:16px;}
+.lib-lista{display:flex; flex-direction:column;}
+.lib-item{display:flex; gap:12px; align-items:flex-start; padding:12px 20px; border-top:1px solid var(--line-soft);}
+.lib-foto{width:44px; height:44px; flex-shrink:0; border-radius:50%; overflow:hidden; background:#1B2A4A; color:#F6D47A; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center;}
+.lib-foto img{width:100%; height:100%; object-fit:cover;}
+.lib-info{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;}
+.lib-info b{color:var(--navy); font-size:14.5px;} .lib-info small{color:var(--muted); font-size:12px;}
+.lib-info p{margin:4px 0 2px; font-size:13px; line-height:1.45; color:var(--ink-2); white-space:pre-wrap;}
+.lib-motivo{font-size:12.5px; color:var(--muted);}
+.lib-acoes{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+.lib-botoes{flex-direction:column; align-items:stretch; flex-shrink:0;}
+.lib-form{padding:14px 20px; border-top:1px solid var(--line-soft);}
+.lib-form .field.full{grid-column:1 / -1;}
+.lib-decisao{margin-top:8px; padding:12px; border:1px solid var(--line); border-radius:12px; background:#F7F9FA; display:flex; flex-direction:column; gap:8px;}
+.lib-decisao .field{margin:0;}
+.lib-nota{padding:8px 20px 14px; font-size:12.5px;}
+@media (max-width:700px){ .lib-item{flex-wrap:wrap; padding:12px 14px;} .lib-botoes{flex-direction:row; width:100%;} .lib-botoes .pill-btn{flex:1;} }
 .crono-topo{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; margin-bottom:12px;}
 .crono-dia{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
 .crono-dia > div{display:flex; flex-direction:column; min-width:170px;} .crono-dia b{font-size:16px; color:var(--ink);} .crono-dia small{font-size:12px; color:var(--muted);}
@@ -8964,6 +8981,8 @@ function ViewElenco({ usuario, cadastro }) {
   const [dados, setDados] = useState(null);
   const [erro, setErro] = useState(null);
   const [atletaAberto, abrirAtleta, fecharAtleta] = usePerfilAberto();
+  const [abaElenco, setAbaElencoEstado] = useState(() => { try { return sessionStorage.getItem("meuct:abaElenco") || "Atletas"; } catch (e) { return "Atletas"; } });
+  const setAbaElenco = (v) => { setAbaElencoEstado(v); try { sessionStorage.setItem("meuct:abaElenco", v); } catch (e) { /* nada */ } };
 
   function recarregar() {
     return carregarPermitido(usuario).then(setDados).catch(e => setErro(e.message));
@@ -8980,13 +8999,15 @@ function ViewElenco({ usuario, cadastro }) {
   }
 
   const linha = atletasComSinais(dados, usuario);
+  const comLiberacao = podeIndicarLiberacao(usuario) || podeConfirmarLiberacao(usuario);
+  const verLiberacao = comLiberacao && abaElenco === "Liberação";
 
   return (
     <div className="page">
       <div className="page-head">
         <div>
-          <h1>{atletaAberto ? "Perfil do atleta" : cadastro ? "Cadastro de atletas" : "Elenco"}</h1>
-          <div className="crumb">MeuCT · EC Meia Noite SAF{cadastro && !atletaAberto ? " · o Serviço Social é a porta de entrada: todo atleta entra no MeuCT por aqui" : ""}</div>
+          <h1>{atletaAberto ? "Perfil do atleta" : verLiberacao ? "Liberação de atletas" : cadastro ? "Cadastro de atletas" : "Elenco"}</h1>
+          <div className="crumb">MeuCT · EC Meia Noite SAF{verLiberacao && !atletaAberto ? " · a comissão técnica indica e o administrador confirma" : cadastro && !atletaAberto ? " · o Serviço Social é a porta de entrada: todo atleta entra no MeuCT por aqui" : ""}</div>
         </div>
       </div>
 
@@ -8994,7 +9015,10 @@ function ViewElenco({ usuario, cadastro }) {
         <PerfilAtleta atletaId={atletaAberto} onBack={fecharAtleta} dados={dados} onRecarregar={recarregar} usuario={usuario} />
       ) : (
         <React.Fragment>
-          {podeGerenciarAtletas(usuario) ? (
+          {comLiberacao && <div className="barra-abas" style={{ marginBottom: 14 }}><TabSelect abas opcoes={["Atletas", "Liberação"]} valor={verLiberacao ? "Liberação" : "Atletas"} onChange={setAbaElenco} /></div>}
+          {verLiberacao ? (
+            <ViewLiberacao usuario={usuario} atletas={dados.atletas} onMudou={recarregar} />
+          ) : podeGerenciarAtletas(usuario) ? (
             <ListaAtletas dados={dados} onOpenAtleta={abrirAtleta} onRecarregar={recarregar} usuario={usuario} />
           ) : (
             <ElencoPorPosicao atletasComSinal={linha} onOpenAtleta={abrirAtleta} />
@@ -20093,6 +20117,19 @@ function RelatoriosGestao({ usuario }) {
   const [ate, setAte] = useState(hojeISO());
   const [gerando, setGerando] = useState(null);
   const [erro, setErro] = useState(null);
+  const comissao = podeRelComissao(usuario);
+  const [eventos, setEventos] = useState(null);
+  const [treinosGol, setTreinosGol] = useState([]);
+  const [liberacoes, setLiberacoes] = useState([]);
+  const [treinador, setTreinador] = useState("");
+  const [pos, setPos] = useState("");
+  const [anoNasc, setAnoNasc] = useState("");
+  useEffect(() => {
+    if (!comissao) return;
+    carregarEventos().then((l) => setEventos(l.filter((e) => e.tipo === "treino"))).catch(() => setEventos([]));
+    db.collection(COL_TREINOS_GOLEIRO).get().then((s) => setTreinosGol(s.docs.map((d) => ({ id: d.id, ...d.data() })))).catch(() => {});
+    carregarLiberacoes().then(setLiberacoes).catch(() => {});
+  }, []);
   useEffect(() => {
     carregarAtletas().then(setAtletas).catch((e) => setErro(e.message));
     if (podeRelSocial(usuario)) db.collection(COL_VIAGENS).get().then((s) => { const l = s.docs.map((d) => ({ id: d.id, ...d.data() })).filter((v) => v.tipo === "fim_semana").sort((a, b) => (b.data_saida || "").localeCompare(a.data_saida || "")); setFds(l); if (l[0]) setFdsId(l[0].id); }).catch(() => {});
@@ -20106,6 +20143,11 @@ function RelatoriosGestao({ usuario }) {
     </div>
   );
   const fdsSel = fds.find((x) => x.id === fdsId);
+  const treinadores = Array.from(new Map((eventos || []).filter((e) => e.criado_por).map((e) => [e.criado_por, e.criado_por_nome || "Sem nome"])).entries()).sort((a, b) => a[1].localeCompare(b[1], "pt-BR"));
+  const nomeTreinadorSel = treinador ? ((treinadores.find((t) => t[0] === treinador) || [])[1] || "") : "";
+  const filtrosCom = { de, ate, cat, treinador, pos, anoNasc };
+  const anosNasc = [...new Set((atletas || []).filter((a) => !a.inativo).map(anoNascimento).filter(Boolean))].sort();
+  const siglasPos = POSICOES_DETALHE.map((p) => p.sigla).filter((sg) => (atletas || []).some((a) => !a.inativo && (SIGLA_POSICAO[a.posicao] || a.posicao) === sg));
   const grupos = [
     podeRelSocial(usuario) && { titulo: "Serviço Social", itens: [
       cartao("quartos", "Quartos e alojamentos", "Ocupação de cada quarto da casa e do apartamento e quem está sem quarto.", () => pdfQuartos(atletas, usuario)),
@@ -20117,6 +20159,12 @@ function RelatoriosGestao({ usuario }) {
     podeRelCaptacao(usuario) && { titulo: "Captação", itens: [
       cartao("captacao", "Relatório de captação", "Funil por etapa, quem está em avaliação, aprovados e dispensados com o motivo (no período).", async () => pdfCaptacao(await carregarCaptacao(), usuario, de, ate)),
     ] },
+    comissao && { titulo: "Comissão técnica", itens: [
+      cartao("treinos", "Treinos realizados", "Sessões de campo, preparação física e goleiros no período, com relatório, minutos e presença, por categoria e por treinador.", async () => { if (!eventos) throw new Error("os treinos ainda estão carregando"); await pdfTreinosComissao(eventos, treinosGol, usuario, filtrosCom, nomeTreinadorSel); }),
+      cartao("metodos", "Métodos e conteúdos", "Métodos usados e minutos de cada um, conteúdos trabalhados por eixo e o que não apareceu no período.", async () => { if (!eventos) throw new Error("os treinos ainda estão carregando"); await pdfMetodosComissao(eventos, treinosGol, usuario, filtrosCom, nomeTreinadorSel); }),
+      cartao("atl_cpi", "Atletas por categoria, posição e idade", "Quantos atletas por posição em cada categoria e ano de nascimento, com a lista completa.", () => pdfAtletasComissao(atletas, usuario, filtrosCom)),
+      cartao("liberacoes", "Liberação de atletas", "Quem está aguardando liberação, quem foi liberado no período e os motivos.", () => pdfLiberacoes(liberacoes, atletas, usuario, de, ate, cat)),
+    ] },
     { titulo: "Elenco e saúde", itens: [
       cartao("antropo", "Peso, altura e idade", "Médias por categoria, IMC e quem está sem medida na ficha.", () => pdfAntropometria(atletas, usuario, cat)),
       podeRelLesoes(usuario) && cartao("lesoes", "Lesões do elenco", "Lesões ativas, regiões mais atingidas e lesões novas no período.", () => pdfLesoesElenco(atletas, usuario, cat, de, ate)),
@@ -20127,9 +20175,12 @@ function RelatoriosGestao({ usuario }) {
       <div className="panel cruz-filtros">
         <div className="form-panel" style={{ borderTop: "none" }}>
           <div className="form-grid cruz-filtros-grade">
-            <div className="field"><label>Período (captação e lesões): de</label><input type="date" value={de} max={ate} onChange={(e) => e.target.value && setDe(e.target.value)} /></div>
+            <div className="field"><label>Período: de</label><input type="date" value={de} max={ate} onChange={(e) => e.target.value && setDe(e.target.value)} /></div>
             <div className="field"><label>Até</label><input type="date" value={ate} min={de} onChange={(e) => e.target.value && setAte(e.target.value)} /></div>
             <div className="field"><label>Categoria</label><TabSelect opcoes={["Todas", ...CATEGORIAS_TIME.map((c) => c.label)]} valor={cat ? labelCategoria(cat) : "Todas"} onChange={(v) => setCat(v === "Todas" ? "" : normalizarCategoria(v))} tamanho="sm" /></div>
+            {comissao && <div className="field"><label>Treinador (treinos)</label><select value={treinador} onChange={(e) => setTreinador(e.target.value)}><option value="">Todos</option>{treinadores.map(([id, n]) => <option key={id} value={id}>{n}</option>)}</select></div>}
+            {comissao && <div className="field"><label>Posição (atletas)</label><select value={pos} onChange={(e) => setPos(e.target.value)}><option value="">Todas</option>{siglasPos.map((p) => <option key={p} value={p}>{p} · {(POSICOES_DETALHE.find((x) => x.sigla === p) || {}).nome}</option>)}</select></div>}
+            {comissao && <div className="field"><label>Nascidos em (atletas)</label><select value={anoNasc} onChange={(e) => setAnoNasc(e.target.value)}><option value="">Todos os anos</option>{anosNasc.map((y) => <option key={y} value={y}>{y}</option>)}</select></div>}
           </div>
         </div>
       </div>
@@ -20142,6 +20193,357 @@ function RelatoriosGestao({ usuario }) {
       ))}
     </React.Fragment>
   );
+}
+
+/* ---------- Liberação (dispensa) de atletas: a comissão indica com o motivo, o admin confirma ---------- */
+const COL_LIBERACOES = "ct_liberacoes";
+const MOTIVOS_LIBERACAO = ["Rendimento técnico", "Comportamento / disciplina", "Pedido do atleta ou da família", "Idade / fim de ciclo na categoria", "Saúde", "Questão escolar", "Outro"];
+const STATUS_LIBERACAO = { indicado: ["amarelo", "Aguardando"], liberado: ["vermelho", "Liberado"], mantido: ["verde", "Mantido"], cancelado: ["neutro", "Cancelado"], reativado: ["verde", "Reativado"] };
+function podeIndicarLiberacao(u) { return !!u && (u.role === "admin" || ["treinador", "preparacao", "campo", "diretoria"].some((m) => (u.modulos || []).includes(m))); }
+function podeConfirmarLiberacao(u) { return !!u && u.role === "admin" && !u.simulando; }
+async function carregarLiberacoes() { const s = await db.collection(COL_LIBERACOES).get(); return s.docs.map((d) => ({ id: d.id, ...d.data() })); }
+function dataLiberacao(l) { return l.data_saida || l.decidido_dia || l.indicado_dia || ""; }
+
+function ViewLiberacao({ usuario, atletas, onMudou }) {
+  const { useState, useEffect } = React;
+  const [lista, setLista] = useState(null);
+  const [inativos, setInativos] = useState([]);
+  const [erro, setErro] = useState(null);
+  const [msg, setMsg] = useState(null);
+  const [form, setForm] = useState(null);
+  const [decisao, setDecisao] = useState(null);
+  const [salvando, setSalvando] = useState(false);
+  const vmHist = useVerMais(10);
+  const podeIndicar = podeIndicarLiberacao(usuario), podeConfirmar = podeConfirmarLiberacao(usuario);
+  function carregar() {
+    carregarLiberacoes().then(setLista).catch((e) => setErro(/permission/i.test(e.message) ? "A liberação ainda não está liberada no banco. O admin precisa publicar as regras novas do Firestore." : e.message));
+    db.collection(COL_ATLETAS).where("inativo", "==", true).get().then((s) => setInativos(s.docs.map((d) => ({ id: d.id, ...d.data() })))).catch(() => {});
+  }
+  useEffect(() => { carregar(); }, []);
+  useEffect(() => { if (!msg) return; const t = setTimeout(() => setMsg(null), 5000); return () => clearTimeout(t); }, [msg]);
+  const porId = new Map([...(inativos || []), ...(atletas || [])].map((a) => [a.id, a]));
+  const ativos = (atletas || []).filter((a) => !a.inativo).sort(ordemNomeAtleta);
+  const aguardando = (lista || []).filter((l) => l.status === "indicado").sort((a, b) => (a.indicado_dia || "").localeCompare(b.indicado_dia || ""));
+  const historico = (lista || []).filter((l) => l.status !== "indicado").sort((a, b) => dataLiberacao(b).localeCompare(dataLiberacao(a)));
+  const indicadosIds = new Set(aguardando.map((l) => l.atleta_id));
+  const ano = hojeISO().slice(0, 4);
+  const liberadosAno = historico.filter((l) => l.status === "liberado" && dataLiberacao(l).slice(0, 4) === ano).length;
+  const falhou = (e) => setMsg({ erro: true, t: /permission/i.test(e.message) ? "O banco recusou. O admin precisa publicar as regras novas do Firestore." : "Não consegui salvar: " + e.message });
+
+  async function indicar() {
+    const a = porId.get(form.atleta_id);
+    if (!a) { setMsg({ erro: true, t: "Escolha o atleta." }); return; }
+    if (!form.motivo) { setMsg({ erro: true, t: "Escolha o motivo." }); return; }
+    if (indicadosIds.has(a.id)) { setMsg({ erro: true, t: nomeExibicao(a) + " já está aguardando confirmação." }); return; }
+    setSalvando(true);
+    try {
+      await db.collection(COL_LIBERACOES).add({
+        atleta_id: a.id, atleta_nome: String(a.nome || "").slice(0, 120), atleta_apelido: String(a.apelido || "").slice(0, 60), categoria: a.categoria || "", posicao: a.posicao || "",
+        status: "indicado", motivo: form.motivo, obs: String(form.obs || "").slice(0, 1500), data_prevista: form.data_prevista || "",
+        indicado_por_uid: usuario.id, indicado_por_nome: nomeUsuario(usuario), indicado_dia: hojeISO(), indicado_em: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      setForm(null); setMsg({ t: nomeExibicao(a) + " foi indicado para liberação. O admin confirma por aqui." }); carregar();
+    } catch (e) { falhou(e); }
+    setSalvando(false);
+  }
+  async function cancelar(l) {
+    if (!await confirmarApp("Cancelar a indicação de " + (l.atleta_apelido || l.atleta_nome) + "? O atleta continua no elenco.")) return;
+    try { await db.collection(COL_LIBERACOES).doc(l.id).update({ status: "cancelado", decidido_por_nome: nomeUsuario(usuario), decidido_dia: hojeISO(), decidido_em: firebase.firestore.FieldValue.serverTimestamp() }); carregar(); }
+    catch (e) { falhou(e); }
+  }
+  async function decidir() {
+    const l = (lista || []).find((x) => x.id === decisao.id);
+    if (!l) return;
+    const liberar = decisao.tipo === "liberar";
+    if (liberar && !decisao.data) { setMsg({ erro: true, t: "Informe a data de saída." }); return; }
+    if (liberar && !await confirmarApp("Confirmar a liberação de " + (l.atleta_apelido || l.atleta_nome) + "? Ele sai do elenco, das convocações e dos relatórios. Nada é apagado e dá para reativar depois.")) return;
+    setSalvando(true);
+    try {
+      const lote = db.batch();
+      lote.update(db.collection(COL_LIBERACOES).doc(l.id), { status: liberar ? "liberado" : "mantido", ...(liberar ? { data_saida: decisao.data } : {}), decisao_obs: String(decisao.obs || "").slice(0, 1500),
+        decidido_por_uid: usuario.id, decidido_por_nome: nomeUsuario(usuario), decidido_dia: hojeISO(), decidido_em: firebase.firestore.FieldValue.serverTimestamp() });
+      if (liberar) lote.update(db.collection(COL_ATLETAS).doc(l.atleta_id), { inativo: true, liberado_em: decisao.data, motivo_liberacao: l.motivo || "" });
+      await lote.commit();
+      setDecisao(null); setMsg({ t: liberar ? (l.atleta_apelido || l.atleta_nome) + " foi liberado e saiu do elenco." : (l.atleta_apelido || l.atleta_nome) + " continua no elenco." });
+      if (liberar) { avisarAtletaMudou(); if (onMudou) onMudou(); }
+      carregar();
+    } catch (e) { falhou(e); }
+    setSalvando(false);
+  }
+  async function reativar(l) {
+    if (!await confirmarApp("Reativar " + (l.atleta_apelido || l.atleta_nome) + "? Ele volta para o elenco.")) return;
+    try {
+      const lote = db.batch();
+      lote.update(db.collection(COL_LIBERACOES).doc(l.id), { status: "reativado", reativado_por_nome: nomeUsuario(usuario), reativado_dia: hojeISO() });
+      lote.update(db.collection(COL_ATLETAS).doc(l.atleta_id), { inativo: false });
+      await lote.commit(); avisarAtletaMudou(); if (onMudou) onMudou(); carregar();
+    } catch (e) { falhou(e); }
+  }
+  async function pdf() {
+    try { await pdfLiberacoes(lista || [], [...(atletas || []), ...inativos], usuario, ano + "-01-01", hojeISO(), ""); }
+    catch (e) { setMsg({ erro: true, t: "Não consegui gerar o PDF: " + e.message }); }
+  }
+
+  const foto = (l) => { const a = porId.get(l.atleta_id); return <span className="lib-foto">{a && a.foto ? <img loading="lazy" decoding="async" src={a.foto} alt="" /> : iniciaisNome(l.atleta_apelido || l.atleta_nome || "?")}</span>; };
+  const quem = (l) => [rotuloCategoriasAtleta(porId.get(l.atleta_id) || { categoria: l.categoria }) || l.categoria, SIGLA_POSICAO[l.posicao] || l.posicao].filter(Boolean).join(" · ");
+  const caixaDecisao = (l) => decisao && decisao.id === l.id && (
+    <div className="lib-decisao">
+      {decisao.tipo === "liberar" && <div className="field"><label>Data de saída</label><input type="date" value={decisao.data} onChange={(e) => setDecisao({ ...decisao, data: e.target.value })} /></div>}
+      <div className="field"><label>{decisao.tipo === "liberar" ? "Observação da confirmação" : "Por que continua no elenco"} (opcional)</label><textarea rows={2} value={decisao.obs} onChange={(e) => setDecisao({ ...decisao, obs: e.target.value })} /></div>
+      <div className="lib-acoes">
+        <button type="button" className="pill-btn" onClick={() => setDecisao(null)}>Voltar</button>
+        <button type="button" className={"pill-btn " + (decisao.tipo === "liberar" ? "perigo" : "primary")} disabled={salvando} onClick={decidir}>{salvando ? "Salvando..." : decisao.tipo === "liberar" ? "Confirmar liberação" : "Manter no elenco"}</button>
+      </div>
+    </div>
+  );
+
+  if (erro) return <div className="access-note" style={{ background: "var(--vermelho-bg)", borderColor: "var(--vermelho)" }}><span>{erro}</span></div>;
+  if (!lista) return <SkeletonPanel />;
+  return (
+    <div className="lib">
+      <div className="kpi-row lib-kpis">
+        <div className="kpi-card acento-amarelo"><div className="label">Aguardando confirmação</div><div className="value">{aguardando.length}</div></div>
+        <div className="kpi-card acento-vermelho"><div className="label">Liberados em {ano}</div><div className="value">{liberadosAno}</div></div>
+        <div className="kpi-card"><div className="label">Mantidos no elenco</div><div className="value">{historico.filter((l) => l.status === "mantido").length}</div></div>
+      </div>
+      {msg && <div className={msg.erro ? "form-erro" : "comp-enviado"} style={{ marginBottom: 12 }}>{msg.t}</div>}
+
+      <div className="panel">
+        <div className="panel-head">
+          <h3>Aguardando confirmação ({aguardando.length})</h3>
+          <div className="lib-acoes">
+            <button type="button" className="pill-btn" onClick={pdf}><Icone nome="pdf" />PDF</button>
+            {podeIndicar && !form && <button type="button" className="pill-btn primary" onClick={() => setForm({ atleta_id: "", motivo: "", obs: "", data_prevista: "" })}>+ Indicar atleta</button>}
+          </div>
+        </div>
+        {form && (
+          <div className="form-panel lib-form">
+            <div className="form-grid">
+              <div className="field"><label>Atleta</label><select value={form.atleta_id} onChange={(e) => setForm({ ...form, atleta_id: e.target.value })}><option value="">Escolha</option>{ativos.map((a) => <option key={a.id} value={a.id} disabled={indicadosIds.has(a.id)}>{nomeExibicao(a)}{a.categoria ? " · " + a.categoria : ""}{indicadosIds.has(a.id) ? " (já indicado)" : ""}</option>)}</select></div>
+              <div className="field"><label>Motivo</label><select value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}><option value="">Escolha</option>{MOTIVOS_LIBERACAO.map((m) => <option key={m}>{m}</option>)}</select></div>
+              <div className="field"><label>Saída prevista (opcional)</label><input type="date" value={form.data_prevista} onChange={(e) => setForm({ ...form, data_prevista: e.target.value })} /></div>
+              <div className="field full"><label>Explique para quem vai confirmar</label><textarea rows={3} value={form.obs} onChange={(e) => setForm({ ...form, obs: e.target.value })} placeholder="O que foi observado, conversas com o atleta e a família, o que a comissão decidiu..." /></div>
+            </div>
+            <div className="lib-acoes" style={{ justifyContent: "flex-end" }}>
+              <button type="button" className="pill-btn" onClick={() => setForm(null)}>Cancelar</button>
+              <button type="button" className="pill-btn primary" disabled={salvando} onClick={indicar}>{salvando ? "Salvando..." : "Indicar para liberação"}</button>
+            </div>
+          </div>
+        )}
+        {aguardando.length === 0 && !form && <div className="empty-state">Nenhum atleta aguardando liberação.{podeIndicar ? " Use \"+ Indicar atleta\" para colocar um atleta na lista." : ""}</div>}
+        <div className="lib-lista">
+          {aguardando.map((l) => (
+            <div key={l.id} className="lib-item">
+              {foto(l)}
+              <div className="lib-info">
+                <b>{l.atleta_apelido || l.atleta_nome}</b>
+                <small>{quem(l)}</small>
+                <span className="lib-motivo"><i className="badge amarelo">{l.motivo}</i>{l.data_prevista ? " saída prevista " + formatarData(l.data_prevista) : ""}</span>
+                {l.obs && <p>{l.obs}</p>}
+                <small>Indicado por {l.indicado_por_uid === usuario.id ? "você" : l.indicado_por_nome} em {formatarData(l.indicado_dia)}</small>
+                {caixaDecisao(l)}
+              </div>
+              {!(decisao && decisao.id === l.id) && (
+                <div className="lib-acoes lib-botoes">
+                  {podeConfirmar && <button type="button" className="pill-btn perigo" onClick={() => setDecisao({ id: l.id, tipo: "liberar", data: l.data_prevista || hojeISO(), obs: "" })}>Confirmar liberação</button>}
+                  {podeConfirmar && <button type="button" className="pill-btn" onClick={() => setDecisao({ id: l.id, tipo: "manter", data: "", obs: "" })}>Manter no elenco</button>}
+                  {(podeConfirmar || (podeIndicar && l.indicado_por_uid === usuario.id)) && <button type="button" className="pill-btn" onClick={() => cancelar(l)}>Cancelar indicação</button>}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        {aguardando.length > 0 && !podeConfirmar && <div className="muted lib-nota">Quem confirma a liberação é o administrador.</div>}
+      </div>
+
+      {historico.length > 0 && (
+        <div className="panel">
+          <div className="panel-head"><h3>Histórico ({historico.length})</h3></div>
+          <div className="lib-lista">
+            {historico.map((l, i) => { const [cor, rot] = STATUS_LIBERACAO[l.status] || ["neutro", l.status]; return (
+              <div key={l.id} className={"lib-item" + vmHist.classe(i, historico.length)}>
+                {foto(l)}
+                <div className="lib-info">
+                  <b>{l.atleta_apelido || l.atleta_nome} <i className={"badge " + cor}>{rot}</i></b>
+                  <small>{quem(l)} · {l.motivo}</small>
+                  <small>{l.status === "liberado" ? "Saída em " + formatarData(l.data_saida) + (l.decidido_por_nome ? " · confirmado por " + l.decidido_por_nome : "") : (l.decidido_por_nome ? rot + " por " + l.decidido_por_nome + " em " + formatarData(l.decidido_dia) : "")}{l.reativado_dia ? " · reativado em " + formatarData(l.reativado_dia) : ""}</small>
+                  {l.decisao_obs && <p>{l.decisao_obs}</p>}
+                </div>
+                {podeConfirmar && l.status === "liberado" && <div className="lib-acoes lib-botoes"><button type="button" className="pill-btn" onClick={() => reativar(l)}>Reativar</button></div>}
+              </div>
+            ); })}
+          </div>
+          {vmHist.botao(historico.length, "registros")}
+        </div>
+      )}
+    </div>
+  );
+}
+
+async function pdfLiberacoes(lista, atletas, usuario, de, ate, categoria) {
+  const porId = new Map((atletas || []).map((a) => [a.id, a]));
+  const daCat = (l) => !categoria || atletaNaCategoria(porId.get(l.atleta_id) || { categoria: l.categoria }, categoria);
+  const nome = (l) => l.atleta_apelido || l.atleta_nome || "-";
+  const catL = (l) => labelCategoria(normalizarCategoria(l.categoria)) || l.categoria || "";
+  const pos = (l) => SIGLA_POSICAO[l.posicao] || l.posicao || "";
+  const aguardando = lista.filter((l) => l.status === "indicado" && daCat(l));
+  const liberados = lista.filter((l) => l.status === "liberado" && daCat(l) && (!de || (l.data_saida || "") >= de) && (!ate || (l.data_saida || "") <= ate)).sort((a, b) => (b.data_saida || "").localeCompare(a.data_saida || ""));
+  const mantidos = lista.filter((l) => l.status === "mantido" && daCat(l) && (!de || (l.decidido_dia || "") >= de) && (!ate || (l.decidido_dia || "") <= ate));
+  const porMotivo = {}; liberados.forEach((l) => { porMotivo[l.motivo || "Sem motivo"] = (porMotivo[l.motivo || "Sem motivo"] || 0) + 1; });
+  const porCat = {}; liberados.forEach((l) => { const c = labelCategoria(normalizarCategoria(l.categoria)) || l.categoria || "Sem categoria"; porCat[c] = (porCat[c] || 0) + 1; });
+  const maxM = Math.max(1, ...Object.values(porMotivo));
+  const periodoTxt = formatarData(de) + " a " + formatarData(ate);
+  await baixarPdfGestao({ departamento: "Comissão técnica", titulo: "LIBERAÇÃO DE ATLETAS", subtitulo: (categoria ? labelCategoria(categoria) + " · " : "") + periodoTxt, usuario, arquivo: "Liberacao_de_atletas",
+    faixaInfo: [["Categoria", categoria ? labelCategoria(categoria) : "Todas"], ["Período", periodoTxt], ["Responsável", nomeUsuario(usuario)], ["Emitido em", formatarData(hojeISO())]],
+    kpis: [
+      { label: "Aguardando", valor: String(aguardando.length), cor: aguardando.length ? "amarelo" : "verde", sub: "confirmação do admin" },
+      { label: "Liberados", valor: String(liberados.length), cor: "navy", sub: "no período" },
+      { label: "Mantidos", valor: String(mantidos.length), cor: "verde", sub: "indicados que ficaram" },
+    ],
+    secoes: [
+      liberados.length ? { titulo: "Motivos das liberações", graficos: { barras: { titulo: "Liberados por motivo", itens: Object.entries(porMotivo).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ rotulo: k, valor: v, total: maxM, mostrarTotal: false })) }, rosca: { titulo: "Por categoria", fracao: 1, rotulo: String(liberados.length), legenda: Object.entries(porCat).map(([k, v]) => ["verde", k + ": " + v]) } } } : null,
+      { titulo: "Aguardando confirmação", head: ["Atleta", "Categoria", "Posição", "Motivo", "Indicado por", "Em", "Saída prevista"], body: aguardando.map((l) => [nome(l), catL(l), pos(l), l.motivo, l.indicado_por_nome, formatarData(l.indicado_dia), l.data_prevista ? formatarData(l.data_prevista) : ""]), vazio: "Nenhum atleta aguardando." },
+      { titulo: "Liberados no período", head: ["Atleta", "Categoria", "Posição", "Motivo", "Saída", "Indicado por", "Confirmado por"], body: liberados.map((l) => [nome(l), catL(l), pos(l), l.motivo, formatarData(l.data_saida), l.indicado_por_nome, l.decidido_por_nome]), vazio: "Nenhum atleta liberado no período." },
+      { titulo: "Indicados que continuaram no elenco", head: ["Atleta", "Categoria", "Motivo indicado", "Decisão em", "Por", "Observação"], body: mantidos.map((l) => [nome(l), catL(l), l.motivo, formatarData(l.decidido_dia), l.decidido_por_nome, l.decisao_obs]) },
+    ],
+    notas: ["A comissão técnica indica o atleta com o motivo e o administrador confirma. O atleta liberado sai do elenco e das listas, mas nada do histórico dele é apagado."] });
+}
+
+/* ---------- Relatórios da Comissão técnica: treinos feitos, métodos e conteúdos, atletas por categoria, posição e idade ---------- */
+function podeRelComissao(u) { return !!u && (u.role === "admin" || ["treinador", "preparacao", "campo", "desempenho", "diretoria"].some((m) => (u.modulos || []).includes(m))); }
+function minutosSessao(e) {
+  const p = e.plano_treino || {};
+  return Number(p.relatorio && p.relatorio.duracao_realizada) || Number(e.duracao_min) || (e.area === "fisico" ? duracaoPlano(p) : duracaoPlanoEcmn(p)) || 0;
+}
+function filtrarTreinosComissao(eventos, f) {
+  const hoje = hojeISO();
+  return (eventos || []).filter((e) => e.tipo === "treino" && (e.data || "") >= f.de && (e.data || "") <= f.ate && (e.data || "") <= hoje
+    && (!f.cat || eventoDaCategoria(e, f.cat)) && (!f.treinador || e.criado_por === f.treinador))
+    .sort((a, b) => ((a.data || "") + (a.hora || "")).localeCompare((b.data || "") + (b.hora || "")));
+}
+function textoFiltrosComissao(f, nomeTreinador) {
+  return [["Período", formatarData(f.de) + " a " + formatarData(f.ate)], ["Categoria", f.cat ? labelCategoria(f.cat) : "Todas"], ["Treinador", nomeTreinador || "Todos"]];
+}
+const pctTxt = (a, b) => (b ? Math.round((a * 100) / b) + "%" : "-");
+function presencaSessao(e) { const p = e.plano_treino; const v = Object.values((p && p.relatorio && p.relatorio.presenca) || {}); return v.length ? v.filter((x) => x === "presente").length / v.length : null; }
+function resumoSessoes(l) {
+  const comRel = l.filter((e) => e.plano_treino && e.plano_treino.relatorio);
+  const pres = l.map(presencaSessao).filter((x) => x !== null);
+  const notas = comRel.map((e) => e.plano_treino.relatorio.media).filter((x) => typeof x === "number");
+  return { n: l.length, rel: comRel.length, min: Math.round(l.reduce((s, e) => s + minutosSessao(e), 0)), pres: pres.length ? Math.round((pres.reduce((a, b) => a + b, 0) / pres.length) * 100) : null, nota: notas.length ? notas.reduce((a, b) => a + b, 0) / notas.length : null };
+}
+
+async function pdfTreinosComissao(eventos, goleiros, usuario, f, nomeTreinador) {
+  const lista = filtrarTreinosComissao(eventos, f);
+  const campo = lista.filter((e) => e.area !== "fisico"), fis = lista.filter((e) => e.area === "fisico");
+  const gol = (goleiros || []).filter((t) => (t.data || "") >= f.de && (t.data || "") <= f.ate && (t.data || "") <= hojeISO() && (!f.cat || normalizarCategoria(t.categoria) === f.cat) && (!f.treinador || t.criado_por === f.treinador))
+    .sort((a, b) => (a.data || "").localeCompare(b.data || ""));
+  const R = resumoSessoes(lista);
+  const grupo = (chave) => { const m = new Map(); lista.forEach((e) => chave(e).forEach((k) => { if (!m.has(k)) m.set(k, []); m.get(k).push(e); })); return [...m.entries()]; };
+  const linhaRes = (rot, l) => { const r = resumoSessoes(l); return [rot, String(r.n), r.rel + " (" + pctTxt(r.rel, r.n) + ")", String(r.min), r.pres === null ? "" : r.pres + "%", r.nota === null ? "" : fmtNum(r.nota, 1)]; };
+  const porCat = grupo((e) => categoriasDoEvento(e).length ? categoriasDoEvento(e) : ["sem"]).sort((a, b) => String(a[0]).localeCompare(String(b[0])));
+  const porTrein = grupo((e) => [e.criado_por_nome || "Sem nome"]).sort((a, b) => b[1].length - a[1].length);
+  const meses = {}; lista.forEach((e) => { const k = (e.data || "").slice(0, 7); meses[k] = (meses[k] || 0) + 1; });
+  const maxMes = Math.max(1, ...Object.values(meses));
+  const corRel = (v) => v === "Feito" ? "verde" : "amarelo";
+  await baixarPdfGestao({ departamento: "Comissão técnica", titulo: "TREINOS REALIZADOS", subtitulo: (f.cat ? labelCategoria(f.cat) + " · " : "") + formatarData(f.de) + " a " + formatarData(f.ate), usuario, arquivo: "Treinos_realizados",
+    faixaInfo: [...textoFiltrosComissao(f, nomeTreinador), ["Emitido em", formatarData(hojeISO())]],
+    kpis: [
+      { label: "Treinos de campo", valor: String(campo.length), cor: "navy", sub: "sessões no período" },
+      { label: "Físico e goleiros", valor: String(fis.length + gol.length), cor: "navy", sub: fis.length + " físico · " + gol.length + " goleiros" },
+      { label: "Com relatório", valor: pctTxt(R.rel, R.n), cor: R.n && R.rel / R.n >= 0.8 ? "verde" : "amarelo", sub: R.rel + " de " + R.n },
+      { label: "Minutos", valor: String(R.min), cor: "navy", sub: "campo e físico" },
+      { label: "Presença média", valor: R.pres === null ? "-" : R.pres + "%", cor: R.pres === null ? "navy" : R.pres >= 85 ? "verde" : "amarelo", sub: "nos relatórios" },
+    ],
+    secoes: [
+      { titulo: "Volume de treinos", graficos: { barras: { titulo: "Sessões por mês", itens: Object.keys(meses).sort().map((k) => ({ rotulo: rotuloMes(k), valor: meses[k], total: maxMes, mostrarTotal: false })) }, rosca: { titulo: "Sessões com relatório", fracao: R.n ? R.rel / R.n : 0, legenda: [["verde", "Com relatório: " + R.rel], ["claro", "Sem relatório: " + (R.n - R.rel)]] } } },
+      { titulo: "Por categoria", head: ["Categoria", "Sessões", "Com relatório", "Minutos", "Presença", "Avaliação"], body: porCat.map(([c, l]) => linhaRes(c === "sem" ? "Sem categoria" : labelCategoriaEvento(c), l)) },
+      { titulo: "Por treinador", head: ["Treinador", "Sessões", "Com relatório", "Minutos", "Presença", "Avaliação"], body: porTrein.map(([t, l]) => linhaRes(t, l)) },
+      { novaPagina: true },
+      { titulo: "Treinos de campo", head: ["Data", "Categoria", "Treino", "Treinador", "Min", "Atividades", "Relatório"], body: campo.map((e) => [formatarData(e.data), categoriasDoEvento(e).map(labelCategoriaEvento).join(", "), tituloEvento(e), e.criado_por_nome, String(Math.round(minutosSessao(e)) || ""), String(((e.plano_treino || {}).blocos || []).length || ""), e.plano_treino && e.plano_treino.relatorio ? "Feito" : "Falta"]), pills: { 6: corRel }, vazio: "Nenhum treino de campo no período." },
+      { titulo: "Preparação física", head: ["Data", "Categoria", "Treino", "Responsável", "Min", "Blocos", "Relatório"], body: fis.map((e) => [formatarData(e.data), categoriasDoEvento(e).map(labelCategoriaEvento).join(", "), tituloEvento(e), e.criado_por_nome, String(Math.round(minutosSessao(e)) || ""), String(((e.plano_treino || {}).blocos || []).length || ""), e.plano_treino && e.plano_treino.relatorio ? "Feito" : "Falta"]), pills: { 6: corRel } },
+      { titulo: "Treinos de goleiros", head: ["Data", "Categoria", "Objetivo", "Responsável", "Goleiros", "Atividades", "Situação"], body: gol.map((t) => [formatarData(t.data), t.categoria ? labelCategoria(normalizarCategoria(t.categoria)) || t.categoria : "", t.objetivo, t.responsavel || t.criado_por_nome, String((t.goleiros || []).length), String((t.atividades || []).length), t.status === "realizado" ? "Feito" : "Falta"]), pills: { 6: corRel } },
+    ],
+    notas: ["Conta os treinos até hoje dentro do período. \"Com relatório\" é o treino que teve o relatório pós-treino preenchido (presença e avaliação)."] });
+}
+
+async function pdfMetodosComissao(eventos, goleiros, usuario, f, nomeTreinador) {
+  const lista = filtrarTreinosComissao(eventos, f);
+  const campo = lista.filter((e) => e.area !== "fisico"), fis = lista.filter((e) => e.area === "fisico");
+  const metodos = {}, partes = {}, eixos = {};
+  const somar = (o, k, n, m) => { if (!k) return; o[k] = o[k] || { n: 0, min: 0 }; o[k].n += n; o[k].min += m || 0; };
+  const EIXOS = [["Contextos", (p) => p.contextos], ["Tática coletiva", (p) => [...(p.obj_coletivos || []), ...(p.blocos || []).flatMap((b) => b.tatica_coletiva || [])]],
+    ["Tática de grupo", (p) => [...(p.obj_grupo || []), ...(p.blocos || []).flatMap((b) => b.tatica_grupo || [])]], ["Técnico-tático individual", (p) => [...(p.obj_individual || []), ...(p.blocos || []).flatMap((b) => b.tecnico_individual || [])]],
+    ["Comportamental", (p) => [...(p.obj_comportamentais || []), ...(p.blocos || []).flatMap((b) => b.comportamental || [])]]];
+  campo.forEach((e) => {
+    const p = e.plano_treino || {};
+    (p.blocos || []).forEach((b) => somar(metodos, b.metodo || "Sem método", 1, duracaoAtividade(b)));
+    EIXOS.forEach(([eixo, fn]) => { eixos[eixo] = eixos[eixo] || {}; new Set((fn(p) || []).filter(Boolean)).forEach((c) => { eixos[eixo][c] = (eixos[eixo][c] || 0) + 1; }); });
+  });
+  fis.forEach((e) => ((e.plano_treino || {}).blocos || []).forEach((b) => somar(partes, b.parte || "Sem parte", 1, Number(b.duracao) || 0)));
+  const gol = (goleiros || []).filter((t) => (t.data || "") >= f.de && (t.data || "") <= f.ate && (t.data || "") <= hojeISO() && (!f.cat || normalizarCategoria(t.categoria) === f.cat) && (!f.treinador || t.criado_por === f.treinador));
+  const metGol = {}; gol.forEach((t) => (t.atividades || []).forEach((a) => somar(metGol, a.metodo || "Sem método", 1, typeof duracaoAtividadeGol === "function" ? duracaoAtividadeGol(a) : 0)));
+  const totMin = Object.values(metodos).reduce((s, x) => s + x.min, 0);
+  const ordenar = (o) => Object.entries(o).sort((a, b) => b[1].min - a[1].min || b[1].n - a[1].n);
+  const maxMet = Math.max(1, ...Object.values(metodos).map((x) => x.min));
+  const catalogo = { "Contextos": LISTAS_PLANO.contextos, "Tática coletiva": LISTAS_PLANO.taticaColetiva, "Tática de grupo": LISTAS_PLANO.taticaGrupo, "Técnico-tático individual": LISTAS_PLANO.tecnicoIndividual, "Comportamental": LISTAS_PLANO.comportamentais.filter((x) => x !== "Outros") };
+  const totConteudos = Object.values(eixos).reduce((s, o) => s + Object.keys(o).length, 0);
+  const secoesEixos = EIXOS.map(([eixo]) => {
+    const o = eixos[eixo] || {};
+    const l = Object.entries(o).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "pt-BR"));
+    return { titulo: eixo + " (" + l.length + " de " + catalogo[eixo].length + " trabalhados)", head: ["Conteúdo", "Sessões", "% das sessões"], body: l.map(([c, n]) => [c, String(n), pctTxt(n, campo.length)]), vazio: "Nenhum conteúdo de " + eixo.toLowerCase() + " no período." };
+  });
+  const faltaram = EIXOS.map(([eixo]) => [eixo, catalogo[eixo].filter((c) => !(eixos[eixo] || {})[c])]).filter(([, l]) => l.length);
+  await baixarPdfGestao({ departamento: "Comissão técnica", titulo: "MÉTODOS E CONTEÚDOS DE TREINO", subtitulo: (f.cat ? labelCategoria(f.cat) + " · " : "") + formatarData(f.de) + " a " + formatarData(f.ate), usuario, arquivo: "Metodos_e_conteudos",
+    faixaInfo: [...textoFiltrosComissao(f, nomeTreinador), ["Emitido em", formatarData(hojeISO())]],
+    kpis: [
+      { label: "Treinos de campo", valor: String(campo.length), cor: "navy", sub: "no período" },
+      { label: "Atividades", valor: String(Object.values(metodos).reduce((s, x) => s + x.n, 0)), cor: "navy", sub: "nos planos" },
+      { label: "Minutos planejados", valor: String(Math.round(totMin)), cor: "navy", sub: "soma das atividades" },
+      { label: "Métodos usados", valor: String(Object.keys(metodos).filter((k) => k !== "Sem método").length), cor: "verde", sub: "de " + LISTAS_PLANO.metodos.length },
+      { label: "Conteúdos", valor: String(totConteudos), cor: "verde", sub: "diferentes trabalhados" },
+    ],
+    secoes: [
+      { titulo: "Métodos", graficos: { barras: { titulo: "Minutos por método", itens: ordenar(metodos).slice(0, 9).map(([k, v]) => ({ rotulo: k, valor: Math.round(v.min), total: Math.round(maxMet), mostrarTotal: false })), vazio: "Nenhuma atividade no período." } } },
+      { titulo: "Métodos de treino (campo)", head: ["Método", "Atividades", "Minutos", "% do tempo"], body: ordenar(metodos).map(([k, v]) => [k, String(v.n), String(Math.round(v.min)), pctTxt(v.min, totMin)]), vazio: "Nenhuma atividade com método no período." },
+      { titulo: "Preparação física (partes do treino)", head: ["Parte", "Blocos", "Minutos"], body: ordenar(partes).map(([k, v]) => [k, String(v.n), String(Math.round(v.min))]) },
+      { titulo: "Goleiros (métodos das atividades)", head: ["Método", "Atividades", "Minutos"], body: ordenar(metGol).map(([k, v]) => [k, String(v.n), String(Math.round(v.min)) || ""]) },
+      ...secoesEixos,
+      faltaram.length ? { titulo: "Conteúdos que não apareceram no período", head: ["Eixo", "Conteúdos"], body: faltaram.map(([e, l]) => [e, l.join(", ")]) } : null,
+    ],
+    notas: ["Cada conteúdo conta uma vez por sessão, venha dos objetivos do treino ou das atividades. Os minutos dos métodos vêm das séries, duração e pausas de cada atividade."] });
+}
+
+function anoNascimento(a) { return /^\d{4}/.test(a.data_nascimento || "") ? a.data_nascimento.slice(0, 4) : ""; }
+function filtrarAtletasComissao(atletas, f) {
+  return (atletas || []).filter((a) => !a.inativo && (!f.cat || atletaNaCategoria(a, f.cat)) && (!f.pos || (SIGLA_POSICAO[a.posicao] || a.posicao || "") === f.pos) && (!f.anoNasc || anoNascimento(a) === f.anoNasc));
+}
+async function pdfAtletasComissao(atletas, usuario, f) {
+  const lista = filtrarAtletasComissao(atletas, f).sort((a, b) => ordemPosicao(a) - ordemPosicao(b) || ordemNomeAtleta(a, b));
+  const sig = (a) => SIGLA_POSICAO[a.posicao] || a.posicao || "Sem posição";
+  const cats = f.cat ? [f.cat] : CATEGORIAS_TIME.map((c) => c.id).filter((c) => lista.some((a) => atletaNaCategoria(a, c)));
+  const posicoes = [...new Set(lista.map(sig))].sort((x, y) => { const px = POSICOES_DETALHE.findIndex((p) => p.sigla === x), py = POSICOES_DETALHE.findIndex((p) => p.sigla === y); return (px < 0 ? 99 : px) - (py < 0 ? 99 : py); });
+  const idades = lista.map((a) => calcularIdade(a.data_nascimento)).filter((x) => typeof x === "number" && !isNaN(x));
+  const anos = [...new Set(lista.map(anoNascimento).filter(Boolean))].sort();
+  const porPos = posicoes.map((p) => [p, lista.filter((a) => sig(a) === p).length]);
+  const maxPos = Math.max(1, ...porPos.map((x) => x[1]));
+  const desc = [f.cat && labelCategoria(f.cat), f.pos, f.anoNasc && "nascidos em " + f.anoNasc].filter(Boolean).join(" · ");
+  await baixarPdfGestao({ departamento: "Comissão técnica", titulo: "ATLETAS: CATEGORIA, POSIÇÃO E IDADE", subtitulo: (desc ? desc + " · " : "") + lista.length + " atletas", usuario, arquivo: "Atletas_por_categoria_posicao_idade",
+    faixaInfo: [["Categoria", f.cat ? labelCategoria(f.cat) : "Todas"], ["Posição", f.pos || "Todas"], ["Nascimento", f.anoNasc || "Todos"], ["Emitido em", formatarData(hojeISO())]],
+    kpis: [
+      { label: "Atletas", valor: String(lista.length), cor: "navy", sub: "ativos" },
+      { label: "Idade média", valor: idades.length ? fmtNum(media(idades), 1) : "-", cor: "navy", sub: "anos" },
+      { label: "Posições", valor: String(posicoes.length), cor: "navy", sub: "diferentes" },
+      { label: "Anos de nascimento", valor: anos.length ? anos[0] + (anos.length > 1 ? " a " + anos[anos.length - 1] : "") : "-", cor: "navy", sub: anos.length + " turma" + (anos.length === 1 ? "" : "s") },
+    ],
+    secoes: [
+      { titulo: "Distribuição", graficos: { barras: { titulo: "Atletas por posição", itens: porPos.map(([p, n]) => ({ rotulo: p, valor: n, total: maxPos, mostrarTotal: false })) } } },
+      { titulo: "Posição por categoria", head: ["Posição", ...cats.map(labelCategoria), "Total"], body: [...posicoes.map((p) => [p, ...cats.map((c) => String(lista.filter((a) => sig(a) === p && atletaNaCategoria(a, c)).length || "")), String(lista.filter((a) => sig(a) === p).length)]), ["Total", ...cats.map((c) => String(lista.filter((a) => atletaNaCategoria(a, c)).length)), String(lista.length)]] },
+      { titulo: "Ano de nascimento por categoria", head: ["Nascidos em", ...cats.map(labelCategoria), "Total"], body: anos.map((y) => [y, ...cats.map((c) => String(lista.filter((a) => anoNascimento(a) === y && atletaNaCategoria(a, c)).length || "")), String(lista.filter((a) => anoNascimento(a) === y).length)]), vazio: "Nenhum atleta com data de nascimento." },
+      { titulo: "Posição por ano de nascimento", head: ["Posição", ...anos, "Total"], body: posicoes.map((p) => [p, ...anos.map((y) => String(lista.filter((a) => sig(a) === p && anoNascimento(a) === y).length || "")), String(lista.filter((a) => sig(a) === p).length)]) },
+      { titulo: "Atletas", head: ["Atleta", "Categoria", "Posição", "Nascimento", "Idade", "Pé", "Camisa"], body: lista.map((a) => [nomeExibicao(a), rotuloCategoriasAtleta(a) || a.categoria, sig(a), a.data_nascimento ? formatarData(a.data_nascimento) : "", a.data_nascimento ? String(calcularIdade(a.data_nascimento)) : "", a.perna_dominante || "", a.camisa ? String(a.camisa) : ""]), vazio: "Nenhum atleta com esses filtros." },
+    ],
+    notas: lista.some((a) => !a.data_nascimento) ? ["Sem data de nascimento na ficha: " + lista.filter((a) => !a.data_nascimento).map(nomeExibicao).join(", ") + "."] : [] });
 }
 
 /** Relatórios: por área (o que já existia) e cruzados (admin, Diretoria e quem o admin liberar). */
@@ -20157,7 +20559,7 @@ function CentralRelatorios({ usuario }) {
   if (aba === "Gestão" && gestao) {
     return (
       <div className="page">
-        <div className="page-head"><div><h1>Central de Relatórios</h1><div className="crumb">MeuCT · EC Meia Noite SAF · Serviço Social, Captação, elenco e lesões</div></div></div>
+        <div className="page-head"><div><h1>Central de Relatórios</h1><div className="crumb">MeuCT · EC Meia Noite SAF · Comissão técnica, Serviço Social, Captação, elenco e lesões</div></div></div>
         {abas}
         <RelatoriosGestao usuario={usuario} />
       </div>
