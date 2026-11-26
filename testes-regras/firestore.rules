@@ -196,6 +196,18 @@ service cloud.firestore {
       );
     }
     // ---------- Comissao tecnica (cadastro escolhido em cada jogo) ----------
+    // Liberação (dispensa) de atletas: a Comissão técnica indica e cancela a própria indicação; só o admin confirma ou mantém.
+    match /ct_liberacoes/{id} {
+      allow read: if ctEhEquipe();
+      allow create: if ctEhAdmin() || ((ctTemAcesso('treinador') || ctTemAcesso('preparacao') || ctTemAcesso('campo'))
+        && request.resource.data.status == 'indicado' && request.resource.data.indicado_por_uid == request.auth.uid);
+      allow update: if ctEhAdmin() || ((ctTemAcesso('treinador') || ctTemAcesso('preparacao') || ctTemAcesso('campo'))
+        && resource.data.status == 'indicado' && request.resource.data.status == 'cancelado'
+        && resource.data.indicado_por_uid == request.auth.uid
+        && request.resource.data.indicado_por_uid == resource.data.indicado_por_uid);
+      allow delete: if ctPodeApagar();
+    }
+
     match /ct_comissao/{id} {
       allow read: if ctEhEquipe();
       allow create, update: if ((ctEhAdmin() || ctTemAcesso('treinador') || ctTemAcesso('desempenho'))
